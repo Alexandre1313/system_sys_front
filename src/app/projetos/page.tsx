@@ -1,5 +1,7 @@
+import BarcodeScanner from "@/components/Barcode_Component/BarcodeComponent";
+
 export default function Projetos(){
     return (
-        <div>Projetos</div>
+        <div className="flex justify-center items-center h-screen"><BarcodeScanner/></div>
     )
 }
