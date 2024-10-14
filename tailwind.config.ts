@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
   content: [
@@ -14,6 +15,25 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        '.btn-grad': {
+          backgroundImage: 'linear-gradient(to right, #348F50 0%, #56B4D3 51%, #348F50 100%)',
+          transition: 'background-position 0.4s ease-in-out',
+          backgroundSize: '200% 100%',
+        },
+        '.btn-grad:hover': {
+          backgroundPosition: 'right center',
+        },
+      };
+
+      // Adiciona os utilitários
+      addUtilities(newUtilities, {
+        respectPrefix: false, // Isso adiciona as classes diretamente, sem prefixo
+        respectImportant: false, // Ignora a regra !important
+      });
+    }),
+  ], 
 };
 export default config;

@@ -9,13 +9,13 @@ export default function Home() {
           className="transition-transform duration-700 ease-in-out transform hover:scale-105"
           src="/venturalogo.png"
           alt="ventura.js logo"
-          width={600}
+          width={800}
           height={0}
           priority
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            BEM VINDO AO SISTEMA{" "}
+            Ventura Systems{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
             </code>
           </li>
@@ -24,7 +24,7 @@ export default function Home() {
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <Link href={'/projetos'} legacyBehavior>
             <a
-              className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+              className="btn-grad rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
               href=""
               target=""
               rel="noopener noreferrer"
