@@ -88,7 +88,7 @@ export default function Home() {
         </Link>
         <Link href={'/projetos'} legacyBehavior>
           <a
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+            className="flex button items-center gap-2 hover:underline hover:underline-offset-4"
             href=""
             target=""
             rel="noopener noreferrer"

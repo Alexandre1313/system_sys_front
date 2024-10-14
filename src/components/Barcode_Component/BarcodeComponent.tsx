@@ -1,4 +1,5 @@
 "use client"
+
 import { useState, useEffect } from 'react';
 
 export default function BarcodeScanner() {
@@ -48,14 +49,14 @@ export default function BarcodeScanner() {
   }, [barcode]); // Remover `typingTimeout` da dependência
 
   return (
-    <div className='flex flex-col gap-2 p-3 border-2 border-l-green-300 rounded-md'>
-      <label>Leitor de Código de Barras</label>
+    <div className='flex flex-col gap-1 p-3 border border-x-zinc-50 rounded-md'>
+      <label className='flex text-start text-zinc-300 text-base'>Código de Barras</label>
       <input
         type="text"
         value={barcode}
-        readOnly
+        readOnly       
         placeholder="Leia o código de barras aqui"
-        className='flex text-lg text-gray-950 text-start p-3 outline-none rounded-md'
+        className='flex text-lg text-black text-start p-3 outline-1 outline-green-700 rounded-md min-w-[300px]'
       />
     </div>
   );

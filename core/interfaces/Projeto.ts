@@ -7,6 +7,7 @@ export default interface Projeto {
   descricao: string; // opcional
   escolas?: Escola[]; // Relacionamento com as Escolas
   itens?: Item[]; // Relacionamento com os Itens do projeto
-  createdAt?: Date;
-  updatedAt?: Date;
+  url: string;
+  createdAt: string;
+  updatedAt: string;
 }

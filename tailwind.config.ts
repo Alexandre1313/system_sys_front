@@ -26,6 +26,35 @@ const config: Config = {
         '.btn-grad:hover': {
           backgroundPosition: 'right center',
         },
+        '.flexColCC': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        },
+
+        '.flexColCS': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        },
+
+        '.flexRRC': {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%'
+        },
+      
+        '.button': {
+        
+        },
+      
+        '.input': {
+        
+        }
       };
 
       // Adiciona os utilitários
