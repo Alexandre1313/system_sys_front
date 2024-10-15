@@ -37,7 +37,8 @@ const config: Config = {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'flex-start'
+          justifyContent: 'flex-start',
+          width: '100%'
         },
 
         '.flexRRC': {
@@ -47,9 +48,17 @@ const config: Config = {
           justifyContent: 'center',
           width: '100%'
         },
+
+        '.flexRRFE': {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          width: '100%'
+        },
       
-        '.button': {
-        
+        '.shadow': {
+          boxShadow: '15px 15px 30px 5px rgba(0, 0, 0, 0.45)'
         },
       
         '.input': {

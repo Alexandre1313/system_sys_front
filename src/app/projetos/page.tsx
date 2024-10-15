@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
 import { useEffect, useState } from 'react';
 import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
-import Skeleton from 'react-loading-skeleton'; // Importe o Skeleton da biblioteca
-import 'react-loading-skeleton/dist/skeleton.css'; // Importe o CSS do Skeleton
 import { get } from "../../hooks_api/api"; 
 import { Projeto } from '../../../core'; // Importa a interface Projeto
+import TitleComponent from '@/components/componentes_de interface/TitleComponent';
+import Carregando from '@/components/componentes_de interface/Carregando';
 
 export default function Projetos() {
     const [projetos, setProjetos] = useState<Projeto[]>([]); 
@@ -28,26 +28,28 @@ export default function Projetos() {
     }, []);
 
     if (error) {
-        return <p style={{ color: 'red' }}>Erro: {error}</p>;
+        return (
+            <div className='flex items-center justify-center min-h-[100%] w-[100%]'>
+                <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>Erro: {error}</p>
+            </div>
+        )
     }
 
     return (
         <div className="flexRRC p-4">
-            <div className="flexRRC min-h-[96vh] border border-transparent rounded-lg bg-zinc-900">
+            <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
+             bg-zinc-900 p-4 pt-7 lg:p-16 gap-y-5 lg:gap-y-10">
+                <TitleComponent title={"PROJETOS"}/>
+                <div className="flexRRFE max-w-[1200px] border border-transparent 
+                rounded-lg bg-zinc-900 gap-x-12 flex-wrap gap-y-12 p-1 lg:p-3">
                 {loading ? (
-                    // Exibe o skeleton enquanto carrega
-                    Array.from({ length: 3 }).map((_, index) => (
-                        <div key={index} className="flexColCS border border-gray-800">
-                            <Skeleton height={200} /> {/* Para a imagem */}
-                            <Skeleton height={30} width={`60%`} /> {/* Para o nome */}
-                            <Skeleton height={20} width={`40%`} /> {/* Para a descrição */}
-                        </div>
-                    ))
+                    <Carregando quantidade={3}/>
                 ) : (
                     projetos.map((p) => (
                         <ProjetoComponent key={p.id} projeto={p} />
                     ))
                 )}
+                </div>
             </div>
         </div>
     );
