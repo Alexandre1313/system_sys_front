@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
 import { get } from "../../hooks_api/api"; 
 import { Projeto } from '../../../core'; // Importa a interface Projeto
-import TitleComponent from '@/components/componentes_de interface/TitleComponent';
-import Carregando from '@/components/componentes_de interface/Carregando';
+import TitleComponent from '@/components/componentes_de Interface/TitleComponent';
+import Carregando from '@/components/componentes_de Interface/Carregando';
 
 export default function Projetos() {
     const [projetos, setProjetos] = useState<Projeto[]>([]); 
@@ -45,8 +45,15 @@ export default function Projetos() {
                 {loading ? (
                     <Carregando quantidade={3}/>
                 ) : (
-                    projetos.map((p) => (
-                        <ProjetoComponent key={p.id} projeto={p} />
+                    projetos
+                    .sort((a, b) => {
+                      // Ordenação pela propriedade `nome` em ordem alfabética
+                      if (a.nome < b.nome) return -1;
+                      if (a.nome > b.nome) return 1;
+                      return 0;
+                    })
+                    .map((p) => (
+                      <ProjetoComponent key={p.id} projeto={p} />
                     ))
                 )}
                 </div>
