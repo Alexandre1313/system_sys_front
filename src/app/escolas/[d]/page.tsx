@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation'; // Agora use o useParams
 import { Escola, Projeto } from '../../../../core';
 import { getProjetosComEscolas } from '@/hooks_api/api';
-import TitleComponent from '@/components/componentes_de interface/TitleComponent';
+import TitleComponent from '@/components/componentes_de Interface/TitleComponent';
+
 
 export default function Escolas() {
     const { d } = useParams();
