@@ -3,7 +3,7 @@ import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos`;
 const urlEscolas = `http://${ip}:${port}/escolas`;
-const urlProjetoEscolas = `http://${ip}:${port}/projetocomescolas/`;
+const urlProjetoEscolas = `http://${ip}:${port}/projetos/comescolas/`;
 
 async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | any[]> {
     let urlParaConsulta = "";    

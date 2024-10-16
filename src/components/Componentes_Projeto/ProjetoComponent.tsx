@@ -9,7 +9,7 @@ interface ProjetoComponentProps {
 
 export default function ProjetoComponent({ projeto }: ProjetoComponentProps) {
     return (
-        <Link href={`/`}>
+        <Link href={`/escolas/${projeto.id}`}>
             <div className="flexColCS border rounded-lg border-gray-800 max-w-[350px] lg:max-w-[310px]
              min-h-[390px] lg:min-h-[400px] shadow hover:border-gray-700 transition-colors duration-700
              transform lg:transition-transform lg:duration-300 hover:-translate-y-2">
