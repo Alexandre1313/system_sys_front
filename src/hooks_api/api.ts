@@ -4,6 +4,7 @@ import { ip, port } from "../../core/utils/tools";
 const urlProjetos = `http://${ip}:${port}/projetos`;
 const urlEscolas = `http://${ip}:${port}/escolas`;
 const urlProjetoEscolas = `http://${ip}:${port}/projetos/comescolas/`;
+const urlGradesPorEscola = `http://${ip}:${port}/escolas/escolagrades/`
 
 async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | any[]> {
     let urlParaConsulta = "";    
@@ -34,4 +35,13 @@ async function getProjetosComEscolas(id: number): Promise<Projeto | null> {
     return data;
 }
 
-export { get, getProjetosComEscolas };
+async function getGradesPorEscolas(id: number): Promise<Escola | null>{
+    const response = await fetch(`${urlGradesPorEscola}${id}`)
+    if(!response.ok){
+        throw new Error(`Erro ao buscar dados: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+export { get, getProjetosComEscolas, getGradesPorEscolas };

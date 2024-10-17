@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
 import { get } from "../../hooks_api/api";
 import { Projeto } from '../../../core'; // Importa a interface Projeto
-import TitleComponent from '@/components/componentes_de interface/TitleComponent';
-import Carregando from '@/components/componentes_de interface/Carregando';
+import TitleComponent from '@/components/Componentes_Interface/TitleComponent';
+import Carregando from '@/components/Componentes_Interface/Carregando';
+import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 
 export default function Projetos() {  
     const [projetos, setProjetos] = useState<Projeto[]>([]);
@@ -38,8 +39,7 @@ export default function Projetos() {
     return (
         <>
             <div className="flexColCS p-4 pt-14">
-            <h2 className='text-blue-500 text-lg border-b border-y-neutral-900 fixed top-0 left-0 w-full 
-                text-center p-2 bg-black z-10'>{`PROJETOS`}</h2>
+                <TitleComponentFixed stringOne={`PROJETOS`}/>
                 <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
                  p-4 pt-7 lg:p-9 gap-y-5 lg:gap-y-10">
                     <div className="flexRRFE max-w-[1200px] border border-transparent 

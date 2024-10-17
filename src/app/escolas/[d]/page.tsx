@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation'; // Agora use o useParams
 import { Escola, Projeto } from '../../../../core';
 import { getProjetosComEscolas } from '@/hooks_api/api';
+import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 
 export default function Escolas() {
-    const { d } = useParams();
+    const { d } = useParams();   
 
     const [projeto, setProjeto] = useState<Projeto | null>(null);
     const [primeiraParte, setPrimeiraParte] = useState<Escola[]>([]);
@@ -63,9 +64,10 @@ export default function Escolas() {
     return (
         <>   
             <div className='flex flex-col p-2 lg:p-7'>
-                <div className="flex flex-col items-center min-h-[95vh]  pt-7 lg:pt-7 rounded-md">
-                    <h2 className='text-blue-500 text-[14px] lg:text-lg border-b border-y-neutral-900 fixed top-0 left-0 w-full 
-                    text-center z-10 py-2 px-4 bg-black'>{`MUNICÍPIO DE ${projeto?.nome} - ESCOLAS`}</h2>
+                <div className="flex flex-col items-center min-h-[95vh]  pt-7 lg:pt-7 rounded-md">                   
+                    <TitleComponentFixed stringOne={`MUNICÍPIO DE ${projeto?.nome}`}
+                        twoPoints={`-`}
+                        stringTwo={`ESCOLAS`}/>
                     <div className="flex flex-col lg:flex-row justify-between lg:min-h-[95vh]
                     p-2 lg:p-7 rounded-md lg:pt-12 w-full pt-7">
                         {/* Primeira parte das escolas */}
