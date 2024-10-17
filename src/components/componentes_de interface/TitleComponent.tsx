@@ -4,6 +4,6 @@ export default interface TitleComponentProps {
 
 export default function TitleComponent(props: TitleComponent){
     return (
-        <h1 className='text-3xl lg:text-5xl font-bold tracking-[1px]'>{props.title}</h1>
+        <h1 className='text-3xl lg:text-5xl font-medium tracking-[1px] pb-1 text-slate-600'>{props.title}</h1>
     )
 }

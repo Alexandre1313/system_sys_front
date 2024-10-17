@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
-import { get } from "../../hooks_api/api"; 
+import { get } from "../../hooks_api/api";
 import { Projeto } from '../../../core'; // Importa a interface Projeto
-import TitleComponent from '@/components/componentes_de Interface/TitleComponent';
-import Carregando from '@/components/componentes_de Interface/Carregando';
+import TitleComponent from '@/components/componentes_de interface/TitleComponent';
+import Carregando from '@/components/componentes_de interface/Carregando';
 
-
-
-export default function Projetos() {
-    const [projetos, setProjetos] = useState<Projeto[]>([]); 
+export default function Projetos() {  
+    const [projetos, setProjetos] = useState<Projeto[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true); // Estado de carregamento
 
@@ -38,28 +36,31 @@ export default function Projetos() {
     }
 
     return (
-        <div className="flexRRC p-4">
-            <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
-             bg-zinc-900 p-4 pt-7 lg:p-16 gap-y-5 lg:gap-y-10">
-                <TitleComponent title={"PROJETOS"}/>
-                <div className="flexRRFE max-w-[1200px] border border-transparent 
-                rounded-lg bg-zinc-900 gap-x-12 flex-wrap gap-y-12 p-1 lg:p-3">
-                {loading ? (
-                    <Carregando quantidade={3}/>
-                ) : (
-                    projetos
-                    .sort((a, b) => {
-                      // Ordenação pela propriedade `nome` em ordem alfabética
-                      if (a.nome < b.nome) return -1;
-                      if (a.nome > b.nome) return 1;
-                      return 0;
-                    })
-                    .map((p) => (
-                      <ProjetoComponent key={p.id} projeto={p} />
-                    ))
-                )}
+        <>
+            <div className="flexColCS p-4 pt-14">
+            <h2 className='text-blue-500 text-lg border-b border-y-neutral-900 fixed top-0 left-0 w-full 
+                text-center p-2 bg-black z-10'>{`PROJETOS`}</h2>
+                <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
+                 p-4 pt-7 lg:p-9 gap-y-5 lg:gap-y-10">
+                    <div className="flexRRFE max-w-[1200px] border border-transparent 
+                      rounded-lg gap-x-12 flex-wrap gap-y-12 p-1 lg:p-3">
+                        {loading ? (
+                            <Carregando quantidade={3} />
+                        ) : (
+                            projetos
+                                .sort((a, b) => {
+                                    // Ordenação pela propriedade `nome` em ordem alfabética
+                                    if (a.nome < b.nome) return -1;
+                                    if (a.nome > b.nome) return 1;
+                                    return 0;
+                                })
+                                .map((p) => (
+                                    <ProjetoComponent key={p.id} projeto={p} />
+                                ))
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
