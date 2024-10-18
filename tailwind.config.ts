@@ -49,6 +49,10 @@ const config: Config = {
           width: '100%'
         },
 
+        '.shadow-green': {
+          boxShadow: '0 4px 6px rgba(13, 198, 129, 0.1)',         
+        },       
+
         '.flexRRFE': {
           display: 'flex',
           flexDirection: 'row',
@@ -58,7 +62,11 @@ const config: Config = {
         },
       
         '.shadow': {
-          boxShadow: '15px 15px 30px 5px rgba(0, 0, 0, 0.45)'
+          boxShadow: '15px 15px 30px 5px rgba(0, 0, 0, 0.75)'
+        },
+
+        '.bghover': {
+          backgroundColor: 'rgba(13, 198, 129, 0.015)'
         },
       
         '.input': {

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
 import { get } from "../../hooks_api/api";
 import { Projeto } from '../../../core'; // Importa a interface Projeto
-import TitleComponent from '@/components/Componentes_Interface/TitleComponent';
 import Carregando from '@/components/Componentes_Interface/Carregando';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 

@@ -11,7 +11,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
         rounded transition duration-300" href={`/grades/${escola.id}`} target={'_blank'}>
             <div className="flex w-[100%] gap-x-6 items-start">
                 <div className="flex items-center justify-start min-w-[25px] lg:w-[25px]">
-                    <span className="text-[13px] font-semibold lg:text-[14px] text-green-500">
+                    <span className="text-[13px] font-semibold lg:text-[14px] text-yellow-500">
                         {escola.id}
                     </span>
                 </div>

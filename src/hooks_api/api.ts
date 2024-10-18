@@ -6,7 +6,7 @@ const urlEscolas = `http://${ip}:${port}/escolas`;
 const urlProjetoEscolas = `http://${ip}:${port}/projetos/comescolas/`;
 const urlGradesPorEscola = `http://${ip}:${port}/escolas/escolagrades/`
 
-async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | any[]> {
+async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | unknown[]> {
     let urlParaConsulta = "";    
     switch (option) {
         case 'P':
