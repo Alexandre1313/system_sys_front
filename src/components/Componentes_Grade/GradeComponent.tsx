@@ -14,17 +14,14 @@ export interface GradeComponentProps {
     grade: Grade;
     escola: Escola | null;
     mutate: KeyedMutator<Grade>;
+    formData: { [key: string]: string }; // Estado do pai passado como objeto   
+    setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTela, setMostrarTela] = useState(false);
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
-    const [itemSelecionado, setItemSelecionado] = useState<any>(null); // Estado para armazenar o item selecionado
-    const [formData, setFormData] = useState({
-        item: '',
-        item2: '',
-        item3: ''
-    });
+    const [itemSelecionado, setItemSelecionado] = useState<any>(null); // Estado para armazenar o item selecionado   
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -56,15 +53,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
-    };
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target; // Captura o nome e valor do input
-        setFormData({
-            ...formData, // Mantém os valores anteriores
-            [name]: value // Atualiza apenas o input que mudou
-        });
-    };
+    };    
 
     return (
         <>
@@ -189,6 +178,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         labelName={`TOTAL À EXPEDIR`} />
                                     <ItemsGradeInputText value={itemSelecionado.quantidadeExpedida}
                                         labelName={`JÁ EXPEDIDO`} />
+                                </div>
+                                <div className="flex flex-row justify-start items-center gap-x-9">
+                                       
                                 </div>
                             </div>
                         </div>

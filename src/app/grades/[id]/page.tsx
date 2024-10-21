@@ -6,6 +6,7 @@ import { Escola } from '../../../../core';
 import { getGradesPorEscolas } from '@/hooks_api/api';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import GradeComponent from '@/components/Componentes_Grade/GradeComponent';
+import { useState } from 'react';
 
 const fetcher = async (id: number) => {
   const escolaComGrades = await getGradesPorEscolas(id);
@@ -14,6 +15,19 @@ const fetcher = async (id: number) => {
 
 export default function Grades() {
   const { id } = useParams();
+
+  const [formData, setFormData] = useState({
+    item: '',
+    item2: '',
+    item3: ''
+  });
+
+  const handleFormDataChange = (key: string, value: string) => {
+    setFormData({
+      ...formData, // Mantém os outros campos
+      [key]: value // Atualiza apenas o campo que mudou
+    });
+  };
 
   // Usando SWR para buscar dados da escola e suas grades
   const { data, error } = useSWR(id ? ['grades', id] : null, () => fetcher(+id));
@@ -48,21 +62,21 @@ export default function Grades() {
           {/* Primeira parte das grades */}
           <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
             {primeiraParte.map((grade) => (
-              <GradeComponent key={grade.id} grade={grade} escola={escola} mutate={mutate}/>
+              <GradeComponent key={grade.id} grade={grade} escola={escola} mutate={mutate} formData={formData} setFormData={handleFormDataChange} />
             ))}
           </div>
 
           {/* Segunda parte das grades */}
           <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
             {segundaParte.map((grade) => (
-              <GradeComponent key={grade.id} grade={grade} escola={escola} mutate={mutate}/>
+              <GradeComponent key={grade.id} grade={grade} escola={escola} mutate={mutate} formData={formData} setFormData={handleFormDataChange} />
             ))}
           </div>
 
           {/* Terceira parte das grades */}
           <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
             {terceiraParte.map((grade) => (
-              <GradeComponent key={grade.id} grade={grade} escola={escola} mutate={mutate} />
+              <GradeComponent key={grade.id} grade={grade} escola={escola} mutate={mutate} formData={formData} setFormData={handleFormDataChange}/>
             ))}
           </div>
         </div>

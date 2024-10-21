@@ -10,11 +10,12 @@ export interface ItemsGradeInputTextProps {
 export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {    
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
-            <label htmlFor={`${concat(props.labelName)}-input`} className="flex text-left text-[15px]">
+            <label htmlFor={`${concat(props.labelName)}-input`} className="flex text-left text-[15px]
+            text-zinc-400 tracking-[2px]">
                 {props.labelName}
             </label>
             <input className="flex p-2 w-full text-left text-[30px] bg-trans rounded-md  
-            outline-none border border-gray-600"
+            outline-none border border-gray-600 text-green-500"
                 type="text"
                 name={`${concat(props.labelName)}`}
                 id={`${concat(props.labelName)}-input`}
