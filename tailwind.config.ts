@@ -12,6 +12,32 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        custonWhite: "rgba(217, 219, 224, 1)",
+        trans: "rgba(0, 0, 0, 0)",
+      },
+    },
+    animation: {
+      bounceX: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
+      bounceXL: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
+      bounceY: 'bounceY 2s ease-in-out infinite',  // Animação vai e vem vertical
+      rotate: 'rotate 2s linear infinite', // Duração de 2 segundos, animação linear e infinita
+    },
+    keyframes: {
+      bounceX: {
+        '0%, 100%': { transform: 'translateX(0)' },  // No início e no fim, fica na posição inicial
+        '50%': { transform: 'translateX(5px)' },   // No meio do ciclo, move 100px para a direita
+      },
+      bounceXL: {
+        '0%, 100%': { transform: 'translateX(0)' },  // No início e no fim, fica na posição inicial
+        '50%': { transform: 'translateX(-5px)' },   // No meio do ciclo, move 100px para a direita
+      },
+      bounceY: {
+        '0%, 100%': { transform: 'translateY(0)' },  // No início e no fim, fica na posição inicial
+        '50%': { transform: 'translateY(3px)' },   // No meio do ciclo, move 100px para baixo
+      },
+      rotate: {
+        '0%': { transform: 'rotate(0deg)' },  // No início
+        '100%': { transform: 'rotate(-360deg)' },  // No fim, faz a rotação completa
       },
     },
   },
@@ -50,8 +76,8 @@ const config: Config = {
         },
 
         '.shadow-green': {
-          boxShadow: '0 4px 6px rgba(13, 198, 129, 0.1)',         
-        },       
+          boxShadow: '0 4px 6px rgba(13, 198, 129, 0.1)',
+        },
 
         '.flexRRFE': {
           display: 'flex',
@@ -60,7 +86,7 @@ const config: Config = {
           justifyContent: 'center',
           width: '100%'
         },
-      
+
         '.shadow': {
           boxShadow: '15px 15px 30px 5px rgba(0, 0, 0, 0.75)'
         },
@@ -68,9 +94,9 @@ const config: Config = {
         '.bghover': {
           backgroundColor: 'rgba(13, 198, 129, 0.015)'
         },
-      
+
         '.input': {
-        
+
         }
       };
 
@@ -80,6 +106,6 @@ const config: Config = {
         respectImportant: false, // Ignora a regra !important
       });
     }),
-  ], 
+  ],
 };
 export default config;
