@@ -7,17 +7,24 @@ import BotaoArrowLeftSmall from "../Componentes_Interface/BotaoArrowLehtSmall";
 import BotaoRefreshCcw from "../Componentes_Interface/BotaoRefreshCcw";
 import BotaoPrinter from "../Componentes_Interface/BotaoPrinter";
 import BotaoBox from "../Componentes_Interface/BotaoBox";
+import { KeyedMutator } from "swr";
+import ItemsGradeInputText from "./ItemsGradeInputText";
 
 export interface GradeComponentProps {
     grade: Grade;
     escola: Escola | null;
-    mutate: (e: string) => void;
+    mutate: KeyedMutator<Grade>;
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTela, setMostrarTela] = useState(false);
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<any>(null); // Estado para armazenar o item selecionado
+    const [formData, setFormData] = useState({
+        item: '',
+        item2: '',
+        item3: ''
+    });
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -51,6 +58,14 @@ export default function GradeComponent(props: GradeComponentProps) {
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
     };
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target; // Captura o nome e valor do input
+        setFormData({
+            ...formData, // Mantém os valores anteriores
+            [name]: value // Atualiza apenas o input que mudou
+        });
+    };
+
     return (
         <>
             {/* Card com informações */}
@@ -71,7 +86,6 @@ export default function GradeComponent(props: GradeComponentProps) {
                     Gênero:
                     <strong className="ml-2 font-semi-bold text-[19px] text-yellow-700">{nomeGenero}</strong>
                 </h2>
-
                 {/* Botão que abre o modal */}
                 <button
                     type="button"
@@ -88,10 +102,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                 <div className="absolute inset-0 z-50 bg-zinc-950 bg-opacity-100 flex 
                 pt-9 flex-col items-center lg:min-h-[100%] min-h-[190vh]">
                     <TitleComponentFixed stringOne={`ESCOLA`} twoPoints={`:`} stringTwo={props.escola?.nome} />
-
                     {/* Ajustar o espaçamento abaixo do título */}
                     <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-6">
                         {props.grade.itensGrade.map((itemGrade, index) => {
+                            const itemTamanho = itemGrade.itemTamanho;
                             const item = itemGrade?.itemTamanho?.item;
                             const genero = item?.genero;
                             const tamanho = itemGrade?.itemTamanho?.tamanho;
@@ -128,43 +142,55 @@ export default function GradeComponent(props: GradeComponentProps) {
                             );
                         })}
                     </div>
-
                     {/* Botão de fechar */}
-                    <div className="fixed bottom-0 left-4 flex justify-start w-full mt-2 pb-10">
-                        <BotaoArrowLeft onClick={fecharTela} stringButtton={`VOLTAR`} iconSize={20} strokeWidth={3} />
+                    <div className="fixed top-0 left-4 flex justify-start w-full mt-2 pt-16">
+                        <BotaoArrowLeft onClick={fecharTela} stringButtton={`VOLTAR`} iconSize={20}
+                            bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
                     </div>
                 </div>
             )}
 
-            {/* Modal de detalhes do item - Comportamento fixo */}
+            {/* Modal de detalhes do item - Comportamento fixo */}          
             {mostrarTelaExped && itemSelecionado && (
-                <div className="fixed inset-0 z-50 bg-zinc-900 bg-opacity-100 min-h-[105vh]
+                <div className="fixed inset-0 z-50 bg-zinc-950 bg-opacity-100 min-h-[105vh]
                  lg:min-h-[100vh] flex flex-col pt-10
                 justify-center items-center p-4">
                     <TitleComponentFixed stringOne={`EXPEDINDO ITEM`} twoPoints={`:`}
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
-                    <div className="p-6 rounded-md flex flex-col justify-between w-full border border-gray-500 min-h-full">                     
+                    <div className="p-4 rounded-md flex flex-col justify-start w-full border border-gray-500 min-h-full">
                         <div className="flex justify-between w-full">
                             <div>
-                                <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"} 
-                                iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"}/>
-                            </div>    
+                                <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
+                                    iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} />
+                            </div>
                             <div className="flex gap-x-9">
                                 <BotaoRefreshCcw stringButtton={"EXPEDIR ITEM"} iconSize={19} />
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-500"}
-                                bgHoverColor={"hover:bg-yellow-300"}/>
-                                <BotaoPrinter stringButtton={"IMPRIMIR ETIQUETA"} bgColor={"bg-blue-700"} 
-                                 iconSize={19} bgHoverColor={"hover:bg-blue-500"} />
-                            </div>                                               
+                                    bgHoverColor={"hover:bg-yellow-300"} />
+                                <BotaoPrinter stringButtton={"IMPRIMIR ETIQUETA"} bgColor={"bg-blue-700"}
+                                    iconSize={19} bgHoverColor={"hover:bg-blue-500"} />
+                            </div>
                         </div>
-                        <div>
-                            <h2 className="text-lg font-bold">Detalhes do Item Selecionado</h2>
-                            <p><strong>Item:</strong> {itemSelecionado?.itemTamanho?.item?.nome}</p>
-                            <p><strong>Gênero:</strong> {itemSelecionado?.itemTamanho?.item?.genero}</p>
-                            <p><strong>Tamanho:</strong> {itemSelecionado?.itemTamanho?.tamanho?.nome}</p>
-                            <p><strong>Quantidade:</strong> {itemSelecionado?.quantidade}</p>
-                            <p><strong>Quantidade Expedida:</strong> {itemSelecionado?.quantidadeExpedida}</p>
+                        <div className={"flex flex-row justify-center items-stretch"}>
+                            <div className={"pt-12 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-9"}>
+                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.nome}
+                                    labelName={`ITEM`} />
+                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.genero}
+                                    labelName={`GÊNERO`} />
+                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.tamanho.nome}
+                                    labelName={`TAMANHO`} />
+                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.barcode.codigo}
+                                    labelName={`CÓD. DE BARRAS`} />
+                            </div>
+                            <div className={"pt-12 flex flex-col justify-start items-start w-1/2 h-full"}>
+                                <div className="flex flex-row justify-start items-center gap-x-9">
+                                    <ItemsGradeInputText value={itemSelecionado.quantidade}
+                                        labelName={`TOTAL À EXPEDIR`} />
+                                    <ItemsGradeInputText value={itemSelecionado.quantidadeExpedida}
+                                        labelName={`JÁ EXPEDIDO`} />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-const ip = "192.168.1.7";
+const ip = "192.168.1.22";
 const port = "4997";
 
 function convertSPTime(dateString: string): string {
@@ -16,4 +16,12 @@ function convertSPTime(dateString: string): string {
     return formattedDate;
 }
 
-export { ip, port, convertSPTime}
+function concat(s: string): string {
+  // Remove espaços em branco e normaliza a string para remover acentos
+  return s
+    .replace(/\s+/g, '')               // Remove todos os espaços em branco
+    .normalize('NFD')                  // Normaliza a string para separar acentos
+    .replace(/[\u0300-\u036f]/g, '');  // Remove os diacríticos (acentos)
+}
+
+export { ip, port, convertSPTime, concat}
