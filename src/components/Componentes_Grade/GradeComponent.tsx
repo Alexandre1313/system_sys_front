@@ -9,6 +9,7 @@ import BotaoPrinter from "../Componentes_Interface/BotaoPrinter";
 import BotaoBox from "../Componentes_Interface/BotaoBox";
 import { KeyedMutator } from "swr";
 import ItemsGradeInputText from "./ItemsGradeInputText";
+import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -147,7 +148,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <TitleComponentFixed stringOne={`EXPEDINDO ITEM`} twoPoints={`:`}
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
-                    <div className="p-4 rounded-md flex flex-col justify-start w-full border border-gray-500 min-h-full">
+                    <div className="p-24 pt-4 rounded-md flex flex-col justify-start w-full border border-gray-500 min-h-full">
                         <div className="flex justify-between w-full">
                             <div>
                                 <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
@@ -162,7 +163,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>
-                            <div className={"pt-12 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-9"}>
+                            <div className={"pt-24 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-9"}>
                                 <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.nome}
                                     labelName={`ITEM`} />
                                 <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.genero}
@@ -172,7 +173,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <ItemsGradeInputText value={itemSelecionado.itemTamanho.barcode.codigo}
                                     labelName={`CÓD. DE BARRAS`} />
                             </div>
-                            <div className={"pt-12 flex flex-col justify-start items-start w-1/2 h-full"}>
+                            <div className={"pt-24 flex flex-col justify-start items-end w-1/2 h-full gap-y-9"}>
                                 <div className="flex flex-row justify-start items-center gap-x-9">
                                     <ItemsGradeInputText value={itemSelecionado.quantidade}
                                         labelName={`TOTAL À EXPEDIR`} />
@@ -180,7 +181,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         labelName={`JÁ EXPEDIDO`} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-9">
-                                       
+                                    <ItemGradeInputTextState labelName={'INFORME O N° DA CAIXA'} 
+                                    formData={props.formData} setFormData={props.setFormData}/>                                   
+                                </div>
+                                <div className="flex flex-row justify-start items-center gap-x-9">                                  
+                                    <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'} 
+                                    formData={props.formData} setFormData={props.setFormData}/> 
+                                    <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'} 
+                                    formData={props.formData} setFormData={props.setFormData}/> 
                                 </div>
                             </div>
                         </div>

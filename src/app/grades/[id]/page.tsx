@@ -17,15 +17,13 @@ export default function Grades() {
   const { id } = useParams();
 
   const [formData, setFormData] = useState({
-    item: '',
-    item2: '',
-    item3: ''
+    QUANTIDADELIDA: '0',    
   });
 
   const handleFormDataChange = (key: string, value: string) => {
     setFormData({
       ...formData, // Mantém os outros campos
-      [key]: value // Atualiza apenas o campo que mudou
+        [key]: value // Atualiza apenas o campo que mudou
     });
   };
 

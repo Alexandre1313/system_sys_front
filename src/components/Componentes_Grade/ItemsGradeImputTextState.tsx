@@ -7,28 +7,31 @@ export interface ItemGradeInputTextStateProps {
 }
 
 export default function ItemGradeInputTextState(props: ItemGradeInputTextStateProps) {
-    // Acessar o valor correto do formData usando o labelName como chave
-    const value = props.formData[props.labelName] || "";
+    // Acessar o valor correto do formData usando o labelName como chave   
+    const labelName = concat(props.labelName);
+    const value = props.formData[labelName] || "";
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {       
         const { value } = event.target;
         // Chamar a função do pai passando o valor e a chave
-        props.setFormData(props.labelName, value);
+        props.setFormData(labelName, value);        
+        console.log(props.formData)      
     };
 
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
             <label
-                htmlFor={`${concat(props.labelName)}-input`}
+                htmlFor={`${labelName}-input`}
                 className="flex text-left text-[15px] text-zinc-400 tracking-[2px]"
             >
                 {props.labelName}
             </label>
             <input
-                className="flex p-2 w-full text-left text-[30px] bg-trans rounded-md outline-none border border-gray-600 text-green-500"
+                className="flex p-2 w-full text-left text-[30px] bg-trans rounded-md outline-none border
+                border-gray-700 text-green-400"
                 type="text"
-                name={`${concat(props.labelName)}`}
-                id={`${concat(props.labelName)}-input`}
+                name={`${labelName}`}
+                id={`${labelName}-input`}
                 value={value} // Usando o valor do estado do pai
                 onChange={handleInputChange} // Atualiza o estado no pai quando o valor mudar
             />
