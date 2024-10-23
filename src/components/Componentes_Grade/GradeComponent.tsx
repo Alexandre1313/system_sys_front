@@ -15,8 +15,9 @@ export interface GradeComponentProps {
     grade: Grade;
     escola: Escola | null;
     mutate: KeyedMutator<Grade>;
-    formData: { [key: string]: string }; // Estado do pai passado como objeto   
-    setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
+    formData: { [key: string]: any }; // Estado do pai passado como objeto   
+    setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai    
+    handleItemSelecionado: (item: any) => void
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
@@ -48,11 +49,13 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const abrirTelaExped = (item: any) => {
         setItemSelecionado(item); // Armazena o item selecionado no estado
+        props.handleItemSelecionado(item)        
         setMostrarTelaExped(true);
     };
 
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
+        props.handleItemSelecionado(null)
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
     };    
 
@@ -186,9 +189,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-9">                                  
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'} 
-                                    formData={props.formData} setFormData={props.setFormData}/> 
+                                    formData={props.formData} setFormData={props.setFormData}
+                                    isReadOnly={true}/> 
                                     <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'} 
-                                    formData={props.formData} setFormData={props.setFormData}/> 
+                                    formData={props.formData} setFormData={props.setFormData}
+                                    txtSize={`text-[23px]`}
+                                    placeholder={`Informe o código de barras`}
+                                    isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
+                                    focus:ring focus:ring-emerald-500`}
+                                    labelColor={`text-emerald-500`}/> 
                                 </div>
                             </div>
                         </div>

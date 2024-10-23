@@ -15,7 +15,7 @@ export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {
                 {props.labelName}
             </label>
             <input className="flex p-2 w-full text-left text-[30px] bg-trans rounded-md  
-            outline-none border border-gray-700 text-blue-500"
+            outline-none border border-gray-700 text-blue-500 h-[63px] min-w-[374px]"
                 type="text"
                 name={`${concat(props.labelName)}`}
                 id={`${concat(props.labelName)}-input`}

@@ -3,7 +3,13 @@ import { concat } from "../../../core/utils/tools";
 export interface ItemGradeInputTextStateProps {
     formData: { [key: string]: string }; // Estado do pai passado como objeto
     labelName: string;
-    setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai
+    isReadOnly?: boolean; 
+    placeholder?: string;
+    txtSize?: string;
+    isFocus?: string;
+    labelColor?: string;
+    setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai
+   
 }
 
 export default function ItemGradeInputTextState(props: ItemGradeInputTextStateProps) {
@@ -12,24 +18,27 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
     const value = props.formData[labelName] || "";
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {       
-        const { value } = event.target;
-        // Chamar a função do pai passando o valor e a chave
-        props.setFormData(labelName, value);        
-        console.log(props.formData)      
+        const { value } = event.target;      
+        props.setFormData(labelName, value);            
     };
 
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
             <label
                 htmlFor={`${labelName}-input`}
-                className="flex text-left text-[15px] text-zinc-400 tracking-[2px]"
+                className={`flex text-left text-[15px]
+                ${props.labelColor ? props.labelColor: 'text-zinc-400'} tracking-[2px]`}
             >
                 {props.labelName}
             </label>
             <input
-                className="flex p-2 w-full text-left text-[30px] bg-trans rounded-md outline-none border
-                border-gray-700 text-green-400"
-                type="text"
+                className={`flex p-2 w-full text-left ${props.txtSize ? props.txtSize: 'text-[30px]'} 
+                ${props.isFocus ? props.isFocus: 'outline-none'} 
+                bg-trans rounded-md  border h-[63px] min-w-[374px]
+                border-gray-700 text-green-400 placeholder:text-[rgba(333,333,333,0.2)]`}
+                type="text"   
+                placeholder={props.placeholder}  
+                readOnly={props.isReadOnly}           
                 name={`${labelName}`}
                 id={`${labelName}-input`}
                 value={value} // Usando o valor do estado do pai
