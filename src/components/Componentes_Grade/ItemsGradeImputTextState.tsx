@@ -32,9 +32,9 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
                 {props.labelName}
             </label>
             <input
-                className={`flex p-2 w-full text-left ${props.txtSize ? props.txtSize: 'text-[30px]'} 
+                className={`flex p-2 w-full text-left ${props.txtSize ? props.txtSize: 'text-[27px]'} 
                 ${props.isFocus ? props.isFocus: 'outline-none'} 
-                bg-trans rounded-md  border h-[63px] min-w-[374px]
+                bg-trans rounded-md  border h-[50px] min-w-[374px]
                 border-gray-700 text-green-400 placeholder:text-[rgba(333,333,333,0.2)]`}
                 type="text"   
                 placeholder={props.placeholder}  

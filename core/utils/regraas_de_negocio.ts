@@ -23,7 +23,7 @@ export const processarCodigoDeBarras = (
         CODDEBARRASLEITURA: value, // Sempre atualiza para o valor digitado
     }));
 
-    if (value.length === 3) {
+    if (value.length === 5) {
         if (value === itemCodigo) {
             // Verifica se a quantidade lida não ultrapassa a quantidade permitida
             if (Number(formData.QUANTIDADELIDA) < quantidade) {

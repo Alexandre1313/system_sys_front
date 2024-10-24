@@ -1,4 +1,4 @@
-import { ArrowLeft } from "react-feather";
+import { ChevronsLeft } from "react-feather";
 
 interface BotaoArrowLeftSmallProps {
     onClick?: () => void; // Define a prop onClick que o componente pai deve passar
@@ -25,7 +25,7 @@ export default function BotaoArrowLeftSmall(props: BotaoArrowLeftSmallProps) {
             items-center justify-center gap-x-3 ${bgHoverColor}
             ${bgHoverColor} transition duration-500`}
         >
-            <ArrowLeft className="animate-bounceXL" size={props.iconSize} color={arrowColor} strokeWidth={strokeWidth}/> {props.stringButtton}
+            <ChevronsLeft className="animate-bounceXL" size={props.iconSize} color={arrowColor} strokeWidth={strokeWidth}/> {props.stringButtton}
         </button>
     )
 }

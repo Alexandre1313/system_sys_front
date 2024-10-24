@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Escola, Grade } from "../../../core";
 import TitleComponentFixed from "../Componentes_Interface/TitleComponentFixed";
 import BotaoArrowLeft from "../Componentes_Interface/BotaoArrowLeft";
-import { ArrowRight } from "react-feather";
+import { ChevronsRight } from "react-feather";
 import BotaoArrowLeftSmall from "../Componentes_Interface/BotaoArrowLehtSmall";
 import BotaoRefreshCcw from "../Componentes_Interface/BotaoRefreshCcw";
 import BotaoPrinter from "../Componentes_Interface/BotaoPrinter";
@@ -86,7 +86,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     className="flex items-center justify-center mt-3 px-4 py-2 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
                     bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px] self-center"
                 >
-                    ITENS DA GRADE <ArrowRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+                    ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
                 </button>
             </div>
 
@@ -96,7 +96,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 pt-9 flex-col items-center lg:min-h-[100%] min-h-[190vh]">
                     <TitleComponentFixed stringOne={`ESCOLA`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     {/* Ajustar o espaçamento abaixo do título */}
-                    <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-6">
+                    <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-6 mt-12">
                         {props.grade.itensGrade.map((itemGrade, index) => {
                             const itemTamanho = itemGrade.itemTamanho;
                             const item = itemGrade?.itemTamanho?.item;
@@ -136,7 +136,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         })}
                     </div>
                     {/* Botão de fechar */}
-                    <div className="fixed top-0 left-4 flex justify-start w-full mt-2 pt-16">
+                    <div className="fixed -top-[0.95rem] left-[7.05rem] flex justify-start w-full mt-2 pt-16">
                         <BotaoArrowLeft onClick={fecharTela} stringButtton={`VOLTAR`} iconSize={20}
                             bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
                     </div>
@@ -166,7 +166,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>
-                            <div className={"pt-24 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-9"}>
+                            <div className={"pt-24 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
                                 <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.nome}
                                     labelName={`ITEM`} />
                                 <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.genero}
@@ -176,18 +176,18 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <ItemsGradeInputText value={itemSelecionado.itemTamanho.barcode.codigo}
                                     labelName={`CÓD. DE BARRAS`} />
                             </div>
-                            <div className={"pt-24 flex flex-col justify-start items-end w-1/2 h-full gap-y-9"}>
-                                <div className="flex flex-row justify-start items-center gap-x-9">
+                            <div className={"pt-24 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
+                                <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemsGradeInputText value={itemSelecionado.quantidade}
                                         labelName={`TOTAL À EXPEDIR`} />
                                     <ItemsGradeInputText value={itemSelecionado.quantidadeExpedida}
                                         labelName={`JÁ EXPEDIDO`} />
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-9">
+                                <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'INFORME O N° DA CAIXA'} 
                                     formData={props.formData} setFormData={props.setFormData}/>                                   
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-9">                                  
+                                <div className="flex flex-row justify-start items-center gap-x-5">                                  
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'} 
                                     formData={props.formData} setFormData={props.setFormData}
                                     isReadOnly={true}/> 
