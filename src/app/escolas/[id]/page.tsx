@@ -56,7 +56,7 @@ export default function Escolas() {
     }
 
     // Ordenando as escolas alfabeticamente pelo nome
-    const escolasOrdenadas = projeto.escolas.sort((a, b) => a.nome.localeCompare(b.nome));
+    const escolasOrdenadas = projeto.escolas.sort((a, b) => parseInt(a.numeroEscola, 10) - parseInt(b.numeroEscola, 10));
 
     // Dividindo as escolas em três partes
     const terco = Math.ceil(escolasOrdenadas.length / 3);

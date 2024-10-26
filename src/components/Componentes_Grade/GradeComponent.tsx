@@ -94,7 +94,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             {mostrarTela && (
                 <div className="absolute inset-0 z-50 bg-zinc-950 bg-opacity-100 flex 
                 pt-9 flex-col items-center lg:min-h-[100%] min-h-[190vh]">
-                    <TitleComponentFixed stringOne={`ESCOLA`} twoPoints={`:`} stringTwo={props.escola?.nome} />
+                    <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     {/* Ajustar o espaçamento abaixo do título */}
                     <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-6 mt-12">
                         {props.grade.itensGrade.map((itemGrade, index) => {                        
