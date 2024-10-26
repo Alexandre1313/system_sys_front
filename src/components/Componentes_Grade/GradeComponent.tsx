@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Escola, Grade } from "../../../core";
+import { Escola, Grade, GradeItem } from "../../../core";
 import TitleComponentFixed from "../Componentes_Interface/TitleComponentFixed";
 import BotaoArrowLeft from "../Componentes_Interface/BotaoArrowLeft";
 import { ChevronsRight } from "react-feather";
@@ -16,14 +16,14 @@ export interface GradeComponentProps {
     escola: Escola | null;
     mutate: KeyedMutator<Grade>;
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
-    setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai    
-    handleItemSelecionado: (item: any) => void
+    setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
+    handleItemSelecionado: (item: GradeItem | null) => void
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTela, setMostrarTela] = useState(false);
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
-    const [itemSelecionado, setItemSelecionado] = useState<any>(null); // Estado para armazenar o item selecionado   
+    const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null); // Estado para armazenar o item selecionado   
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -49,7 +49,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const abrirTelaExped = (item: any) => {
         setItemSelecionado(item); // Armazena o item selecionado no estado
-        props.handleItemSelecionado(item)        
+        props.handleItemSelecionado(item)              
         setMostrarTelaExped(true);
     };
 
@@ -97,8 +97,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <TitleComponentFixed stringOne={`ESCOLA`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     {/* Ajustar o espaçamento abaixo do título */}
                     <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-6 mt-12">
-                        {props.grade.itensGrade.map((itemGrade, index) => {
-                            const itemTamanho = itemGrade.itemTamanho;
+                        {props.grade.itensGrade.map((itemGrade, index) => {                        
                             const item = itemGrade?.itemTamanho?.item;
                             const genero = item?.genero;
                             const tamanho = itemGrade?.itemTamanho?.tamanho;
@@ -167,20 +166,20 @@ export default function GradeComponent(props: GradeComponentProps) {
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>
                             <div className={"pt-24 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
-                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.nome}
+                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.nome}
                                     labelName={`ITEM`} />
-                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.item.genero}
+                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
                                     labelName={`GÊNERO`} />
-                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.tamanho.nome}
+                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
                                     labelName={`TAMANHO`} />
-                                <ItemsGradeInputText value={itemSelecionado.itemTamanho.barcode.codigo}
+                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                     labelName={`CÓD. DE BARRAS`} />
                             </div>
                             <div className={"pt-24 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
-                                    <ItemsGradeInputText value={itemSelecionado.quantidade}
+                                    <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                         labelName={`TOTAL À EXPEDIR`} />
-                                    <ItemsGradeInputText value={itemSelecionado.quantidadeExpedida}
+                                    <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                         labelName={`JÁ EXPEDIDO`} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">

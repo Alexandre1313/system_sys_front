@@ -1,10 +1,10 @@
-import { Grade, GradeItem } from "../../../core"
+import { GradeItem } from "../../../core"
 import { concat } from "../../../core/utils/tools"
 
 export interface ItemsGradeInputTextProps {
     itemSelecionado?: GradeItem
     labelName: string
-    value: string | number
+    value: string | undefined
 }
 
 export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {    

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AlertTriangle, X } from 'react-feather';
 
 interface ModalProps {
@@ -8,6 +8,24 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
+  // Função para definir o som com base na mensagem
+  const getSoundForMessage = (message: string) => {
+    if (message.includes('Código de barras inválido')) {
+      return '/error3.mp3'; // Som específico para código inválido
+    } else if (message.includes('Quantidade excedida')) {
+      return '/error2.mp3'; // Som específico para quantidade excedida
+    }
+    return '/error1.mp3'; // Som padrão
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      const soundFile = getSoundForMessage(message); // Determina o som baseado na mensagem
+      const audio = new Audio(soundFile); // Cria o novo áudio
+      audio.play(); // Reproduz o som
+    }
+  }, [isOpen, message]); // Executa o efeito quando isOpen ou message mudam
+
   if (!isOpen) return null; // Não renderiza se não estiver aberto
 
   return (
@@ -31,4 +49,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
   );
 };
 
-export default Modal
+export default Modal;

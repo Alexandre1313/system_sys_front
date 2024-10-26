@@ -2,7 +2,7 @@
 
 import useSWR, { mutate } from 'swr'; // Importa o mutate
 import { useParams } from 'next/navigation';
-import { Escola, GradeItem } from '../../../../core';
+import { Escola, GradeItem, FormData } from '../../../../core';
 import { getGradesPorEscolas } from '@/hooks_api/api';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import GradeComponent from '@/components/Componentes_Grade/GradeComponent';
@@ -18,20 +18,16 @@ const fetcher = async (id: number) => {
 export default function Grades() {
   const { id } = useParams();
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
 
-  const [formData, setFormData] = useState<{
-    QUANTIDADELIDA: string,
-    CODDEBARRASLEITURA: string,
-    ITEM_SELECIONADO: GradeItem | null
-  }>({
+  const [formData, setFormData] = useState<FormData>({
     QUANTIDADELIDA: '0',
     CODDEBARRASLEITURA: '',
     ITEM_SELECIONADO: null,
   });
 
-  const handleFormDataChange = (key: string, value: any) => {
+  const handleFormDataChange = (key: string, value: string) => {
     if (key === 'CODDEBARRASLEITURA') {
       // Chama a função encapsulada que processa o código de barras
       processarCodigoDeBarras(value, formData, setFormData, setModalMessage, setModalOpen);
@@ -50,7 +46,7 @@ export default function Grades() {
     setModalMessage('');
   };
 
-  const handleItemSelecionado = (item: GradeItem) => {
+  const handleItemSelecionado = (item: GradeItem | null) => {
     setFormData((prevData) => ({
       ...prevData,
       ITEM_SELECIONADO: item, // Atualiza o item selecionado

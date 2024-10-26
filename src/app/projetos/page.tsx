@@ -3,7 +3,6 @@
 import useSWR from 'swr';
 import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
 import { Projeto } from '../../../core'; // Importa a interface Projeto
-import Carregando from '@/components/Componentes_Interface/Carregando';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import { get } from "../../hooks_api/api";
 

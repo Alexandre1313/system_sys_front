@@ -2,7 +2,7 @@
 
 import EscolaComponent from '@/components/Componentes_Escola/EscolaComponent';
 import { useParams } from 'next/navigation'; // Agora use o useParams
-import { Escola, Projeto } from '../../../../core';
+import { Projeto } from '../../../../core';
 import { getProjetosComEscolas } from '@/hooks_api/api';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import useSWR from 'swr';
@@ -14,10 +14,9 @@ const fetcher = async (id: number): Promise<Projeto> => {
 };
 
 export default function Escolas() {
-    const { d } = useParams();
+    const { id } = useParams();
     
-    // Convertendo 'd' para número. Se 'd' não estiver definido, 'id' será 'undefined'.
-    const id = d;
+    // Convertendo 'd' para número. Se 'd' não estiver definido, 'id' será 'undefined'. 
 
     // Usando SWR para buscar os dados do projeto e escolas, com verificação se 'id' é válido
     const { data: projeto, error, isValidating } = useSWR<Projeto>(

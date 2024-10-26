@@ -10,6 +10,7 @@ import GradeItem from "./GradeItem";
 import Barcode from "./Barcode";
 import TamanhoQuantidade from "./TamanhoQuantidade";
 import DataInserction from "./DataInserction";
+import FormData from "./FormData";
 
 export type { 
     Escola,
@@ -23,5 +24,6 @@ export type {
     ItemTamanho,
     Barcode,
     TamanhoQuantidade,
-    DataInserction
+    DataInserction,
+    FormData
 }
