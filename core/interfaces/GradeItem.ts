@@ -9,6 +9,8 @@ export default interface GradeItem {
     itemTamanho?: ItemTamanho; // Relacionamento opcional com ItemTamanho
     quantidade: number; // Quantidade total a ser expedida
     quantidadeExpedida: number; // Quantidade já expedida
+    isCount: boolean;
+    qtyPCaixa: number;
     createdAt?: Date;
     updatedAt?: Date;
 }

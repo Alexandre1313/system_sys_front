@@ -7,19 +7,18 @@ import BotaoArrowLeftSmall from "../Componentes_Interface/BotaoArrowLehtSmall";
 import BotaoRefreshCcw from "../Componentes_Interface/BotaoRefreshCcw";
 import BotaoPrinter from "../Componentes_Interface/BotaoPrinter";
 import BotaoBox from "../Componentes_Interface/BotaoBox";
-import { KeyedMutator } from "swr";
 import ItemsGradeInputText from "./ItemsGradeInputText";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 
 export interface GradeComponentProps {
     grade: Grade;
-    escola: Escola;
-    mutate: KeyedMutator<Grade>;
+    escola: Escola;    
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
     setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
     handleItemSelecionado: (item: GradeItem | null) => void
     handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
     handleNumeroDaCaixa: (numeroDaCaixa: string) => void
+    OpenModalGerarCaixa: () => void
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
@@ -45,10 +44,12 @@ export default function GradeComponent(props: GradeComponentProps) {
         return totini + itemGrade.quantidadeExpedida;
     }, 0);
 
+    const totalAExpedir = total - totalExpedido;
+
     const nomeItem = props.grade.itensGrade[0]?.itemTamanho?.item?.nome || 'Item não encontrado';
     const nomeGenero = props.grade.itensGrade[0]?.itemTamanho?.item?.genero || 'Item não encontrado';
 
-    const borderColor = total === 0 ? 'border-green-900' : 'border-gray-700';
+    const borderColor = total === totalExpedido ? 'border-green-900' : 'border-gray-700';
 
     const abrirTela = () => {
         setMostrarTela(true);
@@ -61,18 +62,19 @@ export default function GradeComponent(props: GradeComponentProps) {
     const abrirTelaExped = (item: any, escola: Escola, grade: Grade, totalAExpedir: number, totalExpedido: number) => {
         const escolaGrade: EscolaGrade = {
             nomeEscola: escola.nome,
+            projeto: escola.projeto?.nome,
             numeroEscola: escola.numeroEscola,
             idEscola: escola.id,
-            gardeId: grade.id,
+            gradeId: grade.id,
             totalAExpedir: totalAExpedir,
-            totalExpedido: totalExpedido
+            totalExpedido: totalExpedido,
+            grade: grade
         }
         setItemSelecionado(item);
         props.handleItemSelecionado(item)
         props.handleEscolaGradeSelecionada(escolaGrade)
-        props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))
-        console.log(escolaGrade)
-        setMostrarTelaExped(true);
+        props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))        
+        setMostrarTelaExped(true);      
     };
 
     const fecharTelaExped = () => {
@@ -92,7 +94,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 </h2>
                 <h2 className="text-[17px] font-normal text-gray-400">
                     Total de Itens à expedir:
-                    <strong className="ml-2 font-semi-bold text-[19px] text-yellow-400">{total}</strong>
+                    <strong className="ml-2 font-semi-bold text-[19px] text-yellow-400">{total - totalExpedido}</strong>
                 </h2>
                 <h2 className="text-[17px] font-normal text-gray-400">
                     Total de Itens expedido:
@@ -132,10 +134,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const quantidadeExpedida = itemGrade.quantidadeExpedida;
                             const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
-                            const classBorderCard = quantidade === 0 ? 'border-green-900' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-700';
+                            const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-900' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-700';
                             return (
                                 <div
-                                    onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, total, totalExpedido)} // Passa o item ao clicar
+                                    onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)} // Passa o item ao clicar
                                     key={index}
                                     className={`bg-zinc-950 bg-opacity-15 p-6 m-4 rounded-md gap-y-4 shadow-lg flex-1 
                                       min-w-[300px] flex flex-col items-start justify-center hover:shadow-green transition duration-200 
@@ -175,7 +177,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             )}
 
             {/* Modal de detalhes do item - Comportamento fixo */}
-            {mostrarTelaExped && itemSelecionado && (itemSelecionado.quantidade > 0) &&(
+            {mostrarTelaExped && itemSelecionado &&(
                 <div className="fixed inset-0 z-50 bg-zinc-950 bg-opacity-100 min-h-[105vh]
                  lg:min-h-[100vh] flex flex-col pt-10
                 justify-center items-center p-4">
@@ -191,7 +193,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             <div className="flex gap-x-9">
                                 <BotaoRefreshCcw stringButtton={"EXPEDIR ITEM"} iconSize={19} />
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-500"}
-                                    bgHoverColor={"hover:bg-yellow-300"} />
+                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa}/>
                                 <BotaoPrinter stringButtton={"IMPRIMIR ETIQUETA"} bgColor={"bg-blue-700"}
                                     iconSize={19} bgHoverColor={"hover:bg-blue-500"} />
                             </div>
