@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Escola, Grade, GradeItem } from "../../../core";
+import { useEffect, useState } from "react";
+import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import TitleComponentFixed from "../Componentes_Interface/TitleComponentFixed";
 import BotaoArrowLeft from "../Componentes_Interface/BotaoArrowLeft";
 import { ChevronsRight } from "react-feather";
@@ -13,17 +13,27 @@ import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 
 export interface GradeComponentProps {
     grade: Grade;
-    escola: Escola | null;
+    escola: Escola;
     mutate: KeyedMutator<Grade>;
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
     setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
     handleItemSelecionado: (item: GradeItem | null) => void
+    handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
+    handleNumeroDaCaixa: (numeroDaCaixa: string) => void
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTela, setMostrarTela] = useState(false);
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null); // Estado para armazenar o item selecionado   
+    const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
+
+    useEffect(() => {
+        const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
+            return totini + itemGrade.quantidade;
+        }, 0);
+        setTotalGrade(total)
+    }, [])
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -34,10 +44,11 @@ export default function GradeComponent(props: GradeComponentProps) {
     const totalExpedido = props.grade.itensGrade.reduce((totini, itemGrade) => {
         return totini + itemGrade.quantidadeExpedida;
     }, 0);
+
     const nomeItem = props.grade.itensGrade[0]?.itemTamanho?.item?.nome || 'Item não encontrado';
     const nomeGenero = props.grade.itensGrade[0]?.itemTamanho?.item?.genero || 'Item não encontrado';
 
-    const borderColor = total === totalExpedido ? 'border-green-900' : 'border-gray-700';
+    const borderColor = total === 0 ? 'border-green-900' : 'border-gray-700';
 
     const abrirTela = () => {
         setMostrarTela(true);
@@ -47,17 +58,29 @@ export default function GradeComponent(props: GradeComponentProps) {
         setMostrarTela(false);
     };
 
-    const abrirTelaExped = (item: any) => {
-        setItemSelecionado(item); // Armazena o item selecionado no estado
-        props.handleItemSelecionado(item)              
+    const abrirTelaExped = (item: any, escola: Escola, grade: Grade, totalAExpedir: number, totalExpedido: number) => {
+        const escolaGrade: EscolaGrade = {
+            nomeEscola: escola.nome,
+            numeroEscola: escola.numeroEscola,
+            idEscola: escola.id,
+            gardeId: grade.id,
+            totalAExpedir: totalAExpedir,
+            totalExpedido: totalExpedido
+        }
+        setItemSelecionado(item);
+        props.handleItemSelecionado(item)
+        props.handleEscolaGradeSelecionada(escolaGrade)
+        props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))
+        console.log(escolaGrade)
         setMostrarTelaExped(true);
     };
 
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
         props.handleItemSelecionado(null)
+        props.handleEscolaGradeSelecionada(null)
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
-    };    
+    };
 
     return (
         <>
@@ -65,19 +88,23 @@ export default function GradeComponent(props: GradeComponentProps) {
             <div className={`flex flex-col m-2 p-3  border rounded-md gap-y-2 ${borderColor}`}>
                 <h2 className="text-[17px] font-normal text-gray-400">
                     Total de Itens na Grade:
-                    <strong className="ml-2 font-semi-bold text-[19px] text-orange-600">{total}</strong>
+                    <strong className="ml-2 font-semi-bold text-[19px] text-orange-600">{totalGrade}</strong>
+                </h2>
+                <h2 className="text-[17px] font-normal text-gray-400">
+                    Total de Itens à expedir:
+                    <strong className="ml-2 font-semi-bold text-[19px] text-yellow-400">{total}</strong>
                 </h2>
                 <h2 className="text-[17px] font-normal text-gray-400">
                     Total de Itens expedido:
-                    <strong className="ml-2 font-semi-bold text-[19px] text-green-700">{totalExpedido}</strong>
+                    <strong className="ml-2 font-semi-bold text-[19px] text-green-400">{totalExpedido}</strong>
                 </h2>
                 <h2 className="text-[17px] font-normal text-gray-400">
                     Item:
-                    <strong className="ml-2 font-semi-bold text-[19px] text-yellow-700">{nomeItem}</strong>
+                    <strong className="ml-2 font-semi-bold text-[19px] text-slate-500">{nomeItem}</strong>
                 </h2>
                 <h2 className="text-[17px] font-normal text-gray-400">
                     Gênero:
-                    <strong className="ml-2 font-semi-bold text-[19px] text-yellow-700">{nomeGenero}</strong>
+                    <strong className="ml-2 font-semi-bold text-[19px] text-slate-500">{nomeGenero}</strong>
                 </h2>
                 {/* Botão que abre o modal */}
                 <button
@@ -97,20 +124,22 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     {/* Ajustar o espaçamento abaixo do título */}
                     <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-6 mt-12">
-                        {props.grade.itensGrade.map((itemGrade, index) => {                        
+                        {props.grade.itensGrade.map((itemGrade, index) => {
                             const item = itemGrade?.itemTamanho?.item;
                             const genero = item?.genero;
                             const tamanho = itemGrade?.itemTamanho?.tamanho;
                             const quantidade = itemGrade.quantidade;
+                            const quantidadeExpedida = itemGrade.quantidadeExpedida;
                             const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
+                            const classBorderCard = quantidade === 0 ? 'border-green-900' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-700';
                             return (
                                 <div
-                                    onClick={() => abrirTelaExped(itemGrade)} // Passa o item ao clicar
+                                    onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, total, totalExpedido)} // Passa o item ao clicar
                                     key={index}
-                                    className="bg-zinc-950 bg-opacity-15 p-6 m-4 rounded-md gap-y-4 shadow-lg flex-1 
+                                    className={`bg-zinc-950 bg-opacity-15 p-6 m-4 rounded-md gap-y-4 shadow-lg flex-1 
                                       min-w-[300px] flex flex-col items-start justify-center hover:shadow-green transition duration-200 
-                                      hover:border-green-700 ease-in-out cursor-pointer min-h-[200px] border border-gray-800"
+                                      ease-in-out cursor-pointer min-h-[200px] border ${classBorderCard}`}
                                 >
                                     <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
                                         ITEM: <strong className="text-slate-400 text-[15px] font-semibold"> {item?.nome}</strong>
@@ -122,7 +151,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         TAMANHO: <strong className="text-slate-200 text-[15px] font-semibold"> {tamanho?.nome}</strong>
                                     </p>
                                     <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE:  <strong className="text-slate-200 text-[15px] font-semibold"> {quantidade}</strong>
+                                        QUANTIDADE Á EXPEDIR:  <strong className="text-yellow-400 text-[15px] font-semibold"> {quantidade}</strong>
+                                    </p>
+                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
+                                        QUANTIDADE EXPEDIDA:  <strong className="text-green-400 text-[15px] font-semibold"> {quantidadeExpedida}</strong>
                                     </p>
                                     <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
                                         ESTOQUE:  <strong className="text-slate-400 text-[15px] font-semibold"> {estoque}</strong>
@@ -142,8 +174,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                 </div>
             )}
 
-            {/* Modal de detalhes do item - Comportamento fixo */}          
-            {mostrarTelaExped && itemSelecionado && (
+            {/* Modal de detalhes do item - Comportamento fixo */}
+            {mostrarTelaExped && itemSelecionado && (itemSelecionado.quantidade > 0) &&(
                 <div className="fixed inset-0 z-50 bg-zinc-950 bg-opacity-100 min-h-[105vh]
                  lg:min-h-[100vh] flex flex-col pt-10
                 justify-center items-center p-4">
@@ -178,25 +210,27 @@ export default function GradeComponent(props: GradeComponentProps) {
                             <div className={"pt-24 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                        labelName={`TOTAL À EXPEDIR`} />
+                                        labelName={`TOTAL DO ITEM À EXPEDIR`} />
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                        labelName={`JÁ EXPEDIDO`} />
+                                        labelName={`TOTAL DO ITEM JÁ EXPEDIDO`} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
-                                    <ItemGradeInputTextState labelName={'INFORME O N° DA CAIXA'} 
-                                    formData={props.formData} setFormData={props.setFormData}/>                                   
+                                    <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
+                                        formData={props.formData} setFormData={props.setFormData} 
+                                        isReadOnly={true}
+                                        valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}/>
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">                                  
-                                    <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'} 
-                                    formData={props.formData} setFormData={props.setFormData}
-                                    isReadOnly={true}/> 
-                                    <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'} 
-                                    formData={props.formData} setFormData={props.setFormData}
-                                    txtSize={`text-[23px]`}
-                                    placeholder={`Informe o código de barras`}
-                                    isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
-                                    focus:ring focus:ring-emerald-500`}
-                                    labelColor={`text-emerald-500`}/> 
+                                <div className="flex flex-row justify-start items-center gap-x-5">
+                                    <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                        formData={props.formData} setFormData={props.setFormData}
+                                        isReadOnly={true} />
+                                    <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'}
+                                        formData={props.formData} setFormData={props.setFormData}
+                                        txtSize={`text-[23px]`}
+                                        placeholder={`Informe o código de barras`}
+                                        isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
+                                        focus:ring focus:ring-emerald-500`}
+                                        labelColor={`text-emerald-500`} />
                                 </div>
                             </div>
                         </div>

@@ -15,7 +15,7 @@ export const processarCodigoDeBarras = (
     }
 
     const itemCodigo = formData.ITEM_SELECIONADO?.itemTamanho?.barcode?.codigo;
-    const quantidade = formData.ITEM_SELECIONADO?.quantidade;
+    const quantidade = formData.ITEM_SELECIONADO?.quantidade;   
 
     // Atualiza o CODDEBARRASLEITURA com o valor digitado
     setFormData((prevData: any) => ({
@@ -26,13 +26,16 @@ export const processarCodigoDeBarras = (
     if (value.length === 5) {
         if (value === itemCodigo) {
             // Verifica se a quantidade lida não ultrapassa a quantidade permitida
-            if (Number(formData.QUANTIDADELIDA) < quantidade) {
+            if (Number(quantidade) > 0) {
                 setFormData((prevData: any) => ({
                     ...prevData,
                     QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + 1), // Incrementa QUANTIDADELIDA
-                    CODDEBARRASLEITURA: '',
-                    // Não limpa o campo aqui
+                    CODDEBARRASLEITURA: '',                    
                 }));
+                formData.ITEM_SELECIONADO.quantidade -= 1
+                formData.ITEM_SELECIONADO.quantidadeExpedida += 1
+                formData.ESCOLA_GRADE.totalExpedido += 1    
+                formData.ESCOLA_GRADE.totalAExpedir -= 1              
             } else {
                 // Se a quantidade exceder, exibe a mensagem no modal
                 setModalMessage('Quantidade excedida');
@@ -47,7 +50,11 @@ export const processarCodigoDeBarras = (
             // Se o código não corresponder, podemos exibir uma mensagem no modal
             setModalMessage('Código de barras inválido');
             setModalOpen(true);
-            // Não limpamos o campo aqui, para que o usuário veja o que digitou
+            setFormData((prevData: any) => ({
+                ...prevData,                  
+                CODDEBARRASLEITURA: '',
+                // Não limpa o campo aqui
+            }));          
         }
     }
 };

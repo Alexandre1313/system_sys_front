@@ -1,7 +1,7 @@
 export default interface CaixaItem {
     id?: number;
-    caixaId: number; // Código de barras único
-    itemName: string; // Relacionamento com ItemTamanho
+    caixaId: number; // Id da caixa
+    itemName: string; 
     itemGenero: string;
     itemTam: string;
     itemQty: number;

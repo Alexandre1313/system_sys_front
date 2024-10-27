@@ -2,7 +2,7 @@
 
 import useSWR, { mutate } from 'swr'; // Importa o mutate
 import { useParams } from 'next/navigation';
-import { Escola, GradeItem, FormData } from '../../../../core';
+import { Escola, GradeItem, FormData, EscolaGrade } from '../../../../core';
 import { getGradesPorEscolas } from '@/hooks_api/api';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import GradeComponent from '@/components/Componentes_Grade/GradeComponent';
@@ -21,10 +21,12 @@ export default function Grades() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
 
-  const [formData, setFormData] = useState<FormData>({
-    QUANTIDADELIDA: '0',
+  const [formData, setFormData] = useState<FormData>({   
     CODDEBARRASLEITURA: '',
     ITEM_SELECIONADO: null,
+    ESCOLA_GRADE: null,
+    QUANTIDADELIDA: '0',
+    NUMERODACAIXA: '',
   });
 
   const handleFormDataChange = (key: string, value: string) => {
@@ -52,6 +54,23 @@ export default function Grades() {
       ITEM_SELECIONADO: item, // Atualiza o item selecionado
     }));
   };
+
+  const handleEscolaGradeSelecionada = (escolaGrade: EscolaGrade | null) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      QUANTIDADELIDA: String(escolaGrade?.totalExpedido),
+      ESCOLA_GRADE: escolaGrade, 
+    }));
+  };
+
+  const handleNumeroDaCaixa = (numeroDaCaixa: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      NUMERODACAIXA: numeroDaCaixa,
+    }));
+  };
+
+ 
 
   // Usando SWR para buscar dados da escola e suas grades
   const { data, error } = useSWR(id ? ['grades', id] : null, () => fetcher(+id));
@@ -93,6 +112,8 @@ export default function Grades() {
                 formData={formData}
                 setFormData={handleFormDataChange}
                 handleItemSelecionado={handleItemSelecionado}
+                handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
+                handleNumeroDaCaixa={handleNumeroDaCaixa}
               />
             ))}
           </div>
@@ -108,6 +129,8 @@ export default function Grades() {
                 formData={formData}
                 setFormData={handleFormDataChange}
                 handleItemSelecionado={handleItemSelecionado}
+                handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
+                handleNumeroDaCaixa={handleNumeroDaCaixa}
               />
             ))}
           </div>
@@ -123,6 +146,8 @@ export default function Grades() {
                 formData={formData}
                 setFormData={handleFormDataChange}
                 handleItemSelecionado={handleItemSelecionado}
+                handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
+                handleNumeroDaCaixa={handleNumeroDaCaixa}
               />
             ))}
           </div>
