@@ -85,7 +85,8 @@ function criarCaixa(formData: any): Caixa | null {
         projeto: ESCOLA_GRADE.projeto,
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
         caixaNumber: NUMERODACAIXA,
-        caixaItem: [],       
+        itensGrade: ESCOLA_GRADE.grade.itensGrade, 
+        caixaItem: [],              
     };
 
     let totalExpedido = 0;

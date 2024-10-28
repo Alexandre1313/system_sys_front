@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Loader, X } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
+import { inserirCaixa } from '@/hooks_api/api';
 
 interface ModalGerarCaixaProps {
   box: Caixa | null;
   isOpen: boolean;
   message: string;
   onClose: () => void;
-  mutate: () => void;   
+  mutate: () => void;
 }
 
 const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, onClose, mutate }) => {
@@ -35,16 +36,19 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
   }, [isOpen, message]); // Executa o efeito quando `isOpen` ou `message` mudam
 
   const handleGerarCaixa = async () => {
-    setIsLoading(true);
-    setIsError(false); // Reset error state on new attempt
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 4000));
-      mutate();
-      setMsg(`Caixa encerrada com sucesso!`); // Atualiza mensagem para sucesso
-    } catch (error) {
-      setMsg('Erro ao encerrar a caixa, tente novamente.');
-      setIsError(true);
-    } finally {
+    setIsLoading(true);      
+    setIsError(false);   
+    try {      
+      const data = await inserirCaixa(box);      
+      if (data) {
+        mutate(); 
+        setMsg(`Caixa encerrada com sucesso!`); 
+      }
+    } catch (error) {      
+      console.error("Erro ao encerrar a caixa:", error); 
+      setMsg('Erro ao encerrar a caixa, tente novamente.'); 
+      setIsError(true); 
+    } finally {      
       setIsLoading(false);
     }
   };
@@ -64,7 +68,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         </h2>
         <p className="flex text-[16px] text-black uppercase font-semibold text-center">{msg}</p>
         <div className={`flex justify-center items-center w-full`}>
-              <CaixaResume caixa={box}/>
+          <CaixaResume caixa={box} />
         </div>
         <div className="flex w-full justify-between mt-4 gap-4">
           {/* Botão Fechar */}

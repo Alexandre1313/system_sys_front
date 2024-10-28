@@ -43,7 +43,7 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
                 clearTimeout(timeout)
             }, 1500)
         } catch (error) {
-            setMsg('Erro ao encerrar a grade, tente novamente.');
+            setMsg('Erro ao encerrar a grade, tente novamente.' + error);
             setIsError(true);
         } finally {
             setIsLoading(false);

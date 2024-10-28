@@ -1,4 +1,5 @@
 import CaixaItem from "./CaixaItem";
+import GradeItem from "./GradeItem";
 
 export default interface Caixa {
     id?: number;
@@ -8,6 +9,7 @@ export default interface Caixa {
     escolaNumber: string;
     projeto: string;
     caixaItem: CaixaItem[]; // Relacionamento com  CaixaItem
+    itensGrade: GradeItem[];
     createdAt?: Date;
     updatedAt?: Date;
 }

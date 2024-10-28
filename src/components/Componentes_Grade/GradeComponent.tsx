@@ -32,6 +32,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             return totini + itemGrade.quantidade;
         }, 0);
         setTotalGrade(total)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
