@@ -107,6 +107,14 @@ export default function Grades() {
     }));
   };
 
+  const handleNumberBox = (numeroDaCaixa: string) => {
+    const numero = parseInt(numeroDaCaixa, 10) + 1
+    setFormData((prevData) => ({
+      ...prevData,
+      NUMERODACAIXA: String(numero),
+    }));
+  };
+
   // Usando SWR para buscar dados da escola e suas grades
   const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id));
 
@@ -199,6 +207,7 @@ export default function Grades() {
       <ModalGerarCaixa
         isOpen={modalGerarCaixaOpen}
         message={modalGerarCaixaMessage}
+        handleNumberBox={handleNumberBox}
         onClose={closeModalGerarCaixa}
         mutate={swrMutate} // Passa o mutate diretamente para o ModalEncGrade
         box={caixa}       

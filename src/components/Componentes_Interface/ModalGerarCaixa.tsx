@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Loader, X } from 'react-feather';
+import { Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
 import { inserirCaixa } from '@/hooks_api/api';
@@ -10,9 +10,10 @@ interface ModalGerarCaixaProps {
   message: string;
   onClose: () => void;
   mutate: () => void;
+  handleNumberBox: (numeracaixa: string) => void;
 }
 
-const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, onClose, mutate }) => {
+const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, onClose, mutate, handleNumberBox }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState<string>(message);
   const [isError, setIsError] = useState(false);
@@ -43,6 +44,11 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
       if (data) {
         mutate(); 
         setMsg(`Caixa encerrada com sucesso!`); 
+        handleNumberBox(String(data.caixaNumber))
+        const timeout = setTimeout(() => {
+          onClose()
+          clearTimeout(timeout)
+        }, 1500)
       }
     } catch (error) {      
       console.error("Erro ao encerrar a caixa:", error); 
@@ -71,16 +77,6 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           <CaixaResume caixa={box} />
         </div>
         <div className="flex w-full justify-between mt-4 gap-4">
-          {/* Botão Fechar */}
-          <button
-            className={`bg-gray-500 hover:bg-gray-700 text-white px-12 py-2 
-            rounded text-[14px] w-full flex items-center justify-center gap-x-3`}
-            onClick={onClose}
-            disabled={isLoading}
-          >
-            <X size={15} /> Fechar
-          </button>
-
           {/* Botão Encerrar Grade */}
           <button
             className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-yellow-500 hover:bg-yellow-700'}
