@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Loader, X } from 'react-feather';
+import { Loader } from 'react-feather';
 
 interface ModalEncGradeProps {
     isOpen: boolean;
