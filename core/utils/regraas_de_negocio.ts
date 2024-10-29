@@ -104,7 +104,8 @@ function criarCaixa(formData: any): Caixa | null {
                         itemName: itemGrade?.itemTamanho?.item.nome,
                         itemGenero: itemGrade.itemTamanho.item.genero,
                         itemTam: itemGrade.itemTamanho.tamanho.nome,
-                        itemQty: quantidadeParaCaixa, // Aqui usamos qtyPCaixa antes de zerar
+                        itemQty: quantidadeParaCaixa, 
+                        itemTamanhoId: itemGrade.itemTamanho.id,
                     };
                     // Adiciona ao caixa
                     caixa.caixaItem.push(novoItem);
@@ -120,7 +121,8 @@ function criarCaixa(formData: any): Caixa | null {
                         itemName: itemGrade.itemTamanho.item.nome,
                         itemGenero: itemGrade.itemTamanho.item.genero,
                         itemTam: itemGrade.itemTamanho.tamanho.nome,
-                        itemQty: quantidadeParaCaixa, // Aqui usamos qtyPCaixa antes de zerar
+                        itemQty: quantidadeParaCaixa, 
+                        itemTamanhoId: itemGrade.itemTamanho.id,
                     };
                     // Adiciona ao caixa
                     caixa.caixaItem.push(novoItem);

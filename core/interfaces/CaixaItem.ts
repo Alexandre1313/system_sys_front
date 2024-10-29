@@ -7,4 +7,5 @@ export default interface CaixaItem {
     itemQty: number;
     createdAt?: Date;
     updatedAt?: Date;
+    itemTamanhoId: number;
 }
