@@ -12,6 +12,8 @@ import ModalEncGrade from '@/components/Componentes_Interface/ModalEncGrade';
 import { criarCaixa, processarCodigoDeBarras } from '../../../../core/utils/regraas_de_negocio'
 import ModalGerarCaixa from '@/components/Componentes_Interface/ModalGerarCaixa';
 import Caixa from '../../../../core/interfaces/Caixa';
+import Etiquetas from '@/components/componentesDePrint/Etiquetas';
+
 
 const fetcher = async (id: number) => {
   const escolaComGrades = await getGradesPorEscolas(id);
@@ -113,7 +115,11 @@ export default function Grades() {
       ...prevData,
       NUMERODACAIXA: String(numero),
     }));
-  };
+  }; 
+
+  const printEti = (etiquetas: Caixa[]) => {
+    return (<Etiquetas etiquetas={etiquetas}/>)
+  }
 
   // Usando SWR para buscar dados da escola e suas grades
   const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id));
@@ -138,7 +144,7 @@ export default function Grades() {
   const terco = Math.ceil(grades.length / 3);
   const primeiraParte = grades.slice(0, terco);
   const segundaParte = grades.slice(terco, terco * 2);
-  const terceiraParte = grades.slice(terco * 2);
+  const terceiraParte = grades.slice(terco * 2); 
 
   return (
     <div className="flex flex-col p-2 lg:p-3">
@@ -157,6 +163,7 @@ export default function Grades() {
                 handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
                 handleNumeroDaCaixa={handleNumeroDaCaixa}
                 OpenModalGerarCaixa={OpenModalGerarCaixa}
+                printEti={printEti}
               />
             ))}
           </div>
@@ -172,6 +179,7 @@ export default function Grades() {
                 handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
                 handleNumeroDaCaixa={handleNumeroDaCaixa}
                 OpenModalGerarCaixa={OpenModalGerarCaixa}
+                printEti={printEti}
               />
             ))}
           </div>
@@ -187,6 +195,7 @@ export default function Grades() {
                 handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
                 handleNumeroDaCaixa={handleNumeroDaCaixa}
                 OpenModalGerarCaixa={OpenModalGerarCaixa}
+                printEti={printEti}
               />
             ))}
           </div>

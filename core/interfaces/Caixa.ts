@@ -4,7 +4,7 @@ import GradeItem from "./GradeItem";
 export default interface Caixa {
     id?: number;
     gradeId: number | null | undefined; // Id da grade
-    escolaCaixa: string | null | undefined;
+    escolaCaixa: string;
     caixaNumber: string | null | undefined;
     escolaNumber: string;
     projeto: string;

@@ -8,16 +8,18 @@ import BotaoPrinter from "../Componentes_Interface/BotaoPrinter";
 import BotaoBox from "../Componentes_Interface/BotaoBox";
 import ItemsGradeInputText from "./ItemsGradeInputText";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
+import Caixa from "../../../core/interfaces/Caixa";
 
 export interface GradeComponentProps {
     grade: Grade;
-    escola: Escola;    
+    escola: Escola;
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
     setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
     handleItemSelecionado: (item: GradeItem | null) => void
     handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
     handleNumeroDaCaixa: (numeroDaCaixa: string) => void
     OpenModalGerarCaixa: () => void
+    printEti: (etiquetas: Caixa[]) => JSX.Element
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
@@ -73,8 +75,8 @@ export default function GradeComponent(props: GradeComponentProps) {
         setItemSelecionado(item);
         props.handleItemSelecionado(item)
         props.handleEscolaGradeSelecionada(escolaGrade)
-        props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))        
-        setMostrarTelaExped(true);      
+        props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))
+        setMostrarTelaExped(true);
     };
 
     const fecharTelaExped = () => {
@@ -83,6 +85,8 @@ export default function GradeComponent(props: GradeComponentProps) {
         props.handleEscolaGradeSelecionada(null)
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
     };
+
+    const print = () => { return props.printEti(props.grade.gradeCaixas) }
 
     return (
         <>
@@ -109,14 +113,17 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <strong className="ml-2 font-semi-bold text-[17px] text-slate-500">{nomeGenero}</strong>
                 </h2>
                 {/* Botão que abre o modal */}
-                <button
-                    type="button"
-                    onClick={abrirTela}
-                    className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
-                    bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px] self-center"
-                >
-                    ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
-                </button>
+                <div className={`flex items-center justify-center gap-x-3 w-full`}>
+                    {print()}
+                    <button
+                        type="button"
+                        onClick={abrirTela}
+                        className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
+                         bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px]"
+                         >
+                              ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+                    </button>                   
+                </div>
             </div>
 
             {/* Modal - Tela de sobreposição para Itens da Grade */}
@@ -177,7 +184,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             )}
 
             {/* Modal de detalhes do item - Comportamento fixo */}
-            {mostrarTelaExped && itemSelecionado &&(
+            {mostrarTelaExped && itemSelecionado && (
                 <div className="fixed inset-0 z-50 bg-zinc-950 bg-opacity-100 min-h-[105vh]
                  lg:min-h-[100vh] flex flex-col pt-10
                 justify-center items-center p-4">
@@ -190,11 +197,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
                                     iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} />
                             </div>
-                            <div className="flex gap-x-9">                               
+                            <div className="flex gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-500"}
-                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa}/>
+                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa} />
                                 <BotaoPrinter stringButtton={"IMPRIMIR ETIQUETA"} bgColor={"bg-blue-700"}
-                                    iconSize={19} bgHoverColor={"hover:bg-blue-500"} />
+                                    iconSize={19} bgHoverColor={"hover:bg-blue-500"} onClick={print} />
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>
@@ -217,9 +224,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
-                                        formData={props.formData} setFormData={props.setFormData} 
+                                        formData={props.formData} setFormData={props.setFormData}
                                         isReadOnly={true}
-                                        valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}/>
+                                        valueColor={`text-yellow-500`} labelColor={`text-yellow-500`} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
