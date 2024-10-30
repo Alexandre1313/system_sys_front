@@ -210,7 +210,8 @@ export default function Grades() {
         isOpen={modalEncGradeOpen}
         message={modalEncGradeMessage}
         onClose={closeModalEncGrade}
-        mutate={swrMutate} // Passa o mutate diretamente para o ModalEncGrade
+        mutate={swrMutate}
+        escolaGrade={formData.ESCOLA_GRADE} // Passa o mutate diretamente para o ModalEncGrade
       />
       {/* Componente ModalGerarCaixa com o mutate passado */}
       <ModalGerarCaixa

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'react-feather';
+import { EscolaGrade } from '../../../core';
+import { finalizarGrades } from '@/hooks_api/api';
 
 interface ModalEncGradeProps {
     isOpen: boolean;
     message: string;
     onClose: () => void;
     mutate: () => void; // Recebe o mutate da página principal como prop
+    escolaGrade: EscolaGrade | null;
 }
 
-const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose, mutate }) => {
+const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose, mutate, escolaGrade }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [msg, setMsg] = useState<string>(message);
     const [isError, setIsError] = useState(false);
@@ -35,9 +38,11 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
         setIsLoading(true);
         setIsError(false); // Reset error state on new attempt
         try {
-            await new Promise((resolve) => setTimeout(resolve, 4000));
-            mutate();
-            setMsg('Grade finalizada com sucesso!'); // Atualiza mensagem para sucesso
+            const data = await finalizarGrades({id: escolaGrade?.gradeId, finalizada: true});
+            if(data){
+                mutate();
+                setMsg('Grade finalizada com sucesso!'); 
+            }           
             const timeout = setTimeout(() => {
                 onClose()
                 clearTimeout(timeout)

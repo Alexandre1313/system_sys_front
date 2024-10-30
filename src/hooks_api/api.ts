@@ -1,4 +1,4 @@
-import { Escola, Grade, Projeto } from "../../core";
+import { Escola, FinalyGrade, Grade, Projeto } from "../../core";
 import Caixa from "../../core/interfaces/Caixa";
 import { ip, port } from "../../core/utils/tools";
 
@@ -66,14 +66,14 @@ async function inserirCaixa(caixa: Caixa | null): Promise<Caixa | null> {
     }
 }
 
-async function finalizarGrades(grade: Grade | null): Promise<Grade | null> {
+async function finalizarGrades(finalyGrade: FinalyGrade | null): Promise<Grade | null> {
     try {
         const response = await fetch( urlFinalizarGrades, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(grade),
+            body: JSON.stringify(finalyGrade),
         });
         if (!response.ok) {
             throw new Error(`Erro ao finalizar a grade: ${response.statusText}`);

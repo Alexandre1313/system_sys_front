@@ -12,6 +12,7 @@ import TamanhoQuantidade from "./TamanhoQuantidade";
 import DataInserction from "./DataInserction";
 import FormData from "./FormData";
 import EscolaGrade from "./EscolaGrade";
+import FinalyGrade from "./FinalyGrade";
 
 export type { 
     Escola,
@@ -27,5 +28,6 @@ export type {
     TamanhoQuantidade,
     DataInserction,
     FormData,
-    EscolaGrade
+    EscolaGrade,
+    FinalyGrade,
 }
