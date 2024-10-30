@@ -17,10 +17,29 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
         const pageHeight = 145; // Altura da etiqueta
         const margem = 10;      // Margem em torno do conteúdo
 
+        // Função para dividir texto com base no limite de caracteres sem quebrar palavras
+        const splitTextByCharLimit = (text: string, charLimit: number) => {
+            const words = text.split(' ');
+            let line = '';
+            const lines = [];
+
+            words.forEach((word) => {
+                const testLine = line ? `${line} ${word}` : word;
+                if (testLine.length <= charLimit) {
+                    line = testLine;
+                } else {
+                    lines.push(line);
+                    line = word;
+                }
+            });
+            if (line) lines.push(line); // Adiciona a última linha
+            return lines;
+        };
+
         etiquetas.forEach((etiqueta) => {
             // Cria uma nova página de etiqueta
             let page = pdfDoc.addPage([pageWidth, pageHeight]);
-            const { escolaNumber, projeto, escolaCaixa, caixaNumber, caixaItem } = etiqueta;
+            const { escolaNumber, projeto, qtyCaixa, escolaCaixa, caixaNumber, caixaItem } = etiqueta;
 
             // Desenho das bordas da etiqueta
             const borderX = 5;
@@ -45,26 +64,28 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
             page.drawText(`${escolaNumber} - ${projeto}`, {
                 x: textX,
                 y: textY,
-                size: 14,
+                size: 18,
                 font: font,
                 color: rgb(0, 0, 0),
             });
 
             textY -= 18;
 
-            // Nome da escola (Fonte menor)
-            page.drawText(escolaCaixa, {
-                x: textX,
-                y: textY,
-                size: 9,
-                font: font,
-                color: rgb(0, 0, 0),
+            // Nome da escola (Fonte menor) com quebra de linha a cada 34 caracteres, sem quebrar palavras
+            const escolaLines = splitTextByCharLimit(escolaCaixa, 34);
+            escolaLines.forEach((line) => {
+                page.drawText(line, {
+                    x: textX,
+                    y: textY,
+                    size: 9,
+                    font: font,
+                    color: rgb(0, 0, 0),
+                });
+                textY -= 12;
             });
 
-            textY -= 12;
-
-            // Itens (Fonte ainda menor)
-            caixaItem.forEach((item, itemIndex) => {
+            // Itens (Fonte ainda menor) com quebra de linha a cada 39 caracteres, sem quebrar palavras
+            caixaItem.forEach((item) => {
                 // Checa se a posição atual estouraria o limite da página
                 if (textY < margem + 30) { // Ajusta para evitar encavalamento ao trocar de página
                     // Adiciona uma nova página e reinicia o textY para o topo da nova etiqueta
@@ -82,16 +103,21 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
                     });
                 }
 
-                // Renderiza o item e quantidade
-                page.drawText(`${item.itemName} - ${item.itemGenero} - tamanho: ${item.itemTam}`, {
-                    x: textX,
-                    y: textY,
-                    size: 7,
-                    font: font,
-                    color: rgb(0, 0, 0),
+                // Renderiza o item com quebra de linha a cada 39 caracteres, sem quebrar palavras
+                const itemText = `${item.itemName} - ${item.itemGenero} - tamanho: ${item.itemTam}`;
+                const itemLines = splitTextByCharLimit(itemText, 39);
+                itemLines.forEach((line) => {
+                    page.drawText(line, {
+                        x: textX,
+                        y: textY,
+                        size: 7,
+                        font: font,
+                        color: rgb(0, 0, 0),
+                    });
+                    textY -= 9;
                 });
-                textY -= 9;
 
+                // Renderiza a quantidade do item
                 page.drawText(`Quantidade: ${item.itemQty} ${item.itemQty > 1 ? 'unidades' : 'unidade'}`, {
                     x: textX,
                     y: textY,
@@ -99,14 +125,58 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
                     font: font,
                     color: rgb(0, 0, 0),
                 });
-                textY -= 12;
+                textY -= 16; // Ajusta a posição vertical após a quantidade
             });
+
+            // Antes de desenhar o total da caixa, verifica se ainda há espaço
+            if (textY < margem + 20) { // Verifica se há espaço suficiente
+                // Adiciona uma nova página se não houver espaço
+                page = pdfDoc.addPage([pageWidth, pageHeight]);
+                textY = page.getHeight() - margem - 20;
+
+                // Redesenha as bordas na nova página
+                page.drawRectangle({
+                    x: borderX,
+                    y: page.getHeight() - borderHeight - borderY,
+                    width: borderWidth,
+                    height: borderHeight,
+                    borderColor: rgb(0, 0, 0),
+                    borderWidth: 0.1,
+                });
+            }
+
+            // Total da caixa
+            page.drawText(`Total da caixa: ${String(qtyCaixa).padStart(2, '0')}`, {
+                x: textX,
+                y: textY > margem ? textY : margem, // Garante que o número fique visível
+                size: 9,
+                font: font,
+                color: rgb(0, 0, 0),
+            });
+            textY -= 18; // Ajusta a posição vertical após o total da caixa
+
+            // Número da caixa no final da etiqueta
+            if (textY < margem + 20) { // Verifica se há espaço suficiente
+                // Adiciona uma nova página se não houver espaço
+                page = pdfDoc.addPage([pageWidth, pageHeight]);
+                textY = page.getHeight() - margem - 20;
+
+                // Redesenha as bordas na nova página
+                page.drawRectangle({
+                    x: borderX,
+                    y: page.getHeight() - borderHeight - borderY,
+                    width: borderWidth,
+                    height: borderHeight,
+                    borderColor: rgb(0, 0, 0),
+                    borderWidth: 0.1,
+                });
+            }
 
             // Número da caixa no final da etiqueta
             page.drawText(`Caixa ${String(caixaNumber).padStart(2, '0')} / ${String(etiquetas.length).padStart(2, '0')}`, {
                 x: textX,
                 y: textY > margem ? textY : margem, // Garante que o número fique visível
-                size: 9,
+                size: 14,
                 font: font,
                 color: rgb(0, 0, 0),
             });
@@ -125,8 +195,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
             onClick={gerarPDF}
             className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
             bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px]">
-                ETIQUETAS <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2}
-            />
+                ETIQUETAS <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
         </button>          
     );
 };

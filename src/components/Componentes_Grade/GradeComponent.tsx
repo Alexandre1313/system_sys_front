@@ -4,11 +4,11 @@ import TitleComponentFixed from "../Componentes_Interface/TitleComponentFixed";
 import BotaoArrowLeft from "../Componentes_Interface/BotaoArrowLeft";
 import { ChevronsRight } from "react-feather";
 import BotaoArrowLeftSmall from "../Componentes_Interface/BotaoArrowLehtSmall";
-import BotaoPrinter from "../Componentes_Interface/BotaoPrinter";
 import BotaoBox from "../Componentes_Interface/BotaoBox";
 import ItemsGradeInputText from "./ItemsGradeInputText";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import Caixa from "../../../core/interfaces/Caixa";
+import ItemsGradeTextArea from "./ItemsGradeTextArea";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -199,14 +199,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                             <div className="flex gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-500"}
-                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa} />
-                                <BotaoPrinter stringButtton={"IMPRIMIR ETIQUETA"} bgColor={"bg-blue-700"}
-                                    iconSize={19} bgHoverColor={"hover:bg-blue-500"} onClick={print} />
+                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa} />                               
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>
                             <div className={"pt-16 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
-                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.nome}
+                                <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
                                     labelName={`ITEM`} />
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
                                     labelName={`GÊNERO`} />

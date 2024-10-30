@@ -84,6 +84,7 @@ function criarCaixa(formData: any): Caixa | null {
         escolaNumber: ESCOLA_GRADE.numeroEscola,
         projeto: ESCOLA_GRADE.projeto,
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
+        qtyCaixa: 0,
         caixaNumber: NUMERODACAIXA,
         itensGrade: ESCOLA_GRADE.grade.itensGrade, 
         caixaItem: [],              
@@ -133,6 +134,7 @@ function criarCaixa(formData: any): Caixa | null {
             }
         }
     }
+    caixa.qtyCaixa = totalExpedido;
 
     // Se não houve expedição de itens, retorne null
     if (totalExpedido === 0) {
