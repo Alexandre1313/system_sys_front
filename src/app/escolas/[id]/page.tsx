@@ -74,21 +74,21 @@ export default function Escolas() {
                     <div className="flex flex-col lg:flex-row justify-between lg:min-h-[95vh]
                     p-2 lg:p-7 rounded-md lg:pt-12 w-full pt-7">
                         {/* Primeira parte das escolas */}
-                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
+                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
                             {primeiraParte.map((escola) => (
                                 <EscolaComponent key={escola.id} escola={escola} />
                             ))}
                         </div>
 
                         {/* Segunda parte das escolas */}
-                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
+                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
                             {segundaParte.map((escola) => (
                                 <EscolaComponent key={escola.id} escola={escola} />
                             ))}
                         </div>
 
                         {/* Terceira parte das escolas */}
-                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
+                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
                             {terceiraParte.map((escola) => (
                                 <EscolaComponent key={escola.id} escola={escola} />
                             ))}
