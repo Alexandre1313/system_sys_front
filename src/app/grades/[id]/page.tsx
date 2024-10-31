@@ -13,6 +13,7 @@ import { criarCaixa, processarCodigoDeBarras } from '../../../../core/utils/regr
 import ModalGerarCaixa from '@/components/Componentes_Interface/ModalGerarCaixa';
 import Caixa from '../../../../core/interfaces/Caixa';
 import Etiquetas from '@/components/componentesDePrint/Etiquetas';
+import IsLoading from '@/components/Componentes_Interface/IsLoading';
 
 
 const fetcher = async (id: number) => {
@@ -125,7 +126,7 @@ export default function Grades() {
   const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id));
 
   if (!data && !error) {
-    return <div className="flex w-full min-h-[95vh] items-center justify-center text-2xl">Carregando...</div>;
+    return <IsLoading/>
   }
 
   if (error) {

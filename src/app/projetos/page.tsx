@@ -5,6 +5,7 @@ import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent"
 import { Projeto } from '../../../core'; // Importa a interface Projeto
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import { get } from "../../hooks_api/api";
+import IsLoading from '@/components/Componentes_Interface/IsLoading';
 
 // Defina a função fetcher garantindo que ela retorne o tipo correto
 const fetcher = async (): Promise<Projeto[]> => {
@@ -21,7 +22,7 @@ export default function Projetos() {
 
     // Exibe uma mensagem de carregamento enquanto os dados estão sendo buscados
     if (isValidating) {
-        return <div className='flex w-full min-h-[95vh] items-center justify-center text-2xl'>Carregando...</div>;
+        return <IsLoading/>
     }
 
     if (error) {

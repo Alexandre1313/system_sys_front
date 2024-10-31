@@ -6,6 +6,7 @@ import { Projeto } from '../../../../core';
 import { getProjetosComEscolas } from '@/hooks_api/api';
 import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
 import useSWR from 'swr';
+import IsLoading from '@/components/Componentes_Interface/IsLoading';
 
 // Definindo o fetcher
 const fetcher = async (id: number): Promise<Projeto> => {
@@ -34,7 +35,7 @@ export default function Escolas() {
 
     // Exibe uma mensagem de carregamento enquanto os dados estão sendo buscados
     if (isValidating) {
-        return <div className='flex w-full min-h-[95vh] items-center justify-center text-2xl'>Carregando...</div>;
+        return   <IsLoading/>       
     }
 
     // Exibe uma mensagem de erro se a chamada falhar

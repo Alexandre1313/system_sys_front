@@ -20,7 +20,8 @@ const config: Config = {
       bounceX: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
       bounceXL: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
       bounceY: 'bounceY 2s ease-in-out infinite',  // Animação vai e vem vertical
-      rotate: 'rotate 2s linear infinite', // Duração de 2 segundos, animação linear e infinita
+      rotate: 'rotate 1s linear infinite', // Duração de 1 segundo, animação linear e infinita
+      rotate2: 'rotate 1.5s linear infinite', // Duração de 0.7sec segundos, animação linear e infinita
     },
     keyframes: {
       bounceX: {
