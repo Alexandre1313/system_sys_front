@@ -39,7 +39,8 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
   const handleGerarCaixa = async () => {
     setIsLoading(true);      
     setIsError(false);   
-    try {      
+    try {  
+      setMsg(`Por favor, aguarde...`);     
       const data = await inserirCaixa(box);      
       if (data) {
         mutate(); 
@@ -48,7 +49,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         const timeout = setTimeout(() => {
           onClose()
           clearTimeout(timeout)
-        }, 1500)
+        }, 2000)
       }
     } catch (error) {      
       console.error("Erro ao encerrar a caixa:", error); 

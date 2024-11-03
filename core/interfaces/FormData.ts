@@ -1,4 +1,3 @@
-import Escola from "./Escola";
 import EscolaGrade from "./EscolaGrade";
 import GradeItem from "./GradeItem";
 

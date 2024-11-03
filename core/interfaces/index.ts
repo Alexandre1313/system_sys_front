@@ -13,6 +13,7 @@ import DataInserction from "./DataInserction";
 import FormData from "./FormData";
 import EscolaGrade from "./EscolaGrade";
 import FinalyGrade from "./FinalyGrade";
+import Caixa from "./Caixa";
 
 export type { 
     Escola,
@@ -30,4 +31,5 @@ export type {
     FormData,
     EscolaGrade,
     FinalyGrade,
+    Caixa,
 }

@@ -20,6 +20,7 @@ const config: Config = {
       bounceX: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
       bounceXL: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
       bounceY: 'bounceY 2s ease-in-out infinite',  // Animação vai e vem vertical
+      bounceYEfect: 'bounceYEfect 1s ease-in-out',  // Animação vai e vem vertical
       rotate: 'rotate 1s linear infinite', // Duração de 1 segundo, animação linear e infinita
       rotate2: 'rotate 1.5s linear infinite', // Duração de 0.7sec segundos, animação linear e infinita
     },
@@ -35,6 +36,10 @@ const config: Config = {
       bounceY: {
         '0%, 100%': { transform: 'translateY(0)' },  // No início e no fim, fica na posição inicial
         '50%': { transform: 'translateY(3px)' },   // No meio do ciclo, move 100px para baixo
+      },
+      bounceYEfect: {
+        '0%': { transform: 'translateY(-10px)' },  
+        '100%': { transform: 'translateY(0)' },  
       },
       rotate: {
         '0%': { transform: 'rotate(0deg)' },  // No início

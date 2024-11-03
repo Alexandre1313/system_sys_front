@@ -1,5 +1,4 @@
-import { Escola, FinalyGrade, Grade, Projeto } from "../../core";
-import Caixa from "../../core/interfaces/Caixa";
+import { Escola, FinalyGrade, Grade, Projeto, Caixa } from "../../core";
 import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos`;
