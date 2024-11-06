@@ -14,6 +14,8 @@ import FormData from "./FormData";
 import EscolaGrade from "./EscolaGrade";
 import FinalyGrade from "./FinalyGrade";
 import Caixa from "./Caixa";
+import ProjectItems from "./ProjectItems";
+import ItensProjects from "./ItensProject";
 
 export type { 
     Escola,
@@ -32,4 +34,6 @@ export type {
     EscolaGrade,
     FinalyGrade,
     Caixa,
+    ProjectItems,
+    ItensProjects
 }
