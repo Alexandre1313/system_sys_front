@@ -4,9 +4,10 @@ import { useState } from 'react';
 import useSWR from 'swr';
 import { getProjectsItems, getProjectsSimp } from '@/hooks_api/api'; 
 import IsLoading from '@/components/Componentes_Interface/IsLoading';
-import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
+import SelectedEntries from '@/components/Componentes_entradas/SelectedEntries';
 import { ProjectItems, ProjetosSimp } from '../../../core';
-import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
+import ItemsProjects from '@/components/Componentes_entradas/ItemsProjects';
+import SelectedEntriesEmb from '@/components/Componentes_entradas/SelectedEntriesEmb';
 
 // Função fetcher para carregar todos os projetos
 const fetcherProjects = async (): Promise<ProjetosSimp[]> => {
@@ -44,7 +45,7 @@ export default function EntradasEmbalagem() {
     setSelectedProjectId(projectId);
   };
 
-  if (isValidatingProjetos) return <IsLoading />;
+  if (isValidatingProjetos && !isValidatingItems) return <IsLoading />;
 
   if (errorProjetos || errorItems) {
     return (
@@ -58,8 +59,10 @@ export default function EntradasEmbalagem() {
 
   return (
     <div className="flex min-w-screen min-h-screen justify-start items-start p-5 gap-x-3">
-      <div className="sticky top-5 flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 rounded-md p-5 justify-start items-start min-h-[95.7vh]">
+      <div className="sticky top-5 flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 
+      rounded-md p-5 justify-start items-start min-h-[95.7vh] gap-y-5">
        <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange}/>
+       <SelectedEntriesEmb/>
       </div>
       <div className="flex flex-col border gap-y-2 border-zinc-700 flex-1 rounded-md p-5 justify-start items-start min-h-[95.7vh]">
         {projectItems ? (
@@ -67,7 +70,9 @@ export default function EntradasEmbalagem() {
             return <ItemsProjects key={item.id} item={item}/>
           })
         ) : (
-          <p>Selecione um projeto para ver os itens.</p>
+          <div className={`flex justify-center items-center h-full flex-1 w-full`}>
+            <p className={`text-2xl text-green-500`}>SELECIONE UM PROJETO PARA CARREGAR OS ITENS.</p>
+          </div>
         )}
       </div>
     </div>

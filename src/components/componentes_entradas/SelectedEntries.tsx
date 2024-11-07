@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react';
 import { ProjetosSimp } from '../../../core';
-import { div } from 'framer-motion/client';
 
 interface SelectProjetoProps {
   projetos: ProjetosSimp[] | undefined;
