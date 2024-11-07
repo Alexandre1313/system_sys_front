@@ -1,33 +1,56 @@
-'use client'
+'use client';
 
-import { getProjectsItems } from '@/hooks_api/api';  
-import useSWR from 'swr';  
-import { ProjectItems } from '../../../core';  
-import IsLoading from '@/components/Componentes_Interface/IsLoading';  
-import SelectedEnties from '@/components/componentes_entradas/SelectedEnties';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { getProjectsItems, getProjectsSimp } from '@/hooks_api/api'; 
+import IsLoading from '@/components/Componentes_Interface/IsLoading';
+import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
+import { ProjectItems, ProjetosSimp } from '../../../core';
+import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
 
-const fetcher = async (): Promise<ProjectItems[]> => {
-  const resp = await getProjectsItems(); 
-  return resp;  
+// Função fetcher para carregar todos os projetos
+const fetcherProjects = async (): Promise<ProjetosSimp[]> => {
+  const resp = await getProjectsSimp(); 
+  return resp;
+};
+
+// Função fetcher para carregar itens de um projeto específico
+const fetcherItems = async (projectId: number): Promise<ProjectItems> => {
+  const resp = await getProjectsItems(+projectId); 
+  return resp;
 };
 
 export default function EntradasEmbalagem() {
-  const { data: projetosItens, error, isValidating } = useSWR<ProjectItems[]>('projetos-itens', fetcher, {
-    revalidateOnFocus: false,  
-    refreshInterval: 5 * 60 * 60 * 1000,  
-  });
+  // Estado para controlar o ID do projeto selecionado
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
-  if (isValidating) {
-    return <IsLoading />  
-  }
+  // Carregar todos os projetos usando SWR
+  const { data: projetos, error: errorProjetos, isValidating: isValidatingProjetos } = useSWR<ProjetosSimp[]>('projetos', fetcherProjects, {
+    revalidateOnFocus: false,
+    refreshInterval: 5 * 60 * 60 * 1000,
+  });  
 
-  const selectedItems = () => {}
+  // Carregar itens do projeto selecionado usando SWR
+  const { data: projectItems, error: errorItems, isValidating: isValidatingItems } = useSWR(
+    selectedProjectId ? String(selectedProjectId) : null, 
+    () => fetcherItems(+selectedProjectId!), 
+    {
+      revalidateOnFocus: false     
+    }
+  );
 
-  if (error) {
+  // Função para tratar a mudança no select
+  const handleProjectChange = (projectId: number) => {    
+    setSelectedProjectId(projectId);
+  };
+
+  if (isValidatingProjetos) return <IsLoading />;
+
+  if (errorProjetos || errorItems) {
     return (
-      <div className="flex items-center justify-center min-h-[100%] w-[100%]">
+      <div className="flex items-center justify-center min-h-[96vh] w-[100%]">
         <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
-          Erro: {error.message}
+          Erro: {errorProjetos?.message || errorItems?.message}
         </p>
       </div>
     );
@@ -35,11 +58,17 @@ export default function EntradasEmbalagem() {
 
   return (
     <div className="flex min-w-screen min-h-screen justify-start items-start p-5 gap-x-3">
-      <div className="flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 rounded-md p-5 justify-start items-start min-h-[95.7vh]">
-          <SelectedEnties selectedItems={selectedItems}/>
+      <div className="sticky top-5 flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 rounded-md p-5 justify-start items-start min-h-[95.7vh]">
+       <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange}/>
       </div>
-      <div className="flex border border-zinc-700 flex-1 rounded-md p-5 justify-start items-start min-h-[95.7vh]">       
-        <div>{JSON.stringify(projetosItens)}</div> 
+      <div className="flex flex-col border gap-y-2 border-zinc-700 flex-1 rounded-md p-5 justify-start items-start min-h-[95.7vh]">
+        {projectItems ? (
+          projectItems.itensProject.map((item) => {
+            return <ItemsProjects key={item.id} item={item}/>
+          })
+        ) : (
+          <p>Selecione um projeto para ver os itens.</p>
+        )}
       </div>
     </div>
   );

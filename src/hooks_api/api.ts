@@ -1,13 +1,14 @@
-import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems } from "../../core";
+import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp } from "../../core";
 import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos`;
 const urlEscolas = `http://${ip}:${port}/escolas`;
 const urlProjetoEscolas = `http://${ip}:${port}/projetos/comescolas/`;
-const urlItemsProjects = `http://${ip}:${port}/projetos/itens`;
+const urlItemsProjects = `http://${ip}:${port}/projetos/itens/`;
 const urlGradesPorEscola = `http://${ip}:${port}/escolas/escolagrades/`;
 const urlInserirCaixas = `http://${ip}:${port}/caixas/inserir/`;
 const urlFinalizarGrades = `http://${ip}:${port}/grades/finalizar`;
+const urlProjetosSimp = `http://${ip}:${port}/projetos/projetossimp`
 
 async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | unknown[]> {
     let urlParaConsulta = "";
@@ -47,10 +48,19 @@ async function getGradesPorEscolas(id: number): Promise<Escola | null> {
     return data;
 }
 
-async function getProjectsItems(): Promise<ProjectItems[]> {
-    const response = await fetch(`${urlItemsProjects}`)
+async function getProjectsItems(id: number): Promise<ProjectItems> {
+    const response = await fetch(`${urlItemsProjects}${id}`)
     if (!response.ok) {
-        throw new Error(`Erro ao buscar projetos e itens: ${response.statusText}`)
+        throw new Error(`Erro ao buscar projeto e itens: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getProjectsSimp(): Promise<ProjetosSimp[]> {
+    const response = await fetch(`${urlProjetosSimp}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar projetos: ${response.statusText}`)
     }
     const data = await response.json();
     return data;
@@ -94,4 +104,5 @@ async function finalizarGrades(finalyGrade: FinalyGrade | null): Promise<Grade |
     }
 }
 
-export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, finalizarGrades, getProjectsItems };
+export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa,
+         finalizarGrades, getProjectsItems, getProjectsSimp };

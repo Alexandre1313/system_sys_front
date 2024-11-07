@@ -27,7 +27,7 @@ export default function Projetos() {
 
     if (error) {
         return (
-            <div className='flex items-center justify-center min-h-[100%] w-[100%]'>
+            <div className='flex items-center justify-center min-h-[95vh] w-[100%]'>
                 <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>Erro: {error.message}</p>
             </div>
         );
