@@ -17,8 +17,9 @@ export default function ProjetoComponent({ projeto }: ProjetoComponentProps) {
                     <Image
                         src={projeto.url}
                         alt={`bandeira de ${projeto.nome}`}
-                        width={200}
-                        height={200}
+                        width={500}
+                        height={310}
+                        priority
                         className="transition-transform duration-700 ease-in-out 
                         transform hover:scale-105 w-full h-full object-cover" 
                     />

@@ -1,8 +1,9 @@
-const ip = "192.168.1.14";
+const ip = "192.168.1.11";
 const port = "4997";
 
 function convertSPTime(dateString: string): string {
     const date = new Date(dateString);  
+    console.log(date)
     const options: Intl.DateTimeFormatOptions = {
       timeZone: 'America/Sao_Paulo',
       year: 'numeric',

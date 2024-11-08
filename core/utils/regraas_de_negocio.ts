@@ -45,9 +45,7 @@ const processarCodigoDeBarras = (
                     QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + 1), // Incrementa QUANTIDADELIDA
                     CODDEBARRASLEITURA: '',
                 }));
-                atualizarQuantidadeCaixa(formData)
-                console.log(formData.ESCOLA_GRADE.totalAExpedir)
-                console.log(formData.ESCOLA_GRADE.totalExpedido)
+                atualizarQuantidadeCaixa(formData)              
                 if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
                     OpenModalGerarCaixa()                   
                 }

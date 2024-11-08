@@ -10,7 +10,7 @@ export default function Home() {
           src="/venturalogo.png"
           alt="ventura.js logo"
           width={800}
-          height={0}
+          height={0}        
           priority
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
@@ -34,7 +34,8 @@ export default function Home() {
                 src="https://nextjs.org/icons/vercel.svg"
                 alt="Vercel logomark"
                 width={20}
-                height={20}
+                height={0}
+                priority              
               />
               EXPEDIÇÂO...
             </a>
@@ -65,7 +66,8 @@ export default function Home() {
                 src="https://nextjs.org/icons/file.svg"
                 alt="File icon"
                 width={16}
-                height={16}
+                height={0}              
+                priority
               />
               More
             </a>
@@ -82,7 +84,8 @@ export default function Home() {
                 src="https://nextjs.org/icons/window.svg"
                 alt="Window icon"
                 width={16}
-                height={16}
+                height={0}           
+                priority
               />
               Reports
             </a>
@@ -99,7 +102,8 @@ export default function Home() {
                 src="https://nextjs.org/icons/globe.svg"
                 alt="Globe icon"
                 width={16}
-                height={16}
+                height={0}              
+                priority              
               />
               Run Projects →
             </a>

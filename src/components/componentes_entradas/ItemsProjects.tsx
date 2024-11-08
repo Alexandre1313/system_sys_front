@@ -1,4 +1,5 @@
 import { ItensProjects } from "../../../core"
+import { motion } from 'framer-motion';
 
 export interface ItemsProjectsProps {
     item: ItensProjects
