@@ -4,10 +4,10 @@ import { useState } from 'react';
 import useSWR from 'swr';
 import { getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
 import IsLoading from '@/components/Componentes_Interface/IsLoading';
-import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
+import SelectedEntries from '@/components/Componentes_entradas/SelectedEntries';
 import { ProjectItems, ProjetosSimp } from '../../../core';
-import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
-import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
+import ItemsProjects from '@/components/Componentes_entradas/ItemsProjects';
+import SelectedEntriesEmb from '@/components/Componentes_entradas/SelectedEntriesEmb';
 import ModalEmbCad from '@/components/Componentes_Interface/ModalEmbCad';
 
 // Função fetcher para carregar todos os projetos
@@ -98,7 +98,7 @@ export default function EntradasEmbalagem() {
           </div>
         )}
       </div>
-      <ModalEmbCad isOpen={isModalOpen} onClose={handleCloseModal} />
+      <ModalEmbCad isOpen={isModalOpen} handleCloseModal={handleCloseModal} />
     </div>
   );
 }

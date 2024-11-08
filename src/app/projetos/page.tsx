@@ -9,8 +9,13 @@ import IsLoading from '@/components/Componentes_Interface/IsLoading';
 
 // Defina a função fetcher garantindo que ela retorne o tipo correto
 const fetcher = async (): Promise<Projeto[]> => {
-    const data = await get("P");
-    return data as Projeto[];
+    try {
+        const data = await get("P");
+        return data as Projeto[];
+    } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        throw error; 
+    }
 };
 
 export default function Projetos() {
