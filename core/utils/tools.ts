@@ -12,9 +12,11 @@ function convertSPTime(dateString: string): string {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-    };  
-    const formattedDate = new Intl.DateTimeFormat('pt-BR', options).format(date);
-    return formattedDate;
+    };     
+    if(date){      
+      return new Intl.DateTimeFormat('pt-BR', options).format(date);
+    }
+    return new Intl.DateTimeFormat('pt-BR', options).format(new Date());
 }
 
 function concat(s: string): string {

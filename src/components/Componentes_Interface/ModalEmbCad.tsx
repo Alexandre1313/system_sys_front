@@ -6,12 +6,12 @@ import { Loader } from "react-feather";
 import { inserirEmb } from "@/hooks_api/api";
 
 interface ModalEmbCadProps {
-  isOpen: boolean;
-  handleCloseModal: () => void;
+  isModalOpenEmb: boolean;
+  handleCloseModalEmb: () => void;
   mutate: () => void; 
 }
 
-const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal, mutate }) => {
+const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseModalEmb, mutate }) => {
   const { control, handleSubmit, setValue } = useForm<Embalagem>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,7 +24,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal, mut
     setValue("whats", "");
   }, [setValue, isSubmitting]);
 
-  if (!isOpen) return null;
+  if (!isModalOpenEmb) return null;
 
   const onSubmit = async (data: Embalagem) => {   
     const formattedData: Embalagem = {
@@ -37,7 +37,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal, mut
     try {
       const response: Embalagem | null = await inserirEmb(formattedData);
       if (response) {
-        handleCloseModal();
+        handleCloseModalEmb();
         mutate();
       }
     } catch (error) {
@@ -132,7 +132,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal, mut
           <div className="flex justify-between gap-4 mt-4">
             <button
               type="button"
-              onClick={handleCloseModal}
+              onClick={handleCloseModalEmb}
               disabled={isSubmitting}
               className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg w-full"
             >
@@ -141,7 +141,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal, mut
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 bg-green-700 hover:bg-green-600 text-white rounded-lg w-full"
+              className="px-4 py-2 bg-green-700 hover:bg-green-600 text-white rounded-lg w-full transition"
             >
               {isSubmitting ? "Enviando..." : "Cadastrar"}
             </button>

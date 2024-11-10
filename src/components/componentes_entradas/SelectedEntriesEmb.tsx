@@ -2,15 +2,16 @@ import { ChangeEvent } from 'react';
 import { Embalagem } from '../../../core';
 
 interface SelectedEntriesEmbProps { 
-  onSelectChangeEmb: (embalagemId: number) => void;
-  embalagens: Embalagem[] | undefined; 
+  onSelectChangeEmb: (embalagem: Embalagem | null | undefined) => void;
+  embalagens: Embalagem[] | null | undefined; 
 }
 
 export default function SelectedEntriesEmb({ onSelectChangeEmb, embalagens}: SelectedEntriesEmbProps) {
   // Função de alteração de seleção
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const embalagemId = Number(event.target.value);
-    onSelectChangeEmb(embalagemId);   
+    const embSelect: Embalagem | null | undefined = embalagens!.find(e => e.id === embalagemId)
+    onSelectChangeEmb(embSelect);   
   };
 
   return (

@@ -9,7 +9,7 @@ import { ProjectItems, ProjetosSimp, Embalagem } from '../../../core';
 import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
 import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
 import ModalEmbCad from '@/components/Componentes_Interface/ModalEmbCad';
-
+import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
 
 // Função fetcher para carregar todos os projetos
 const fetcherProjects = async (): Promise<ProjetosSimp[]> => {
@@ -30,11 +30,12 @@ const fetcherItems = async (projectId: number): Promise<ProjectItems> => {
 };
 
 export default function EntradasEmbalagem() {
-  // Estado para controlar o ID do projeto selecionado
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-  const [selectedEmbalagemId, setSelectedEmbalagemId] = useState<number | null>(null);
-
+  const [selectedEmbalagem, setSelectedEmbalagem] = useState<Embalagem | null | undefined>(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpenEmb, setModalOpenEmb] = useState(false);
+  const [formData, setFormData] = useState<any>({CODBARRASLEITURA: ''});
+  const [selectedItem, setSelectedItem] = useState<ProjectItems['itensProject'][0] | null>(null); 
 
   // Carregar todos os projetos usando SWR
   const { data: projetos, error: errorProjetos, isValidating: isValidatingProjetos } = useSWR<ProjetosSimp[]>('projetos', fetcherProjects, {
@@ -42,8 +43,8 @@ export default function EntradasEmbalagem() {
     refreshInterval: 5 * 60 * 60 * 1000,
   });
 
-   // Carregar todas as embalegens usando SWR
-   const { data: embalagens, error: errorEmbalagens, isValidating: isValidatingEmbalagens, mutate: swrMutate } = useSWR<Embalagem[]>('embalagens', fetcherEmb, {
+  // Carregar todas as embalagens usando SWR
+  const { data: embalagens, error: errorEmbalagens, isValidating: isValidatingEmbalagens, mutate: swrMutate } = useSWR<Embalagem[] | null | undefined>('embalagens', fetcherEmb, {
     revalidateOnFocus: false,
     refreshInterval: 5 * 60 * 60 * 1000,
   });
@@ -57,22 +58,30 @@ export default function EntradasEmbalagem() {
     }
   );
 
-  // Função para tratar a mudança no select
   const handleProjectChange = (projectId: number) => {
     setSelectedProjectId(projectId);
   };
 
-   // Função para tratar a mudança no select
-   const handleEmbalagemChange = (embalagemId: number) => {
-    setSelectedEmbalagemId(embalagemId);
+  const handleFormDataChange = (form: any) => {
+    setFormData(form);
   };
 
-  const handleOpenModal = () => {
+  const handleEmbalagemChange = (embalagem: Embalagem | null | undefined) => {
+    setSelectedEmbalagem(embalagem);
+  };
+
+  const handleItemClick = (item: ProjectItems['itensProject'][0]) => {
+    setSelectedItem(item);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    setSelectedItem(null);
+  };
+
+  const handleCloseModalEmb = () => {
+    setModalOpenEmb(false);    
   };
 
   if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens) return <IsLoading />;
@@ -93,23 +102,23 @@ export default function EntradasEmbalagem() {
         rounded-md p-5 justify-between items-start min-h-[95.7vh] gap-y-5">
         <div className="flex flex-col w-full justify-start items-start gap-y-5">
           <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange} />
-          <SelectedEntriesEmb embalagens={embalagens} onSelectChangeEmb={handleEmbalagemChange}/>
+          <SelectedEntriesEmb embalagens={embalagens} onSelectChangeEmb={handleEmbalagemChange} />
         </div>
         <div className="flex flex-col w-full justify-center items-center gap-y-5">
           <p className={`text-[15px] text-zinc-600`}>NÃO POSSUI CADASTRO?</p>
-          <button onClick={handleOpenModal}
-            type="button"           
+          <button onClick={() => setModalOpenEmb(true)}
+            type="button"
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg w-full"
           >
             CADASTRE-SE
           </button>
         </div>
       </div>
-      <div className="flex flex-col border gap-y-2 border-zinc-700 flex-1 rounded-md p-5 justify-start items-start min-h-[95.7vh]">
+      <div className="flex flex-col border-0 gap-y-2 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
         {projectItems ? (
-          projectItems.itensProject.map((item) => {
-            return <ItemsProjects key={item.id} item={item} />
-          })
+          projectItems.itensProject.map((item) => (
+            <ItemsProjects key={item.id} item={item} onClick={() => handleItemClick(item)} />
+          ))
         ) : (
           <div className={`flex justify-center items-center h-full flex-1 w-full flex-col`}>
             <p className={`text-2xl text-green-500`}>1 - SELECIONE UM PROJETO.</p>
@@ -117,7 +126,17 @@ export default function EntradasEmbalagem() {
           </div>
         )}
       </div>
-      <ModalEmbCad isOpen={isModalOpen} handleCloseModal={handleCloseModal} mutate={swrMutate}/>
+      {selectedItem && (
+        <ModalItemDetails
+          isOpen={isModalOpen}
+          item={selectedItem}
+          embalagem={selectedEmbalagem}
+          formData={formData}
+          setFormData={handleFormDataChange}
+          onClose={handleCloseModal}
+        />
+      )}
+      <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
     </div>
   );
 }

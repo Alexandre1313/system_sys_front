@@ -21,11 +21,11 @@ export default function ProjetoComponent({ projeto }: ProjetoComponentProps) {
                         height={310}
                         priority
                         className="transition-transform duration-700 ease-in-out 
-                        transform hover:scale-105 w-full h-full object-cover" 
+                        transform hover:scale-105 w-full h-full object-cover"
                     />
                 </div>
-                <div className="flexColCC gap-y-3 p-5 lg:p-4 pt-10">
-                    <span className="text-2xl lg:text-2xl font-bold text-teal-700">{projeto.nome}</span>
+                <div className="flexColCC gap-y-3 p-5 lg:p-4 pt-10 w-full">
+                    <span className="flex text-center text-2xl lg:text-2xl font-bold text-teal-700">{projeto.nome}</span>
                     <span className="font-semibold text-[13px] lg:text-[15px] text-zinc-400">{projeto.descricao}</span>
                     <span className="text-[13px] lg:text-[15px] text-zinc-400">{`Cadastrado em: ${convertSPTime(projeto.createdAt)}`}</span>
                     <span className="text-[13px] lg:text-[15px] text-zinc-400">{`Modificado em: ${convertSPTime(projeto.updatedAt)}`}</span>
