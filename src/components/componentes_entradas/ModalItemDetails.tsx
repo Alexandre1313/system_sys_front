@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { ProjectItems, Embalagem } from '../../../core';
 import ItemGradeInputTextState from '../Componentes_Grade/ItemsGradeImputTextState';
 import BotaoArrowLeft from '../Componentes_Interface/BotaoArrowLeft';
+import { motion } from 'framer-motion';
 
 interface ModalItemDetailsProps {
     isOpen: boolean;
@@ -18,9 +19,16 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, is
     const embNotSelect = embalagem ? 'text-green-500' : 'text-red-500'
 
     return (
+
         <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-            <div className="bg-[#222222] p-5 rounded-md w-full max-w-[60%] min-h-[80vh] flex
-             justify-center items-center">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="bg-[#222222] p-5 rounded-md w-full max-w-[60%] min-h-[80vh] flex
+             justify-center items-center"
+            >
                 <div className={`flex w-[60%] p-2 flex-col min-h-[75vh] justify-between`}>
                     <div className={`flex flex-col justify-center items-center gap-y-16`}>
                         <div className={`flex items-center justify-start w-full gap-x-5`}>
@@ -86,7 +94,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, is
                             labelColor={`text-emerald-500`} />
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

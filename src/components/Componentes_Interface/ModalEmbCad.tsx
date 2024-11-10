@@ -4,11 +4,12 @@ import MaskedInput from "react-text-mask";
 import { Embalagem } from "../../../core";
 import { Loader } from "react-feather";
 import { inserirEmb } from "@/hooks_api/api";
+import { motion } from "framer-motion";
 
 interface ModalEmbCadProps {
   isModalOpenEmb: boolean;
   handleCloseModalEmb: () => void;
-  mutate: () => void; 
+  mutate: () => void;
 }
 
 const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseModalEmb, mutate }) => {
@@ -26,13 +27,13 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseMo
 
   if (!isModalOpenEmb) return null;
 
-  const onSubmit = async (data: Embalagem) => {   
+  const onSubmit = async (data: Embalagem) => {
     const formattedData: Embalagem = {
       ...data,
       nome: data.nome?.toUpperCase() || '',
       email: data.email?.toLowerCase() || '',
       nomefantasia: data.nomefantasia?.toUpperCase() || '',
-    };  
+    };
     setIsSubmitting(true);
     try {
       const response: Embalagem | null = await inserirEmb(formattedData);
@@ -49,12 +50,18 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseMo
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-      <div className="bg-zinc-900 p-6 rounded-lg max-w-lg w-full flex flex-col items-center">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.7 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        className="bg-zinc-900 p-6 rounded-lg max-w-lg w-full flex flex-col items-center"
+      >
         <Loader
-          className={isSubmitting ? "animate-rotate mb-4": 'mb-4'}
+          className={isSubmitting ? "animate-rotate mb-4" : 'mb-4'}
           size={40}
           color="rgba(234, 170, 0, 0.7)"
-        />    
+        />
         <span>mensagem</span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
           <div>
@@ -147,7 +154,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseMo
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

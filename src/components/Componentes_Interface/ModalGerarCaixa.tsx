@@ -3,6 +3,7 @@ import { Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
 import { inserirCaixa } from '@/hooks_api/api';
+import { motion } from 'framer-motion';
 
 interface ModalGerarCaixaProps {
   box: Caixa | null;
@@ -37,25 +38,25 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
   }, [isOpen, message]); // Executa o efeito quando `isOpen` ou `message` mudam
 
   const handleGerarCaixa = async () => {
-    setIsLoading(true);      
-    setIsError(false);   
-    try {  
-      setMsg(`Por favor, aguarde...`);     
-      const data = await inserirCaixa(box);      
+    setIsLoading(true);
+    setIsError(false);
+    try {
+      setMsg(`Por favor, aguarde...`);
+      const data = await inserirCaixa(box);
       if (data) {
-        mutate(); 
-        setMsg(`Caixa encerrada com sucesso!`); 
+        mutate();
+        setMsg(`Caixa encerrada com sucesso!`);
         handleNumberBox(String(data.caixaNumber))
         const timeout = setTimeout(() => {
           onClose()
           clearTimeout(timeout)
         }, 1000)
       }
-    } catch (error) {      
-      console.error("Erro ao encerrar a caixa:", error); 
-      setMsg('Erro ao encerrar a caixa, tente novamente.'); 
-      setIsError(true); 
-    } finally {      
+    } catch (error) {
+      console.error("Erro ao encerrar a caixa:", error);
+      setMsg('Erro ao encerrar a caixa, tente novamente.');
+      setIsError(true);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -64,8 +65,14 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded-md shadow-md min-w-[550px] min-h-[280px] gap-y-4 
-      flex flex-col items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.7 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        className="bg-white p-8 rounded-md shadow-md min-w-[550px] min-h-[280px] gap-y-4 
+      flex flex-col items-center justify-between"
+      >
         <h2 className="text-3xl text-black font-semibold">
           <Loader
             className={isLoading ? 'animate-rotate' : ''}
@@ -88,7 +95,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : 'Encerrar Caixa'}
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

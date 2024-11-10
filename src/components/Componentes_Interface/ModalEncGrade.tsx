@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Loader } from 'react-feather';
 import { EscolaGrade } from '../../../core';
 import { finalizarGrades } from '@/hooks_api/api';
+import { motion } from 'framer-motion';
 
 interface ModalEncGradeProps {
     isOpen: boolean;
@@ -38,11 +39,11 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
         setIsLoading(true);
         setIsError(false); // Reset error state on new attempt
         try {
-            const data = await finalizarGrades({id: escolaGrade?.gradeId, finalizada: true});
-            if(data){
+            const data = await finalizarGrades({ id: escolaGrade?.gradeId, finalizada: true });
+            if (data) {
                 mutate();
-                setMsg('Grade finalizada com sucesso!'); 
-            }           
+                setMsg('Grade finalizada com sucesso!');
+            }
             const timeout = setTimeout(() => {
                 onClose()
                 clearTimeout(timeout)
@@ -59,8 +60,14 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-8 rounded-md shadow-md min-w-[350px] min-h-[250px] gap-y-4 
-            flex flex-col items-center justify-between">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="bg-white p-8 rounded-md shadow-md min-w-[350px] min-h-[250px] gap-y-4 
+            flex flex-col items-center justify-between"
+            >
                 <h2 className="text-3xl text-black font-semibold">
                     <Loader
                         className={isLoading ? 'animate-rotate' : ''}
@@ -80,7 +87,7 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
                         {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : 'Encerrar Grade'}
                     </button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };
