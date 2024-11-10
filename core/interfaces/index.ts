@@ -17,6 +17,7 @@ import Caixa from "./Caixa";
 import ProjectItems from "./ProjectItems";
 import ItensProjects from "./ItensProject";
 import ProjetosSimp from "./ProjetosSimp";
+import Embalagem from "./Embalagem";
 
 export type { 
     Escola,
@@ -37,5 +38,6 @@ export type {
     Caixa,
     ProjectItems,
     ItensProjects,
-    ProjetosSimp
+    ProjetosSimp,
+    Embalagem
 }

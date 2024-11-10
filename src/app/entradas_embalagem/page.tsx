@@ -2,17 +2,24 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
-import { getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
+import { getEmb, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
 import IsLoading from '@/components/Componentes_Interface/IsLoading';
-import SelectedEntries from '@/components/Componentes_entradas/SelectedEntries';
-import { ProjectItems, ProjetosSimp } from '../../../core';
-import ItemsProjects from '@/components/Componentes_entradas/ItemsProjects';
-import SelectedEntriesEmb from '@/components/Componentes_entradas/SelectedEntriesEmb';
+import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
+import { ProjectItems, ProjetosSimp, Embalagem } from '../../../core';
+import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
+import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
 import ModalEmbCad from '@/components/Componentes_Interface/ModalEmbCad';
+
 
 // Função fetcher para carregar todos os projetos
 const fetcherProjects = async (): Promise<ProjetosSimp[]> => {
   const resp = await getProjectsSimp();
+  return resp;
+};
+
+// Função fetcher para carregar todas as embalagens
+const fetcherEmb = async (): Promise<Embalagem[]> => {
+  const resp = await getEmb();
   return resp;
 };
 
@@ -25,11 +32,18 @@ const fetcherItems = async (projectId: number): Promise<ProjectItems> => {
 export default function EntradasEmbalagem() {
   // Estado para controlar o ID do projeto selecionado
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [selectedEmbalagemId, setSelectedEmbalagemId] = useState<number | null>(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
   // Carregar todos os projetos usando SWR
   const { data: projetos, error: errorProjetos, isValidating: isValidatingProjetos } = useSWR<ProjetosSimp[]>('projetos', fetcherProjects, {
+    revalidateOnFocus: false,
+    refreshInterval: 5 * 60 * 60 * 1000,
+  });
+
+   // Carregar todas as embalegens usando SWR
+   const { data: embalagens, error: errorEmbalagens, isValidating: isValidatingEmbalagens, mutate: swrMutate } = useSWR<Embalagem[]>('embalagens', fetcherEmb, {
     revalidateOnFocus: false,
     refreshInterval: 5 * 60 * 60 * 1000,
   });
@@ -48,6 +62,11 @@ export default function EntradasEmbalagem() {
     setSelectedProjectId(projectId);
   };
 
+   // Função para tratar a mudança no select
+   const handleEmbalagemChange = (embalagemId: number) => {
+    setSelectedEmbalagemId(embalagemId);
+  };
+
   const handleOpenModal = () => {
     setModalOpen(true);
   };
@@ -56,13 +75,13 @@ export default function EntradasEmbalagem() {
     setModalOpen(false);
   };
 
-  if (isValidatingProjetos && !isValidatingItems) return <IsLoading />;
+  if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens) return <IsLoading />;
 
-  if (errorProjetos || errorItems) {
+  if (errorProjetos || errorItems || errorEmbalagens) {
     return (
       <div className="flex items-center justify-center min-h-[96vh] w-[100%]">
         <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
-          Erro: {errorProjetos?.message || errorItems?.message}
+          Erro: {errorProjetos?.message || errorItems?.message || errorEmbalagens?.message}
         </p>
       </div>
     );
@@ -74,7 +93,7 @@ export default function EntradasEmbalagem() {
         rounded-md p-5 justify-between items-start min-h-[95.7vh] gap-y-5">
         <div className="flex flex-col w-full justify-start items-start gap-y-5">
           <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange} />
-          <SelectedEntriesEmb />
+          <SelectedEntriesEmb embalagens={embalagens} onSelectChangeEmb={handleEmbalagemChange}/>
         </div>
         <div className="flex flex-col w-full justify-center items-center gap-y-5">
           <p className={`text-[15px] text-zinc-600`}>NÃO POSSUI CADASTRO?</p>
@@ -98,7 +117,7 @@ export default function EntradasEmbalagem() {
           </div>
         )}
       </div>
-      <ModalEmbCad isOpen={isModalOpen} handleCloseModal={handleCloseModal} />
+      <ModalEmbCad isOpen={isModalOpen} handleCloseModal={handleCloseModal} mutate={swrMutate}/>
     </div>
   );
 }

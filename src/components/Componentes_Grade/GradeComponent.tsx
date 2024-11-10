@@ -9,6 +9,7 @@ import ItemsGradeInputText from "./ItemsGradeInputText";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import Caixa from "../../../core/interfaces/Caixa";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
+import { Genero } from "../../../core/interfaces/Genero";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -48,8 +49,17 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const totalAExpedir = total - totalExpedido;
 
-    const nomeItem = props.grade.itensGrade[0]?.itemTamanho?.item?.nome || 'Item não encontrado';
-    const nomeGenero = props.grade.itensGrade[0]?.itemTamanho?.item?.genero || 'Item não encontrado';
+    const uniqueItems = Array.from(
+        new Map(
+            props.grade.itensGrade.map((itemGrade) => {
+                const item = itemGrade.itemTamanho?.item;
+                if (item) {
+                    return [`${item.nome}-${item.genero}`, { nome: item.nome, genero: item.genero }];
+                }
+                return null;
+            }).filter((entry) => entry !== null) as [string, { nome: string; genero: Genero }][]
+        ).values()
+    );
 
     const borderColor = total === totalExpedido ? 'border-green-900' : 'border-gray-700';
 
@@ -104,14 +114,19 @@ export default function GradeComponent(props: GradeComponentProps) {
                     Total de Itens expedido:
                     <strong className="ml-2 font-semi-bold text-[17px] text-green-400">{totalExpedido}</strong>
                 </h2>
-                <h2 className="text-[15px] font-normal text-gray-400">
-                    Item:
-                    <strong className="ml-2 font-semi-bold text-[17px] text-slate-500">{nomeItem}</strong>
-                </h2>
-                <h2 className="text-[15px] font-normal text-gray-400">
-                    Gênero:
-                    <strong className="ml-2 font-semi-bold text-[17px] text-slate-500">{nomeGenero}</strong>
-                </h2>
+                <div className={`flex flex-col`}>
+                    <h2 className="text-[15px] font-normal text-gray-400 mb-2 mt-2">
+                        {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
+                    </h2>
+                    {uniqueItems.map((it, index) => {
+                        return (
+                            <div key={index} className={`flex`}>
+                                <strong className="ml-0 font-semi-bold text-[17px] text-slate-500">{it.nome}</strong>
+                                <strong className={`ml-2 mr-2 font-semi-bold text-[17px]`}>-</strong>
+                                <strong className="ml-0 font-semi-bold text-[17px] text-slate-500">{it.genero}</strong>
+                            </div>)
+                        })}
+                </div>
                 {/* Botão que abre o modal */}
                 <div className={`flex items-center justify-center gap-x-3 w-full`}>
                     {print()}
@@ -120,9 +135,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                         onClick={abrirTela}
                         className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
                          bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px]"
-                         >
-                              ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
-                    </button>                   
+                    >
+                        ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+                    </button>
                 </div>
             </div>
 
@@ -142,6 +157,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
                             const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-500' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-600';
+                            const colorEstoque = estoque! >= 0 ? 'text-slate-400': 'text-red-500';
                             return (
                                 <div
                                     onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)} // Passa o item ao clicar
@@ -166,7 +182,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         QUANTIDADE EXPEDIDA:  <strong className="text-green-400 text-[15px] font-semibold"> {quantidadeExpedida}</strong>
                                     </p>
                                     <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        ESTOQUE:  <strong className="text-slate-400 text-[15px] font-semibold"> {estoque}</strong>
+                                        ESTOQUE:  <strong className={`${colorEstoque} text-[15px] font-semibold`}> {estoque}</strong>
                                     </p>
                                     <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
                                         BARCODE:  <strong className="text-slate-400 text-[15px] font-semibold"> {barcode}</strong>
@@ -199,7 +215,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                             <div className="flex gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-500"}
-                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa} />                               
+                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa} />
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>

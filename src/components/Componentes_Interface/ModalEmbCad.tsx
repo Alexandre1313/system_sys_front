@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import MaskedInput from "react-text-mask";
-import Embalagem from "../../../core/interfaces/Embalagem";
+import { Embalagem } from "../../../core";
 import { Loader } from "react-feather";
 import { inserirEmb } from "@/hooks_api/api";
 
 interface ModalEmbCadProps {
   isOpen: boolean;
   handleCloseModal: () => void;
+  mutate: () => void; 
 }
 
-const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal }) => {
+const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal, mutate }) => {
   const { control, handleSubmit, setValue } = useForm<Embalagem>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,12 +26,19 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isOpen, handleCloseModal }) =
 
   if (!isOpen) return null;
 
-  const onSubmit = async (data: Embalagem) => {
+  const onSubmit = async (data: Embalagem) => {   
+    const formattedData: Embalagem = {
+      ...data,
+      nome: data.nome?.toUpperCase() || '',
+      email: data.email?.toLowerCase() || '',
+      nomefantasia: data.nomefantasia?.toUpperCase() || '',
+    };  
     setIsSubmitting(true);
     try {
-      const response: Embalagem | null = await inserirEmb(data);
+      const response: Embalagem | null = await inserirEmb(formattedData);
       if (response) {
         handleCloseModal();
+        mutate();
       }
     } catch (error) {
       console.error("Erro ao enviar dados da embalagem", error);
