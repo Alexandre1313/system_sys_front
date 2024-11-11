@@ -1,22 +1,18 @@
+import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+
 const ip = "192.168.1.11";
 const port = "4997";
 
 function convertSPTime(dateString: string): string {
-    const date = new Date(dateString);  
-    console.log(date)
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: 'America/Sao_Paulo',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    };     
-    if(date){      
-      return new Intl.DateTimeFormat('pt-BR', options).format(date);
-    }
-    return new Intl.DateTimeFormat('pt-BR', options).format(new Date());
+  const timeZone = 'America/Sao_Paulo';  
+  let date = new Date(dateString); 
+  if (isNaN(date.getTime())) {
+    console.error('Invalid Date:', dateString);
+    date = new Date();
+  } 
+  const zonedDate = toZonedTime(date, timeZone); 
+  return format(zonedDate, 'dd/MM/yyyy HH:mm:ss');
 }
 
 function concat(s: string): string {
