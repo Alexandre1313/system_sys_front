@@ -15,6 +15,7 @@ interface ModalEmbCadProps {
 const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseModalEmb, mutate }) => {
   const { control, handleSubmit, setValue } = useForm<Embalagem>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     // Preenche os campos com valores padrão ao abrir o modal
@@ -35,15 +36,32 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseMo
       nomefantasia: data.nomefantasia?.toUpperCase() || '',
     };
     setIsSubmitting(true);
+    setMessage('Enviando dados, aguarde...')
     try {
-      const response: Embalagem | null = await inserirEmb(formattedData);
-      if (response) {
-        handleCloseModalEmb();
-        mutate();
+      const response: Embalagem | null = await inserirEmb(formattedData);      
+      if (!response) {
+        setMessage('Ocorreu um erro, tente novamente.'); 
+        const timeout = setTimeout(() => {
+          setMessage('');
+          clearTimeout(timeout);
+        }, 2500)      
       }
+      if (response) {
+        setMessage('Cadastro efetuado com sucesso!');
+        const timeout = setTimeout(() => {
+          setMessage('');
+          handleCloseModalEmb();
+          mutate();
+          clearTimeout(timeout);
+        }, 2500)      
+      }     
     } catch (error) {
-      console.error("Erro ao enviar dados da embalagem", error);
-    } finally {
+      setMessage('Ocorreu um erro, tente novamente.'); 
+      const timeout = setTimeout(() => {
+        setMessage('');
+        clearTimeout(timeout);
+      }, 2500)      
+    }finally {
       setIsSubmitting(false);
     }
   };
@@ -62,7 +80,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseMo
           size={40}
           color="rgba(234, 170, 0, 0.7)"
         />
-        <span>mensagem</span>
+        <span className={`mb-5 flex w-full text-center text-zinc-500 text-[17px] h-[18px] justify-center items-center`}>{message}</span>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
           <div>
             <label className="block mb-1 text-[15px] text-zinc-500">Nome:</label>

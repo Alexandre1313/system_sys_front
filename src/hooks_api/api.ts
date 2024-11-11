@@ -93,7 +93,7 @@ async function inserirEmb(embalagem: Embalagem): Promise<Embalagem | null> {
         const data = await response.json();
         return data;
     } catch (error) {
-        throw new Error(`Erro ao inserir a embalagem: ${error}`);
+        return null;
     }
 }
 
