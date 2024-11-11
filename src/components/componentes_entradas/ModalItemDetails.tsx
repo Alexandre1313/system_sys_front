@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { ProjectItems, Embalagem } from '../../../core';
-import ItemGradeInputTextState from '../Componentes_Grade/ItemsGradeImputTextState';
-import BotaoArrowLeft from '../Componentes_Interface/BotaoArrowLeft';
+import ItemGradeInputTextState from '../componentes_Grade/ItemsGradeImputTextState';
+import BotaoArrowLeft from '../componentes_Interface/BotaoArrowLeft';
 import { motion } from 'framer-motion';
+import BotaoEstoqueContabilizacion from '../componentes_Interface/BotaoEstoqueContabilizacion';
 
 interface ModalItemDetailsProps {
     isOpen: boolean;
@@ -26,53 +27,61 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, is
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="bg-[#222222] p-5 rounded-md w-full max-w-[60%] min-h-[80vh] flex
-             justify-center items-center"
+                className="bg-zinc-900 p-5 rounded-md w-full max-w-[60%] min-h-[80vh] flex
+             justify-center items-center border border-zinc-600"
             >
                 <div className={`flex w-[60%] p-2 flex-col min-h-[75vh] justify-between`}>
                     <div className={`flex flex-col justify-center items-center gap-y-16`}>
-                        <div className={`flex items-center justify-start w-full gap-x-5`}>
-                            <span className={`text-2xl text-zinc-500`}>
+                        <div className={`flex items-center justify-start w-full gap-x-5 border-b pb-2 border-zinc-700`}>
+                            <span className={`text-xl text-zinc-400`}>
                                 {'EMBALADOR:'}
                             </span>
-                            <span className={`text-2xl ${embNotSelect}`}>
+                            <span className={`text-xl ${embNotSelect}`}>
                                 {embalagem?.nome || 'NÃO SELECIONADO'}
                             </span>
                         </div>
-                        <div className={`flex flex-col items-center justify-start w-full gap-y-2`}>
-                            <div className={`flex items-center justify-start w-full gap-x-5`}>
-                                <div className={`flex items-center justify-center w-auto h-auto gap-x-5`}>
-                                    <span className={`text-xl text-zinc-500`}>
+                        <div className={`flex flex-col items-center justify-start w-full gap-y-3 border-b pb-2 border-zinc-700`}>
+                            <div className={`flex flex-col items-start justify-start w-full gap-y-2`}>
+                                <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {'ITEM:'}
                                     </span>
-                                    <span className={`text-xl text-zinc-300`}>
+                                    <span className={`text-lg text-cyan-500`}>
                                         {item.nome}
                                     </span>
                                 </div>
-                                <div className={`flex items-center justify-center w-auto h-auto gap-x-5`}>
-                                    <span className={`text-xl text-zinc-500`}>
+                                <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {'GÊNERO:'}
                                     </span>
-                                    <span className={`text-xl text-zinc-300`}>
+                                    <span className={`text-lg text-cyan-500`}>
                                         {item.genero}
                                     </span>
                                 </div>
                             </div>
-                            <div className={`flex items-center justify-start w-full gap-x-5`}>
-                                <div className={`flex items-center justify-center w-auto h-auto gap-x-5`}>
-                                    <span className={`text-xl text-zinc-500`}>
+                            <div className={`flex flex-col items-start justify-start w-full gap-y-2`}>
+                                <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {'TAMANHO:'}
                                     </span>
-                                    <span className={`text-xl text-zinc-300`}>
+                                    <span className={`text-lg text-cyan-500`}>
                                         {item.tamanho}
                                     </span>
                                 </div>
-                                <div className={`flex items-center justify-center w-auto h-auto gap-x-5`}>
-                                    <span className={`text-xl text-zinc-500`}>
+                                <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {'CÒDIGO DE BARRAS:'}
                                     </span>
-                                    <span className={`text-xl text-zinc-300`}>
+                                    <span className={`text-lg text-cyan-500`}>
                                         {item.barcode}
+                                    </span>
+                                </div>
+                                <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
+                                        {'ESTOQUE:'}
+                                    </span>
+                                    <span className={`text-lg text-cyan-500 ${item.estoque < 0 ? 'text-red-500': 'text-cyan-500'}`}>
+                                        {item.estoque}
                                     </span>
                                 </div>
                             </div>
@@ -83,15 +92,41 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, is
                             bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
                     </div>
                 </div >
-                <div className={`flex w-[40%] p-2 flex-col min-h-[75vh] justify-between`}>
-                    <div className={``}>
-                        <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'}
-                            formData={formData} setFormData={setFormData}
-                            txtSize={`text-[23px]`}
-                            placeholder={`Informe o código de barras`}
-                            isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
+                <div className={`flex w-[40%] p-2 pl-7 flex-col min-h-[75vh] justify-between border-l border-zinc-700`}>
+                    <div className={`flex flex-col w-full gap-y-24`}>
+                        <div className={`flex flex-col w-ull gap-y-5`}>
+                            <ItemGradeInputTextState labelName={'CONTABILIZADO TOTAL (NO DIA)'}
+                                formData={formData} setFormData={setFormData}
+                                isReadOnly={true} />
+                            <ItemGradeInputTextState labelName={'CONTABILIZADO TOTAL (DO ITEM)'}
+                                formData={formData} setFormData={setFormData}
+                                isReadOnly={true} />
+                        </div>
+                        <div className={`flex flex-col w-full gap-y-5`}>
+                            <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                formData={formData} setFormData={setFormData}
+                                isReadOnly={true} />
+                            <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'}
+                                formData={formData} setFormData={setFormData}
+                                txtSize={`text-[23px]`}
+                                placeholder={`Informe o código de barras`}
+                                isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
                                         focus:ring focus:ring-emerald-500`}
-                            labelColor={`text-emerald-500`} />
+                                labelColor={`text-emerald-500`} />
+                        </div>
+                    </div>
+                    <div className={`flex flex-col w-full gap-y-16`}>
+                        <div className={`flex w-full items-center justify-end`}>
+                            <BotaoEstoqueContabilizacion
+                                bgColor={`bg-green-800`}
+                                bgHoverColor={`hover:bg-green-700`}
+                                textColor={`text-[#fff]`}
+                                strokeWidth={3}
+                                iconColor={`#fff`}
+                                iconSize={20}
+                                stringButtton={`ATUALIZAR ESTOQUE`}
+                            />
+                        </div>
                     </div>
                 </div>
             </motion.div>

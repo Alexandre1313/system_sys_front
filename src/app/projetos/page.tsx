@@ -1,11 +1,11 @@
 'use client';
 
 import useSWR from 'swr';
-import ProjetoComponent from "@/components/Componentes_Projeto/ProjetoComponent";
+import ProjetoComponent from "@/components/componentes_Projeto/ProjetoComponent";
 import { Projeto } from '../../../core'; // Importa a interface Projeto
-import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
+import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
 import { get } from "../../hooks_api/api";
-import IsLoading from '@/components/Componentes_Interface/IsLoading';
+import IsLoading from '@/components/componentes_Interface/IsLoading';
 
 // Defina a função fetcher garantindo que ela retorne o tipo correto
 const fetcher = async (): Promise<Projeto[]> => {

@@ -4,16 +4,16 @@ import useSWR from 'swr';
 import { useParams } from 'next/navigation';
 import { Escola, GradeItem, FormData, EscolaGrade } from '../../../../core';
 import { getGradesPorEscolas } from '@/hooks_api/api';
-import TitleComponentFixed from '@/components/Componentes_Interface/TitleComponentFixed';
-import GradeComponent from '@/components/Componentes_Grade/GradeComponent';
+import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
+import GradeComponent from '@/components/componentes_Grade/GradeComponent';
 import { useState } from 'react';
-import Modal from '@/components/Componentes_Interface/modal';
-import ModalEncGrade from '@/components/Componentes_Interface/ModalEncGrade';
+import Modal from '@/components/componentes_Interface/modal';
+import ModalEncGrade from '@/components/componentes_Interface/ModalEncGrade';
 import { criarCaixa, processarCodigoDeBarras } from '../../../../core/utils/regraas_de_negocio'
-import ModalGerarCaixa from '@/components/Componentes_Interface/ModalGerarCaixa';
+import ModalGerarCaixa from '@/components/componentes_Interface/ModalGerarCaixa';
 import Caixa from '../../../../core/interfaces/Caixa';
 import Etiquetas from '@/components/componentesDePrint/Etiquetas';
-import IsLoading from '@/components/Componentes_Interface/IsLoading';
+import IsLoading from '@/components/componentes_Interface/IsLoading';
 
 
 const fetcher = async (id: number) => {

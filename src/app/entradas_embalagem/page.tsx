@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import { getEmb, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
-import IsLoading from '@/components/Componentes_Interface/IsLoading';
+import IsLoading from '@/components/componentes_Interface/IsLoading';
 import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
 import { ProjectItems, ProjetosSimp, Embalagem } from '../../../core';
 import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
 import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
-import ModalEmbCad from '@/components/Componentes_Interface/ModalEmbCad';
+import ModalEmbCad from '@/components/componentes_Interface/ModalEmbCad';
 import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
 
 // Função fetcher para carregar todos os projetos

@@ -58,6 +58,9 @@ const config: Config = {
         '.btn-grad:hover': {
           backgroundPosition: 'right center',
         },
+        '.bleft-1': {
+          borderLeft: '4.2em',
+        },
         '.flexColCC': {
           display: 'flex',
           flexDirection: 'column',
