@@ -56,6 +56,7 @@ const ModalEmbCad: React.FC<ModalEmbCadProps> = ({ isModalOpenEmb, handleCloseMo
         }, 2500)      
       }     
     } catch (error) {
+      console.error(error)
       setMessage('Ocorreu um erro, tente novamente.'); 
       const timeout = setTimeout(() => {
         setMessage('');
