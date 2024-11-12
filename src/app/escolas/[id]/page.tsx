@@ -69,8 +69,8 @@ export default function Escolas() {
     return (
        
         <>
-            <div className='flex flex-col p-2 lg:p-7'>
-                <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-7 rounded-md">
+            <div className='flex flex-col p-2 lg:p-1'>
+                <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-1 rounded-md">
                     <TitleComponentFixed stringOne={`MUNICÍPIO DE ${projeto.nome}`}
                         twoPoints={`-`}
                         stringTwo={`ESCOLAS`} />

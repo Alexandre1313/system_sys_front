@@ -33,11 +33,11 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="bg-zinc-900 p-5 rounded-md w-full max-w-[60%] min-h-[80vh] flex
+                className="bg-zinc-900 p-5 rounded-md w-full max-w-[70%] min-h-[80vh] flex
              justify-center items-center border border-zinc-600"
             >
-                <div className={`flex w-[60%] p-2 flex-col min-h-[75vh] justify-between`}>
-                    <div className={`flex flex-col justify-center items-center gap-y-16`}>
+                <div className={`flex w-[60%] p-2 flex-col min-h-[85vh] justify-between`}>
+                    <div className={`flex flex-col justify-center items-center gap-y-8`}>
                         <div className={`flex items-center justify-start w-full gap-x-5 border-b pb-2 border-zinc-700`}>
                             <span className={`text-xl text-zinc-400`}>
                                 {'EMBALADOR:'}
@@ -99,7 +99,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                     </div>
                 </div >
                 <div className={`flex w-[40%] p-2 pl-7 flex-col min-h-[75vh] justify-between border-l border-zinc-700`}>
-                    <div className={`flex flex-col w-full gap-y-24`}>
+                    <div className={`flex flex-col w-full gap-y-8`}>
                         <div className={`flex flex-col w-ull gap-y-5`}>
                             <ItemsEntryImputText labelName={'CONTABILIZADO TOTAL (NO DIA)'}                               
                                 value={String(qtyTotalEmb)} />
