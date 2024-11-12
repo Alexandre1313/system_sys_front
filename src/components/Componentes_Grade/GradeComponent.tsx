@@ -5,10 +5,10 @@ import BotaoArrowLeft from "../componentes_Interface/BotaoArrowLeft";
 import { ChevronsRight } from "react-feather";
 import BotaoArrowLeftSmall from "../componentes_Interface/BotaoArrowLehtSmall";
 import BotaoBox from "../componentes_Interface/BotaoBox";
-import ItemsGradeInputText from '../componentes_Grade/ItemsGradeInputText';
-import ItemGradeInputTextState from "../componentes_Grade/ItemsGradeImputTextState";
+import ItemsGradeInputText from './ItemsGradeInputText';
+import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import Caixa from "../../../core/interfaces/Caixa";
-import ItemsGradeTextArea from "../componentes_Grade/ItemsGradeTextArea";
+import ItemsGradeTextArea from "./ItemsGradeTextArea";
 import { Genero } from "../../../core/interfaces/Genero";
 
 export interface GradeComponentProps {
@@ -249,7 +249,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         txtSize={`text-[23px]`}
-                                        placeholder={`Informe o código de barras`}
+                                        placeholder={`Mantenha o cursor aqui...`}
                                         isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
                                         focus:ring focus:ring-emerald-500`}
                                         labelColor={`text-emerald-500`} />

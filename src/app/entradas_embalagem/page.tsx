@@ -2,14 +2,20 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
-import { getEmb, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
+import { getEmb, getProdEmbDay, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
 import IsLoading from '@/components/componentes_Interface/IsLoading';
 import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
-import { ProjectItems, ProjetosSimp, Embalagem } from '../../../core';
+import { ProjectItems, ProjetosSimp, Embalagem, QtyEmbDay } from '../../../core';
 import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
 import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
 import ModalEmbCad from '@/components/componentes_Interface/ModalEmbCad';
 import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
+
+// Função fetcher para carregar todos os dados de produção diária da embalagem
+const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {
+  const resp = await getProdEmbDay(String(embalagemId), String(itemTamanhoId));
+  return resp;
+};
 
 // Função fetcher para carregar todos os projetos
 const fetcherProjects = async (): Promise<ProjetosSimp[]> => {
@@ -31,11 +37,29 @@ const fetcherItems = async (projectId: number): Promise<ProjectItems> => {
 
 export default function EntradasEmbalagem() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ProjectItems['itensProject'][0] | null>(null);
   const [selectedEmbalagem, setSelectedEmbalagem] = useState<Embalagem | null | undefined>(null);
+  const [totalsProdEmb, setTotalsProdEmb] = useState<QtyEmbDay | null>(null);
+  const [embalagemId, setEmbalagemId] = useState<number | null | undefined>(null);
+  const [itemTamanhoId, setItemTamanhoId] = useState<number | null>(null);
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenEmb, setModalOpenEmb] = useState(false);
-  const [formData, setFormData] = useState<any>({CODBARRASLEITURA: ''});
-  const [selectedItem, setSelectedItem] = useState<ProjectItems['itensProject'][0] | null>(null); 
+  const [formData, setFormData] = useState<any>({ CODBARRASLEITURA: '' });
+
+  // Carregar todos os dados da produção da embalagem usando SWR
+  const { error: errorSumsTotal, isValidating: isValidatingSumsTotal } = useSWR(
+    isModalOpen && embalagemId && itemTamanhoId ? [embalagemId, itemTamanhoId] : null,
+    () => fetcherTotalsProd(embalagemId!, itemTamanhoId!),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 120 * 1000,
+      onSuccess: (data) => {
+        // Atualiza o estado diretamente quando os dados são recebidos
+        setTotalsProdEmb(data);
+      },
+    }
+  );
 
   // Carregar todos os projetos usando SWR
   const { data: projetos, error: errorProjetos, isValidating: isValidatingProjetos } = useSWR<ProjetosSimp[]>('projetos', fetcherProjects, {
@@ -50,11 +74,12 @@ export default function EntradasEmbalagem() {
   });
 
   // Carregar itens do projeto selecionado usando SWR
-  const { data: projectItems, error: errorItems, isValidating: isValidatingItems } = useSWR(
+  const { data: projectItems, error: errorItems, isValidating: isValidatingItems, mutate: swrMutateItems } = useSWR(
     selectedProjectId ? String(selectedProjectId) : null,
     () => fetcherItems(+selectedProjectId!),
     {
-      revalidateOnFocus: false
+      revalidateOnFocus: false,
+      refreshInterval: 120 * 1000,
     }
   );
 
@@ -70,9 +95,16 @@ export default function EntradasEmbalagem() {
     setSelectedEmbalagem(embalagem);
   };
 
-  const handleItemClick = (item: ProjectItems['itensProject'][0]) => {
+  const mutationAll = () => {
+    swrMutateItems();
+  }
+
+  const handleItemClick = (item: ProjectItems['itensProject'][0], embalagemId: number | undefined, itemTamanhoId: number) => {
     setSelectedItem(item);
+    setEmbalagemId(embalagemId);
+    setItemTamanhoId(itemTamanhoId);
     setModalOpen(true);
+    console.log(totalsProdEmb)
   };
 
   const handleCloseModal = () => {
@@ -81,12 +113,12 @@ export default function EntradasEmbalagem() {
   };
 
   const handleCloseModalEmb = () => {
-    setModalOpenEmb(false);    
+    setModalOpenEmb(false);
   };
 
-  if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens) return <IsLoading />;
+  if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
 
-  if (errorProjetos || errorItems || errorEmbalagens) {
+  if (errorProjetos || errorItems || errorEmbalagens || errorSumsTotal) {
     return (
       <div className="flex items-center justify-center min-h-[96vh] w-[100%]">
         <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
@@ -117,7 +149,8 @@ export default function EntradasEmbalagem() {
       <div className="flex flex-col border-0 gap-y-2 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
         {projectItems ? (
           projectItems.itensProject.map((item) => (
-            <ItemsProjects key={item.id} item={item} onClick={() => handleItemClick(item)} />
+            <ItemsProjects key={item.id} item={item}
+              onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id)} itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
           ))
         ) : (
           <div className={`flex justify-center items-center h-full flex-1 w-full flex-col`}>
@@ -128,12 +161,14 @@ export default function EntradasEmbalagem() {
       </div>
       {selectedItem && (
         <ModalItemDetails
+          totals={totalsProdEmb}
           isOpen={isModalOpen}
           item={selectedItem}
           embalagem={selectedEmbalagem}
           formData={formData}
           setFormData={handleFormDataChange}
           onClose={handleCloseModal}
+          mutationAll={mutationAll}
         />
       )}
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />

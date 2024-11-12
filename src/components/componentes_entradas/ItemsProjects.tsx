@@ -2,10 +2,13 @@ import { ItensProjects } from "../../../core";
 
 export interface ItemsProjectsProps {
   item: ItensProjects;
-  onClick: (item: ItensProjects) => void; // Corrigido o nome da prop para `onClick`
+  embalagemId: number | undefined;
+  itemTamanhoId: number;
+  onClick: (item: ItensProjects, embalagemId: number | undefined , itemTamanhoId: number) => void;  
+  mutationAll?: () => void;
 }
 
-export default function ItemsProjects({ onClick, item }: ItemsProjectsProps) {
+export default function ItemsProjects({ onClick, item, embalagemId, itemTamanhoId }: ItemsProjectsProps) {
   const itemSelect = item;
   const itemGenero = item.genero;
   const itemNome = itemSelect.nome;
@@ -19,7 +22,7 @@ export default function ItemsProjects({ onClick, item }: ItemsProjectsProps) {
       : 'text-yellow-500';
   return (
     <div
-      onClick={() => onClick(item)} // Passando o item como argumento para a função `onClick`
+      onClick={() => onClick(item, embalagemId, itemTamanhoId)} // Passando o item como argumento para a função `onClick`
       className={`flex justify-start items-center w-full border-[0.001em] hover:bg-green-600 hover:bg-opacity-30
             border-zinc-900 p-[0.30rem] rounded-md cursor-pointer`}
     >

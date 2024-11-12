@@ -18,6 +18,7 @@ import ProjectItems from "./ProjectItems";
 import ItensProjects from "./ItensProject";
 import ProjetosSimp from "./ProjetosSimp";
 import Embalagem from "./Embalagem";
+import QtyEmbDay from "./QtyEmbDay";
 
 export type { 
     Escola,
@@ -39,5 +40,6 @@ export type {
     ProjectItems,
     ItensProjects,
     ProjetosSimp,
-    Embalagem
+    Embalagem,
+    QtyEmbDay
 }

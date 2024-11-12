@@ -1,4 +1,4 @@
-import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp } from "../../core";
+import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp, QtyEmbDay } from "../../core";
 import Embalagem from "../../core/interfaces/Embalagem";
 import { ip, port } from "../../core/utils/tools";
 
@@ -12,6 +12,7 @@ const urlFinalizarGrades = `http://${ip}:${port}/grades/finalizar`;
 const urlProjetosSimp = `http://${ip}:${port}/projetos/projetossimp`;
 const urlCreateEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmb = `http://${ip}:${port}/embalagem`;
+const urlGetEmbDay = `http://${ip}:${port}/entradas/totaldia/`;
 
 async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | unknown[]> {
     let urlParaConsulta = "";
@@ -64,6 +65,15 @@ async function getProjectsSimp(): Promise<ProjetosSimp[]> {
     const response = await fetch(`${urlProjetosSimp}`)
     if (!response.ok) {
         throw new Error(`Erro ao buscar projetos: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getProdEmbDay(embalagemId: string, itemTamanhoId: string): Promise<QtyEmbDay> {
+    const response = await fetch(`${urlGetEmbDay}${embalagemId}/${itemTamanhoId}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados na api: ${response.statusText}`)
     }
     const data = await response.json();
     return data;
@@ -136,5 +146,5 @@ async function finalizarGrades(finalyGrade: FinalyGrade | null): Promise<Grade |
     }
 }
 
-export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa,
+export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay,
          finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb };

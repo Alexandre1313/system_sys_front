@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { ProjectItems, Embalagem } from '../../../core';
-import ItemGradeInputTextState from '../componentes_Grade/ItemsGradeImputTextState';
+import { ProjectItems, Embalagem, QtyEmbDay } from '../../../core';
+import ItemsEntryImputText from './ItemsEntryImputText';
+import ItemsEntryImputTextState from './ItemsEntryImputTextState';
 import BotaoArrowLeft from '../componentes_Interface/BotaoArrowLeft';
 import { motion } from 'framer-motion';
 import BotaoEstoqueContabilizacion from '../componentes_Interface/BotaoEstoqueContabilizacion';
@@ -9,15 +10,20 @@ interface ModalItemDetailsProps {
     isOpen: boolean;
     item: ProjectItems['itensProject'][0];
     embalagem: Embalagem | null | undefined;
+    totals: QtyEmbDay | null;
     formData: any;
     setFormData: (form: any) => void;
     onClose: () => void;
+    mutationAll?: () => void;
 }
 
-const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, isOpen, item, embalagem, onClose }) => {
+const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, onClose }) => {
     if (!isOpen) return null;
 
     const embNotSelect = embalagem ? 'text-green-500' : 'text-red-500'
+    const qtyTotalEmb = totals?.quantidadeTotalEmbalagem ? totals.quantidadeTotalEmbalagem: '0';
+    const qtyTotalDiaItem = totals?.quantidadeTotalItem ? totals.quantidadeTotalItem: '0';
+    const qtyEstoque = totals?.quantidadeEstoque ? totals.quantidadeEstoque: '0';
 
     return (
 
@@ -81,7 +87,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, is
                                         {'ESTOQUE:'}
                                     </span>
                                     <span className={`text-lg text-cyan-500 ${item.estoque < 0 ? 'text-red-500': 'text-cyan-500'}`}>
-                                        {item.estoque}
+                                        {qtyEstoque}
                                     </span>
                                 </div>
                             </div>
@@ -95,18 +101,16 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ formData, setFormData, is
                 <div className={`flex w-[40%] p-2 pl-7 flex-col min-h-[75vh] justify-between border-l border-zinc-700`}>
                     <div className={`flex flex-col w-full gap-y-24`}>
                         <div className={`flex flex-col w-ull gap-y-5`}>
-                            <ItemGradeInputTextState labelName={'CONTABILIZADO TOTAL (NO DIA)'}
-                                formData={formData} setFormData={setFormData}
-                                isReadOnly={true} />
-                            <ItemGradeInputTextState labelName={'CONTABILIZADO TOTAL (DO ITEM)'}
-                                formData={formData} setFormData={setFormData}
-                                isReadOnly={true} />
+                            <ItemsEntryImputText labelName={'CONTABILIZADO TOTAL (NO DIA)'}                               
+                                value={String(qtyTotalEmb)} />
+                            <ItemsEntryImputText labelName={'CONTABILIZADO TOTAL (DO ITEM)'}
+                                value={String(qtyTotalDiaItem)} />
                         </div>
                         <div className={`flex flex-col w-full gap-y-5`}>
-                            <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                            <ItemsEntryImputTextState labelName={'QUANTIDADE LIDA'}
                                 formData={formData} setFormData={setFormData}
                                 isReadOnly={true} />
-                            <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'}
+                            <ItemsEntryImputTextState labelName={'CÓD DE BARRAS LEITURA'}
                                 formData={formData} setFormData={setFormData}
                                 txtSize={`text-[23px]`}
                                 placeholder={`Informe o código de barras`}
