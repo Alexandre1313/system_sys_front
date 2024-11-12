@@ -52,7 +52,7 @@ export default function EntradasEmbalagem() {
   const [isModalOpenEmb, setModalOpenEmb] = useState(false);
   const [formData, setFormData] = useState<FormDateInputs>(
     { LEITURADOCODDEBARRAS: '',
-      QUANTIDADECONTABILIZADA: '',
+      QUANTIDADECONTABILIZADA: '0',
       ITEM_SELECIONADO: null,    
     }
   );
@@ -128,8 +128,10 @@ export default function EntradasEmbalagem() {
   };
 
   const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedItem(null);
+    if(parseInt(formData.QUANTIDADECONTABILIZADA, 10) === 0){      
+      setModalOpen(false);
+      setSelectedItem(null);
+    }   
   };
 
   const handleCloseModalEmb = () => {
