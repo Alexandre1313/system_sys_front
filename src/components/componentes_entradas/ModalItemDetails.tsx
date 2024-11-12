@@ -113,7 +113,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                             <ItemsEntryImputTextState labelName={'CÓD DE BARRAS LEITURA'}
                                 formData={formData} setFormData={setFormData}
                                 txtSize={`text-[23px]`}
-                                placeholder={`Informe o código de barras`}
+                                placeholder={`Mantenha o cursor aqui...`}
                                 isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
                                         focus:ring focus:ring-emerald-500`}
                                 labelColor={`text-emerald-500`} />
