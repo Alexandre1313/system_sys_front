@@ -11,8 +11,8 @@ interface ModalItemDetailsProps {
     item: ProjectItems['itensProject'][0];
     embalagem: Embalagem | null | undefined;
     totals: QtyEmbDay | null;
-    formData: any;
-    setFormData: (form: any) => void;
+    formData: {[key: string]: any};
+    setFormData: (key: string, value: string) => void;
     onClose: () => void;
     mutationAll?: () => void;
 }

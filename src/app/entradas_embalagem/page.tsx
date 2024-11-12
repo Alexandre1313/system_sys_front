@@ -5,11 +5,13 @@ import useSWR from 'swr';
 import { getEmb, getProdEmbDay, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
 import IsLoading from '@/components/componentes_Interface/IsLoading';
 import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
-import { ProjectItems, ProjetosSimp, Embalagem, QtyEmbDay } from '../../../core';
+import { ProjectItems, ProjetosSimp, Embalagem, QtyEmbDay, FormDateInputs } from '../../../core';
 import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
 import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
 import ModalEmbCad from '@/components/componentes_Interface/ModalEmbCad';
 import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
+import { processarQtdParaEstoque } from '../../../core/utils/regraas_de_negocio';
+import Modal from '@/components/componentes_Interface/modal';
 
 // Função fetcher para carregar todos os dados de produção diária da embalagem
 const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {
@@ -44,8 +46,27 @@ export default function EntradasEmbalagem() {
   const [itemTamanhoId, setItemTamanhoId] = useState<number | null>(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpenCodeInvalid, setModalOpenCodeInvalid] = useState(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+
   const [isModalOpenEmb, setModalOpenEmb] = useState(false);
-  const [formData, setFormData] = useState<any>({ CODBARRASLEITURA: '' });
+  const [formData, setFormData] = useState<FormDateInputs>(
+    { LEITURADOCODDEBARRAS: '',
+      QUANTIDADECONTABILIZADA: '',
+      ITEM_SELECIONADO: null,    
+    }
+  );
+
+  const handleFormDataChange = (key: string, value: string) => {
+    if (key === 'LEITURADOCODDEBARRAS') {         
+      processarQtdParaEstoque(value, formData, setFormData, setModalMessage, setModalOpenCodeInvalid);
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [key]: value,
+      }));
+    }
+  };
 
   // Carregar todos os dados da produção da embalagem usando SWR
   const { error: errorSumsTotal, isValidating: isValidatingSumsTotal } = useSWR(
@@ -87,10 +108,6 @@ export default function EntradasEmbalagem() {
     setSelectedProjectId(projectId);
   };
 
-  const handleFormDataChange = (form: any) => {
-    setFormData(form);
-  };
-
   const handleEmbalagemChange = (embalagem: Embalagem | null | undefined) => {
     setSelectedEmbalagem(embalagem);
   };
@@ -103,8 +120,11 @@ export default function EntradasEmbalagem() {
     setSelectedItem(item);
     setEmbalagemId(embalagemId);
     setItemTamanhoId(itemTamanhoId);
-    setModalOpen(true);
-    console.log(totalsProdEmb)
+    setModalOpen(true); 
+    setFormData((prevData) => ({
+      ...prevData,
+      ITEM_SELECIONADO: item,
+    }));   
   };
 
   const handleCloseModal = () => {
@@ -114,6 +134,11 @@ export default function EntradasEmbalagem() {
 
   const handleCloseModalEmb = () => {
     setModalOpenEmb(false);
+  };
+
+  const closeModal = () => {
+    setModalOpenCodeInvalid(false);
+    setModalMessage('');
   };
 
   if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
@@ -171,6 +196,8 @@ export default function EntradasEmbalagem() {
           mutationAll={mutationAll}
         />
       )}
+       {/* Componente Modal */}
+      <Modal isOpen={isModalOpenCodeInvalid} message={modalMessage} onClose={closeModal} />
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
     </div>
   );

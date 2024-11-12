@@ -14,7 +14,7 @@ const processarCodigoDeBarras = (
     formData: any,
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
-    setModalOpen: (open: boolean) => void,   
+    setModalOpen: (open: boolean) => void,
     OpenModalGerarCaixa: () => void
 ) => {
     // Verifica se o valor contém apenas números (0-9)
@@ -45,9 +45,9 @@ const processarCodigoDeBarras = (
                     QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + 1), // Incrementa QUANTIDADELIDA
                     CODDEBARRASLEITURA: '',
                 }));
-                atualizarQuantidadeCaixa(formData)              
+                atualizarQuantidadeCaixa(formData)
                 if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                    OpenModalGerarCaixa()                   
+                    OpenModalGerarCaixa()
                 }
             } else {
                 // Se a quantidade exceder, exibe a mensagem no modal
@@ -84,8 +84,8 @@ function criarCaixa(formData: any): Caixa | null {
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
         qtyCaixa: 0,
         caixaNumber: NUMERODACAIXA,
-        itensGrade: ESCOLA_GRADE.grade.itensGrade, 
-        caixaItem: [],              
+        itensGrade: ESCOLA_GRADE.grade.itensGrade,
+        caixaItem: [],
     };
 
     let totalExpedido = 0;
@@ -93,7 +93,7 @@ function criarCaixa(formData: any): Caixa | null {
     // Percorre os itens da grade
     for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {
         // Verifica se o item deve ser contado
-        if (itemGrade.isCount){
+        if (itemGrade.isCount) {
             const quantidadeParaCaixa = itemGrade.qtyPCaixa; // Pega a quantidade da caixa
             // Se a quantidade expedida for igual à quantidade total
             if (itemGrade.quantidade === itemGrade.quantidadeExpedida) {
@@ -103,7 +103,7 @@ function criarCaixa(formData: any): Caixa | null {
                         itemName: itemGrade?.itemTamanho?.item.nome,
                         itemGenero: itemGrade.itemTamanho.item.genero,
                         itemTam: itemGrade.itemTamanho.tamanho.nome,
-                        itemQty: quantidadeParaCaixa, 
+                        itemQty: quantidadeParaCaixa,
                         itemTamanhoId: itemGrade.itemTamanho.id,
                     };
                     // Adiciona ao caixa
@@ -120,7 +120,7 @@ function criarCaixa(formData: any): Caixa | null {
                         itemName: itemGrade.itemTamanho.item.nome,
                         itemGenero: itemGrade.itemTamanho.item.genero,
                         itemTam: itemGrade.itemTamanho.tamanho.nome,
-                        itemQty: quantidadeParaCaixa, 
+                        itemQty: quantidadeParaCaixa,
                         itemTamanhoId: itemGrade.itemTamanho.id,
                     };
                     // Adiciona ao caixa
@@ -137,8 +137,52 @@ function criarCaixa(formData: any): Caixa | null {
     // Se não houve expedição de itens, retorne null
     if (totalExpedido === 0) {
         return null;
-    }   
+    }
     return caixa; // Retorna a caixa pronta para inserção no banco
 }
 
-export { processarCodigoDeBarras, criarCaixa }
+const processarQtdParaEstoque = (
+    value: string,
+    formData: any,
+    setFormData: (data: any) => void,
+    setModalMessage: (message: string) => void,
+    setModalOpenCodeInvalid: (open: boolean) => void,
+) => {
+    // Verifica se o valor contém apenas números (0-9)
+    const isNumeric = /^[0-9]*$/.test(value);
+
+    // Se o valor não for numérico, mantém o campo com o valor digitado
+    if (!isNumeric) {
+        // Não alterar o estado para limpar o campo
+        return; // Sai da função, nada mais é executado
+    }
+
+    const itemCodigo = formData.ITEM_SELECIONADO?.barcode;
+
+    // Atualiza o CODDEBARRASLEITURA com o valor digitado
+    setFormData((prevData: any) => ({
+        ...prevData,
+        LEITURADOCODDEBARRAS: value, // Sempre atualiza para o valor digitado
+    }));
+
+    if (value.length === 5) {
+        if (value === itemCodigo) {
+            setFormData((prevData: any) => ({
+                ...prevData,
+                QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1), // Incrementa QUANTIDADELIDA
+                LEITURADOCODDEBARRAS: '',
+            }));
+        } else {
+            // Se o código não corresponder, podemos exibir uma mensagem no modal
+            setModalMessage('Código de barras inválido');
+            setModalOpenCodeInvalid(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                LEITURADOCODDEBARRAS: '',
+                // Não limpa o campo aqui
+            }));
+        }
+    }
+};
+
+export { processarCodigoDeBarras, criarCaixa, processarQtdParaEstoque }
