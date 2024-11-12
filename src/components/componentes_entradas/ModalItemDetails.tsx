@@ -107,10 +107,10 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                 value={String(qtyTotalDiaItem)} />
                         </div>
                         <div className={`flex flex-col w-full gap-y-5`}>
-                            <ItemsEntryImputTextState labelName={'QUANTIDADE LIDA'}
+                            <ItemsEntryImputTextState labelName={'QUANTIDADE CONTABILIZADA'}
                                 formData={formData} setFormData={setFormData}
                                 isReadOnly={true} />
-                            <ItemsEntryImputTextState labelName={'CÓD DE BARRAS LEITURA'}
+                            <ItemsEntryImputTextState labelName={'LEITURA DO CÓD DE BARRAS'}
                                 formData={formData} setFormData={setFormData}
                                 txtSize={`text-[23px]`}
                                 placeholder={`Mantenha o cursor aqui...`}
