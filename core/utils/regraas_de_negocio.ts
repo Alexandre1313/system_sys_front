@@ -1,4 +1,4 @@
-import { Embalagem } from "../interfaces"
+import { Embalagem, FormDateInputs, ItensProjects, Stock } from "../interfaces"
 import Caixa from "../interfaces/Caixa"
 import CaixaItem from "../interfaces/CaixaItem"
 
@@ -198,4 +198,14 @@ const processarQtdParaEstoque = (
     }
 };
 
-export { processarCodigoDeBarras, criarCaixa, processarQtdParaEstoque }
+function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs, selectedItem: ItensProjects ): Stock{
+    const stock: Stock = {
+        embalagemId: embalagenid,
+        itemTamanhoid: selectedItem.id,
+        estoqueId: selectedItem.estoqueId,
+        quantidade: parseInt(formdata.QUANTIDADECONTABILIZADA, 10)
+    }
+    return stock;
+}
+
+export { processarCodigoDeBarras, criarCaixa, processarQtdParaEstoque, objectsStockEmbs }

@@ -20,6 +20,7 @@ import ProjetosSimp from "./ProjetosSimp";
 import Embalagem from "./Embalagem";
 import QtyEmbDay from "./QtyEmbDay";
 import FormDateInputs from "./FormDateInputs";
+import Stock from "./Stock";
 
 export type { 
     Escola,
@@ -43,5 +44,6 @@ export type {
     ProjetosSimp,
     Embalagem,
     QtyEmbDay,
-    FormDateInputs
+    FormDateInputs,
+    Stock
 }

@@ -12,12 +12,15 @@ interface ModalItemDetailsProps {
     embalagem: Embalagem | null | undefined;
     totals: QtyEmbDay | null;
     formData: { [key: string]: any };
+    IsOpenStock: boolean;
     setFormData: (key: string, value: string) => void;
-    onClose: () => void;  
+    onClose: () => void;
     mutationAll?: () => void;
+    updateStockEndEntryInput: () => void,
 }
 
-const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, onClose}) => {
+const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, IsOpenStock,
+     onClose,  updateStockEndEntryInput }) => {
     if (!isOpen) return null;
 
     const embNotSelect = embalagem ? 'text-green-500' : 'text-red-500'
@@ -48,6 +51,14 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                         </div>
                         <div className={`flex flex-col items-center justify-start w-full gap-y-3 border-b pb-2 border-zinc-700`}>
                             <div className={`flex flex-col items-start justify-start w-full gap-y-2`}>
+                                <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
+                                        {'PROJETO:'}
+                                    </span>
+                                    <span className={`text-lg text-cyan-500`}>
+                                        {formData.PROJETO}
+                                    </span>
+                                </div>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
                                     <span className={`text-lg text-zinc-400`}>
                                         {'ITEM:'}
@@ -95,7 +106,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                     </div>
                     <div className={`flex w-full justify-start items-center gap-x-5`}>
                         <BotaoArrowLeft onClick={onClose} stringButtton={`VOLTAR`} iconSize={20}
-                            bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />                       
+                            bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
                     </div>
                 </div >
                 <div className={`flex w-[40%] p-2 pl-7 flex-col min-h-[75vh] justify-between border-l border-zinc-700`}>
@@ -128,7 +139,9 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                 strokeWidth={3}
                                 iconColor={`#fff`}
                                 iconSize={20}
+                                IsOpenStock={IsOpenStock}
                                 stringButtton={`ATUALIZAR ESTOQUE`}
+                                updateStockEndEntryInput={updateStockEndEntryInput}
                             />
                         </div>
                     </div>

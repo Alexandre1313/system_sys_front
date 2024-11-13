@@ -5,14 +5,15 @@ import useSWR from 'swr';
 import { getEmb, getProdEmbDay, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
 import IsLoading from '@/components/componentes_Interface/IsLoading';
 import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
-import { ProjectItems, ProjetosSimp, Embalagem, QtyEmbDay, FormDateInputs } from '../../../core';
+import { ProjectItems, ProjetosSimp, Embalagem, QtyEmbDay, FormDateInputs, Stock } from '../../../core';
 import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
 import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
 import ModalEmbCad from '@/components/componentes_Interface/ModalEmbCad';
 import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
-import { processarQtdParaEstoque } from '../../../core/utils/regraas_de_negocio';
+import { objectsStockEmbs, processarQtdParaEstoque } from '../../../core/utils/regraas_de_negocio';
 import Modal from '@/components/componentes_Interface/modal';
 import ModalCancel from '@/components/componentes_Interface/modalCancel';
+import ModalStockAtualization from '@/components/componentes_Interface/ModalStockAtualization';
 
 // Função fetcher para carregar todos os dados de produção diária da embalagem
 const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {
@@ -51,6 +52,9 @@ export default function EntradasEmbalagem() {
   const [modalMessage, setModalMessage] = useState<string>('');
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [modalMessageCancel, setModalMessageCancel] = useState<string>('');
+  const [isOpenStock, setIsOpenStock] = useState<boolean>(false);
+  const [messageStock, setMessageStock] = useState<string>('');
+  const [stock, setStock] = useState<Stock | null>(null);
 
   const [isModalOpenEmb, setModalOpenEmb] = useState(false);
   const [formData, setFormData] = useState<FormDateInputs>(
@@ -58,6 +62,7 @@ export default function EntradasEmbalagem() {
       LEITURADOCODDEBARRAS: '',
       QUANTIDADECONTABILIZADA: '0',
       ITEM_SELECIONADO: null,
+      PROJETO: null
     }
   );
 
@@ -120,7 +125,8 @@ export default function EntradasEmbalagem() {
     swrMutateItems();
   }
 
-  const handleItemClick = (item: ProjectItems['itensProject'][0], embalagemId: number | undefined, itemTamanhoId: number) => {
+  const handleItemClick = (item: ProjectItems['itensProject'][0], embalagemId: number | undefined,
+    itemTamanhoId: number, projeto: ProjectItems) => {
     setSelectedItem(item);
     setEmbalagemId(embalagemId);
     setItemTamanhoId(itemTamanhoId);
@@ -128,6 +134,7 @@ export default function EntradasEmbalagem() {
     setFormData((prevData) => ({
       ...prevData,
       ITEM_SELECIONADO: item,
+      PROJETO: projeto.nome,
     }));
   };
 
@@ -163,6 +170,20 @@ export default function EntradasEmbalagem() {
     setModalMessage('');
   };
 
+  const updateStockEndEntryInput = () => {
+    setIsOpenStock(true);
+    setMessageStock("");
+    const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!);
+    setStock(stockR);
+    console.log(stock)
+  }
+
+  const onCloseStock = () => {
+    setIsOpenStock(false);
+    setMessageStock("");
+    setStock(null);
+  }
+
   if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
 
   if (errorProjetos || errorItems || errorEmbalagens || errorSumsTotal) {
@@ -197,7 +218,8 @@ export default function EntradasEmbalagem() {
         {projectItems ? (
           projectItems.itensProject.map((item) => (
             <ItemsProjects key={item.id} item={item}
-              onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id)} itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
+              onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)} 
+              itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
           ))
         ) : (
           <div className={`flex justify-center items-center h-full flex-1 w-full flex-col`}>
@@ -213,9 +235,11 @@ export default function EntradasEmbalagem() {
           item={selectedItem}
           embalagem={selectedEmbalagem}
           formData={formData}
+          IsOpenStock={isOpenStock}
           setFormData={handleFormDataChange}
           onClose={handleCloseModal}
-          mutationAll={mutationAll}         
+          mutationAll={mutationAll} 
+          updateStockEndEntryInput={updateStockEndEntryInput}        
         />
       )}
       {/* Componente Modal */}
@@ -223,6 +247,7 @@ export default function EntradasEmbalagem() {
       <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} 
        messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel}/>
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
+      <ModalStockAtualization isOpenStock={isOpenStock} messageStock={messageStock} onCloseStock={onCloseStock}/>
     </div>
   );
 }
