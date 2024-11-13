@@ -101,29 +101,29 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Card com informações */}
-            <div className={`flex flex-col m-2 p-3  border rounded-md gap-y-1 ${borderColor}`}>
-                <h2 className="text-[17px] font-normal text-gray-400">
-                    Total de Itens na Grade:
+            <div className={`flex flex-col m-2 p-3  border rounded-md gap-y-0 ${borderColor}`}>
+                <h2 className="text-[13px] font-normal text-gray-400">
+                    TOTAL DE ITENS NA GRADE:
                     <strong className="ml-2 font-semi-bold text-[17px] text-orange-600">{totalGrade}</strong>
                 </h2>
-                <h2 className="text-[15px] font-normal text-gray-400">
-                    Total de Itens à expedir:
+                <h2 className="text-[13px] font-normal text-gray-400">
+                    TOTAL DE ITENS À EXPEDIR:
                     <strong className="ml-2 font-semi-bold text-[17px] text-yellow-400">{total - totalExpedido}</strong>
                 </h2>
-                <h2 className="text-[15px] font-normal text-gray-400">
-                    Total de Itens expedido:
+                <h2 className="text-[13px] font-normal text-gray-400">
+                    TOTAL DE ITENS JÁ EXPEDIDO:
                     <strong className="ml-2 font-semi-bold text-[17px] text-green-400">{totalExpedido}</strong>
                 </h2>
                 <div className={`flex flex-col`}>
-                    <h2 className="text-[15px] font-normal text-gray-400 mb-2 mt-2">
+                    <h2 className="text-[14px] font-normal text-blue-400 mb-2 mt-2">
                         {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
                     </h2>
                     {uniqueItems.map((it, index) => {
                         return (
                             <div key={index} className={`flex`}>
-                                <strong className="ml-0 font-semi-bold text-[17px] text-slate-500">{it.nome}</strong>
-                                <strong className={`ml-2 mr-2 font-semi-bold text-[17px]`}>-</strong>
-                                <strong className="ml-0 font-semi-bold text-[17px] text-slate-500">{it.genero}</strong>
+                                <strong className="ml-0 font-normal text-[14px] text-slate-500">{it.nome}</strong>
+                                <strong className={`ml-2 mr-2 font-normal text-[14px]`}>-</strong>
+                                <strong className="ml-0 font-normal text-[14px] text-slate-500">{it.genero}</strong>
                             </div>)
                         })}
                 </div>
@@ -134,7 +134,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         type="button"
                         onClick={abrirTela}
                         className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
-                         bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px]"
+                         bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]"
                     >
                         ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
                     </button>

@@ -194,7 +194,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
             type="button"
             onClick={gerarPDF}
             className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
-            bg-opacity-30 text-white font-normal text-[14px] rounded-md min-w-[200px]">
+            bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]">
                 ETIQUETAS <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
         </button>          
     );
