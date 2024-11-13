@@ -244,8 +244,7 @@ export default function EntradasEmbalagem() {
       )}
       {/* Componente Modal */}
       <Modal isOpen={isModalOpenCodeInvalid} message={modalMessage} onClose={closeModal} />
-      <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} 
-       messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel}/>
+      <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel}/>
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
       <ModalStockAtualization isOpenStock={isOpenStock} messageStock={messageStock} onCloseStock={onCloseStock}/>
     </div>
