@@ -12,6 +12,7 @@ import ModalEmbCad from '@/components/componentes_Interface/ModalEmbCad';
 import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
 import { processarQtdParaEstoque } from '../../../core/utils/regraas_de_negocio';
 import Modal from '@/components/componentes_Interface/modal';
+import ModalCancel from '@/components/componentes_Interface/modalCancel';
 
 // Função fetcher para carregar todos os dados de produção diária da embalagem
 const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {
@@ -48,18 +49,21 @@ export default function EntradasEmbalagem() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenCodeInvalid, setModalOpenCodeInvalid] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
+  const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
+  const [modalMessageCancel, setModalMessageCancel] = useState<string>('');
 
   const [isModalOpenEmb, setModalOpenEmb] = useState(false);
   const [formData, setFormData] = useState<FormDateInputs>(
-    { LEITURADOCODDEBARRAS: '',
+    {
+      LEITURADOCODDEBARRAS: '',
       QUANTIDADECONTABILIZADA: '0',
-      ITEM_SELECIONADO: null,    
+      ITEM_SELECIONADO: null,
     }
   );
 
   const handleFormDataChange = (key: string, value: string) => {
-    if (key === 'LEITURADOCODDEBARRAS') {         
-      processarQtdParaEstoque(value, formData, setFormData, setModalMessage, setModalOpenCodeInvalid);
+    if (key === 'LEITURADOCODDEBARRAS') {
+      processarQtdParaEstoque(value, formData, selectedEmbalagem, setFormData, setModalMessage, setModalOpenCodeInvalid);
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -120,19 +124,35 @@ export default function EntradasEmbalagem() {
     setSelectedItem(item);
     setEmbalagemId(embalagemId);
     setItemTamanhoId(itemTamanhoId);
-    setModalOpen(true); 
+    setModalOpen(true);
     setFormData((prevData) => ({
       ...prevData,
       ITEM_SELECIONADO: item,
-    }));   
+    }));
   };
 
   const handleCloseModal = () => {
-    if(parseInt(formData.QUANTIDADECONTABILIZADA, 10) === 0){      
+    if (parseInt(formData.QUANTIDADECONTABILIZADA, 10) === 0) {
       setModalOpen(false);
       setSelectedItem(null);
-    }   
+    } else {
+      setModalMessageCancel('Há itens não efetivados no Banco de Dados, finalize a operação ou cancele!');
+      setIsOpenCancel(true);
+    }
   };
+
+  const handleCloseModalCancel = () => {
+    setIsOpenCancel(false);
+    setModalMessageCancel('');
+    setModalOpen(false);
+    setSelectedItem(null);
+    formData.QUANTIDADECONTABILIZADA = '0';
+  }
+
+  const handleCloseModalContinue = () => {
+    setIsOpenCancel(false);
+    setModalMessageCancel('');
+  }
 
   const handleCloseModalEmb = () => {
     setModalOpenEmb(false);
@@ -195,11 +215,13 @@ export default function EntradasEmbalagem() {
           formData={formData}
           setFormData={handleFormDataChange}
           onClose={handleCloseModal}
-          mutationAll={mutationAll}
+          mutationAll={mutationAll}         
         />
       )}
-       {/* Componente Modal */}
+      {/* Componente Modal */}
       <Modal isOpen={isModalOpenCodeInvalid} message={modalMessage} onClose={closeModal} />
+      <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} 
+       messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel}/>
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
     </div>
   );

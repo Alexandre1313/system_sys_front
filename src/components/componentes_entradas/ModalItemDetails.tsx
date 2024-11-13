@@ -11,19 +11,19 @@ interface ModalItemDetailsProps {
     item: ProjectItems['itensProject'][0];
     embalagem: Embalagem | null | undefined;
     totals: QtyEmbDay | null;
-    formData: {[key: string]: any};
+    formData: { [key: string]: any };
     setFormData: (key: string, value: string) => void;
-    onClose: () => void;
+    onClose: () => void;  
     mutationAll?: () => void;
 }
 
-const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, onClose }) => {
+const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, onClose}) => {
     if (!isOpen) return null;
 
     const embNotSelect = embalagem ? 'text-green-500' : 'text-red-500'
-    const qtyTotalEmb = totals?.quantidadeTotalEmbalagem ? totals.quantidadeTotalEmbalagem: '0';
-    const qtyTotalDiaItem = totals?.quantidadeTotalItem ? totals.quantidadeTotalItem: '0';
-    const qtyEstoque = totals?.quantidadeEstoque ? totals.quantidadeEstoque: '0';
+    const qtyTotalEmb = totals?.quantidadeTotalEmbalagem ? totals.quantidadeTotalEmbalagem : '0';
+    const qtyTotalDiaItem = totals?.quantidadeTotalItem ? totals.quantidadeTotalItem : '0';
+    const qtyEstoque = totals?.quantidadeEstoque ? totals.quantidadeEstoque : '0';
 
     return (
 
@@ -86,22 +86,22 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                     <span className={`text-lg text-zinc-400`}>
                                         {'ESTOQUE:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500 ${item.estoque < 0 ? 'text-red-500': 'text-cyan-500'}`}>
+                                    <span className={`text-lg text-cyan-500 ${item.estoque < 0 ? 'text-red-500' : 'text-cyan-500'}`}>
                                         {qtyEstoque}
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="">
+                    <div className={`flex w-full justify-start items-center gap-x-5`}>
                         <BotaoArrowLeft onClick={onClose} stringButtton={`VOLTAR`} iconSize={20}
-                            bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
+                            bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />                       
                     </div>
                 </div >
                 <div className={`flex w-[40%] p-2 pl-7 flex-col min-h-[75vh] justify-between border-l border-zinc-700`}>
                     <div className={`flex flex-col w-full gap-y-8`}>
                         <div className={`flex flex-col w-ull gap-y-5`}>
-                            <ItemsEntryImputText labelName={'CONTABILIZADO TOTAL (NO DIA)'}                               
+                            <ItemsEntryImputText labelName={'CONTABILIZADO TOTAL (NO DIA)'}
                                 value={String(qtyTotalEmb)} />
                             <ItemsEntryImputText labelName={'CONTABILIZADO TOTAL (DO ITEM)'}
                                 value={String(qtyTotalDiaItem)} />

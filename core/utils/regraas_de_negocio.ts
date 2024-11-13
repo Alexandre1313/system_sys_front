@@ -1,3 +1,4 @@
+import { Embalagem } from "../interfaces"
 import Caixa from "../interfaces/Caixa"
 import CaixaItem from "../interfaces/CaixaItem"
 
@@ -144,6 +145,7 @@ function criarCaixa(formData: any): Caixa | null {
 const processarQtdParaEstoque = (
     value: string,
     formData: any,
+    selectedEmbalagem: Embalagem | null | undefined,
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
     setModalOpenCodeInvalid: (open: boolean) => void,
@@ -166,20 +168,31 @@ const processarQtdParaEstoque = (
     }));
 
     if (value.length === 5) {
-        if (value === itemCodigo) {
-            setFormData((prevData: any) => ({
-                ...prevData,
-                QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1), // Incrementa QUANTIDADELIDA
-                LEITURADOCODDEBARRAS: '',
-            }));
+        if (selectedEmbalagem) {
+            if (value === itemCodigo) {
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1), // Incrementa QUANTIDADELIDA
+                    LEITURADOCODDEBARRAS: '',
+                }));
+            } else {
+                // Se o código não corresponder, podemos exibir uma mensagem no modal
+                setModalMessage('Código de barras inválido');
+                setModalOpenCodeInvalid(true);
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    LEITURADOCODDEBARRAS: '',
+                    // limpa o campo aqui
+                }));
+            }
         } else {
-            // Se o código não corresponder, podemos exibir uma mensagem no modal
-            setModalMessage('Código de barras inválido');
+            // Se a embalagem nao estiver setada
+            setModalMessage('Selecione o embalador');
             setModalOpenCodeInvalid(true);
             setFormData((prevData: any) => ({
                 ...prevData,
                 LEITURADOCODDEBARRAS: '',
-                // Não limpa o campo aqui
+                // limpa o campo aqui
             }));
         }
     }
