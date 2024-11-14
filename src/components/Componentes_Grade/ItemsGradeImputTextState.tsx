@@ -9,8 +9,9 @@ export interface ItemGradeInputTextStateProps {
     isFocus?: string;
     labelColor?: string;
     valueColor?: string;
-    setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai
-   
+    positionn?: string;
+    labelposition?: string;
+    setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
 
 export default function ItemGradeInputTextState(props: ItemGradeInputTextStateProps) {
@@ -24,10 +25,10 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
     };
 
     return (
-        <div className="flex flex-col items-start justify-center gap-y-3">
+        <div className="flex flex-col items-start justify-center gap-y-3 w-full">
             <label
                 htmlFor={`${labelName}-input`}
-                className={`flex text-left text-[15px]
+                className={`flex ${props.labelposition ? props.labelposition: 'justify-end'} w-full text-[15px]
                 ${props.labelColor ? props.labelColor: 'text-zinc-400'} tracking-[2px]`}
             >
                 {props.labelName}
@@ -35,7 +36,7 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
             <input
                 className={`flex p-2 w-full text-left ${props.txtSize ? props.txtSize: 'text-[27px]'} 
                 ${props.isFocus ? props.isFocus: 'outline-none'} 
-                bg-trans rounded-md  border h-[50px] min-w-[374px]
+                bg-trans rounded-md  border h-[50px] min-w-[374px] ${props.positionn ? props.positionn: 'text-right'}
                 border-gray-700 ${props.valueColor ? props.valueColor: 'text-green-400'} 
                 placeholder:text-[rgba(333,333,333,0.2)]`}
                 type="text"   

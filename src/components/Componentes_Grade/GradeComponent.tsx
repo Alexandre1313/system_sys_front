@@ -252,7 +252,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         placeholder={`Mantenha o cursor aqui...`}
                                         isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
                                         focus:ring focus:ring-emerald-500`}
-                                        labelColor={`text-emerald-500`} />
+                                        labelColor={`text-emerald-500`} 
+                                        positionn={`text-left`}
+                                        labelposition={`justify-start`}/>
                                 </div>
                             </div>
                         </div>
