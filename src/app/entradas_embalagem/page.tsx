@@ -171,17 +171,26 @@ export default function EntradasEmbalagem() {
   };
 
   const updateStockEndEntryInput = () => {
-    setIsOpenStock(true);
-    setMessageStock("");
-    const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!);
-    setStock(stockR);
-    console.log(stock)
+    if(parseInt(formData.QUANTIDADECONTABILIZADA, 10) > 0){
+      setIsOpenStock(true);
+      setMessageStock("Deseja adicionar a quantidade contabilizada ao estoque?");
+      const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!, selectedEmbalagem!);
+      if(stockR){
+        setStock(stockR);      
+      }else{
+        console.log('Stock não criado.')
+      }      
+    }
   }
 
-  const onCloseStock = () => {
+  const onCloseStock = () => {       
     setIsOpenStock(false);
-    setMessageStock("");
-    setStock(null);
+    setMessageStock("");  
+  }
+
+  const setMessageS = (msg: string) => {
+    setMessageStock(msg);
+    setStock(null);   
   }
 
   if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
@@ -246,7 +255,8 @@ export default function EntradasEmbalagem() {
       <Modal isOpen={isModalOpenCodeInvalid} message={modalMessage} onClose={closeModal} />
       <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel}/>
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
-      <ModalStockAtualization isOpenStock={isOpenStock} messageStock={messageStock} onCloseStock={onCloseStock}/>
+      <ModalStockAtualization isOpenStock={isOpenStock} messageStock={messageStock} 
+       onCloseStock={onCloseStock} setMessageS={setMessageS} stock={stock}/>
     </div>
   );
 }

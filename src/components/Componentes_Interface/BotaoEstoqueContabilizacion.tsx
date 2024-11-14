@@ -22,7 +22,7 @@ export default function BotaoEstoqueContabilizacion(props: BotaoEstoqueContabili
     return (
         <button
             type="button"
-            onClick={props. updateStockEndEntryInput}  // Use a função onClick passada via props
+            onClick={props.updateStockEndEntryInput}  // Use a função onClick passada via props
             className={`px-4 py-4 ${bgColor} ${textColor} font-medium rounded-md flex text-[13px] w-[215px]
                 items-center justify-center gap-x-3 ${bgHoverColor}
                 ${bgHoverColor} transition duration-500`}

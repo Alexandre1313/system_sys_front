@@ -198,12 +198,15 @@ const processarQtdParaEstoque = (
     }
 };
 
-function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs, selectedItem: ItensProjects ): Stock{
+function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs, 
+    selectedItem: ItensProjects, embalagem: Embalagem ): Stock{
     const stock: Stock = {
         embalagemId: embalagenid,
         itemTamanhoid: selectedItem.id,
         estoqueId: selectedItem.estoqueId,
-        quantidade: parseInt(formdata.QUANTIDADECONTABILIZADA, 10)
+        quantidade: parseInt(formdata.QUANTIDADECONTABILIZADA, 10),
+        selectedtItem: selectedItem,
+        embalagem: embalagem,
     }
     return stock;
 }
