@@ -10,7 +10,7 @@ export default function StockQty({ stock }: StockQtyProps) {
          border border-zinc-300 rounded-md p-4`}>
             <div className={`flex w-full items-center justify-start`}>
                 <span className={`text-[19px] text-green-700 font-bold`}>
-                    ITEM À SER INCLUIDO NO ESSTOQUE:
+                    ITEM À SER INCLUIDO NO ESTOQUE:
                 </span>               
             </div>
             <div className={`flex w-full items-center justify-start gap-x-3`}>
