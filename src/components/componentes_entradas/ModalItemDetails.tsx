@@ -97,7 +97,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                     <span className={`text-lg text-zinc-400`}>
                                         {'ESTOQUE:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500 ${item.estoque < 0 ? 'text-red-500' : 'text-cyan-500'}`}>
+                                    <span className={`text-lg text-yellow-500`}>
                                         {qtyEstoque}
                                     </span>
                                 </div>

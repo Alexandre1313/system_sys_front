@@ -59,11 +59,11 @@ const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenS
         setMessageSStoqueAtualization('Erro ao atualizar o estoque, tente novamente.');         
       }
       if (data) {
-        setMessageSStoqueAtualization(`Estoque atualizado com sucesso!`);
+        setMessageSStoqueAtualization(`Estoque atualizado com sucesso!`);       
         stockSucssesZero();
         const timeout = setTimeout(() => {         
-          onCloseStock(); 
-          mutateStock();
+          onCloseStock();    
+          mutateStock();       
           setIsLoading(false);
           clearTimeout(timeout);
         }, 1000)      

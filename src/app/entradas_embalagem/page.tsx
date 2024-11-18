@@ -127,7 +127,7 @@ export default function EntradasEmbalagem() {
   }
 
   const mutationStock = () => {
-    swrMutateStock();
+    swrMutateStock();   
   }
 
   const handleItemClick = (item: ProjectItems['itensProject'][0], embalagemId: number | undefined,
