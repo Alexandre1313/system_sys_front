@@ -7,7 +7,7 @@ const font = Montserrat({
 })
 
 export const metadata: Metadata = {
-  title: "Ventura Têxtil",
+  title: "VENTURA TÊXTIL",
   description: "Sistema next app",
   icons: {
     icon: '/favicon.ico',
