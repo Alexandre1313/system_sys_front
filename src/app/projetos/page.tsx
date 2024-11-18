@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import useSWR from 'swr';
 import ProjetoComponent from "@/components/componentes_Projeto/ProjetoComponent";
