@@ -8,14 +8,9 @@ import { get } from "../../hooks_api/api";
 import IsLoading from '@/components/componentes_Interface/IsLoading';
 
 // Defina a função fetcher garantindo que ela retorne o tipo correto
-const fetcher = async (): Promise<Projeto[]> => {
-    try {
-        const data = await get("P");
-        return data as Projeto[];
-    } catch (error) {
-        console.error('Erro ao buscar dados:', error);
-        throw error; 
-    }
+const fetcher = async () => {
+    const data = await get();
+    return data;
 };
 
 export default function Projetos() {
