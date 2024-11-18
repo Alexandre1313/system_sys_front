@@ -212,7 +212,7 @@ export default function EntradasEmbalagem() {
     return (
       <div className="flex items-center justify-center min-h-[96vh] w-[100%]">
         <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
-          Erro: {errorProjetos?.message || errorItems?.message || errorEmbalagens?.message}
+          Erro: {errorProjetos?.message || errorItems?.message || errorEmbalagens?.message || errorSumsTotal?.message}
         </p>
       </div>
     );
