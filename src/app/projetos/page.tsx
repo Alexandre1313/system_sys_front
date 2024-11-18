@@ -1,40 +1,15 @@
-'use client'
-
-import useSWR from 'swr';
 import ProjetoComponent from "@/components/componentes_Projeto/ProjetoComponent";
-import { Projeto } from '../../../core'; // Importa a interface Projeto
+import { Projeto } from '../../../core';
 import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
 import { get } from "../../hooks_api/api";
-import IsLoading from '@/components/componentes_Interface/IsLoading';
 
-// Defina a função fetcher garantindo que ela retorne o tipo correto
-const fetcher = async () => {
-    const data = await get();
-    return data;
-};
+// Componente com data fetching assíncrono
+export default async function Projetos() {
+    try {
+        // Busca de dados diretamente no servidor
+        const projetos: Projeto[] = await get();
 
-export default function Projetos() {
-    // Use o SWR com a chave e o fetcher definidos corretamente
-    const { data: projetos, error, isValidating } = useSWR<Projeto[]>('projetos', fetcher, {
-        revalidateOnFocus: false, // Configuração opcional para evitar novas buscas ao focar na aba
-        refreshInterval: 5 * 60 * 60 * 1000, // Atualiza a cada 5 horas
-    });
-
-    // Exibe uma mensagem de carregamento enquanto os dados estão sendo buscados
-    if (isValidating) {
-        return <IsLoading/>
-    }
-
-    if (error) {
         return (
-            <div className='flex items-center justify-center min-h-[95vh] w-[100%]'>
-                <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>Erro: {error.message}</p>
-            </div>
-        );
-    }
-
-    return (
-        <>
             <div className="flexColCS p-4 pt-14">
                 <TitleComponentFixed stringOne={`PROJETOS`} />
                 <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
@@ -42,9 +17,9 @@ export default function Projetos() {
                     <div className="flexRRFE max-w-[1200px] border border-transparent 
                       rounded-lg gap-x-12 flex-wrap gap-y-12 p-1 lg:p-3">
                         {
-                            projetos && projetos.length > 0 ? (
+                            projetos.length > 0 ? (
                                 projetos
-                                    .sort((a, b) => a.nome.localeCompare(b.nome)) // Usando localeCompare para ordenar por nome
+                                    .sort((a, b) => a.nome.localeCompare(b.nome))
                                     .map((p) => (
                                         <ProjetoComponent key={p.id} projeto={p} />
                                     ))
@@ -55,6 +30,14 @@ export default function Projetos() {
                     </div>
                 </div>
             </div>
-        </>
-    );
+        );
+    } catch (error: any) {
+        return (
+            <div className='flex items-center justify-center min-h-[95vh] w-[100%]'>
+                <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
+                    Erro: {error.message}
+                </p>
+            </div>
+        );
+    }
 }
