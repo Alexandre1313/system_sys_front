@@ -3,26 +3,34 @@ import { Loader } from 'react-feather';
 import { motion } from 'framer-motion';
 import { Stock } from '../../../core';
 import StockQty from './StockQty';
+import { stockGenerate } from '@/hooks_api/api';
+import EntryInput from '../../../core/interfaces/EntryInput';
 
 interface ModalStockAtualizationProps {
   stock: Stock | null;
   isOpenStock: boolean;
   messageStock: string;
   onCloseStock: () => void;
-  mutateStock?: () => void; 
+  mutateStock: () => void; 
   setMessageS: (msg: string) => void;
+  stockSucssesZero: () => void;
+  setMessageSStoqueAtualization: (msg: string) => void;
 }
 
-const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenStock, messageStock, stock, onCloseStock, setMessageS }) => {
+const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenStock, messageStock, stock, 
+  mutateStock, onCloseStock, setMessageS, stockSucssesZero, setMessageSStoqueAtualization }) => {
+  const [msg, setMsg] = useState<string>(messageStock);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingCancel, setIsLoadingCancel] = useState(false);
-  const [msg, setMsg] = useState<string>(messageStock);
+ 
   const [isError, setIsError] = useState(false);
+  const [isErrorCancel, setIsErrorCancel] = useState(false);
 
   const getSoundForMessage = (message: string) => {
-    if (message.includes('Grade finalizada')) {
+    if (message.includes('Estoque atualizado com sucesso.')) {
       return '/caixasound.mp3';
-    } else if (message.includes('Erro ao encerrar a grade')) {
+    } else if (message.includes('Erro ao atualizar o estoque, tente novamente.')) {
       return '/error2.mp3';
     }
     return '/caixasound.mp3';
@@ -41,22 +49,43 @@ const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenS
     setIsLoading(true);
     setIsError(false);
     try {
-    
+      setMessageSStoqueAtualization(`Por favor, aguarde...`);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { embalagem, selectedtItem, ...dadosDoStock } = stock!;
+      const data: EntryInput | null = await stockGenerate(dadosDoStock);   
+      if (!data) {       
+        setIsError(true);
+        setIsLoading(false);
+        setMessageSStoqueAtualization('Erro ao atualizar o estoque, tente novamente.');         
+      }
+      if (data) {
+        setMessageSStoqueAtualization(`Estoque atualizado com sucesso!`);
+        stockSucssesZero();
+        const timeout = setTimeout(() => {         
+          onCloseStock(); 
+          mutateStock();
+          setIsLoading(false);
+          clearTimeout(timeout);
+        }, 1000)      
+      }     
     } catch (error) {
-      console.log(error)
-    } finally {
+      console.log(error);
+      setMessageSStoqueAtualization('Erro ao atualizar o estoque, tente novamente.');
+      setIsError(true);
       setIsLoading(false);
-    }
+    } 
   };
 
   const handleCancelarEstoque = () => {
+    setIsError(false);
     setMessageS('Cancelando...')
     setIsLoadingCancel(true);
     const timeout = setTimeout(() => {
-      onCloseStock()     
-      clearTimeout(timeout);
-      setIsLoadingCancel(false);     
-    }, 2000)     
+      onCloseStock();  
+      setIsLoadingCancel(false);   
+      setIsErrorCancel(false);        
+      clearTimeout(timeout);         
+    }, 1500)     
   };
 
   if (!isOpenStock) return null;
@@ -85,12 +114,12 @@ const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenS
         <div className="flex w-full justify-between mt-4 gap-4">         
           <button
             className={`w-full text-white px-12 py-2 rounded text-[14px] 
-              ${isLoadingCancel || isLoadingCancel ? 'bg-gray-400' : 'bg-gray-900 hover:bg-gray-700'}
+              ${isLoading || isLoadingCancel ? 'bg-gray-400' : 'bg-gray-900 hover:bg-gray-700'}
             flex items-center justify-center`}
             onClick={handleCancelarEstoque}
             disabled={isLoading || isLoadingCancel}
           >
-            {isLoadingCancel ? 'Aguarde...' : isError ? 'Tentar Novamente' : 'Cancelar'}
+            {isLoadingCancel ? 'Aguarde...' : isErrorCancel ? 'Tentar Novamente' : 'Cancelar'}
           </button>
           <button
             className={`w-full text-white px-12 py-2 rounded text-[14px]
@@ -107,4 +136,4 @@ const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenS
   );
 };
 
-export default ModalStockAtualization;
+export default ModalStockAtualization

@@ -202,7 +202,7 @@ function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs,
     selectedItem: ItensProjects, embalagem: Embalagem ): Stock{
     const stock: Stock = {
         embalagemId: embalagenid,
-        itemTamanhoid: selectedItem.id,
+        itemTamanhoId: selectedItem.id,
         estoqueId: selectedItem.estoqueId,
         quantidade: parseInt(formdata.QUANTIDADECONTABILIZADA, 10),
         selectedtItem: selectedItem,

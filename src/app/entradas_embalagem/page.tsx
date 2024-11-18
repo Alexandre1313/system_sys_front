@@ -52,6 +52,7 @@ export default function EntradasEmbalagem() {
   const [modalMessage, setModalMessage] = useState<string>('');
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [modalMessageCancel, setModalMessageCancel] = useState<string>('');
+
   const [isOpenStock, setIsOpenStock] = useState<boolean>(false);
   const [messageStock, setMessageStock] = useState<string>('');
   const [stock, setStock] = useState<Stock | null>(null);
@@ -78,7 +79,7 @@ export default function EntradasEmbalagem() {
   };
 
   // Carregar todos os dados da produção da embalagem usando SWR
-  const { error: errorSumsTotal, isValidating: isValidatingSumsTotal } = useSWR(
+  const { error: errorSumsTotal, isValidating: isValidatingSumsTotal, mutate: swrMutateStock } = useSWR(
     isModalOpen && embalagemId && itemTamanhoId ? [embalagemId, itemTamanhoId] : null,
     () => fetcherTotalsProd(embalagemId!, itemTamanhoId!),
     {
@@ -123,6 +124,10 @@ export default function EntradasEmbalagem() {
 
   const mutationAll = () => {
     swrMutateItems();
+  }
+
+  const mutationStock = () => {
+    swrMutateStock();
   }
 
   const handleItemClick = (item: ProjectItems['itensProject'][0], embalagemId: number | undefined,
@@ -171,26 +176,34 @@ export default function EntradasEmbalagem() {
   };
 
   const updateStockEndEntryInput = () => {
-    if(parseInt(formData.QUANTIDADECONTABILIZADA, 10) > 0){
+    if (parseInt(formData.QUANTIDADECONTABILIZADA, 10) > 0) {
       setIsOpenStock(true);
       setMessageStock("Deseja adicionar a quantidade contabilizada ao estoque?");
       const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!, selectedEmbalagem!);
-      if(stockR){
-        setStock(stockR);      
-      }else{
+      if (stockR) {
+        setStock(stockR);
+      } else {
         console.log('Stock não criado.')
-      }      
+      }
     }
   }
 
-  const onCloseStock = () => {       
+  const onCloseStock = () => {
     setIsOpenStock(false);
-    setMessageStock("");  
+    setMessageStock("");
   }
 
   const setMessageS = (msg: string) => {
     setMessageStock(msg);
-    setStock(null);   
+    setStock(null);
+  }
+
+  const setMessageSStoqueAtualization = (msg: string) => {
+    setMessageStock(msg);    
+  }
+
+  const stockSucssesZero = () => {
+    formData.QUANTIDADECONTABILIZADA = '0';
   }
 
   if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
@@ -227,7 +240,7 @@ export default function EntradasEmbalagem() {
         {projectItems ? (
           projectItems.itensProject.map((item) => (
             <ItemsProjects key={item.id} item={item}
-              onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)} 
+              onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)}
               itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
           ))
         ) : (
@@ -247,16 +260,24 @@ export default function EntradasEmbalagem() {
           IsOpenStock={isOpenStock}
           setFormData={handleFormDataChange}
           onClose={handleCloseModal}
-          mutationAll={mutationAll} 
-          updateStockEndEntryInput={updateStockEndEntryInput}        
+          mutationAll={mutationAll}
+          updateStockEndEntryInput={updateStockEndEntryInput}
         />
       )}
       {/* Componente Modal */}
       <Modal isOpen={isModalOpenCodeInvalid} message={modalMessage} onClose={closeModal} />
-      <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel}/>
+      <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel} />
       <ModalEmbCad isModalOpenEmb={isModalOpenEmb} handleCloseModalEmb={handleCloseModalEmb} mutate={swrMutate} />
-      <ModalStockAtualization isOpenStock={isOpenStock} messageStock={messageStock} 
-       onCloseStock={onCloseStock} setMessageS={setMessageS} stock={stock}/>
+      <ModalStockAtualization
+        isOpenStock={isOpenStock}
+        messageStock={messageStock}
+        onCloseStock={onCloseStock}
+        setMessageS={setMessageS}
+        stock={stock}
+        mutateStock={mutationStock}
+        stockSucssesZero={stockSucssesZero}
+        setMessageSStoqueAtualization={setMessageSStoqueAtualization}
+      />
     </div>
   );
 }

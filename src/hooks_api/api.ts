@@ -1,5 +1,6 @@
-import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp, QtyEmbDay } from "../../core";
+import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp, QtyEmbDay, StockGenerate } from "../../core";
 import Embalagem from "../../core/interfaces/Embalagem";
+import EntryInput from "../../core/interfaces/EntryInput";
 import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos`;
@@ -13,6 +14,7 @@ const urlProjetosSimp = `http://${ip}:${port}/projetos/projetossimp`;
 const urlCreateEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmbDay = `http://${ip}:${port}/entradas/totaldia/`;
+const urlEnterStock = `http://${ip}:${port}/entradas/gerarestoque`;
 
 async function get(option: 'P' | 'E'): Promise<Projeto[] | Escola[] | unknown[]> {
     let urlParaConsulta = "";
@@ -146,5 +148,25 @@ async function finalizarGrades(finalyGrade: FinalyGrade | null): Promise<Grade |
     }
 }
 
+async function stockGenerate(stock: StockGenerate): Promise<EntryInput | null> {
+    try {
+        const response = await fetch( urlEnterStock, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(stock),
+        });
+        if (!response.ok) {
+            return null;
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
 export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay,
-         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb };
+         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate };

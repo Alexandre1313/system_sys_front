@@ -3,7 +3,7 @@ import ItensProjects from "./ItensProject";
 
 export default interface Stock {
     embalagemId: number;
-    itemTamanhoid: number;
+    itemTamanhoId: number;
     estoqueId: number;
     quantidade: number;
     selectedtItem: ItensProjects;

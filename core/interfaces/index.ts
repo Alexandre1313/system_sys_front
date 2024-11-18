@@ -21,6 +21,7 @@ import Embalagem from "./Embalagem";
 import QtyEmbDay from "./QtyEmbDay";
 import FormDateInputs from "./FormDateInputs";
 import Stock from "./Stock";
+import StockGenerate from "./StockGenerate";
 
 export type { 
     Escola,
@@ -45,5 +46,6 @@ export type {
     Embalagem,
     QtyEmbDay,
     FormDateInputs,
-    Stock
+    Stock,
+    StockGenerate
 }
