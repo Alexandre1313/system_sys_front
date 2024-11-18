@@ -237,12 +237,16 @@ export default function EntradasEmbalagem() {
         </div>
       </div>
       <div className="flex flex-col border-0 gap-y-2 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
-        {projectItems ? (
+        {(projectItems && projectItems.itensProject.length > 0) ? (
           projectItems.itensProject.map((item) => (
             <ItemsProjects key={item.id} item={item}
               onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)}
               itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
           ))
+        ) : (projectItems && projectItems.itensProject.length === 0) ? (
+          <div className={`flex justify-center items-center h-full flex-1 w-full flex-col`}>
+            <p className={`text-2xl text-blue-500`}>PROJETO AINDA NÃO POSSUI ITENS CADASTRADOS, SELECIONE OUTRO.</p>           
+          </div>
         ) : (
           <div className={`flex justify-center items-center h-full flex-1 w-full flex-col`}>
             <p className={`text-2xl text-green-500`}>1 - SELECIONE UM PROJETO.</p>
