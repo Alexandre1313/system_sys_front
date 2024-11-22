@@ -14,6 +14,7 @@ const urlCreateEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmbDay = `http://${ip}:${port}/entradas/totaldia/`;
 const urlEnterStock = `http://${ip}:${port}/entradas/gerarestoque`;
+const urlGetDatesOffGrades = `http://${ip}:${port}/projetos/datas/`;
 
 async function get(): Promise<Projeto[]> {
     const response = await fetch(urlProjetos);
@@ -64,6 +65,15 @@ async function getProdEmbDay(embalagemId: string, itemTamanhoId: string): Promis
     const response = await fetch(`${urlGetEmbDay}${embalagemId}/${itemTamanhoId}`)
     if (!response.ok) {
         throw new Error(`Erro ao buscar dados na api: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getDatesGrades(projectId: number | null): Promise<Date[]> {
+    const response = await fetch(`${urlGetDatesOffGrades}${projectId}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar grades para o projeto: ${response.statusText}`)
     }
     const data = await response.json();
     return data;
@@ -157,4 +167,4 @@ async function stockGenerate(stock: StockGenerate): Promise<EntryInput | null> {
 }
 
 export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay,
-         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate };
+         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate, getDatesGrades };
