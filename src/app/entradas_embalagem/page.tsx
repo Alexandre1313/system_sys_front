@@ -14,6 +14,7 @@ import { objectsStockEmbs, processarQtdParaEstoque } from '../../../core/utils/r
 import Modal from '@/components/componentes_Interface/modal';
 import ModalCancel from '@/components/componentes_Interface/modalCancel';
 import ModalStockAtualization from '@/components/componentes_Interface/ModalStockAtualization';
+import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
 
 // Função fetcher para carregar todos os dados de produção diária da embalagem
 const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {
@@ -219,9 +220,10 @@ export default function EntradasEmbalagem() {
   }
 
   return (
-    <div className="flex min-w-screen min-h-screen justify-start items-start p-5 gap-x-3">
-      <div className="sticky top-5 flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 
-        rounded-md p-5 justify-between items-start min-h-[95.7vh] gap-y-5">
+    <div className="flex min-w-screen min-h-screen justify-start items-start px-3 py-3 gap-x-3">
+       <TitleComponentFixed stringOne={`EMBALAGENS`} />
+      <div className="sticky top-14 flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 
+        rounded-md p-5 justify-between items-start min-h-[92.7vh] gap-y-5">
         <div className="flex flex-col w-full justify-start items-start gap-y-5">
           <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange} />
           <SelectedEntriesEmb embalagens={embalagens} onSelectChangeEmb={handleEmbalagemChange} />
@@ -236,7 +238,7 @@ export default function EntradasEmbalagem() {
           </button>
         </div>
       </div>
-      <div className="flex flex-col border-0 gap-y-2 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
+      <div className="flex pt-12 flex-col border-0 gap-y-2 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
         {(projectItems && projectItems.itensProject.length > 0) ? (
           projectItems.itensProject.map((item) => (
             <ItemsProjects key={item.id} item={item}

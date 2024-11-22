@@ -25,6 +25,7 @@ import StockGenerate from "./StockGenerate";
 import AddressCompany from "./AddressCompany";
 import TelephonesCompany from "./TelephonesCompany";
 import Company from "./Company";
+import GradesRomaneio from "./GradesRomaneio";
 
 export type { 
     Escola,
@@ -53,5 +54,6 @@ export type {
     StockGenerate,
     AddressCompany,
     TelephonesCompany,
-    Company
+    Company,
+    GradesRomaneio
 }

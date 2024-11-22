@@ -3,7 +3,7 @@ import { Projeto } from '../../../core';
 import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
 import { get } from "../../hooks_api/api";
 
-//export const revalidate = 3600;
+export const revalidate = 3600;
 
 // Componente com data fetching assíncrono
 export default async function Projetos() {

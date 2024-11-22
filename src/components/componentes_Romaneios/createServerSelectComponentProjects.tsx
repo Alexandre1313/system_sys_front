@@ -8,10 +8,11 @@ export async function CreateServerSelectComponentProjects({ onSelectChange }: Cr
   const projetos = await getProjectsSimp();
 
   return (
-    <div className={`flex flex-col justify-center items-start gap-y-1 w-[350px]`}>     
+    <div className={`flex flex-col justify-center items-start`}>     
       <select
         id="select-projeto"
-        className={`flex w-full bg-zinc-900 p-2 text-lg text-zinc-400 outline-none cursor-pointer`}
+        className={`flex w-[310px] bg-zinc-900 py-2 px-3 text-[14px] text-zinc-400 no-arrow
+                        outline-none cursor-pointer h-[35px] border border-zinc-800`}
         onChange={(event) => {
           const projectId = Number(event.target.value);
           onSelectChange(projectId); // Chama o manipulador ao mudar a seleção

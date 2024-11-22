@@ -61,6 +61,9 @@ const config: Config = {
         '.bleft-1': {
           borderLeft: '4.2em',
         },
+        '.no-arrow': {
+          appearance: 'none',
+        },
         '.flexColCC': {
           display: 'flex',
           flexDirection: 'column',

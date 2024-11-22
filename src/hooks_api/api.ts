@@ -1,4 +1,4 @@
-import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp, QtyEmbDay, StockGenerate } from "../../core";
+import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp, QtyEmbDay, StockGenerate, GradesRomaneio } from "../../core";
 import Embalagem from "../../core/interfaces/Embalagem";
 import EntryInput from "../../core/interfaces/EntryInput";
 import { ip, port } from "../../core/utils/tools";
@@ -15,6 +15,7 @@ const urlGetEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmbDay = `http://${ip}:${port}/entradas/totaldia/`;
 const urlEnterStock = `http://${ip}:${port}/entradas/gerarestoque`;
 const urlGetDatesOffGrades = `http://${ip}:${port}/projetos/datas/`;
+const urlGetGradesPorData = `http://${ip}:${port}/projetos/roman/`;
 
 async function get(): Promise<Projeto[]> {
     const response = await fetch(urlProjetos);
@@ -166,5 +167,14 @@ async function stockGenerate(stock: StockGenerate): Promise<EntryInput | null> {
     }
 }
 
-export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay,
+async function getGradesRoman(projectId: string, dateStr: string): Promise<GradesRomaneio[]> {
+    const response = await fetch(`${urlGetGradesPorData}${projectId}/${dateStr}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados nas grades: ${response.statusText}`)
+    }
+    const data: GradesRomaneio[] = await response.json();
+    return data;
+}
+
+export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay, getGradesRoman,
          finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate, getDatesGrades };
