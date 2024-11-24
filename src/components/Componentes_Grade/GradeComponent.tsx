@@ -143,7 +143,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             {/* Modal - Tela de sobreposição para Itens da Grade */}
             {mostrarTela && (
-                <div className="absolute inset-0 z-50 bg-zinc-950 bg-opacity-100 flex 
+                <div className="absolute inset-0 z-50 bg-[#181818] bg-opacity-100 flex 
                 pt-9 flex-col items-center lg:min-h-[100%] min-h-[190vh]">
                     <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     {/* Ajustar o espaçamento abaixo do título */}
@@ -201,13 +201,13 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             {/* Modal de detalhes do item - Comportamento fixo */}
             {mostrarTelaExped && itemSelecionado && (
-                <div className="fixed inset-0 z-50 bg-zinc-950 bg-opacity-100 min-h-[105vh]
+                <div className="fixed inset-0 z-50 bg-[#181818] bg-opacity-100 min-h-[105vh]
                  lg:min-h-[100vh] flex flex-col pt-10
                 justify-center items-center p-4">
                     <TitleComponentFixed stringOne={`EXPEDINDO ITEM`} twoPoints={`:`}
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
-                    <div className="p-24 pt-4 rounded-md flex flex-col justify-start w-full border border-gray-500 min-h-full">
+                    <div className="p-24 pt-4 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
                         <div className="flex justify-between w-full">
                             <div>
                                 <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}

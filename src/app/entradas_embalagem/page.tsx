@@ -221,8 +221,8 @@ export default function EntradasEmbalagem() {
 
   return (
     <div className="flex min-w-screen min-h-screen justify-start items-start px-3 py-3 gap-x-3">
-       <TitleComponentFixed stringOne={`EMBALAGENS`} />
-      <div className="sticky top-14 flex flex-col max-w-[400px] min-w-[400px] bg-zinc-900 
+       <TitleComponentFixed stringOne={`EMBALAGENS`} twoPoints={``} stringTwo={``}/>
+      <div className="sticky top-14 flex flex-col max-w-[400px] min-w-[400px] bg-[#1F1F1F] 
         rounded-md p-5 justify-between items-start min-h-[92.7vh] gap-y-5">
         <div className="flex flex-col w-full justify-start items-start gap-y-5">
           <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange} />
