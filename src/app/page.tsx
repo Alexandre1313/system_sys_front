@@ -56,7 +56,7 @@ export default function Home() {
       </main>
       <footer className="row-start-3 items-center justify-center">
         <div className={`row-start-3 flex gap-6 flex-wrap items-center justify-center`}>
-          <Link href={''} legacyBehavior>
+          <Link href={'/entradas_embalagem'} legacyBehavior>
             <a
               className="flex items-center gap-2 hover:underline hover:underline-offset-4"
               href=""
@@ -71,10 +71,10 @@ export default function Home() {
                 height={0}              
                 priority
               />
-              More
+              Run Packages →
             </a>
           </Link>
-          <Link href={''} legacyBehavior>
+          <Link href={'/romaneios_despacho'} legacyBehavior>
             <a
               className="flex items-center gap-2 hover:underline hover:underline-offset-4"
               href=""
@@ -89,7 +89,7 @@ export default function Home() {
                 height={0}           
                 priority
               />
-              Reports
+              Run Shipping Manifests →
             </a>
           </Link>
           <Link href={'/projetos'} legacyBehavior>
