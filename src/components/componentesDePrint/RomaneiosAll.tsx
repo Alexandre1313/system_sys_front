@@ -162,7 +162,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear}-${romaneio.id}  -  VOLUMES: ${romaneio.caixas.length}`,
+                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear}-${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
                 margin,
                 currentY,
                 fontBold,
