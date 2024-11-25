@@ -134,7 +134,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear}  -  VOLUMES: ${romaneio.caixas.length}`,
+                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear}-${romaneio.id}  -  VOLUMES: ${romaneio.caixas.length}`,
                 margin,
                 currentY,
                 fontBold,
@@ -180,10 +180,20 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
 
                 // Renderizar quantidades
                 drawText(page, 'QUANTIDADE:', margin, currentY + 5, fontBold, 10);
+                let totalQuantidade = 0;
                 items.forEach((item, index) => {
+                    totalQuantidade += item.quantidade;
                     drawRect(page, margin + 80 + index * maxWidth, currentY - 2, maxWidth, 20);
                     drawText(page, item.quantidade.toString(), margin + 85 + index * maxWidth, currentY + 2, fontRegular, 8);
                 });
+
+                // Renderizar o TOTAL
+                const totalText = `TOTAL: ${totalQuantidade}`;
+                const totalWidth = fontBold.widthOfTextAtSize(totalText, 10) + 20;
+
+                drawRect(page, margin + 80 + items.length * maxWidth, currentY - 2, totalWidth, 20);
+                drawText(page, totalText, margin + 85 + items.length * maxWidth, currentY + 2, fontBold, 10);
+
                 currentY -= 30;
             });
 
