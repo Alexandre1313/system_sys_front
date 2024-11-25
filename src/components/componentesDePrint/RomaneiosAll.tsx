@@ -95,18 +95,43 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             // Nome da empresa em azul
             drawText(
                 page,
-                romaneio.company.toUpperCase(),
+                `${romaneio.company.toUpperCase()}`,
                 margin,
                 currentY,
                 fontBold,
                 18,
                 rgb(0, 0, 1)
             );
-            currentY -= 15; // Espaço reduzido entre o nome da empresa e a linha abaixo
+            currentY -= 15; // Ajusta a posição vertical para a próxima linha
+
+            // Adiciona o CNPJ em fonte menor
+            drawText(
+                page,
+                `CNPJ: ${romaneio.cnpjCompany || 'NÂO INFORMADO'}`, // Substitua `romaneio.cnpj` pela propriedade correta
+                margin,
+                currentY,
+                fontRegular, // Fonte regular
+                10, // Fonte menor
+                rgb(0, 0, 0) // Cor preta
+            );
+            currentY -= 10; // Ajusta a posição vertical novamente
+
+            // Adiciona o endereço em fonte menor
+            drawText(
+                page,
+                `ENDEREÇO: RUA ${romaneio.enderecocompany.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecocompany.numero || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.bairro || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.cidade || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.estado || 'NÂO INFORMADO'} - CEP: ${romaneio.enderecocompany.postalCode || 'NÂO INFORMADO'}`, 
+                margin,
+                currentY,
+                fontRegular, // Fonte regular
+                10, // Fonte menor
+                rgb(0, 0, 0) // Cor preta
+            );
+
+            currentY -= 10; // Espaço reduzido entre o nome da empresa e a linha abaixo
 
             // Linha azul abaixo do nome da empresa
             drawLine(page, margin, currentY, pageWidth - margin, currentY, rgb(0, 0, 1));
-            currentY -= 25; // Espaço reduzido antes do cabeçalho
+            currentY -= 20; // Espaço reduzido antes do cabeçalho
 
             // Cabeçalho
             drawText(page, `PREFEITURA DO MUNICÍPIO DE ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
@@ -121,14 +146,17 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             currentY -= lineHeight;
 
             const enderecoWidth = fontBold.widthOfTextAtSize('ENDEREÇO:', 12) + 10;
-            drawText(page, 'ENDEREÇO:', margin, currentY, fontBold, 12);
+            drawText(page,   `ENDEREÇO: RUA ${romaneio.enderecoschool.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÂO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÂO INFORMADO'}`,
+            margin, currentY, 
+            fontBold, 12);
+
             drawText(page, romaneio.enderecoschool.rua || '-', margin + enderecoWidth, currentY, fontRegular, 12);
             currentY -= lineHeight;
 
             const foneWidth = fontBold.widthOfTextAtSize('FONE:', 12) + 10;
             drawText(page, 'FONE:', margin, currentY, fontBold, 12);
             drawText(page, romaneio.telefoneEscola || '-', margin + foneWidth, currentY, fontRegular, 12);
-            currentY -= 30;
+            currentY -= 20;
 
             // ROMANEIO DE DESPACHO
             const currentYear = new Date().getFullYear();
@@ -194,7 +222,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 drawRect(page, margin + 80 + items.length * maxWidth, currentY - 2, totalWidth, 20);
                 drawText(page, totalText, margin + 85 + items.length * maxWidth, currentY + 2, fontBold, 10);
 
-                currentY -= 30;
+                currentY -= 25;
             });
 
             // Garantir espaço para o rodapé e assinatura no final da página
