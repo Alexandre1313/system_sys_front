@@ -112,7 +112,7 @@ export default function RomaneiosDespacho() {
                 </div>
                 <div className="flex w-full flex-col items-center p-5 gap-y-10">
                     <div
-                        className={`flex flex-col w-full h-[63vh] border border-zinc-800 p-2 overflow-y-scroll bg-[#1F1F1F]`}
+                        className={`flex flex-col w-full h-[64vh] border border-zinc-800 p-2 overflow-y-scroll bg-[#1F1F1F]`}
                     >
                         {renderGrades()}
                     </div>
