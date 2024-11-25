@@ -22,9 +22,9 @@ export default function RomaneiosDespacho() {
     const [serverSelect, setServerSelect] = useState<JSX.Element | null>(null);
     const [serverSelectDate, setServerSelectDate] = useState<JSX.Element | null>(null);
     const [projectId, setProjectId] = useState<number | null>(null);
-    const [dateStr, setDateStr] = useState<string | null>(null);
-
-    const { data: grades, isValidating, mutate: refetchGrades } = useSWR(
+    const [dateStr, setDateStr] = useState<string | null>(null);    
+    
+    const { data: grades, isValidating} = useSWR(
         projectId && dateStr ? [projectId, dateStr] : null,
         () => fetcherGradesPDate(projectId!, dateStr!),
         {
