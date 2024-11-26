@@ -167,9 +167,9 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 currentY,
                 fontBold,
                 12,
-                rgb(0, 0, 0)
+                rgb(0, 0, 1)
             );
-            currentY -= lineHeight + 10;
+            currentY -= lineHeight + 1;
 
             // Processar os itens agrupados por item e gênero
             const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
@@ -188,6 +188,15 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 items = items.sort((a, b) => sortTamanhos(a.tamanho, b.tamanho));
 
                 // Título do grupo
+                page.drawLine({
+                    start: { x: margin, y: currentY },
+                    end: { x: pageWidth - margin, y: currentY },
+                    color: rgb(229 / 255, 229 / 255, 229 / 255), // Cor cinza discreto
+                    thickness: 0.01 // Tornando a linha mais fina
+                });
+                  
+                currentY -= 15; 
+
                 drawText(page, groupKey.toUpperCase(), margin, currentY, fontBold, 10);
                 currentY -= lineHeight + 10;
 
@@ -222,7 +231,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 drawRect(page, margin + 80 + items.length * maxWidth, currentY - 2, totalWidth, 20);
                 drawText(page, totalText, margin + 85 + items.length * maxWidth, currentY + 2, fontBold, 10);
 
-                currentY -= 25;
+                currentY -= 10;              
             });
 
             // Garantir espaço para o rodapé e assinatura no final da página
