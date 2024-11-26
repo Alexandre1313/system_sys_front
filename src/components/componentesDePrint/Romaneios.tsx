@@ -142,7 +142,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             // Dados da escola
             const escolaWidth = fontBold.widthOfTextAtSize('UNIDADE ESCOLAR:', 12) + 10;
             drawText(page, 'UNIDADE ESCOLAR:', margin, currentY, fontBold, 12);
-            drawText(page, romaneio.escola, margin + escolaWidth, currentY, fontRegular, 12);
+            drawText(page, romaneio.escola, margin + escolaWidth, currentY, fontBold, 12);
             currentY -= lineHeight;
 
             const enderecoWidth = fontBold.widthOfTextAtSize('ENDEREÇO:', 12) + 10;
@@ -191,7 +191,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                 page.drawLine({
                     start: { x: margin, y: currentY },
                     end: { x: pageWidth - margin, y: currentY },
-                    color: rgb(229 / 255, 229 / 255, 229 / 255), // Cor cinza discreto
+                    color: rgb(149 / 255, 149 / 255, 149 / 255), // Cor cinza discreto
                     thickness: 0.01 // Tornando a linha mais fina
                 });
                   
@@ -240,12 +240,12 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             }
 
             // Assinatura e Data
-            drawText(page, 'DATA: ______/______/__________', margin, footerHeight + 40, fontBold, 10, rgb(0, 0, 1));
+            drawText(page, 'DATA: ______/______/__________', margin, footerHeight + 25, fontBold, 10, rgb(0, 0, 1));
             drawText(
                 page,
                 'ASSINATURA / CARIMBO: ____________________________',
                 margin + 250,
-                footerHeight + 40,
+                footerHeight + 25,
                 fontBold,
                 10,
                 rgb(0, 0, 1)
@@ -256,11 +256,11 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
 
             // Rodapé centralizado
             const rodapeY = margin;
-            drawText(page, 'Email:', pageWidth / 2 - 95, rodapeY, fontBold, 10, rgb(0, 0, 1));
-            drawText(page, romaneio.emailCompany, pageWidth / 2 - 60, rodapeY, fontRegular, 10, rgb(0, 0, 1));
+            drawText(page, 'Email:', pageWidth / 2 - 72, rodapeY, fontBold, 10, rgb(0, 0, 1));
+            drawText(page, romaneio.emailCompany, pageWidth / 2 - 37, rodapeY, fontRegular, 10, rgb(0, 0, 1));
 
-            drawText(page, 'Fone:', pageWidth / 2 - 95, rodapeY - 12, fontBold, 10, rgb(0, 0, 1));
-            drawText(page, romaneio.telefoneCompany, pageWidth / 2 - 60, rodapeY - 12, fontRegular, 10, rgb(0, 0, 1));
+            drawText(page, 'Fone:', pageWidth / 2 - 72, rodapeY - 12, fontBold, 10, rgb(0, 0, 1));
+            drawText(page, romaneio.telefoneCompany, pageWidth / 2 - 37, rodapeY - 12, fontRegular, 10, rgb(0, 0, 1));
         });
 
         // Salvar e exibir o PDF
