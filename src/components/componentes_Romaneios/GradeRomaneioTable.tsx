@@ -1,15 +1,16 @@
-import { GradesRomaneio } from "../../../core";
+import { Caixa, GradesRomaneio } from "../../../core";
 
 interface GradeRomaneioTableProps {
   romaneio: GradesRomaneio[];
   printRomaneio: (romaneios: GradesRomaneio[]) => JSX.Element;
+  printEti: (etiquetas: Caixa[]) => JSX.Element;
 }
 
 export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
   const printable = props.romaneio[0].isPrint;
 
   const textSize = '13px';
-  const textColor = `${printable ? 'text-green-500': 'text-zinc-400'}`;
+  const textColor = `${printable ? 'text-green-500' : 'text-zinc-400'}`;
   const fonte = 'font-semibold';
   const borderColor = 'border-zinc-800';
 
@@ -20,42 +21,46 @@ export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
   const create = props.romaneio[0].create.toString();
 
   const print = () => { return props.printRomaneio(props.romaneio) }
+  const printTwo = () => { return props.printEti(props.romaneio[0].caixas) }
 
   return (
     <table className={`table-auto w-full border-collapse border border-zinc-950`}>
       <tbody>
         <tr
           className={`hover:bg-green-600 hover:bg-opacity-10 cursor-pointer`}
-        >        
+        >
           <td
             className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[5%]`}
           >
             {schoolNumber}
-          </td>          
+          </td>
           <td
             className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[35%]`}
           >
             {schoolName}
-          </td>         
+          </td>
           <td
             className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[17%]`}
           >
             {companyName}
-          </td>         
+          </td>
           <td
             className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[19%]`}
           >
             {projectName}
-          </td>   
+          </td>
           <td
-            className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[19%]`}
+            className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[17%]`}
           >
             {create}
-          </td>       
+          </td>
           <td
-            className={`border ${borderColor} px-4 py-1 text-center w-[5%]`}
+            className={`border ${borderColor} px-4 py-1 text-center w-[7%]`}
           >
-           {print()}
+            <div className={`flex justify-center items-center gap-y-3 w-full`}>
+              {printTwo()}
+              {print()}
+            </div>
           </td>
         </tr>
       </tbody>
