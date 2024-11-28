@@ -88,7 +88,7 @@ export default function RomaneiosDespacho() {
 
         return grades.map((grade, index) => (
             <GradeRomaneioTable key={index} romaneio={[grade]} printRomaneio={(romaneios) => <Romaneios romaneios={romaneios}/>}
-            printEti={() => <EtiquetasRom etiquetas={grade.caixas} />} />
+            caixas={grade.caixas} printEti={(caixas) => <EtiquetasRom etiquetas={caixas} />} />
         ));
     };
 

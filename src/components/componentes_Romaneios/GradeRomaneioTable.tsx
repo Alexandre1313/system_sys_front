@@ -2,6 +2,7 @@ import { Caixa, GradesRomaneio } from "../../../core";
 
 interface GradeRomaneioTableProps {
   romaneio: GradesRomaneio[];
+  caixas: Caixa[];
   printRomaneio: (romaneios: GradesRomaneio[]) => JSX.Element;
   printEti: (etiquetas: Caixa[]) => JSX.Element;
 }
@@ -21,7 +22,7 @@ export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
   const create = props.romaneio[0].create.toString();
 
   const print = () => { return props.printRomaneio(props.romaneio) }
-  const printTwo = () => { return props.printEti(props.romaneio[0].caixas) }
+  const printTwo = () => { return props.printEti(props.caixas) }
 
   return (
     <table className={`table-auto w-full border-collapse border border-zinc-950`}>
@@ -57,8 +58,8 @@ export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
           <td
             className={`border ${borderColor} px-4 py-1 text-center w-[7%]`}
           >
-            <div className={`flex justify-center items-center gap-y-3 w-full`}>
-              {printTwo()}
+            <div className={`flex justify-end items-center gap-y-3 w-full`}>
+              {printable ? printTwo(): null}
               {print()}
             </div>
           </td>
