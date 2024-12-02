@@ -57,7 +57,7 @@ const processarCodigoDeBarras = (
                 setFormData((prevData: any) => ({
                     ...prevData,
                     CODDEBARRASLEITURA: '',
-                    // Não limpa o campo aqui
+                    // limpa o campo aqui
                 }));
             }
         } else {
@@ -67,7 +67,7 @@ const processarCodigoDeBarras = (
             setFormData((prevData: any) => ({
                 ...prevData,
                 CODDEBARRASLEITURA: '',
-                // Não limpa o campo aqui
+                // limpa o campo aqui
             }));
         }
     }
