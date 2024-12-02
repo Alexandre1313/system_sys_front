@@ -11,8 +11,7 @@ import GradeRomaneioTable from '@/components/componentes_Romaneios/GradeRomaneio
 import Romaneios from '@/components/componentesDePrint/Romaneios';
 import RomaneiosAll from '@/components/componentesDePrint/RomaneiosAll';
 import IsLoading from '@/components/componentes_Interface/IsLoading';
-//import EtiquetasRom from '@/components/componentesDePrint/EtiquetasRom';
-import EtiquetasZpl from '@/components/componentesDePrint/EtiquetasZpl';
+import EtiquetasRom from '@/components/componentesDePrint/EtiquetasRom';
 
 // Função fetcher para carregar todas as grades por data
 const fetcherGradesPDate = async (projectId: number, dateStr: string): Promise<GradesRomaneio[]> => {
@@ -89,7 +88,7 @@ export default function RomaneiosDespacho() {
 
         return grades.map((grade, index) => (
             <GradeRomaneioTable key={index} romaneio={[grade]} printRomaneio={(romaneios) => <Romaneios romaneios={romaneios}/>}
-            caixas={grade.caixas} printEti={(caixas) => <EtiquetasZpl etiquetas={caixas} />} />
+            caixas={grade.caixas} printEti={(caixas) => <EtiquetasRom etiquetas={caixas} />} />
         ));
     };
 

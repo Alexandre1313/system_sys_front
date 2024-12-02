@@ -15,7 +15,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
         // Configurações da etiqueta
         const pageWidth = 215;  // Largura da etiqueta
         const pageHeight = 145; // Altura da etiqueta
-        const margem = 10;      // Margem em torno do conteúdo
+        const margem = 3;      // Margem em torno do conteúdo
 
         // Função para dividir texto com base no limite de caracteres sem quebrar palavras
         const splitTextByCharLimit = (text: string, charLimit: number) => {
