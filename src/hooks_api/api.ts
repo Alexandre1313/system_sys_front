@@ -1,4 +1,5 @@
-import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, ProjetosSimp, QtyEmbDay, StockGenerate, GradesRomaneio } from "../../core";
+import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, 
+         ProjetosSimp, QtyEmbDay, StockGenerate, GradesRomaneio, Login, Usuarios } from "../../core";
 import Embalagem from "../../core/interfaces/Embalagem";
 import EntryInput from "../../core/interfaces/EntryInput";
 import { ip, port } from "../../core/utils/tools";
@@ -16,6 +17,26 @@ const urlGetEmbDay = `http://${ip}:${port}/entradas/totaldia/`;
 const urlEnterStock = `http://${ip}:${port}/entradas/gerarestoque`;
 const urlGetDatesOffGrades = `http://${ip}:${port}/projetos/datas/`;
 const urlGetGradesPorData = `http://${ip}:${port}/projetos/roman/`;
+const urlLogin = `http://${ip}:${port}/usuarios/login`;
+
+async function siginn(credentials: Login): Promise<Usuarios | null> {
+    try {
+        const response = await fetch( urlLogin, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        });
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar usuário: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erro ao buscar usuário: ${error}`);
+    }
+}
 
 async function get(): Promise<Projeto[]> {
     const response = await fetch(urlProjetos);
@@ -177,4 +198,5 @@ async function getGradesRoman(projectId: string, dateStr: string): Promise<Grade
 }
 
 export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay, getGradesRoman,
-         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate, getDatesGrades };
+         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate, getDatesGrades,
+         siginn };

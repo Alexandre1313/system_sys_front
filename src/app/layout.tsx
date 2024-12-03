@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google"
+import { Montserrat } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/contexts/AuthContext";
+
+
 
 const font = Montserrat({
   subsets: ['latin'],
-})
+});
 
 export const metadata: Metadata = {
   title: "VENTURA TÊXTIL",
@@ -21,10 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className={font.className}
-      >
-        {children}
+      <body className={font.className}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

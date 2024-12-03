@@ -26,6 +26,7 @@ import AddressCompany from "./AddressCompany";
 import TelephonesCompany from "./TelephonesCompany";
 import Company from "./Company";
 import GradesRomaneio from "./GradesRomaneio";
+import Login from "./Login";
 
 export type { 
     Escola,
@@ -55,5 +56,6 @@ export type {
     AddressCompany,
     TelephonesCompany,
     Company,
-    GradesRomaneio
+    GradesRomaneio,
+    Login
 }
