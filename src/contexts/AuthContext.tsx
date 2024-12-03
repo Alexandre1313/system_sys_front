@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { Usuarios } from '../../core';
+import { deleteCookie } from 'cookies-next';
 
 interface AuthContextType {
   user: Usuarios | null;
@@ -25,7 +26,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    setUser(null);
+    setUser(null);  // Limpar o estado de usuário no contexto
+    deleteCookie('userToken');  // Remover o cookie
   };
 
   return (

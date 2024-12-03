@@ -2,20 +2,19 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  // Verificação simples usando uma chave no localStorage
-  const isLoggedIn = !!localStorage.getItem('userToken');  // Esta verificação acontece no lado do cliente
+  const token = req.cookies.get('userToken');  // Acessando o cookie no lado do servidor
 
-  // Checando se a rota acessada deve ser protegida
-  if (!isLoggedIn && req.url.includes('/dashboard')) {  // Ajuste as rotas conforme necessário
-    // Redireciona para a página de login caso o usuário não esteja autenticado
+  // Se não houver token e o usuário não estiver tentando acessar a página de login
+  if (!token && !req.url.includes('/login')) {
+    // Redireciona para a página de login
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // Deixa passar a requisição caso o usuário esteja autenticado
+  // Se houver token ou se for a página de login, permite a continuação da requisição
   return NextResponse.next();
 }
 
-// Configuração das rotas que serão protegidas
+// Exclui a página de login e arquivos estáticos
 export const config = {
-  matcher: ['/', '/grades', '/escolas', '/entradas_embalagem', '/projetos', '/romaneios_despacho'],  // Especificando as rotas que exigem autenticação
+  matcher: ['/((?!_next|static|favicon.ico|login).*)'],  // Exclui a rota /login da proteção
 };

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import bcrypt from 'bcryptjs';
 import { useAuth } from '@/contexts/AuthContext';
 import { siginn } from '@/hooks_api/api'; // Função que chama o backend para pegar o usuário
+import { setCookie } from 'cookies-next';
+import Image from 'next/image';
 
 export default function SigIn() {
     const { login } = useAuth();  // Função de login do contexto
@@ -26,31 +28,30 @@ export default function SigIn() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         if (!email || !password) {
             setError('Por favor, preencha todos os campos');
             return;
         }
-
+    
         try {
-            // Faz a requisição para o backend com o email e senha
             const user = await siginn({ email, password });
-
-            // Se o usuário não for encontrado, exibe erro
+    
             if (!user) {
                 throw new Error('Credenciais inválidas');
             }
-
-            // Comparação da senha informada com o hash do banco de dados
+    
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 throw new Error('Senha inválida');
             }
-
-            // Caso a senha seja válida, faz o login            
-            login(user);  // Chama a função de login para armazenar os dados no contexto
-
-            setError(null);  // Limpa o erro caso o login tenha sido bem-sucedido
+    
+            // Armazenar o token no cookie
+            setCookie('userToken', JSON.stringify(user), { maxAge: 60 * 60 * 24 });  // 1 dia de validade
+    
+            login(user);
+    
+            setError(null);
         } catch (error: any) {
             setError(error.message || 'Erro ao tentar fazer login');
         }
@@ -92,7 +93,12 @@ export default function SigIn() {
 
             <div className="flex items-center justify-center min-h-[100vh] flex-1">
                 <div className="flex items-center justify-center h-auto w-auto">
-                    <img src="/venturalogo.png" alt="Logo da Empresa" className="z-10" />
+                    <Image 
+                        src={`/venturalogo.png`} 
+                        alt={`Logo da Empresa`} 
+                        className={`z-10`} 
+                        height={0} 
+                        width={550} />
                 </div>
             </div>
         </div>
