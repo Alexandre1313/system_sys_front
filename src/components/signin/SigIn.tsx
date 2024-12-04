@@ -5,7 +5,6 @@ import bcrypt from 'bcryptjs';
 import { useAuth } from '@/contexts/AuthContext';
 import { siginn } from '@/hooks_api/api'; // Função que chama o backend para pegar o usuário
 import { setCookie } from 'cookies-next';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function SigIn() {
@@ -16,20 +15,8 @@ export default function SigIn() {
     const router = useRouter();  // Agora usamos o hook useRouter
     const [isClient, setIsClient] = useState(false); // Estado para verificar se o componente foi montado
 
-    useEffect(() => {
-        // Marcar que o componente foi montado no cliente
-        setIsClient(true);
-
-        // Este código é para garantir que a imagem de fundo seja aplicada corretamente
-        document.body.style.backgroundImage = "url('/planofundo2.png')";
-        document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundPosition = "center";
-        document.body.style.backgroundRepeat = "no-repeat";
-
-        return () => {
-            // Limpa o estilo ao sair da página
-            document.body.style.backgroundImage = "none";
-        };
+    useEffect(() => {      
+        setIsClient(true);      
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -67,17 +54,9 @@ export default function SigIn() {
     };
 
     return (
-        <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-zinc-950">           
-            <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-zinc-950 p-10 gap-y-12">
-                <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-10">
-                    <Image
-                        src={`/venturalogo.png`}
-                        alt={`Logo da Empresa`}
-                        width={250}
-                        height={0}
-                        priority
-                        className="transition-transform duration-700 ease-in-out 
-                        transform hover:scale-105 w-full h-full object-cover"/>
+        <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-[#181818]">           
+            <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-12">
+                <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-10">                 
                     <h2 className={`flex text-[35px] text-white`}>LOGIN</h2>
                 </div>
 
@@ -89,6 +68,7 @@ export default function SigIn() {
                         onChange={(e) => setEmail(e.target.value)}
                         className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 font-normal text-[20px] outline-none`}
                         required
+                        autoComplete='current-email'
                     />
                     <input
                         type="password"
@@ -97,6 +77,7 @@ export default function SigIn() {
                         onChange={(e) => setPassword(e.target.value)}
                         className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 font-normal text-[20px] outline-none`}
                         required
+                        autoComplete='current-password'
                     />
                     <div className={`flex flex-col w-full gap-y-14`}>
                         <div className={`flex gap-x-5 h-[20px] w-full`}>

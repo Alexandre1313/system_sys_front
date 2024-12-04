@@ -32,8 +32,7 @@ export default function Grades() {
   const [modalGerarCaixaOpen, setModalGerarCaixaOpen] = useState<boolean>(false);
   const [caixa, setCaixa] = useState<Caixa | null>(null);
 
-  const { user } = useAuth();   
-  console.log(user)
+  const { user } = useAuth();     
 
   const [formData, setFormData] = useState<FormData>({
     CODDEBARRASLEITURA: '',
@@ -126,7 +125,7 @@ export default function Grades() {
   }
 
   // Usando SWR para buscar dados da escola e suas grades
-  const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id));
+  const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id!));
 
   if (!data && !error) {
     return <IsLoading/>
