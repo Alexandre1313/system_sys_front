@@ -73,9 +73,11 @@ export default function SigIn() {
                     <Image
                         src={`/venturalogo.png`}
                         alt={`Logo da Empresa`}
-                        className={`z-10`}
+                        width={250}
                         height={0}
-                        width={250} />
+                        priority
+                        className="transition-transform duration-700 ease-in-out 
+                        transform hover:scale-105 w-full h-full object-cover"/>
                     <h2 className={`flex text-[35px] text-white`}>LOGIN</h2>
                 </div>
 
