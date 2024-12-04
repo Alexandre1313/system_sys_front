@@ -14,7 +14,7 @@ import ModalGerarCaixa from '@/components/componentes_Interface/ModalGerarCaixa'
 import Caixa from '../../../../core/interfaces/Caixa';
 import Etiquetas from '@/components/componentesDePrint/Etiquetas';
 import IsLoading from '@/components/componentes_Interface/IsLoading';
-
+import { useAuth } from '@/contexts/AuthContext';
 
 const fetcher = async (id: number) => {
   const escolaComGrades = await getGradesPorEscolas(id);
@@ -22,7 +22,7 @@ const fetcher = async (id: number) => {
 };
 
 export default function Grades() {
-  const { id } = useParams();
+  const { id } = useParams(); 
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -31,6 +31,9 @@ export default function Grades() {
   const [modalGerarCaixaMessage, setModalGerarCaixaMessage] = useState<string>('');
   const [modalGerarCaixaOpen, setModalGerarCaixaOpen] = useState<boolean>(false);
   const [caixa, setCaixa] = useState<Caixa | null>(null);
+
+  const { user } = useAuth();   
+  console.log(user)
 
   const [formData, setFormData] = useState<FormData>({
     CODDEBARRASLEITURA: '',
@@ -78,7 +81,7 @@ export default function Grades() {
   };
 
   const OpenModalGerarCaixa = () => {
-    const novaCaixa = criarCaixa(formData); 
+    const novaCaixa = criarCaixa(formData, user?.id); 
     if (novaCaixa) {
       setCaixa(novaCaixa); 
       setModalGerarCaixaOpen(true);

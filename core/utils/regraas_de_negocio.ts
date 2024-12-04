@@ -1,6 +1,6 @@
-import { Embalagem, FormDateInputs, ItensProjects, Stock } from "../interfaces"
-import Caixa from "../interfaces/Caixa"
-import CaixaItem from "../interfaces/CaixaItem"
+import { Embalagem, FormDateInputs, ItensProjects, Stock } from "../interfaces";
+import Caixa from "../interfaces/Caixa";
+import CaixaItem from "../interfaces/CaixaItem";
 
 const atualizarQuantidadeCaixa = (formData: any) => {
     formData.ITEM_SELECIONADO.quantidadeExpedida += 1
@@ -8,7 +8,6 @@ const atualizarQuantidadeCaixa = (formData: any) => {
     formData.ESCOLA_GRADE.totalExpedido += 1
     formData.ESCOLA_GRADE.totalAExpedir -= 1
 }
-
 
 const processarCodigoDeBarras = (
     value: string,
@@ -74,7 +73,7 @@ const processarCodigoDeBarras = (
 };
 
 // Função que cria a caixa
-function criarCaixa(formData: any): Caixa | null {
+function criarCaixa(formData: any, id: any): Caixa | null {
     const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
 
     // Informações para a caixa
@@ -86,6 +85,7 @@ function criarCaixa(formData: any): Caixa | null {
         qtyCaixa: 0,
         caixaNumber: NUMERODACAIXA,
         itensGrade: ESCOLA_GRADE.grade.itensGrade,
+        userId: id,
         caixaItem: [],
     };
 

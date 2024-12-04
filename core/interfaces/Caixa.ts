@@ -9,7 +9,7 @@ export default interface Caixa {
     escolaNumber: string;
     qtyCaixa: number;
     projeto: string;
-    userId?: number;
+    userId?: number | undefined;
     caixaItem: CaixaItem[]; // Relacionamento com  CaixaItem
     itensGrade: GradeItem[];
     createdAt?: Date;

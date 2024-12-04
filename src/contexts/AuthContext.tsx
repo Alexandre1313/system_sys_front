@@ -1,8 +1,8 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Usuarios } from '../../core';
-import { deleteCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 interface AuthContextType {
   user: Usuarios | null;
@@ -21,8 +21,18 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<Usuarios | null>(null);
 
+  useEffect(() => {
+    // Ao montar o componente, verificar o cookie
+    const storedUser = getCookie('userToken');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser as string));
+    }
+  }, []);  // Apenas roda uma vez quando o componente é montado
+
   const login = (userData: Usuarios) => {
-    setUser(userData);
+    setUser(userData);   
+    // Armazenar o usuário no cookie para persistência
+    setCookie('userToken', JSON.stringify(userData), { maxAge: 60 * 60 * 24 });  // 1 dia
   };
 
   const logout = () => {
