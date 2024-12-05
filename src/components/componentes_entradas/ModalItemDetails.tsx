@@ -85,6 +85,14 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                         {item.tamanho}
                                     </span>
                                 </div>
+                                <div className={`flex items-start justify-center w-auto h-auto gap-x-3`}>
+                                    <span className={`text-lg text-zinc-400`}>
+                                        {'COMPOSIÇÃO:'}
+                                    </span>
+                                    <span className={`text-lg text-green-500`}>
+                                        {item.composicao}
+                                    </span>
+                                </div>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
                                     <span className={`text-lg text-zinc-400`}>
                                         {'CÒDIGO DE BARRAS:'}
