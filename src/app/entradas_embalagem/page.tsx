@@ -15,6 +15,7 @@ import Modal from '@/components/componentes_Interface/modal';
 import ModalCancel from '@/components/componentes_Interface/modalCancel';
 import ModalStockAtualization from '@/components/componentes_Interface/ModalStockAtualization';
 import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Função fetcher para carregar todos os dados de produção diária da embalagem
 const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {
@@ -57,6 +58,8 @@ export default function EntradasEmbalagem() {
   const [isOpenStock, setIsOpenStock] = useState<boolean>(false);
   const [messageStock, setMessageStock] = useState<string>('');
   const [stock, setStock] = useState<Stock | null>(null);
+
+  const { user } = useAuth();
 
   const [isModalOpenEmb, setModalOpenEmb] = useState(false);
   const [formData, setFormData] = useState<FormDateInputs>(
@@ -180,7 +183,7 @@ export default function EntradasEmbalagem() {
     if (parseInt(formData.QUANTIDADECONTABILIZADA, 10) > 0) {
       setIsOpenStock(true);
       setMessageStock("Deseja adicionar a quantidade contabilizada ao estoque?");
-      const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!, selectedEmbalagem!);
+      const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!, selectedEmbalagem!, user?.id!);
       if (stockR) {
         setStock(stockR);
       } else {

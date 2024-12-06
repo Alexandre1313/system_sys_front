@@ -20,7 +20,7 @@ interface ModalItemDetailsProps {
 }
 
 const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, IsOpenStock,
-     onClose,  updateStockEndEntryInput }) => {
+    onClose, updateStockEndEntryInput }) => {
     if (!isOpen) return null;
 
     const embNotSelect = embalagem ? 'text-green-500' : 'text-red-500'
@@ -85,14 +85,32 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                         {item.tamanho}
                                     </span>
                                 </div>
-                                <div className={`flex items-start justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
-                                        {'COMPOSIÇÃO:'}
-                                    </span>
-                                    <span className={`text-lg text-green-500`}>
-                                        {item.composicao}
-                                    </span>
-                                </div>
+                                {item.composicao && (
+                                    <div className={`flex items-start justify-center w-auto h-auto gap-x-3`}>
+                                        <span className={`text-lg text-zinc-400`}>
+                                            {'COMPOSIÇÃO:'}
+                                        </span>
+                                        <div className={`text-[15px] text-zinc-300 text-justify pl-2 pr-4 text-lg border-l border-zinc-700`}>
+                                            <ul>
+                                                {item.composicao
+                                                    .split(',')  // Dividir pela vírgula
+                                                    .map((componente: string) => componente.trim())  // Remover espaços extras
+                                                    .map((componente: string) => {
+                                                        // Dividir cada componente em quantidade e nome
+                                                        const [quantidade, ...nome] = componente.split(' ');
+                                                        const nomeComponente = nome.join(' ');
+                                                        return { quantidade: parseInt(quantidade), nome: nomeComponente };
+                                                    })
+                                                    .sort((a, b) => b.quantidade - a.quantidade) // Ordenar pela quantidade, em ordem decrescente
+                                                    .map(({ quantidade, nome }) => (
+                                                        <li key={nome} className="">
+                                                            <span className="pr-2">{quantidade}</span> {nome}
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )}
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
                                     <span className={`text-lg text-zinc-400`}>
                                         {'CÒDIGO DE BARRAS:'}

@@ -6,6 +6,7 @@ export default interface Stock {
     itemTamanhoId: number;
     estoqueId: number;
     quantidade: number;
+    userId?: number;
     selectedtItem: ItensProjects;
     embalagem: Embalagem;
 }
