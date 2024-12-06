@@ -183,7 +183,7 @@ export default function EntradasEmbalagem() {
     if (parseInt(formData.QUANTIDADECONTABILIZADA, 10) > 0) {
       setIsOpenStock(true);
       setMessageStock("Deseja adicionar a quantidade contabilizada ao estoque?");
-      const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!, selectedEmbalagem!, user?.id!);
+      const stockR = objectsStockEmbs(embalagemId!, formData, selectedItem!, selectedEmbalagem!, user?.id);
       if (stockR) {
         setStock(stockR);
       } else {

@@ -199,13 +199,13 @@ const processarQtdParaEstoque = (
 };
 
 function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs, 
-    selectedItem: ItensProjects, embalagem: Embalagem, userId: number ): Stock{
+    selectedItem: ItensProjects, embalagem: Embalagem, id: any ): Stock{
     const stock: Stock = {
         embalagemId: embalagenid,
         itemTamanhoId: selectedItem.id,
         estoqueId: selectedItem.estoqueId,
         quantidade: parseInt(formdata.QUANTIDADECONTABILIZADA, 10),
-        userId: userId,
+        userId: id,
         selectedtItem: selectedItem,
         embalagem: embalagem,
     }
