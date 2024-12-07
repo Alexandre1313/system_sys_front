@@ -1,8 +1,8 @@
+import { finalizarGrades } from '@/hooks_api/api';
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'react-feather';
 import { EscolaGrade } from '../../../core';
-import { finalizarGrades } from '@/hooks_api/api';
-import { motion } from 'framer-motion';
 
 interface ModalEncGradeProps {
     isOpen: boolean;

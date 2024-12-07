@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Escola } from "../../../core"
+import { Escola } from "../../../core";
 
 export interface EscolaComponentProps {
     escola: Escola;

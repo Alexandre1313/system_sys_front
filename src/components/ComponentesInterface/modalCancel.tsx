@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
-import { Slash, X, CheckSquare } from 'react-feather';
+import { CheckSquare, Slash, X } from 'react-feather';
 
 interface modalCancelProps {
   isOpenCancel: boolean;

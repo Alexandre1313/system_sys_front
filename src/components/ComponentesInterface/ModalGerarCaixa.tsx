@@ -1,9 +1,9 @@
+import { inserirCaixa } from '@/hooks_api/api';
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
-import { inserirCaixa } from '@/hooks_api/api';
-import { motion } from 'framer-motion';
 
 interface ModalGerarCaixaProps {
   box: Caixa | null;

@@ -1,7 +1,6 @@
-import React from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import Caixa from '../../../core/interfaces/Caixa';
 import { ChevronsRight } from 'react-feather';
+import Caixa from '../../../core/interfaces/Caixa';
 
 export interface EtiquetaProps {
     etiquetas: Caixa[];

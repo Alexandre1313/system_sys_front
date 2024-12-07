@@ -1,10 +1,10 @@
+import { stockGenerate } from '@/hooks_api/api';
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'react-feather';
-import { motion } from 'framer-motion';
 import { Stock } from '../../../core';
-import StockQty from './StockQty';
-import { stockGenerate } from '@/hooks_api/api';
 import EntryInput from '../../../core/interfaces/EntryInput';
+import StockQty from './StockQty';
 
 interface ModalStockAtualizationProps {
   stock: Stock | null;

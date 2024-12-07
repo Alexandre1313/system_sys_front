@@ -1,5 +1,5 @@
-import { DataInserction, TamanhoQuantidade } from "../interfaces";
 import * as XLSX from 'xlsx';
+import { DataInserction, TamanhoQuantidade } from "../interfaces";
 
 export default function utilities(caminhoPlanilha: string = 'core/utils/distribuicao.xlsx'): DataInserction[] {
   const workbook = XLSX.readFile(caminhoPlanilha);

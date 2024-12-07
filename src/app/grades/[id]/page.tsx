@@ -1,20 +1,20 @@
 'use client'
 
-import useSWR from 'swr';
-import { useParams } from 'next/navigation';
-import { Escola, GradeItem, FormData, EscolaGrade } from '../../../../core';
-import { getGradesPorEscolas } from '@/hooks_api/api';
-import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
-import GradeComponent from '@/components/componentes_Grade/GradeComponent';
-import { useState } from 'react';
-import Modal from '@/components/componentes_Interface/modal';
-import ModalEncGrade from '@/components/componentes_Interface/ModalEncGrade';
-import { criarCaixa, processarCodigoDeBarras } from '../../../../core/utils/regraas_de_negocio'
-import ModalGerarCaixa from '@/components/componentes_Interface/ModalGerarCaixa';
-import Caixa from '../../../../core/interfaces/Caixa';
 import Etiquetas from '@/components/componentesDePrint/Etiquetas';
-import IsLoading from '@/components/componentes_Interface/IsLoading';
+import GradeComponent from '@/components/ComponentesGrade/GradeComponent';
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import Modal from '@/components/ComponentesInterface/modal';
+import ModalEncGrade from '@/components/ComponentesInterface/ModalEncGrade';
+import ModalGerarCaixa from '@/components/ComponentesInterface/ModalGerarCaixa';
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import { useAuth } from '@/contexts/AuthContext';
+import { getGradesPorEscolas } from '@/hooks_api/api';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import useSWR from 'swr';
+import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
+import Caixa from '../../../../core/interfaces/Caixa';
+import { criarCaixa, processarCodigoDeBarras } from '../../../../core/utils/regraas_de_negocio';
 
 const fetcher = async (id: number) => {
   const escolaComGrades = await getGradesPorEscolas(id);

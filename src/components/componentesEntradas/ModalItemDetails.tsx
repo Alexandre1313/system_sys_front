@@ -1,10 +1,10 @@
+import { motion } from 'framer-motion';
 import { FC } from 'react';
-import { ProjectItems, Embalagem, QtyEmbDay } from '../../../core';
+import { Embalagem, ProjectItems, QtyEmbDay } from '../../../core';
+import BotaoArrowLeft from '../ComponentesInterface/BotaoArrowLeft';
+import BotaoEstoqueContabilizacion from '../ComponentesInterface/BotaoEstoqueContabilizacion';
 import ItemsEntryImputText from './ItemsEntryImputText';
 import ItemsEntryImputTextState from './ItemsEntryImputTextState';
-import BotaoArrowLeft from '../componentes_Interface/BotaoArrowLeft';
-import { motion } from 'framer-motion';
-import BotaoEstoqueContabilizacion from '../componentes_Interface/BotaoEstoqueContabilizacion';
 
 interface ModalItemDetailsProps {
     isOpen: boolean;

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
-import TitleComponentFixed from "../componentes_Interface/TitleComponentFixed";
-import BotaoArrowLeft from "../componentes_Interface/BotaoArrowLeft";
 import { ChevronsRight } from "react-feather";
-import BotaoArrowLeftSmall from "../componentes_Interface/BotaoArrowLehtSmall";
-import BotaoBox from "../componentes_Interface/BotaoBox";
-import ItemsGradeInputText from './ItemsGradeInputText';
-import ItemGradeInputTextState from "./ItemsGradeImputTextState";
+import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
-import ItemsGradeTextArea from "./ItemsGradeTextArea";
 import { Genero } from "../../../core/interfaces/Genero";
+import BotaoArrowLeft from "../ComponentesInterface/BotaoArrowLeft";
+import BotaoArrowLeftSmall from "../ComponentesInterface/BotaoArrowLehtSmall";
+import BotaoBox from "../ComponentesInterface/BotaoBox";
+import TitleComponentFixed from "../ComponentesInterface/TitleComponentFixed";
+import ItemGradeInputTextState from "./ItemsGradeImputTextState";
+import ItemsGradeInputText from './ItemsGradeInputText';
+import ItemsGradeTextArea from "./ItemsGradeTextArea";
 
 export interface GradeComponentProps {
     grade: Grade;

@@ -1,10 +1,10 @@
 'use client'
 
-import Link from "next/link";
-import { ChevronsLeft } from "react-feather";
 import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ChevronsLeft } from "react-feather";
 
 export interface TitleComponentFixedProps {
     stringOne: string;

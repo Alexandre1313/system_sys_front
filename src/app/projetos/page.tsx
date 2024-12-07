@@ -1,6 +1,6 @@
-import ProjetoComponent from "@/components/componentes_Projeto/ProjetoComponent";
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import ProjetoComponent from "@/components/ComponentesProjeto/ProjetoComponent";
 import { Projeto } from '../../../core';
-import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
 import { get } from "../../hooks_api/api";
 
 export const revalidate = 0;

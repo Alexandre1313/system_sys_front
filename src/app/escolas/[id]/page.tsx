@@ -1,13 +1,13 @@
 "use client";
 
-import EscolaComponent from '@/components/componentes_Escola/EscolaComponent';
-import { useParams } from 'next/navigation'; // Agora use o useParams
-import { Projeto } from '../../../../core';
+import EscolaComponent from '@/components/ComponentesEscola/EscolaComponent';
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import { getProjetosComEscolas } from '@/hooks_api/api';
-import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
-import useSWR from 'swr';
-import IsLoading from '@/components/componentes_Interface/IsLoading';
 import { motion } from 'framer-motion';
+import { useParams } from 'next/navigation'; // Agora use o useParams
+import useSWR from 'swr';
+import { Projeto } from '../../../../core';
 
 // Definindo o fetcher
 const fetcher = async (id: number): Promise<Projeto> => {

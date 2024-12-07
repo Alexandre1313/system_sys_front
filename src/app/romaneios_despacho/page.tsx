@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { CreateServerSelectComponentProjects } from '@/components/componentes_Romaneios/createServerSelectComponentProjects';
-import { CreateServerSelectComponentDates } from '@/components/componentes_Romaneios/createServerSelectComponentDates';
-import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
-import { getGradesRoman } from '@/hooks_api/api';
-import useSWR from 'swr';
-import { GradesRomaneio } from '../../../core';
-import GradeRomaneioTable from '@/components/componentes_Romaneios/GradeRomaneioTable';
+import EtiquetasRom from '@/components/componentesDePrint/EtiquetasRom';
 import Romaneios from '@/components/componentesDePrint/Romaneios';
 import RomaneiosAll from '@/components/componentesDePrint/RomaneiosAll';
-import IsLoading from '@/components/componentes_Interface/IsLoading';
-import EtiquetasRom from '@/components/componentesDePrint/EtiquetasRom';
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import { CreateServerSelectComponentDates } from '@/components/componentesRomaneios/createServerSelectComponentDates';
+import { CreateServerSelectComponentProjects } from '@/components/componentesRomaneios/createServerSelectComponentProjects';
+import GradeRomaneioTable from '@/components/componentesRomaneios/GradeRomaneioTable';
+import { getGradesRoman } from '@/hooks_api/api';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { GradesRomaneio } from '../../../core';
 
 // Função fetcher para carregar todas as grades por data
 const fetcherGradesPDate = async (projectId: number, dateStr: string): Promise<GradesRomaneio[]> => {

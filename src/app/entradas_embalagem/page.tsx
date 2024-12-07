@@ -1,21 +1,21 @@
 'use client';
 
+import ItemsProjects from '@/components/componentesEntradas/ItemsProjects';
+import ModalItemDetails from '@/components/componentesEntradas/ModalItemDetails';
+import SelectedEntries from '@/components/componentesEntradas/SelectedEntries';
+import SelectedEntriesEmb from '@/components/componentesEntradas/SelectedEntriesEmb';
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import Modal from '@/components/ComponentesInterface/modal';
+import ModalCancel from '@/components/ComponentesInterface/modalCancel';
+import ModalEmbCad from '@/components/ComponentesInterface/ModalEmbCad';
+import ModalStockAtualization from '@/components/ComponentesInterface/ModalStockAtualization';
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import { useAuth } from '@/contexts/AuthContext';
+import { getEmb, getProdEmbDay, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
 import { useState } from 'react';
 import useSWR from 'swr';
-import { getEmb, getProdEmbDay, getProjectsItems, getProjectsSimp } from '@/hooks_api/api';
-import IsLoading from '@/components/componentes_Interface/IsLoading';
-import SelectedEntries from '@/components/componentes_entradas/SelectedEntries';
-import { ProjectItems, ProjetosSimp, Embalagem, QtyEmbDay, FormDateInputs, Stock } from '../../../core';
-import ItemsProjects from '@/components/componentes_entradas/ItemsProjects';
-import SelectedEntriesEmb from '@/components/componentes_entradas/SelectedEntriesEmb';
-import ModalEmbCad from '@/components/componentes_Interface/ModalEmbCad';
-import ModalItemDetails from '@/components/componentes_entradas/ModalItemDetails';
+import { Embalagem, FormDateInputs, ProjectItems, ProjetosSimp, QtyEmbDay, Stock } from '../../../core';
 import { objectsStockEmbs, processarQtdParaEstoque } from '../../../core/utils/regraas_de_negocio';
-import Modal from '@/components/componentes_Interface/modal';
-import ModalCancel from '@/components/componentes_Interface/modalCancel';
-import ModalStockAtualization from '@/components/componentes_Interface/ModalStockAtualization';
-import TitleComponentFixed from '@/components/componentes_Interface/TitleComponentFixed';
-import { useAuth } from '@/contexts/AuthContext';
 
 // Função fetcher para carregar todos os dados de produção diária da embalagem
 const fetcherTotalsProd = async (embalagemId: number, itemTamanhoId: number): Promise<QtyEmbDay> => {

@@ -1,7 +1,7 @@
-import Link from "next/link"
-import Projeto from "../../../core/interfaces/Projeto"
-import { convertSPTime } from "../../../core/utils/tools"
-import Image from "next/image"
+import Image from "next/image";
+import Link from "next/link";
+import Projeto from "../../../core/interfaces/Projeto";
+import { convertSPTime } from "../../../core/utils/tools";
 
 interface ProjetoComponentProps {
     projeto: Projeto; // Define que você espera um objeto Projeto

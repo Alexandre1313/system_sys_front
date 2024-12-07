@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-import bcrypt from 'bcryptjs';
 import { useAuth } from '@/contexts/AuthContext';
 import { siginn } from '@/hooks_api/api'; // Função que chama o backend para pegar o usuário
+import bcrypt from 'bcryptjs';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function SigIn() {
     const { login, logout } = useAuth();  // Função de login do contexto

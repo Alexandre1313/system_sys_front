@@ -20,4 +20,4 @@ function concat(s: string): string {
   return s.replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''); 
 }
 
-export { ip, port, convertSPTime, concat }
+export { concat, convertSPTime, ip, port };

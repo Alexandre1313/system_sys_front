@@ -212,4 +212,4 @@ function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs,
     return stock;
 }
 
-export { processarCodigoDeBarras, criarCaixa, processarQtdParaEstoque, objectsStockEmbs }
+export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarQtdParaEstoque };

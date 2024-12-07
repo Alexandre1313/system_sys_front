@@ -1,6 +1,5 @@
-import React from 'react';
-import Caixa from '../../../core/interfaces/Caixa';
 import { Copy } from 'react-feather';
+import Caixa from '../../../core/interfaces/Caixa';
 
 export interface EtiquetasLblProps {
     etiquetas: Caixa[];

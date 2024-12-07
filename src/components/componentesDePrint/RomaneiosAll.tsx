@@ -1,7 +1,6 @@
-import React from 'react';
 import { PDFDocument, PDFFont, StandardFonts, rgb } from 'pdf-lib';
-import { GradesRomaneio } from '../../../core';
 import { Printer } from 'react-feather';
+import { GradesRomaneio } from '../../../core';
 
 export interface RomaneiosProps {
     romaneios: GradesRomaneio[];
