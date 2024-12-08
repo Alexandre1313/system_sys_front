@@ -27,7 +27,7 @@ export default function Home() {
           className="transition-transform duration-700 ease-in-out transform hover:scale-105"
           src="/venturalogo.png"
           alt="ventura.js logo"
-          width={800}
+          width={650}
           height={0}        
           priority
         />
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="flex gap-4 items-center flex-col sm:flex-row">         
           <Link href={'/projetos'} legacyBehavior>
             <a
-              className="rounded-full border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+              className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-[12px] h-10 sm:h-8 px-4 sm:px-5 sm:min-w-40"
               href=""
               target=""
               rel="noopener noreferrer"
@@ -52,22 +52,22 @@ export default function Home() {
           </Link>
           <Link href={'/entradas_embalagem'} legacyBehavior>
             <a
-              className="rounded-full border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+              className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-[12px] h-10 sm:h-8 px-4 sm:px-5 sm:min-w-40"
               href=""
               target=""
               rel="noopener noreferrer"
             >
-              ENTRADAS...
+              EMBALAGEM...
             </a>
           </Link>
           <Link href={'/romaneios_despacho'} legacyBehavior>
             <a
-              className="rounded-full border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+              className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-[12px] h-10 sm:h-8 px-4 sm:px-5 sm:min-w-40"
               href=""
               target=""
               rel="noopener noreferrer"
             >
-              ROMANEIOS...
+              DESPACHO...
             </a>
           </Link>
         </div>
@@ -76,7 +76,7 @@ export default function Home() {
         <div className={`row-start-3 flex gap-6 flex-wrap items-center justify-center`}>
           <Link href={'/entradas_embalagem'} legacyBehavior>
             <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+              className="flex items-center text-[13px] gap-2 hover:underline hover:underline-offset-4"
               href=""
               target=""
               rel="noopener noreferrer"
@@ -94,7 +94,7 @@ export default function Home() {
           </Link>
           <Link href={'/romaneios_despacho'} legacyBehavior>
             <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+              className="flex items-center text-[13px] gap-2 hover:underline hover:underline-offset-4"
               href=""
               target=""
               rel="noopener noreferrer"
@@ -112,7 +112,7 @@ export default function Home() {
           </Link>
           <Link href={'/projetos'} legacyBehavior>
             <a
-              className="flex button items-center gap-2 hover:underline hover:underline-offset-4"
+              className="flex button items-center text-[13px] gap-2 hover:underline hover:underline-offset-4"
               href=""
               target=""
               rel="noopener noreferrer"
@@ -129,7 +129,7 @@ export default function Home() {
             </a>
           </Link>
         </div>
-        <div className={`row-start-3 flex gap-6 flex-wrap items-center justify-center pt-14 text-zinc-600`}>
+        <div className={`row-start-3 flex gap-6 flex-wrap text-[13px] items-center justify-center pt-14 text-zinc-600`}>
         © {new Date().getFullYear()} - {`Ventura Têxtil`} - All rights reserved.
         </div>
       </footer>
