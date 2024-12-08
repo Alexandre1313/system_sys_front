@@ -55,18 +55,20 @@ export default function SigIn() {
 
     return (
         <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-[#181818]">           
-            <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-12">
-                <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-10">                 
-                    <h2 className={`flex text-[35px] text-white`}>LOGIN</h2>
+            <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-4">
+                <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-1">  
+                    <h2 className={`flex text-[45px] text-white`}>VENTURA TÊXTIL</h2>               
+                    <h2 className={`flex text-[21px] text-white`}>LOGIN</h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="w-full justify-start flex flex-col items-center gap-8">
+                <form onSubmit={handleSubmit} className="w-full justify-center flex flex-col items-center
+                    p-4 rounded-lg gap-8">
                     <input
                         type="email"
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 font-normal text-[20px] outline-none`}
+                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-200 font-normal text-[20px] outline-none`}
                         required
                         autoComplete='current-email'
                     />
@@ -75,7 +77,7 @@ export default function SigIn() {
                         placeholder="Senha"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 font-normal text-[20px] outline-none`}
+                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-200 font-normal text-[20px] outline-none`}
                         required
                         autoComplete='current-password'
                     />

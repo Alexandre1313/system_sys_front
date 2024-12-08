@@ -235,6 +235,7 @@ export default function EntradasEmbalagem() {
           <p className={`text-[15px] text-zinc-600`}>NÃO POSSUI CADASTRO?</p>
           <button onClick={() => setModalOpenEmb(true)}
             type="button"
+            disabled={true}
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg w-full"
           >
             CADASTRE-SE
