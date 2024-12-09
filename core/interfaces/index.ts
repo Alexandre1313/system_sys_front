@@ -27,8 +27,9 @@ import Tamanho from "./Tamanho";
 import TamanhoQuantidade from "./TamanhoQuantidade";
 import TelephonesCompany from "./TelephonesCompany";
 import Usuarios from "./Usuarios";
+import ProjetoStockItems from "./ProjetoStockItems";
 
 export type {
     AddressCompany, Barcode, Caixa, Company, DataInserction, Embalagem, Escola, EscolaGrade, Estoque, FinalyGrade, FormData, FormDateInputs, Grade, GradeItem, GradesRomaneio, Item, ItemTamanho, ItensProjects, Login, ProjectItems, Projeto, ProjetosSimp, QtyEmbDay, Stock,
-    StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios
+    StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios, ProjetoStockItems
 };

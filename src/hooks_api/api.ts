@@ -1,5 +1,6 @@
 import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, 
-         ProjetosSimp, QtyEmbDay, StockGenerate, GradesRomaneio, Login, Usuarios } from "../../core";
+         ProjetosSimp, QtyEmbDay, StockGenerate, GradesRomaneio, Login, Usuarios, 
+         ProjetoStockItems} from "../../core";
 import Embalagem from "../../core/interfaces/Embalagem";
 import EntryInput from "../../core/interfaces/EntryInput";
 import { ip, port } from "../../core/utils/tools";
@@ -18,6 +19,7 @@ const urlEnterStock = `http://${ip}:${port}/entradas/gerarestoque`;
 const urlGetDatesOffGrades = `http://${ip}:${port}/projetos/datas/`;
 const urlGetGradesPorData = `http://${ip}:${port}/projetos/roman/`;
 const urlLogin = `http://${ip}:${port}/usuarios/login`;
+const urlEstoqueSituacao = `http://${ip}:${port}/projetos/saldos/`;
 
 async function siginn(credentials: Login): Promise<Usuarios | null> {
     try {
@@ -42,6 +44,15 @@ async function get(): Promise<Projeto[]> {
     const response = await fetch(urlProjetos);
     if (!response.ok) {
         throw new Error(`Erro ao buscar projetos: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getProjectsItemsSaldos(id: string): Promise<ProjetoStockItems | null> {
+    const response = await fetch(`${urlEstoqueSituacao}${id}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar estoques e saldos: ${response.statusText}`)
     }
     const data = await response.json();
     return data;
@@ -199,4 +210,4 @@ async function getGradesRoman(projectId: string, dateStr: string): Promise<Grade
 
 export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay, getGradesRoman,
          finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate, getDatesGrades,
-         siginn };
+         siginn, getProjectsItemsSaldos };

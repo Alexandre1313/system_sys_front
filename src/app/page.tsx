@@ -69,6 +69,16 @@ export default function Home() {
               DESPACHO...
             </a>
           </Link>
+          <Link href={'/estoques'} legacyBehavior>
+            <a
+              className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-[12px] h-10 sm:h-8 px-4 sm:px-5 sm:min-w-40"
+              href=""
+              target=""
+              rel="noopener noreferrer"
+            >
+              MOVIMENTAÇÕES...
+            </a>
+          </Link>
         </div>
       </main>
       <footer className="row-start-3 items-center justify-center">
