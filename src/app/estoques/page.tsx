@@ -57,7 +57,7 @@ export default function Estoques() {
             </div>
           )}
         </div>
-        <div className="flex w-[80%] flex-col items-center justify-start pt-24">
+        <div className="flex w-[65%] flex-col items-center justify-start pt-24">
           {stockRender}
         </div>
       </div>
