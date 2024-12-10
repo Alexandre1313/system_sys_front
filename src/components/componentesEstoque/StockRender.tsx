@@ -19,7 +19,7 @@ export default async function StockRender({ id }: StockRenderProps) {
       <h1 className="text-3xl font-bold text-center mb-6 text-zinc-500">{stockRender.nome}</h1>
       {stockRender.itens.map((item, index) => (
         <div key={index} className="mb-8 flex flex-col mt-[-20px]">
-          <h2 className="text-xl font-semibold mb-4 text-zinc-400">
+          <h2 className="text-xl font-semibold mb-4 text-orange-600">
             {item.nome} ({item.genero})
           </h2>
           <table className="min-w-full border-collapse border border-zinc-700">
