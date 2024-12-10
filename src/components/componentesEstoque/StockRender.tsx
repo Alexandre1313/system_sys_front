@@ -35,7 +35,9 @@ export default async function StockRender({ id }: StockRenderProps) {
               {item.tamanhos.map((tamanho, idx) => (
                 <tr
                   key={idx}
-                  className={tamanho.estoque < 0 ? 'text-red-500 font-semibold' : tamanho.estoque === 0 ? 'text-zinc-400 font-semibold': 'text-green-500 font-semibold'}
+                  className={tamanho.estoque < 0 ? 'text-red-500 font-semibold hover:bg-green-600 hover:bg-opacity-10' 
+                    : tamanho.estoque === 0 ? 'text-zinc-400 font-semibold hover:bg-green-600 hover:bg-opacity-10': 
+                    'text-green-500 font-semibold hover:bg-green-600 hover:bg-opacity-10'}
                 >
                   <td className=" text-zinc-400 px-4 py-2 border border-zinc-700 w-[25%]">{tamanho.tamanho}</td>
                   <td className="px-4 py-2 border border-zinc-700 w-[25%]">{tamanho.estoque}</td>
