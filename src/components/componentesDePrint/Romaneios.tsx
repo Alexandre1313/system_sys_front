@@ -65,6 +65,37 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             });
         };
 
+        const splitText = (
+            text: string,
+            font: PDFFont,
+            fontSize: number,
+            maxWidth: number
+        ): string[] => {
+            const words = text.split(' ');
+            let lines: string[] = [];
+            let currentLine = '';
+
+            words.forEach((word) => {
+                const testLine = currentLine ? `${currentLine} ${word}` : word;
+                const testWidth = font.widthOfTextAtSize(testLine, fontSize);
+
+                if (testWidth <= maxWidth) {
+                    currentLine = testLine;
+                } else {
+                    if (currentLine) {
+                        lines.push(currentLine);
+                    }
+                    currentLine = word;
+                }
+            });
+
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+
+            return lines;
+        };
+
         // Função para ordenar tamanhos
         const sortTamanhos = (a: string, b: string): number => {
             const numericRegex = /^\d+$/; // Verifica se é numérico
@@ -118,7 +149,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             // Adiciona o endereço em fonte menor
             drawText(
                 page,
-                `ENDEREÇO: RUA ${romaneio.enderecocompany.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecocompany.numero || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.bairro || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.cidade || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.estado || 'NÂO INFORMADO'} - CEP: ${romaneio.enderecocompany.postalCode || 'NÂO INFORMADO'}`, 
+                `ENDEREÇO: RUA ${romaneio.enderecocompany.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecocompany.numero || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.bairro || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.cidade || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.estado || 'NÂO INFORMADO'} - CEP: ${romaneio.enderecocompany.postalCode || 'NÂO INFORMADO'}`,
                 margin,
                 currentY,
                 fontRegular, // Fonte regular
@@ -141,13 +172,22 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             // Dados da escola
             const escolaWidth = fontBold.widthOfTextAtSize('UNIDADE ESCOLAR:', 12) + 10;
             drawText(page, 'UNIDADE ESCOLAR:', margin, currentY, fontBold, 12);
-            drawText(page, romaneio.escola, margin + escolaWidth, currentY, fontBold, 12);
-            currentY -= lineHeight;
+
+            // Quebrar o texto da escola se ele ultrapassar a largura da página
+            const escolaMaxWidth = pageWidth - margin * 2 - escolaWidth;
+            const escolaLines = splitText(romaneio.escola, fontBold, 12, escolaMaxWidth);
+
+            // Desenhar as linhas quebradas do nome da escola
+            escolaLines.forEach((line, index) => {
+                drawText(page, line, margin + escolaWidth, currentY - index * lineHeight, fontBold, 12);
+            });
+
+            currentY -= escolaLines.length * lineHeight;
 
             const enderecoWidth = fontBold.widthOfTextAtSize('ENDEREÇO:', 12) + 10;
-            drawText(page,   `ENDEREÇO: RUA ${romaneio.enderecoschool.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÂO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÂO INFORMADO'}`,
-            margin, currentY, 
-            fontBold, 12);
+            drawText(page, `ENDEREÇO: RUA ${romaneio.enderecoschool.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÂO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÂO INFORMADO'}`,
+                margin, currentY,
+                fontBold, 12);
 
             drawText(page, romaneio.enderecoschool.rua || '-', margin + enderecoWidth, currentY, fontRegular, 12);
             currentY -= lineHeight;
@@ -193,8 +233,8 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                     color: rgb(149 / 255, 149 / 255, 149 / 255), // Cor cinza discreto
                     thickness: 0.01 // Tornando a linha mais fina
                 });
-                  
-                currentY -= 15; 
+
+                currentY -= 15;
 
                 drawText(page, groupKey.toUpperCase(), margin, currentY, fontBold, 10);
                 currentY -= lineHeight + 10;
@@ -230,7 +270,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                 drawRect(page, margin + 80 + items.length * maxWidth, currentY - 2, totalWidth, 20);
                 drawText(page, totalText, margin + 85 + items.length * maxWidth, currentY + 2, fontBold, 10);
 
-                currentY -= 10;              
+                currentY -= 10;
             });
 
             // Garantir espaço para o rodapé e assinatura no final da página
