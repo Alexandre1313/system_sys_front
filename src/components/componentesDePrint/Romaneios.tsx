@@ -72,7 +72,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             maxWidth: number
         ): string[] => {
             const words = text.split(' ');
-            let lines: string[] = [];
+            const lines: string[] = [];
             let currentLine = '';
 
             words.forEach((word) => {
