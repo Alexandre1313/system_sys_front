@@ -38,7 +38,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
         etiquetas.forEach((etiqueta) => {
             // Cria uma nova página de etiqueta
             let page = pdfDoc.addPage([pageWidth, pageHeight]);
-            const { escolaNumber, projeto, qtyCaixa, escolaCaixa, caixaNumber, caixaItem } = etiqueta;
+            const { escolaNumber, projeto, qtyCaixa, escolaCaixa, caixaNumber, caixaItem, gradeId } = etiqueta;
 
             // Desenho das bordas da etiqueta
             const borderX = 5;
@@ -68,7 +68,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
                 color: rgb(0, 0, 0),
             });
 
-            textY -= 18;
+            textY -= 18;           
 
             // Nome da escola (Fonte menor) com quebra de linha a cada 34 caracteres, sem quebrar palavras
             const escolaLines = splitTextByCharLimit(escolaCaixa, 34);
@@ -170,6 +170,17 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
                     borderWidth: 0.1,
                 });
             }
+
+            // REMESSA
+            page.drawText(`Grade ID: ${gradeId}`, {
+                x: textX,
+                y: textY,
+                size: 9,
+                font: font,
+                color: rgb(0, 0, 0),
+            });
+
+            textY -= 18;
 
             // Número da caixa no final da etiqueta
             page.drawText(`Caixa ${String(caixaNumber).padStart(2, '0')} / ${String(etiquetas.length).padStart(2, '0')}`, {

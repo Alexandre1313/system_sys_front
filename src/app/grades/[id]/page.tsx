@@ -39,6 +39,7 @@ export default function Grades() {
     ITEM_SELECIONADO: null,
     ESCOLA_GRADE: null,
     QUANTIDADELIDA: '0',
+    QUANTIDADENACAIXAATUAL: '0',
     NUMERODACAIXA: '',
   });
 
@@ -82,6 +83,10 @@ export default function Grades() {
   const OpenModalGerarCaixa = () => {
     const novaCaixa = criarCaixa(formData, user?.id); 
     if (novaCaixa) {
+      setFormData((prevData) => ({
+        ...prevData,
+        QUANTIDADENACAIXAATUAL: '0',
+      }));
       setCaixa(novaCaixa); 
       setModalGerarCaixaOpen(true);
       setModalGerarCaixaMessage('Deseja encerrar a caixa?');

@@ -43,6 +43,7 @@ const processarCodigoDeBarras = (
                 setFormData((prevData: any) => ({
                     ...prevData,
                     QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + 1), // Incrementa QUANTIDADELIDA
+                    QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) + 1),
                     CODDEBARRASLEITURA: '',
                 }));
                 atualizarQuantidadeCaixa(formData)

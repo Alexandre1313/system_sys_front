@@ -11,6 +11,8 @@ export interface ItemGradeInputTextStateProps {
     valueColor?: string;
     positionn?: string;
     labelposition?: string;
+    bgBackGround?: string;
+    maxWhidth?: string;
     setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
 
@@ -34,9 +36,10 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
                 {props.labelName}
             </label>
             <input
-                className={`flex p-2 w-full text-left ${props.txtSize ? props.txtSize: 'text-[27px]'} 
+                className={`flex p-2 ${props.maxWhidth ? props.maxWhidth: 'w-full'} text-left ${props.txtSize ? props.txtSize: 'text-[27px]'}
+                ${props.bgBackGround ? props.bgBackGround : 'bg-trans'}
                 ${props.isFocus ? props.isFocus: 'outline-none'} 
-                bg-trans rounded-md  border h-[50px] min-w-[374px] ${props.positionn ? props.positionn: 'text-right'}
+                rounded-md  border h-[50px] min-w-[374px] ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
                 border-gray-700 ${props.valueColor ? props.valueColor: 'text-green-400'} 
                 placeholder:text-[rgba(333,333,333,0.2)]`}
                 type="text"   

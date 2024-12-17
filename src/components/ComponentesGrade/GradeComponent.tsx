@@ -242,6 +242,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         isReadOnly={true}
                                         valueColor={`text-yellow-500`} labelColor={`text-yellow-500`} />
                                 </div>
+                                <div className="flex flex-row justify-start items-center gap-x-5">                                   
+                                     <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                        formData={props.formData} setFormData={props.setFormData}
+                                        isReadOnly={true}
+                                        valueColor={`text-white`} labelColor={`text-red-500`}
+                                        bgBackGround={`bg-red-500`} txtSize={`text-[35px]`}
+                                        maxWhidth={`max-w-[300px]`} />
+                                </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
                                         formData={props.formData} setFormData={props.setFormData}
@@ -254,8 +262,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         focus:ring focus:ring-emerald-500`}
                                         labelColor={`text-emerald-500`} 
                                         positionn={`text-left`}
-                                        labelposition={`justify-start`}/>
-                                </div>
+                                        labelposition={`justify-start`}/>                                   
+                                </div>                              
                             </div>
                         </div>
                     </div>

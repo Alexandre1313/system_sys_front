@@ -65,6 +65,37 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             });
         };
 
+        const splitText = (
+            text: string,
+            font: PDFFont,
+            fontSize: number,
+            maxWidth: number
+        ): string[] => {
+            const words = text.split(' ');
+            const lines: string[] = [];
+            let currentLine = '';
+
+            words.forEach((word) => {
+                const testLine = currentLine ? `${currentLine} ${word}` : word;
+                const testWidth = font.widthOfTextAtSize(testLine, fontSize);
+
+                if (testWidth <= maxWidth) {
+                    currentLine = testLine;
+                } else {
+                    if (currentLine) {
+                        lines.push(currentLine);
+                    }
+                    currentLine = word;
+                }
+            });
+
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+
+            return lines;
+        };
+
         // Função para ordenar tamanhos
         const sortTamanhos = (a: string, b: string): number => {
             const numericRegex = /^\d+$/; // Verifica se é numérico
@@ -138,11 +169,20 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             drawText(page, 'SECRETARIA MUNICIPAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
             currentY -= lineHeight;
 
-            // Dados da escola
-            const escolaWidth = fontBold.widthOfTextAtSize('UNIDADE ESCOLAR:', 12) + 10;
-            drawText(page, 'UNIDADE ESCOLAR:', margin, currentY, fontBold, 12);
-            drawText(page, romaneio.escola, margin + escolaWidth, currentY, fontBold, 12);
-            currentY -= lineHeight;
+             // Dados da escola
+             const escolaWidth = fontBold.widthOfTextAtSize('UNIDADE ESCOLAR:', 12) + 10;
+             drawText(page, 'UNIDADE ESCOLAR:', margin, currentY, fontBold, 12);
+ 
+             // Quebrar o texto da escola se ele ultrapassar a largura da página
+             const escolaMaxWidth = pageWidth - margin * 2 - escolaWidth;
+             const escolaLines = splitText(romaneio.escola, fontBold, 12, escolaMaxWidth);
+ 
+             // Desenhar as linhas quebradas do nome da escola
+             escolaLines.forEach((line, index) => {
+                 drawText(page, line, margin + escolaWidth, currentY - index * lineHeight, fontBold, 12);
+             });
+ 
+             currentY -= escolaLines.length * lineHeight;
 
             const enderecoWidth = fontBold.widthOfTextAtSize('ENDEREÇO:', 12) + 10;
             drawText(page,   `ENDEREÇO: RUA ${romaneio.enderecoschool.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÂO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÂO INFORMADO'}`,
@@ -161,7 +201,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear}-${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
                 margin,
                 currentY,
                 fontBold,
