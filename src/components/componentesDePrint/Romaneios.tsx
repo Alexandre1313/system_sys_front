@@ -184,13 +184,22 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
 
             currentY -= escolaLines.length * lineHeight;
 
-            const enderecoWidth = fontBold.widthOfTextAtSize('ENDEREÇO:', 12) + 10;
-            drawText(page, `ENDEREÇO: RUA ${romaneio.enderecoschool.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÂO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÂO INFORMADO'}`,
-                margin, currentY,
-                fontBold, 12);
+            // Dados do endereço
+            const enderecoLabel = 'ENDEREÇO:';
+            const enderecoWidth = fontBold.widthOfTextAtSize(enderecoLabel, 12) + 10;
+            drawText(page, enderecoLabel, margin, currentY, fontBold, 12);
 
-            drawText(page, romaneio.enderecoschool.rua || '-', margin + enderecoWidth, currentY, fontRegular, 12);
-            currentY -= lineHeight;
+            // Quebrar o texto do endereço se ele ultrapassar a largura da página
+            const enderecoText = `RUA ${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'}`;
+            const enderecoMaxWidth = pageWidth - margin * 2 - enderecoWidth;
+            const enderecoLines = splitText(enderecoText, fontBold, 12, enderecoMaxWidth);
+
+            // Desenhar as linhas quebradas do endereço
+            enderecoLines.forEach((line, index) => {
+                drawText(page, line, margin + enderecoWidth, currentY - index * lineHeight, fontBold, 12);
+            });
+
+            currentY -= enderecoLines.length * lineHeight;
 
             const foneWidth = fontBold.widthOfTextAtSize('FONE:', 12) + 10;
             drawText(page, 'FONE:', margin, currentY, fontBold, 12);
@@ -210,18 +219,24 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             );
             currentY -= lineHeight + 1;
 
-            // Processar os itens agrupados por item e gênero
+            // Tipagem de groupedData corrigida para um objeto (e não array)
             const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
+
+                // Verifique se o grupo já existe no acumulador, se não, crie-o
                 if (!acc[groupKey]) {
-                    acc[groupKey] = [];
+                    acc[groupKey] = { items: [], composicao: curr.composicao }; // Atribuindo items e composição corretamente
                 }
-                acc[groupKey].push(curr);
+
+                // Adiciona o item ao grupo correspondente
+                acc[groupKey].items.push(curr);
+
                 return acc;
-            }, {} as Record<string, { tamanho: string; quantidade: number }[]>);
+            }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);
 
             Object.keys(groupedData).forEach((groupKey) => {
-                let items = groupedData[groupKey];
+                const { composicao } = groupedData[groupKey];
+                let { items } = groupedData[groupKey];
 
                 // Ordenar os itens por tamanho
                 items = items.sort((a, b) => sortTamanhos(a.tamanho, b.tamanho));
@@ -231,13 +246,40 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                     start: { x: margin, y: currentY },
                     end: { x: pageWidth - margin, y: currentY },
                     color: rgb(149 / 255, 149 / 255, 149 / 255), // Cor cinza discreto
-                    thickness: 0.01 // Tornando a linha mais fina
+                    thickness: 0.01 // Linha fina
                 });
-
+ 
                 currentY -= 15;
 
-                drawText(page, groupKey.toUpperCase(), margin, currentY, fontBold, 10);
-                currentY -= lineHeight + 10;
+                // Exibe o nome do grupo
+                if(composicao){
+                    drawText(page, `${groupKey.toUpperCase()} - KIT COMPOSTO POR:`, margin, currentY, fontBold, 10);
+                    currentY -= lineHeight + 0.5;
+                }
+
+                if(!composicao){
+                    drawText(page, `${groupKey.toUpperCase()}`, margin, currentY, fontBold, 10);
+                    currentY -= lineHeight + 0.5;
+                }
+
+                // **Composição**: Verificar se existe e mostrar acima da linha de separação
+                if (composicao) {
+                    const composicaoMaxWidth = pageWidth - margin * 2;
+
+                    // Dividir a composição em várias linhas, se necessário
+                    const composicaoLines = splitText(composicao, fontRegular, 9, composicaoMaxWidth);
+
+                    /* Exibe "COMPOSIÇÃO:" uma vez
+                    drawText(page, "COMPOSIÇÃO DO KIT:", margin, currentY, fontBold, 9);
+                    currentY -= lineHeight;*/
+
+                    // Exibe cada linha da composição
+                    composicaoLines.forEach((line) => {
+                        drawText(page, line, margin, currentY, fontRegular, 8); // Exibe o conteúdo da composição
+                        currentY -= lineHeight; // Ajusta a posição para a próxima linha
+                    });                   
+                    currentY -= 15; 
+                }
 
                 // Calcular largura dinâmica das células
                 const maxWidth = items.reduce((max, { tamanho, quantidade }) => {
