@@ -12,21 +12,22 @@ import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
 import TitleComponentFixed from "../ComponentesInterface/TitleComponentFixed";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemsGradeInputText from './ItemsGradeInputText';
+import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
 
 export interface GradeComponentProps {
     grade: Grade;
     escola: Escola;
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
-    isPend: boolean | null;   
-    handlerOpnEncGradeMoodify: () => void 
+    isPend: boolean | null;
+    handlerOpnEncGradeMoodify: () => void
     setFormData: (key: string, value: string) => void // Função que atualiza o estado no pai    
     handleFormDataChangeDecresc: () => void
     handleItemSelecionado: (item: GradeItem | null) => void
     handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
     handleNumeroDaCaixa: (numeroDaCaixa: string) => void
     OpenModalGerarCaixa: () => void
-    OpenModalGerarCaixaError: () => void;   
+    OpenModalGerarCaixaError: () => void;
     mutate: () => void;
     printEti: (etiquetas: Caixa[]) => JSX.Element
 }
@@ -36,13 +37,13 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [modalModifyGradeItemMessage, setmodalModifyGradeItemMessage] = useState<string>('');
     const [mostrarTela, setMostrarTela] = useState(false);
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
-    const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);   
+    const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
 
     useEffect(() => {
         const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
             return totini + itemGrade.quantidade;
-        }, 0);        
+        }, 0);
         setTotalGrade(total)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.grade.itensGrade])
@@ -51,11 +52,11 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const total = props.grade.itensGrade.reduce((totini, itemGrade) => {
         return totini + itemGrade.quantidade;
-    }, 0);    
+    }, 0);
 
     const totalExpedido = props.grade.itensGrade.reduce((totini, itemGrade) => {
         return totini + itemGrade.quantidadeExpedida;
-    }, 0);    
+    }, 0);
 
     const totalAExpedir = total - totalExpedido;
 
@@ -82,7 +83,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const fecharTela = () => {
         setMostrarTela(false);
-    };    
+    };
 
     const abrirTelaExped = (item: any, escola: Escola, grade: Grade, totalAExpedir: number, totalExpedido: number) => {
         const escolaGrade: EscolaGrade = {
@@ -91,6 +92,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             numeroEscola: escola.numeroEscola,
             idEscola: escola.id,
             gradeId: grade.id,
+            finalizada: grade.finalizada,
             totalAExpedir: totalAExpedir,
             totalExpedido: totalExpedido,
             grade: grade
@@ -119,8 +121,8 @@ export default function GradeComponent(props: GradeComponentProps) {
     const closeModalModifyGradeItem = () => {
         setMmodalModifyGradeItemOpen(false);
         setmodalModifyGradeItemMessage('');
-        if (props.formData.ESCOLA_GRADE?.totalAExpedir === 0) {
-           props.handlerOpnEncGradeMoodify()
+        if (props.formData.ESCOLA_GRADE?.totalAExpedir === 0 && !props.formData.ESCOLA_GRADE?.finalizada) {
+            props.handlerOpnEncGradeMoodify()
         }
     };
 
@@ -184,7 +186,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const quantidadeExpedida = itemGrade.quantidadeExpedida;
                             const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
-                            const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-500' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-600';
+                            const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-700' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-700';
                             const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
                                 <div
@@ -220,7 +222,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         })}
                     </div>
                     {/* Botão de fechar */}
-                    <div className="fixed -top-[0.95rem] left-[7.05rem] flex justify-start w-full mt-2 pt-16">
+                    <div className="fixed top-[0.35rem] left-[8.07rem] flex justify-start w-full mt-2 pt-16">
                         <BotaoArrowLeft onClick={fecharTela} stringButtton={`VOLTAR`} iconSize={20}
                             bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
                     </div>
@@ -235,8 +237,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <TitleComponentFixed stringOne={`EXPEDINDO ITEM`} twoPoints={`:`}
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
-                    <div className="p-24 pt-4 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
-                        <div className="flex justify-between w-full">
+                    <div className="p-24 pt-5 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
+                        <div className="flex justify-between w-full bg-[#1F1F1F] p-4 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
                             <div className="flex gap-x-9">
                                 <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
                                     iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} />
@@ -244,13 +246,17 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} />
                                 <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
                                     bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} />
+                                <ItemsGradeInputTextHor value={String(props.grade.id)}
+                                    labelName={`GRADE ID :`} />
+                                <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
+                                    labelName={`ESCOLA Nº :`} />
                             </div>
                             <div className="flex gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
                                     bgHoverColor={"hover:bg-yellow-500"} onClick={props.OpenModalGerarCaixa} />
                             </div>
                         </div>
-                        <div className={"flex flex-row justify-center items-stretch"}>
+                        <div className={"flex flex-row justify-center items-stretch px-4"}>
                             <div className={"pt-16 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
                                 <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
                                     labelName={`ITEM`} />
@@ -259,7 +265,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
                                     labelName={`TAMANHO`} />
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                    labelName={`CÓD. DE BARRAS`} />
+                                    labelName={`CÓDIGO DE BARRAS`} />
                             </div>
                             <div className={"pt-16 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
@@ -308,8 +314,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                 message={modalModifyGradeItemMessage}
                 formData={props.formData}
                 fecharTelaExped={fecharTelaExped}
-                onClose={closeModalModifyGradeItem}                
-                mutate={props.mutate}               
+                onClose={closeModalModifyGradeItem}
+                mutate={props.mutate}
             />
         </>
     );

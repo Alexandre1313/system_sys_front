@@ -25,7 +25,7 @@ const processarCodigoDeBarrasInvert = (
 
     // Verifica se a quantidade lida não ultrapassa a quantidade permitida
     if ((Number(quantidadeExpedida) > 0 && Number(formData.QUANTIDADENACAIXAATUAL) !== 0) &&
-     (Number(quantidadeExpedida) !== Number(quantidade) || Number(formData.QUANTIDADENACAIXAATUAL) !== 0)) {
+        (Number(quantidadeExpedida) !== Number(quantidade) || Number(formData.QUANTIDADENACAIXAATUAL) !== 0)) {
         setFormData((prevData: any) => ({
             ...prevData,
             QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) - 1), // decrementa QUANTIDADELIDA
@@ -85,7 +85,7 @@ const processarCodigoDeBarras = (
                 }
             } else {
                 // Se a quantidade exceder, exibe a mensagem no modal
-                setModalMessage('Quantidade excedida');
+                setModalMessage('Quantidade já atendida para a grade em questão');
                 setModalOpen(true);
                 setFormData((prevData: any) => ({
                     ...prevData,
@@ -95,7 +95,7 @@ const processarCodigoDeBarras = (
             }
         } else {
             // Se o código não corresponder, podemos exibir uma mensagem no modal
-            setModalMessage('Código de barras inválido');
+            setModalMessage('Código de barras não pertence ao item em questão, por favor verifique');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -106,7 +106,6 @@ const processarCodigoDeBarras = (
     }
 };
 
-// Função que cria a caixa
 function criarCaixa(formData: any, id: any): Caixa | null {
     const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
 
@@ -211,7 +210,7 @@ const processarQtdParaEstoque = (
                 }));
             } else {
                 // Se o código não corresponder, podemos exibir uma mensagem no modal
-                setModalMessage('Código de barras inválido');
+                setModalMessage('Código de barras inválido para o item em questão, verifique');
                 setModalOpenCodeInvalid(true);
                 setFormData((prevData: any) => ({
                     ...prevData,
@@ -221,7 +220,7 @@ const processarQtdParaEstoque = (
             }
         } else {
             // Se a embalagem nao estiver setada
-            setModalMessage('Selecione o embalador');
+            setModalMessage('Por favor, selecione o embalador');
             setModalOpenCodeInvalid(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -246,4 +245,5 @@ function objectsStockEmbs(embalagenid: number, formdata: FormDateInputs,
     return stock;
 }
 
-export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarQtdParaEstoque, processarCodigoDeBarrasInvert };
+export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarCodigoDeBarrasInvert, processarQtdParaEstoque };
+

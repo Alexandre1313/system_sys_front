@@ -7,6 +7,7 @@ export default interface EscolaGrade {
     idEscola?: number | undefined,
     gradeId?: number | undefined,   
     totalAExpedir?: number,
+    finalizada?: boolean,
     totalExpedido?: number,
     grade: Grade | undefined
 }

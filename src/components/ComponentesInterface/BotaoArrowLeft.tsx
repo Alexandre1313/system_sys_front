@@ -1,7 +1,7 @@
 import { ChevronsLeft } from "react-feather";
 
 interface BotaoArrowLeftProps {
-    onClick?: () => void; // Define a prop onClick que o componente pai deve passar
+    onClick?: () => void
     stringButtton: string
     iconSize: number
     bgColor?: string
@@ -20,7 +20,7 @@ export default function BotaoArrowLeft(props: BotaoArrowLeftProps) {
     return (
         <button
             type="button"
-            onClick={props.onClick}  // Use a função onClick passada via props
+            onClick={props.onClick} 
             className={`px-4 py-4 ${bgColor} ${textColor} font-medium rounded-md flex text-[13px] w-[115px]
             items-center justify-center gap-x-3 ${bgHoverColor}
             ${bgHoverColor} transition duration-500`}

@@ -11,7 +11,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
   // Função para definir o som com base na mensagem
   const getSoundForMessage = (message: string) => {
-    if (message.includes('Código de barras inválido')) {
+    if (message.includes('Código de barras não pertence ao item em questão, por favor verifique')) {
       return '/error3.mp3'; // Som específico para código inválido
     } else if (message.includes('Quantidade excedida')) {
       return '/error2.mp3'; // Som específico para quantidade excedida
@@ -40,15 +40,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
       flex flex-col items-center justify-between"
       >
         <h2 className="text-3xl text-black font-semibold">
-          <AlertTriangle size={70} color={`rgba(255, 0, 0, 1)`} />
+          <AlertTriangle size={90} color={`rgba(255, 0, 0, 1)`} />
         </h2>
-        <p className={`flex text-[16px] text-black uppercase font-semibold`}>{message}</p>
+        <p className={`flex text-[20px] text-black uppercase font-bold`}>{message}</p>
         <button
           className="mt-4 bg-blue-900 hover:bg-blue-700 text-white px-12 py-2
-           rounded text-[14px] flex gap-x-5 items-center justify-center"
+           rounded text-[18px] flex gap-x-5 items-center justify-center"
           onClick={onClose}
         >
-          <X size={15} />
+          <X size={18} />
           FECHAR
         </button>
       </motion.div>

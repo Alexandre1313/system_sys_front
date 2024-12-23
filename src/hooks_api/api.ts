@@ -28,7 +28,6 @@ const urlGetDatesOffGrades = `http://${ip}:${port}/projetos/datas/`;
 const urlGetGradesPorData = `http://${ip}:${port}/projetos/roman/`;
 const urlLogin = `http://${ip}:${port}/usuarios/login`;
 const urlEstoqueSituacao = `http://${ip}:${port}/projetos/saldos/`;
-
 const urlExcluirGradeItem = `http://${ip}:${port}/gradeitens/`;
 const urlAtualizarGradeItem = `http://${ip}:${port}/gradeitens/alterarquantidade/`;
 
@@ -265,3 +264,4 @@ async function gradeItemModify(id: any, quantidadeExpedida: any): Promise<string
 export {
     finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesRoman, getProdEmbDay, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb, siginn, stockGenerate
 };
+
