@@ -9,6 +9,39 @@ const atualizarQuantidadeCaixa = (formData: any) => {
     formData.ESCOLA_GRADE.totalAExpedir -= 1
 }
 
+const atualizarQuantidadeCaixaInvert = (formData: any) => {
+    formData.ITEM_SELECIONADO.quantidadeExpedida -= 1
+    formData.ITEM_SELECIONADO.qtyPCaixa -= 1
+    formData.ESCOLA_GRADE.totalExpedido -= 1
+    formData.ESCOLA_GRADE.totalAExpedir += 1
+}
+
+const processarCodigoDeBarrasInvert = (
+    formData: any,
+    setFormData: (data: any) => void,
+) => {
+    const quantidade = formData.ITEM_SELECIONADO?.quantidade;
+    const quantidadeExpedida = formData.ITEM_SELECIONADO?.quantidadeExpedida;
+
+    // Verifica se a quantidade lida não ultrapassa a quantidade permitida
+    if ((Number(quantidadeExpedida) > 0 && Number(formData.QUANTIDADENACAIXAATUAL) !== 0) &&
+     (Number(quantidadeExpedida) !== Number(quantidade) || Number(formData.QUANTIDADENACAIXAATUAL) !== 0)) {
+        setFormData((prevData: any) => ({
+            ...prevData,
+            QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) - 1), // decrementa QUANTIDADELIDA
+            QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) - 1),
+            CODDEBARRASLEITURA: '',
+        }));
+        atualizarQuantidadeCaixaInvert(formData)
+    } else {
+        setFormData((prevData: any) => ({
+            ...prevData,
+            CODDEBARRASLEITURA: '',
+            // limpa o campo aqui
+        }));
+    }
+};
+
 const processarCodigoDeBarras = (
     value: string,
     formData: any,
@@ -199,8 +232,8 @@ const processarQtdParaEstoque = (
     }
 };
 
-function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs, 
-    selectedItem: ItensProjects, embalagem: Embalagem, id: any ): Stock{
+function objectsStockEmbs(embalagenid: number, formdata: FormDateInputs,
+    selectedItem: ItensProjects, embalagem: Embalagem, id: any): Stock {
     const stock: Stock = {
         embalagemId: embalagenid,
         itemTamanhoId: selectedItem.id,
@@ -213,4 +246,4 @@ function objectsStockEmbs( embalagenid: number, formdata: FormDateInputs,
     return stock;
 }
 
-export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarQtdParaEstoque };
+export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarQtdParaEstoque, processarCodigoDeBarrasInvert };

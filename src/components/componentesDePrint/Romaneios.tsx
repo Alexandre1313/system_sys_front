@@ -260,6 +260,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                 if(!composicao){
                     drawText(page, `${groupKey.toUpperCase()}`, margin, currentY, fontBold, 10);
                     currentY -= lineHeight + 0.5;
+                    currentY -= 15; 
                 }
 
                 // **Composição**: Verificar se existe e mostrar acima da linha de separação

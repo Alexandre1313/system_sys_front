@@ -85,7 +85,7 @@ const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenS
       setIsLoadingCancel(false);   
       setIsErrorCancel(false);        
       clearTimeout(timeout);         
-    }, 1500)     
+    }, 1000)     
   };
 
   if (!isOpenStock) return null;

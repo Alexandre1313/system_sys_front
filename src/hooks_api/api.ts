@@ -1,6 +1,14 @@
-import { Escola, FinalyGrade, Grade, Projeto, Caixa, ProjectItems, 
-         ProjetosSimp, QtyEmbDay, StockGenerate, GradesRomaneio, Login, Usuarios, 
-         ProjetoStockItems} from "../../core";
+import {
+    Caixa,
+    Escola, FinalyGrade, Grade,
+    GradesRomaneio, Login,
+    ProjectItems,
+    Projeto,
+    ProjetosSimp,
+    ProjetoStockItems,
+    QtyEmbDay, StockGenerate,
+    Usuarios
+} from "../../core";
 import Embalagem from "../../core/interfaces/Embalagem";
 import EntryInput from "../../core/interfaces/EntryInput";
 import { ip, port } from "../../core/utils/tools";
@@ -9,7 +17,7 @@ const urlProjetos = `http://${ip}:${port}/projetos/projetosall`;
 const urlProjetoEscolas = `http://${ip}:${port}/projetos/comescolas/`;
 const urlItemsProjects = `http://${ip}:${port}/projetos/itens/`;
 const urlGradesPorEscola = `http://${ip}:${port}/escolas/escolagrades/`;
-const urlInserirCaixas = `http://${ip}:${port}/caixas/inserir/`;
+const urlInserirCaixas = `http://${ip}:${port}/caixas/inserir`;
 const urlFinalizarGrades = `http://${ip}:${port}/grades/finalizar`;
 const urlProjetosSimp = `http://${ip}:${port}/projetos/projetossimp`;
 const urlCreateEmb = `http://${ip}:${port}/embalagem`;
@@ -21,9 +29,13 @@ const urlGetGradesPorData = `http://${ip}:${port}/projetos/roman/`;
 const urlLogin = `http://${ip}:${port}/usuarios/login`;
 const urlEstoqueSituacao = `http://${ip}:${port}/projetos/saldos/`;
 
+const urlExcluirGradeItem = `http://${ip}:${port}/gradeitens/`;
+const urlAtualizarGradeItem = `http://${ip}:${port}/gradeitens/alterarquantidade/`;
+
+
 async function siginn(credentials: Login): Promise<Usuarios | null> {
     try {
-        const response = await fetch( urlLogin, {
+        const response = await fetch(urlLogin, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -123,7 +135,7 @@ async function getEmb(): Promise<Embalagem[]> {
 
 async function inserirEmb(embalagem: Embalagem): Promise<Embalagem | null> {
     try {
-        const response = await fetch( urlCreateEmb, {
+        const response = await fetch(urlCreateEmb, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -143,7 +155,7 @@ async function inserirEmb(embalagem: Embalagem): Promise<Embalagem | null> {
 
 async function inserirCaixa(caixa: Caixa | null): Promise<Caixa | null> {
     try {
-        const response = await fetch( urlInserirCaixas, {
+        const response = await fetch(urlInserirCaixas, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,7 +174,7 @@ async function inserirCaixa(caixa: Caixa | null): Promise<Caixa | null> {
 
 async function finalizarGrades(finalyGrade: FinalyGrade | null): Promise<Grade | null> {
     try {
-        const response = await fetch( urlFinalizarGrades, {
+        const response = await fetch(urlFinalizarGrades, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,7 +193,7 @@ async function finalizarGrades(finalyGrade: FinalyGrade | null): Promise<Grade |
 
 async function stockGenerate(stock: StockGenerate): Promise<EntryInput | null> {
     try {
-        const response = await fetch( urlEnterStock, {
+        const response = await fetch(urlEnterStock, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -208,6 +220,48 @@ async function getGradesRoman(projectId: string, dateStr: string): Promise<Grade
     return data;
 }
 
-export { get, getProjetosComEscolas, getGradesPorEscolas, inserirCaixa, getProdEmbDay, getGradesRoman,
-         finalizarGrades, getProjectsItems, getProjectsSimp, getEmb, inserirEmb, stockGenerate, getDatesGrades,
-         siginn, getProjectsItemsSaldos };
+async function gradeItemModify(id: any, quantidadeExpedida: any): Promise<string | null> {
+    try {
+        let response: Response | null = null;
+
+        if (quantidadeExpedida === 0) {
+            response = await fetch(`${urlExcluirGradeItem}${String(id)}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
+
+        if (quantidadeExpedida > 0) {
+            response = await fetch(urlAtualizarGradeItem, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, quantidadeExpedida }),
+            });
+        }
+
+        // Verificar se a resposta não foi bem-sucedida
+        if (response && !response.ok) {
+            return null; // Se a resposta for inválida (não OK), retornamos uma string vazia
+        }
+
+        // Verificação explícita para garantir que 'response' não é null
+        if (response) {
+            const data = await response.json(); // Acessa o JSON somente se 'response' não for null
+            return data; // Retorna os dados da resposta
+        }
+
+        // Se a resposta for nula, retornamos null
+        return null;
+    } catch (error) {
+        console.log(error);
+        return null; // Retorna null em caso de erro
+    }
+}
+
+export {
+    finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesRoman, getProdEmbDay, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb, siginn, stockGenerate
+};

@@ -9,15 +9,22 @@ interface ModalGerarCaixaProps {
   box: Caixa | null;
   isOpen: boolean;
   message: string;
+  setFormData: (key: string, value: string) => void; 
   onClose: () => void;
   mutate: () => void;
   handleNumberBox: (numeracaixa: string) => void;
+  handlerCaixaPend: () => void;
 }
 
-const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, onClose, mutate, handleNumberBox }) => {
+const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, setFormData, onClose, mutate, handleNumberBox, handlerCaixaPend }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState<string>(message);
   const [isError, setIsError] = useState(false);
+
+  const handleCaixaAtualChange = () => {       
+    const value  = '0';      
+    setFormData('QUANTIDADENACAIXAATUAL', value);      
+  };
 
   const getSoundForMessage = (message: string) => {
     if (message.includes('Grade finalizada')) {
@@ -46,14 +53,17 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
       if (data) {
         mutate();
         setMsg(`Caixa encerrada com sucesso!`);
+        handlerCaixaPend();
         handleNumberBox(String(data.caixaNumber))
         const timeout = setTimeout(() => {
+          handleCaixaAtualChange()
           onClose()
           clearTimeout(timeout)
-        }, 1000)
+        }, 500)
       }
     } catch (error) {
       console.error("Erro ao encerrar a caixa:", error);
+      localStorage.setItem('saveBox', JSON.stringify(box));
       setMsg('Erro ao encerrar a caixa, tente novamente.');
       setIsError(true);
     } finally {

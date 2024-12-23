@@ -6,6 +6,9 @@ import { Genero } from "../../../core/interfaces/Genero";
 import BotaoArrowLeft from "../ComponentesInterface/BotaoArrowLeft";
 import BotaoArrowLeftSmall from "../ComponentesInterface/BotaoArrowLehtSmall";
 import BotaoBox from "../ComponentesInterface/BotaoBox";
+import BotaoGradeDesc from "../ComponentesInterface/BotaoGradeDesc";
+import BotaoGradeUp from "../ComponentesInterface/BotaoGradeUp";
+import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
 import TitleComponentFixed from "../ComponentesInterface/TitleComponentFixed";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemsGradeInputText from './ItemsGradeInputText';
@@ -15,37 +18,44 @@ export interface GradeComponentProps {
     grade: Grade;
     escola: Escola;
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
-    setFormData: (key: string, value: string) => void; // Função que atualiza o estado no pai    
+    isPend: boolean | null;   
+    handlerOpnEncGradeMoodify: () => void 
+    setFormData: (key: string, value: string) => void // Função que atualiza o estado no pai    
+    handleFormDataChangeDecresc: () => void
     handleItemSelecionado: (item: GradeItem | null) => void
     handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
     handleNumeroDaCaixa: (numeroDaCaixa: string) => void
     OpenModalGerarCaixa: () => void
+    OpenModalGerarCaixaError: () => void;   
+    mutate: () => void;
     printEti: (etiquetas: Caixa[]) => JSX.Element
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
+    const [modalModifyGradeItemOpen, setMmodalModifyGradeItemOpen] = useState<boolean>(false);
+    const [modalModifyGradeItemMessage, setmodalModifyGradeItemMessage] = useState<string>('');
     const [mostrarTela, setMostrarTela] = useState(false);
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
-    const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null); // Estado para armazenar o item selecionado   
+    const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);   
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
 
     useEffect(() => {
         const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
             return totini + itemGrade.quantidade;
-        }, 0);
+        }, 0);        
         setTotalGrade(total)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [props.grade.itensGrade])
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
     const total = props.grade.itensGrade.reduce((totini, itemGrade) => {
         return totini + itemGrade.quantidade;
-    }, 0);
+    }, 0);    
 
     const totalExpedido = props.grade.itensGrade.reduce((totini, itemGrade) => {
         return totini + itemGrade.quantidadeExpedida;
-    }, 0);
+    }, 0);    
 
     const totalAExpedir = total - totalExpedido;
 
@@ -65,11 +75,14 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const abrirTela = () => {
         setMostrarTela(true);
+        if (props.isPend) {
+            props.OpenModalGerarCaixaError();
+        }
     };
 
     const fecharTela = () => {
         setMostrarTela(false);
-    };
+    };    
 
     const abrirTelaExped = (item: any, escola: Escola, grade: Grade, totalAExpedir: number, totalExpedido: number) => {
         const escolaGrade: EscolaGrade = {
@@ -94,6 +107,21 @@ export default function GradeComponent(props: GradeComponentProps) {
         props.handleItemSelecionado(null)
         props.handleEscolaGradeSelecionada(null)
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
+    };
+
+    const handlerItemGrade = () => {
+        if (itemSelecionado) {
+            setMmodalModifyGradeItemOpen(true);
+            setmodalModifyGradeItemMessage('REALMENTE DESEJA ALTERAR O ITEM DA GRADE ? A OPERAÇÃO NÃO PODE SER REVERTIDA !');
+        }
+    }
+
+    const closeModalModifyGradeItem = () => {
+        setMmodalModifyGradeItemOpen(false);
+        setmodalModifyGradeItemMessage('');
+        if (props.formData.ESCOLA_GRADE?.totalAExpedir === 0) {
+           props.handlerOpnEncGradeMoodify()
+        }
     };
 
     const print = () => { return props.printEti(props.grade.gradeCaixas) }
@@ -125,7 +153,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <strong className={`ml-2 mr-2 font-normal text-[14px]`}>-</strong>
                                 <strong className="ml-0 font-normal text-[14px] text-slate-500">{it.genero}</strong>
                             </div>)
-                        })}
+                    })}
                 </div>
                 {/* Botão que abre o modal */}
                 <div className={`flex items-center justify-center gap-x-3 w-full`}>
@@ -157,7 +185,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
                             const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-500' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-600';
-                            const colorEstoque = estoque! >= 0 ? 'text-slate-400': 'text-red-500';
+                            const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
                                 <div
                                     onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)} // Passa o item ao clicar
@@ -209,13 +237,17 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
                     <div className="p-24 pt-4 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
                         <div className="flex justify-between w-full">
-                            <div>
+                            <div className="flex gap-x-9">
                                 <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
                                     iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} />
+                                <BotaoGradeUp stringButtton={""} iconSize={19} bgColor={"bg-green-700"}
+                                    bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} />
+                                <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
+                                    bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} />
                             </div>
                             <div className="flex gap-x-9">
-                                <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-500"}
-                                    bgHoverColor={"hover:bg-yellow-300"} onClick={props.OpenModalGerarCaixa} />
+                                <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
+                                    bgHoverColor={"hover:bg-yellow-500"} onClick={props.OpenModalGerarCaixa} />
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch"}>
@@ -242,8 +274,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         isReadOnly={true}
                                         valueColor={`text-yellow-500`} labelColor={`text-yellow-500`} />
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">                                   
-                                     <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                <div className="flex flex-row justify-start items-center gap-x-5">
+                                    <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         isReadOnly={true}
                                         valueColor={`text-white`} labelColor={`text-red-500`}
@@ -260,15 +292,25 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         placeholder={`Mantenha o cursor aqui...`}
                                         isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
                                         focus:ring focus:ring-emerald-500`}
-                                        labelColor={`text-emerald-500`} 
+                                        labelColor={`text-emerald-500`}
                                         positionn={`text-left`}
-                                        labelposition={`justify-start`}/>                                   
-                                </div>                              
+                                        labelposition={`justify-start`} />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
+            {/* Componente ModalGerarCaixa com o mutate passado */}
+            <ModalAlterGradeItem
+                itemSelecionado={itemSelecionado}
+                isOpen={modalModifyGradeItemOpen}
+                message={modalModifyGradeItemMessage}
+                formData={props.formData}
+                fecharTelaExped={fecharTelaExped}
+                onClose={closeModalModifyGradeItem}                
+                mutate={props.mutate}               
+            />
         </>
     );
 }
