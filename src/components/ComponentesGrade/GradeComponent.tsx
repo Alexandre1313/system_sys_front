@@ -238,14 +238,17 @@ export default function GradeComponent(props: GradeComponentProps) {
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
                     <div className="p-24 pt-5 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
-                        <div className="flex justify-between w-full bg-[#1F1F1F] p-4 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
+                        <div className="flex justify-between w-full bg-[#252525] p-4 pb-6 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
                             <div className="flex gap-x-9">
                                 <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
-                                    iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} />
+                                    iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"}
+                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <BotaoGradeUp stringButtton={""} iconSize={19} bgColor={"bg-green-700"}
-                                    bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} />
+                                    bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} 
+                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`}/>
                                 <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
-                                    bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} />
+                                    bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} 
+                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`}/>
                                 <ItemsGradeInputTextHor value={String(props.grade.id)}
                                     labelName={`GRADE ID :`} />
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
@@ -253,7 +256,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                             <div className="flex gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
-                                    bgHoverColor={"hover:bg-yellow-500"} onClick={props.OpenModalGerarCaixa} />
+                                    bgHoverColor={"hover:bg-yellow-500"} onClick={props.OpenModalGerarCaixa}
+                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                             </div>
                         </div>
                         <div className={"flex flex-row justify-center items-stretch px-4"}>
