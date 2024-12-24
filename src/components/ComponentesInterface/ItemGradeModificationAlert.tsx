@@ -31,20 +31,20 @@ export default function ItemGradeModificationAlert({ id, quantidade, quantidadeE
                     <p>{`Quantidade já expedida: ${quantidadeExpedida}`}</p>
                 </div>
             </div>
-            {quantidadeExpedida! === 0 ?
+            {formDataQty! > 0 ?
+                <div className={'flex items-center justify-center text-center w-full'}>
+                    {`ANTES DE PROSSEGUIR, ENCERRE A CAIXA CORRENTE COM AS QUANTIDADES JÁ EXPEDIDAS E TENTE NOVAMENTE`}
+                </div> : quantidadeExpedida! === 0 ?
                 <div className={'flex items-center justify-center text-center w-full'}>
                     {`COMO NENHUM ITEM AINDA FOI EXPEDIDO, SE PROSSEGUIR O ITEM EM QUESTÃO SERÁ EXCLUÍDO DESTA GRADE`}
-                </div> :(quantidadeExpedida! > 0 && quantidadeExpedida != quantidade) && formDataQty === 0 ?
+                </div> : (quantidadeExpedida! > 0 && quantidadeExpedida != quantidade) && formDataQty === 0 ?
                 <div className={'flex items-center justify-center text-center w-full'}>
                     {`COMO JÁ FOI EXPEDIDO UMA OU MAIS UNIDADES DESTE ITEM, A QUANTIDADE À EXPEDIR SERÁ EQUIPARADA COM O TOTAL JÁ EXPEDIDO`}
                 </div> : quantidade === quantidadeExpedida ?
                 <div className={'flex items-center justify-center text-center w-full'}>
                     {`COMO A QUANTIDADE À SER EXPEDIDA JA FOI SATISFEITA, NÃO HÁ NADA A SER FEITO`}
-                </div> : formDataQty! > 0 ?
-                 <div className={'flex items-center justify-center text-center w-full'}>
-                    {`ANTES DE PROSSEGUIR, ENCERRE A CAIXA CORRENTE COM AS QUANTIDADES JÁ EXPEDIDAS E TENTE NOVAMENTE`}
-                 </div> : 
-                 <div className={'flex items-center justify-center text-center w-full'}>
+                </div> :
+                <div className={'flex items-center justify-center text-center w-full'}>
                     {`DADOS INDISPONÍVEIS`}
                 </div>
             }
