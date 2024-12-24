@@ -10,6 +10,7 @@ interface BotaoGradeUpProps {
     arrowColor?: string
     strokeWidth?: number
     shadow?: string
+    width?: string
 }
 
 export default function  BotaoGradeUp(props:  BotaoGradeUpProps) {
@@ -19,13 +20,14 @@ export default function  BotaoGradeUp(props:  BotaoGradeUpProps) {
     const arrowColor = props.arrowColor ? props.arrowColor: 'white'
     const strokeWidth = props.strokeWidth ? props.strokeWidth: 2
     const shadow = props.shadow ? props.shadow : 'shadow-[0px_0px_0px_0px_rgba(0,0,0,0.0)]'
+    const w = props.width ? props.width : 'w-auto'
     return (
         <button
             type="button"
             onClick={props.onClick}  // Use a função onClick passada via props
             className={`px-4 py-4 ${bgColor} ${textColor} font-medium rounded-md flex text-[13px]
             items-center justify-center gap-x-3 ${bgHoverColor}
-            ${bgHoverColor} transition duration-500 ${shadow}`}
+            ${bgHoverColor} transition duration-500 ${shadow} ${w}`}
         >
             <RotateCcw className={"animate-rotate"} size={props.iconSize} color={arrowColor} strokeWidth={strokeWidth}/> {props.stringButtton}
         </button>

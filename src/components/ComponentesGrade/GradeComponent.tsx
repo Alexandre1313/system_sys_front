@@ -240,14 +240,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <div className="p-24 pt-5 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
                         <div className="flex justify-between w-full bg-[#252525] p-4 pb-6 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
                             <div className="flex gap-x-9">
-                                <BotaoArrowLeftSmall stringButtton={"VOLTAR"} bgColor={"bg-red-700"}
-                                    iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"}
+                                <BotaoArrowLeftSmall stringButtton={""} bgColor={"bg-red-700"}
+                                    iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} width={`min-w-[55px] max-w-[55px]`}
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <BotaoGradeUp stringButtton={""} iconSize={19} bgColor={"bg-green-700"}
-                                    bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} 
+                                    bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} width={`min-w-[55px] max-w-[55px]`}
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`}/>
                                 <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
-                                    bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} 
+                                    bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} width={`min-w-[55px] max-w-[55px]`}
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`}/>
                                 <ItemsGradeInputTextHor value={String(props.grade.id)}
                                     labelName={`GRADE ID :`} />

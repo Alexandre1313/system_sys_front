@@ -9,7 +9,7 @@ export interface ItemsGradeInputTextHorProps {
 
 export default function ItemsGradeInputTextHor(props: ItemsGradeInputTextHorProps) {
     return (
-        <div className="flex items-center justify-center gap-x-3 bg-[#1B1B1B] rounded-md px-3">
+        <div className="flex items-center justify-center gap-x-3 bg-[#202020] rounded-md px-3">
             <label htmlFor={`${concat(props.labelName)}-input`} className="flex text-left text-[16px]
             text-zinc-500 tracking-[2px]">
                 {props.labelName}
