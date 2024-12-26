@@ -12,6 +12,7 @@ import FormData from "./FormData";
 import FormDateInputs from "./FormDateInputs";
 import Grade from "./Grade";
 import GradeItem from "./GradeItem";
+import GradeOpenBySchool from "./GradeOpenBySchool";
 import GradesRomaneio from "./GradesRomaneio";
 import Item from "./Item";
 import ItemTamanho from "./ItemTamanho";
@@ -20,6 +21,7 @@ import Login from "./Login";
 import ProjectItems from "./ProjectItems";
 import Projeto from "./Projeto";
 import ProjetosSimp from "./ProjetosSimp";
+import ProjetoStockItems from "./ProjetoStockItems";
 import QtyEmbDay from "./QtyEmbDay";
 import Stock from "./Stock";
 import StockGenerate from "./StockGenerate";
@@ -27,9 +29,8 @@ import Tamanho from "./Tamanho";
 import TamanhoQuantidade from "./TamanhoQuantidade";
 import TelephonesCompany from "./TelephonesCompany";
 import Usuarios from "./Usuarios";
-import ProjetoStockItems from "./ProjetoStockItems";
 
 export type {
-    AddressCompany, Barcode, Caixa, Company, DataInserction, Embalagem, Escola, EscolaGrade, Estoque, FinalyGrade, FormData, FormDateInputs, Grade, GradeItem, GradesRomaneio, Item, ItemTamanho, ItensProjects, Login, ProjectItems, Projeto, ProjetosSimp, QtyEmbDay, Stock,
-    StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios, ProjetoStockItems
+    AddressCompany, Barcode, Caixa, Company, DataInserction, Embalagem, Escola, EscolaGrade, Estoque, FinalyGrade, FormData, FormDateInputs, Grade, GradeItem, GradeOpenBySchool, GradesRomaneio, Item, ItemTamanho, ItensProjects, Login, ProjectItems, Projeto, ProjetosSimp, ProjetoStockItems, QtyEmbDay, Stock,
+    StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios
 };

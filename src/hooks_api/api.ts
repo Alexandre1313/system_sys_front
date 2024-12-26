@@ -1,6 +1,7 @@
 import {
     Caixa,
     Escola, FinalyGrade, Grade,
+    GradeOpenBySchool,
     GradesRomaneio, Login,
     ProjectItems,
     Projeto,
@@ -30,6 +31,7 @@ const urlLogin = `http://${ip}:${port}/usuarios/login`;
 const urlEstoqueSituacao = `http://${ip}:${port}/projetos/saldos/`;
 const urlExcluirGradeItem = `http://${ip}:${port}/gradeitens/`;
 const urlAtualizarGradeItem = `http://${ip}:${port}/gradeitens/alterarquantidade/`;
+const urlStatusGrades = `http://${ip}:${port}/projetos/statusgrades/`;
 
 
 async function siginn(credentials: Login): Promise<Usuarios | null> {
@@ -261,7 +263,15 @@ async function gradeItemModify(id: any, quantidadeExpedida: any): Promise<string
     }
 }
 
-export {
-    finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesRoman, getProdEmbDay, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb, siginn, stockGenerate
-};
+async function getProjectsGradesSaldos(projectId: string, dateStr: string): Promise<GradeOpenBySchool[]>{
+    const response = await fetch(`${urlStatusGrades}${projectId}/${dateStr}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
 
+export {
+    finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesRoman, getProdEmbDay, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb, siginn, stockGenerate, getProjectsGradesSaldos
+};
