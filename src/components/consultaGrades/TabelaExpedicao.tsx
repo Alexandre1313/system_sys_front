@@ -67,7 +67,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
             {/* Tabela com os totais por grade */}
             <table className="min-w-full text-[16px] border-collapse border border-zinc-700 table-fixed">
               <thead>
-                <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
+                <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700 hover:bg-green-600 hover:bg-opacity-10">
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[20%]">Unidade Escolar</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[10%]">Grade ID</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Data / Item</th>
@@ -80,7 +80,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
               <tbody>
                 {/* Linha de Totais da Grade */}
                 <tr
-                  className="font-semibold text-[15px] bg-zinc-800 text-cyan-600 cursor-pointer"
+                  className="font-semibold text-[15px] bg-zinc-800 text-cyan-600 cursor-pointer hover:bg-green-600 hover:bg-opacity-10"
                   onClick={() => setExpandedGradeId(expandedGradeId === grade.itens[0].gradeId ? null : grade.itens[0].gradeId)}
                 >
                   <td className="px-4 py-2 border border-zinc-700 w-[20%]">{grade.escolaNome}</td>
@@ -94,7 +94,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
 
                 {/* Exibindo os itens da grade */}
                 {expandedGradeId === grade.itens[0].gradeId && grade.itens.map((item, index) => (
-                  <tr key={`${item.gradeId}-${item.tamanho}-${index}`} className="bg-[#1f1f1f] text-zinc-400 text-[14px]">
+                  <tr key={`${item.gradeId}-${item.tamanho}-${index}`} className="bg-[#1f1f1f] text-zinc-400 text-[14px] hover:bg-green-600 hover:bg-opacity-10">
                     <td className="px-4 py-2 border border-zinc-700 w-[20%]">{grade.escolaNome}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.gradeId}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[25%]">{item.itemNome}</td>
