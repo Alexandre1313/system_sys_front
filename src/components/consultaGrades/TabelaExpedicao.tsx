@@ -49,7 +49,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-zinc-800 text-cyan-500 border-b text-[20px] border-zinc-700">
+          <tr className="bg-zinc-800 text-white border-b text-[20px] border-zinc-700">
             <td className="px-4 py-2 text-left text-zinc-500 border-r border-zinc-700 w-[25%]"></td>
             <td className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{totalGeral.prevista}</td>
             <td className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{totalGeral.expedida}</td>
@@ -80,7 +80,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
               <tbody>
                 {/* Linha de Totais da Grade */}
                 <tr
-                  className="font-semibold text-[15px] bg-zinc-800 text-yellow-600 cursor-pointer"
+                  className="font-semibold text-[15px] bg-zinc-800 text-cyan-600 cursor-pointer"
                   onClick={() => setExpandedGradeId(expandedGradeId === grade.itens[0].gradeId ? null : grade.itens[0].gradeId)}
                 >
                   <td className="px-4 py-2 border border-zinc-700 w-[20%]">{grade.escolaNome}</td>
