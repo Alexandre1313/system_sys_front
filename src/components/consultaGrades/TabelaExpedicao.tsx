@@ -45,7 +45,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[20%]">Totais Gerais</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[35%]">{`Previsto`}</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{`Expedido`}</th>
-            <th className="px-4 py-2 text-left w-[20%]">{`Restam`}</th>
+            <th className="px-4 py-2 text-left w-[20%]">{`Pendente`}</th>
           </tr>
         </thead>
         <tbody>
@@ -74,7 +74,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[15%]">Projeto / Tam</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[10%]">Prevista</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[10%]">Expedido</th>
-                  <th className="px-4 py-2 text-left w-[10%]">Restam</th>
+                  <th className="px-4 py-2 text-left w-[10%]">Pendente</th>
                 </tr>
               </thead>
               <tbody>
