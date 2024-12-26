@@ -42,18 +42,18 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
       <table className="min-w-full sticky top-28 border-collapse border border-zinc-700 mb-8 table-fixed">
         <thead>
           <tr className="bg-[#1f1f1f] text-zinc-500 border-b text-[20px] border-zinc-700">
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Totais Gerais</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{`Previsto`}</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[20%]">Totais Gerais</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[35%]">{`Previsto`}</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{`Expedido`}</th>
-            <th className="px-4 py-2 text-left w-[25%]">{`Restam`}</th>
+            <th className="px-4 py-2 text-left w-[20%]">{`Restam`}</th>
           </tr>
         </thead>
         <tbody>
           <tr className="bg-zinc-800 text-white border-b text-[20px] border-zinc-700">
-            <td className="px-4 py-2 text-left text-zinc-500 border-r border-zinc-700 w-[25%]"></td>
-            <td className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{totalGeral.prevista}</td>
+            <td className="px-4 py-2 text-left text-zinc-500 border-r border-zinc-700 w-[20%]"></td>
+            <td className="px-4 py-2 text-left border-r border-zinc-700 w-[35%]">{totalGeral.prevista}</td>
             <td className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">{totalGeral.expedida}</td>
-            <td className="px-4 py-2 text-left w-[25%]">{totalGeral.restante}</td>
+            <td className="px-4 py-2 text-left w-[20%]">{totalGeral.restante}</td>
           </tr>
         </tbody>
       </table>
