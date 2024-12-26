@@ -32,7 +32,7 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
       return totals;
     },
     { prevista: 0, expedida: 0, restante: 0 }
-  ); 
+  );
 
   return expedicaoData.length > 0 && (
     <div className="p-6 flex flex-col w-full gap-y-1">
@@ -80,28 +80,29 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
               <tbody>
                 {/* Linha de Totais da Grade */}
                 <tr
-                  className="font-semibold text-[15px] bg-zinc-800 text-zinc-300 cursor-pointer"
+                  className="font-semibold text-[15px] bg-zinc-800 text-yellow-600 cursor-pointer"
                   onClick={() => setExpandedGradeId(expandedGradeId === grade.itens[0].gradeId ? null : grade.itens[0].gradeId)}
                 >
-                  <td className="text-green-600 px-4 py-2 border border-zinc-700 w-[20%]">{grade.escolaNome}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[10%]">{grade.itens[0].gradeId}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[25%]">{grade.data}</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[20%]">{grade.escolaNome}</td>
+                  <td className="text-[17px] px-4 py-2 border border-zinc-700 w-[10%]">{grade.itens[0].gradeId}</td>
+                  <td className="text-[17px] px-4 py-2 border border-zinc-700 w-[25%]">{grade.data}</td>
                   <td className="px-4 py-2 border border-zinc-700 w-[15%]">{grade.projetoName}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[10%]">{prevista}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[10%]">{expedida}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[10%]">{restante}</td>
+                  <td className="text-[17px] px-4 py-2 border border-zinc-700 w-[10%]">{prevista}</td>
+                  <td className="text-[17px] px-4 py-2 border border-zinc-700 w-[10%]">{expedida}</td>
+                  <td className="text-[17px] px-4 py-2 border border-zinc-700 w-[10%]">{restante}</td>
                 </tr>
 
                 {/* Exibindo os itens da grade */}
                 {expandedGradeId === grade.itens[0].gradeId && grade.itens.map((item, index) => (
-                  <tr key={`${item.gradeId}-${item.tamanho}-${index}`} className="bg-[#1f1f1f] text-zinc-500 text-[14px]">
+                  <tr key={`${item.gradeId}-${item.tamanho}-${index}`} className="bg-[#1f1f1f] text-zinc-400 text-[14px]">
                     <td className="px-4 py-2 border border-zinc-700 w-[20%]">{grade.escolaNome}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.gradeId}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[25%]">{item.itemNome}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[15%]">{item.tamanho}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.quantidadePrevista}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.quantidadeExpedida}</td>
-                    <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.statusExpedicao}</td>
+                    <td className={item.statusExpedicao === 'Concluído' ? 'px-4 py-2 border border-zinc-700 w-[10%] text-green-600' :
+                      'px-4 py-2 border border-zinc-700 w-[10%] text-red-600'}>{item.statusExpedicao}</td>
                   </tr>
                 ))}
               </tbody>
