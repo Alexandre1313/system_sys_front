@@ -57,7 +57,7 @@ export default function SigIn() {
         <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-[#181818]">           
             <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-4">
                 <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-1">  
-                    <h2 className={`flex text-[45px] text-white`}>VENTURA TÊXTIL</h2>               
+                <h1 className={`flex text-[70px] font-semi-bold text-emerald-600`}>SYS EXPED<strong className={`text-orange-600 flex -mt-16`}>.</strong></h1>              
                     <h2 className={`flex text-[21px] text-white`}>LOGIN</h2>
                 </div>
 
@@ -68,7 +68,7 @@ export default function SigIn() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-200 font-normal text-[20px] outline-none`}
+                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-300 font-normal text-[20px] outline-none`}
                         required
                         autoComplete='current-email'
                     />
@@ -77,20 +77,20 @@ export default function SigIn() {
                         placeholder="Senha"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-200 font-normal text-[20px] outline-none`}
+                        className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-300 font-normal text-[20px] outline-none`}
                         required
                         autoComplete='current-password'
                     />
-                    <div className={`flex flex-col w-full gap-y-14`}>
-                        <div className={`flex gap-x-5 h-[20px] w-full`}>
+                    <div className={`flex flex-col w-full gap-y-14 items-center justify-center`}>
+                        <div className={`flex flex-col gap-y-5 h-[20px] w-[80%]`}>
                             <button type="submit"
-                                className={`p-4 py-2 w-[50%] h-[35px] text-white cursor-pointer rounded-md 
+                                className={`w-full p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
                                 font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>
                                 LOGIN
                             </button>
                             <button type="button"
                                 onClick={logout}
-                                className={`p-4 py-2 w-[50%] h-[35px] text-white cursor-pointer rounded-md 
+                                className={`w-full p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
                                     font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>
                                 LOGOUT
                             </button>

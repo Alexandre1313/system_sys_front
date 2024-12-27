@@ -22,17 +22,10 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-center">
-        <Image
-          className="transition-transform duration-700 ease-in-out transform hover:scale-105"
-          src="/venturalogo.png"
-          alt="ventura.js logo"
-          width={650}
-          height={0}        
-          priority
-        />
+        <h1 className={`flex text-[120px] font-semi-bold text-emerald-600`}>SYS EXPED<strong className={`text-orange-600 flex -mt-24`}>.</strong></h1>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            Ventura Systems{" "}
+            Systems{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
             </code>
           </li>
@@ -178,7 +171,7 @@ export default function Home() {
           </Link>
         </div>
         <div className={`row-start-3 flex gap-6 flex-wrap text-[13px] items-center justify-center pt-14 text-zinc-600`}>
-        © {new Date().getFullYear()} - {`Ventura Têxtil`} - All rights reserved.
+        © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
         </div>
       </footer>
     </div>
