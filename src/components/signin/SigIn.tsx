@@ -93,15 +93,15 @@ export default function SigIn() {
                         autoComplete='current-password'
                     />
                     <div className={`flex flex-col w-full gap-y-14 items-center justify-center`}>
-                        <div className={`flex flex-col gap-y-5 h-[20px] w-[80%]`}>
+                        <div className={`flex gap-x-5 h-[20px] w-[80%]`}>
                             <button type="submit"
-                                className={`w-full p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
+                                className={`w-[50%] p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
                                 font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>
                                 LOGIN
                             </button>
                             <button type="button"
                                 onClick={logout}
-                                className={`w-full p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
+                                className={`w-[50%] p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
                                     font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>
                                 LOGOUT
                             </button>

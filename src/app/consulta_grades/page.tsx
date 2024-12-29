@@ -86,7 +86,7 @@ export default function ConsultaStatusGrades() {
         }
 
         return (
-            <TabelaExpedicao expedicaoData={grades} />
+            <TabelaExpedicao expedicaoData={grades || []} />
         )
     };
 
@@ -110,7 +110,7 @@ export default function ConsultaStatusGrades() {
                         </div>
                     ))}
                 </div>
-                <div className="flex w-[65%] flex-col items-center justify-start pt-24">
+                <div className="flex w-[100%] flex-col items-center justify-start pt-24">
                     {renderGrades()}
                 </div>
             </div>

@@ -19,7 +19,7 @@ export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
   const schoolName = props.romaneio[0].escola;
   const companyName = props.romaneio[0].company;
   const projectName = props.romaneio[0].projectname;
-  const create = props.romaneio[0].create.toString();
+  const create = props.romaneio[0].create;
 
   const print = () => { return props.printRomaneio(props.romaneio) }
   const printTwo = () => { return props.printEti(props.caixas) }
