@@ -10,7 +10,7 @@ const font = Poppins({
 
 // Arquivo de layout ou página
 export const metadata: Metadata = {
-  title: "Sys Exped",
+  title: "SYS Exped",
   description: "Sistema SysExped",
   icons: {
     icon: '/favicon.ico',
