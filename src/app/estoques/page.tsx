@@ -5,13 +5,6 @@ import { useEffect, useState } from "react";
 import StockRender from "@/components/componentesEstoque/StockRender";
 import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
 
-/*
-// Função fetcher para carregar todas as movimentações do estoque
-const fetcherStockSaldos = async (projectId: number): Promise<ProjetoStockItems | null> => {
-  const resp = await getProjectsItemsSaldos(String(projectId));
-  return resp;
-};*/
-
 export default function Estoques() {
   const [serverSelect, setServerSelect] = useState<JSX.Element | null>(null);
   const [projectId, setProjectId] = useState<number | null>(null);

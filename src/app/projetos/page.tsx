@@ -1,7 +1,7 @@
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
-import ProjetoComponent from "@/components/ComponentesProjeto/ProjetoComponent";
 import { Projeto } from '../../../core';
 import { get } from "../../hooks_api/api";
+import ProjetoComponentNew from '@/components/ComponentesProjeto/ProjetoComponentNew';
 
 export const revalidate = 0;
 
@@ -23,7 +23,7 @@ export default async function Projetos() {
                                 projetos
                                     .sort((a, b) => a.nome.localeCompare(b.nome))
                                     .map((p) => (
-                                        <ProjetoComponent key={p.id} projeto={p} />
+                                        <ProjetoComponentNew key={p.id} projeto={p} />
                                     ))
                             ) : (
                                 <p>Nenhum projeto encontrado.</p>

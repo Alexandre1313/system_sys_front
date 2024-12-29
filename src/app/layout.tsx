@@ -1,16 +1,17 @@
 import { AuthProvider } from "@/contexts/AuthContext";
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const font = Montserrat({
+const font = Poppins({
   subsets: ['latin'],
+  weight: ['300', '700', '900'],
 });
 
 // Arquivo de layout ou página
 export const metadata: Metadata = {
-  title: "VENTURA TÊXTIL",
-  description: "Sistema Next App",
+  title: "Sys Exped",
+  description: "Sistema SysExped",
   icons: {
     icon: '/favicon.ico',
   },

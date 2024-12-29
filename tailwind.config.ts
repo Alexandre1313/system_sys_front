@@ -23,8 +23,21 @@ const config: Config = {
       bounceYEfect: 'bounceYEfect 1s ease-in-out',  // Animação vai e vem vertical
       rotate: 'rotate 1s linear infinite', // Duração de 1 segundo, animação linear e infinita
       rotate2: 'rotate 1.5s linear infinite', // Duração de 0.7sec segundos, animação linear e infinita
+      jump: 'jump 1.5s ease-in-out infinite',
     },
     keyframes: {
+      jump: {
+        '0%, 100%': { transform: 'translateY(0)' }, 
+        '10%': { transform: 'translateY(0)' }, 
+        '20%': { transform: 'translateY(0)' },      
+        '30%': { transform: 'translateY(0)' },  
+        '40%': { transform: 'translateY(0)' }, 
+        '50%': { transform: 'translateY(-20px)' },      
+        '60%': { transform: 'translateY(0)' },  
+        '70%': { transform: 'translateY(-40px)' }, 
+        '80%': { transform: 'translateY(0)' },      
+        '90%': { transform: 'translateY(0)' },  
+      },
       bounceX: {
         '0%, 100%': { transform: 'translateX(0)' },  // No início e no fim, fica na posição inicial
         '50%': { transform: 'translateX(5px)' },   // No meio do ciclo, move 100px para a direita

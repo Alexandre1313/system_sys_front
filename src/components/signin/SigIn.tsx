@@ -15,8 +15,8 @@ export default function SigIn() {
     const router = useRouter();  // Agora usamos o hook useRouter
     const [isClient, setIsClient] = useState(false); // Estado para verificar se o componente foi montado
 
-    useEffect(() => {      
-        setIsClient(true);      
+    useEffect(() => {
+        setIsClient(true);
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -54,10 +54,21 @@ export default function SigIn() {
     };
 
     return (
-        <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-[#181818]">           
+        <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-[#181818]">
             <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-4">
-                <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-1">  
-                <h1 className={`flex text-[70px] font-semi-bold text-emerald-600`}>SYS EXPED<strong className={`text-orange-600 flex -mt-16`}>.</strong></h1>              
+                <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-1">
+                    <h1 className={`flex text-[50px] font-semi-bold text-emerald-600`}>
+                        <strong className={`flex text-[120px] font-normal text-emerald-600 -mt-20 pr-8`}>
+                            SYS
+                        </strong>
+                        <strong className={`flex text-[120px] font-semi-bold text-blue-600 -mt-[4.8rem]`}>
+                            E
+                        </strong>
+                        XPED
+                        <strong className={`text-orange-600 flex -mt-32 text-[120px]`}>
+                            .
+                        </strong>
+                    </h1>
                     <h2 className={`flex text-[21px] text-white`}>LOGIN</h2>
                 </div>
 
@@ -100,7 +111,7 @@ export default function SigIn() {
                         </div>
                     </div>
                 </form>
-            </div>          
+            </div>
         </div>
     );
 }

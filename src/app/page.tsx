@@ -1,5 +1,3 @@
-'use client'
-
 import Image from "next/image";
 import Link from "next/link";
 //import { useEffect } from "react";
@@ -17,12 +15,23 @@ export default function Home() {
       // Limpa o estilo ao sair da página
       document.body.style.backgroundImage = "none";
     };
-  }, []);*/ 
-  
+  }, []);*/
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-center">
-        <h1 className={`flex text-[120px] font-semi-bold text-emerald-600`}>SYS EXPED<strong className={`text-orange-600 flex -mt-24`}>.</strong></h1>
+        <h1 className={`flex text-[50px] font-semi-bold text-emerald-600`}>
+          <strong className={`flex text-[120px] font-normal text-emerald-600 -mt-20 pr-8`}>
+            SYS
+          </strong>
+          <strong className={`flex text-[120px] font-semi-bold text-blue-600 -mt-[4.8rem]`}>
+            E
+          </strong>
+          XPED
+          <strong className={`text-orange-600 flex -mt-32 text-[120px] animate-jump`}>
+            .
+          </strong>
+        </h1>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Systems{" "}
@@ -31,7 +40,7 @@ export default function Home() {
           </li>
         </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">         
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
           <Link href={'/projetos'} legacyBehavior>
             <a
               className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-[12px] h-10 sm:h-8 px-4 sm:px-5 sm:min-w-40"
@@ -73,7 +82,7 @@ export default function Home() {
             </a>
           </Link>
         </div>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">         
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
           <Link href={'/consulta_grades'} legacyBehavior>
             <a
               className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-[12px] h-10 sm:h-8 px-4 sm:px-5 sm:min-w-40"
@@ -90,7 +99,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >              
+            >
             </a>
           </Link>
           <Link href={'/'} legacyBehavior>
@@ -99,7 +108,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >              
+            >
             </a>
           </Link>
           <Link href={'/'} legacyBehavior>
@@ -108,7 +117,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >              
+            >
             </a>
           </Link>
         </div>
@@ -127,7 +136,7 @@ export default function Home() {
                 src="https://nextjs.org/icons/file.svg"
                 alt="File icon"
                 width={16}
-                height={0}              
+                height={0}
                 priority
               />
               Run Packages →
@@ -145,7 +154,7 @@ export default function Home() {
                 src="https://nextjs.org/icons/window.svg"
                 alt="Window icon"
                 width={16}
-                height={0}           
+                height={0}
                 priority
               />
               Run Shipping Manifests →
@@ -163,15 +172,15 @@ export default function Home() {
                 src="https://nextjs.org/icons/globe.svg"
                 alt="Globe icon"
                 width={16}
-                height={0}              
-                priority              
+                height={0}
+                priority
               />
               Run Projects →
             </a>
           </Link>
         </div>
         <div className={`row-start-3 flex gap-6 flex-wrap text-[13px] items-center justify-center pt-14 text-zinc-600`}>
-        © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
+          © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
         </div>
       </footer>
     </div>
