@@ -16,6 +16,13 @@ const atualizarQuantidadeCaixaInvert = (formData: any) => {
     formData.ESCOLA_GRADE.totalAExpedir += 1
 }
 
+const atualizarQuantidadeCaixaNnn = (formData: any, nnn: number) => {
+    formData.ITEM_SELECIONADO.quantidadeExpedida += nnn
+    formData.ITEM_SELECIONADO.qtyPCaixa += nnn
+    formData.ESCOLA_GRADE.totalExpedido += nnn
+    formData.ESCOLA_GRADE.totalAExpedir -= nnn
+}
+
 const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
@@ -69,7 +76,7 @@ const processarCodigoDeBarras = (
         CODDEBARRASLEITURA: value, // Sempre atualiza para o valor digitado
     }));
 
-    if (value.length === 5) {
+    if (value.length === 5 && value != '99999') {
         if (value === itemCodigo) {
             // Verifica se a quantidade lida não ultrapassa a quantidade permitida
             if (Number(quantidade) !== Number(quantidadeExpedida)) {
@@ -102,6 +109,34 @@ const processarCodigoDeBarras = (
                 CODDEBARRASLEITURA: '',
                 // limpa o campo aqui
             }));
+        }
+    } else {
+        if (value.length === 8 && value.substring(0, 5) === '99999') {
+            let nnn = parseInt(value.substring(5));
+            if (Number(quantidade) !== Number(quantidadeExpedida)) {
+                if(nnn > (Number(quantidade) - Number(quantidadeExpedida))){
+                    nnn = (Number(quantidade) - Number(quantidadeExpedida));
+                }
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + nnn), // Incrementa QUANTIDADELIDA
+                    QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) + nnn),
+                    CODDEBARRASLEITURA: '',
+                }));
+                atualizarQuantidadeCaixaNnn(formData, nnn)
+                if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
+                    OpenModalGerarCaixa()
+                }
+            } else {
+                // Se a quantidade exceder, exibe a mensagem no modal
+                setModalMessage('Quantidade já atendida para a grade em questão');
+                setModalOpen(true);
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    CODDEBARRASLEITURA: '',
+                    // limpa o campo aqui
+                }));
+            }
         }
     }
 };
