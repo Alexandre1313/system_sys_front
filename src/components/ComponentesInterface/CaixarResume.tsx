@@ -14,7 +14,7 @@ export default function CaixaResume({ caixa }: CaixaResumeProps) {
                 <span className={`text-4xl text-black font-bold`}>{caixa?.projeto}</span>
             </div>
             <div className={`flex flex-row w-full justify-start items-center gap-x-2 px-3`}>
-                <span className={`text-xl text-black font-bold`}>{caixa?.escolaCaixa}</span>
+                <span className={`text-2xl text-black font-bold`}>{caixa?.escolaCaixa}</span>
             </div>
             <CaixaResumeItems caixaItem={caixa?.caixaItem}/>
         </div>
