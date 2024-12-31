@@ -108,7 +108,7 @@ const processarCodigoDeBarras = (
 
 function criarCaixa(formData: any, id: any): Caixa | null {
     const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
-
+    console.log(formData)
     // Informações para a caixa
     const caixa: Caixa = {
         gradeId: ESCOLA_GRADE.gradeId,
@@ -126,6 +126,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
 
     // Percorre os itens da grade
     for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {
+        console.log(itemGrade)
         // Verifica se o item deve ser contado
         if (itemGrade.isCount) {
             const quantidadeParaCaixa = itemGrade.qtyPCaixa; // Pega a quantidade da caixa
@@ -172,6 +173,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
     if (totalExpedido === 0) {
         return null;
     }
+    console.log(formData)
     return caixa; // Retorna a caixa pronta para inserção no banco
 }
 
