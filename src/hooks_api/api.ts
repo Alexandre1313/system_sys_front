@@ -263,10 +263,11 @@ async function gradeItemModify(id: any, quantidadeExpedida: any): Promise<string
     }
 }
 
-async function getProjectsGradesSaldos(projectId: string, dateStr: string): Promise<GradeOpenBySchool[]>{
+async function getProjectsGradesSaldos(projectId: string, dateStr: string): Promise<GradeOpenBySchool[] | null>{
     const response = await fetch(`${urlStatusGrades}${projectId}/${dateStr}`)
     if (!response.ok) {
-        throw new Error(`Erro ao buscar dados: ${response.statusText}`)
+        console.log(`Erro ao buscar dados: ${response.statusText}`)
+        return null
     }
     const data = await response.json();
     return data;

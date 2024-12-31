@@ -179,7 +179,7 @@ export default function Home() {
             </a>
           </Link>
         </div>
-        <div className={`row-start-3 flex gap-6 flex-wrap text-[13px] items-center justify-center pt-14 text-zinc-600`}>
+        <div className={`row-start-3 flex gap-6 flex-wrap text-[17px] items-center justify-center pt-14 text-zinc-600`}>
           © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
         </div>
       </footer>

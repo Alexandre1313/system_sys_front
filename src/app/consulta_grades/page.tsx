@@ -10,7 +10,7 @@ import { GradeOpenBySchool } from '../../../core';
 import useSWR from 'swr';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 
-const fetcherGradesPDateSaldos = async (projectId: number, dateStr: string): Promise<GradeOpenBySchool[]> => {
+const fetcherGradesPDateSaldos = async (projectId: number, dateStr: string): Promise<GradeOpenBySchool[] | null> => {
     const resp = await getProjectsGradesSaldos(String(projectId), String(dateStr));
     return resp;
 };
