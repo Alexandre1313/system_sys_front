@@ -283,4 +283,3 @@ function objectsStockEmbs(embalagenid: number, formdata: FormDateInputs,
 }
 
 export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarCodigoDeBarrasInvert, processarQtdParaEstoque };
-
