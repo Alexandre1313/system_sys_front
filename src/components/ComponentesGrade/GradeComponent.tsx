@@ -177,7 +177,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 pt-9 flex-col items-center lg:min-h-[100%] min-h-[190vh]">
                     <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     {/* Ajustar o espaçamento abaixo do título */}
-                    <div className="flex flex-wrap justify-center w-full max-w-[1200px] p-8 mt-12">
+                    <div className="flex flex-wrap justify-center w-full max-w-[1400px] p-8 mt-12">
                         {props.grade.itensGrade.map((itemGrade, index) => {
                             const item = itemGrade?.itemTamanho?.item;
                             const genero = item?.genero;
@@ -186,7 +186,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const quantidadeExpedida = itemGrade.quantidadeExpedida;
                             const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
-                            const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-700' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-700';
+                            const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-800' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-800';
+                            const classBgCard = quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
+                                quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
+
                             const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
                                 <div
@@ -196,26 +199,26 @@ export default function GradeComponent(props: GradeComponentProps) {
                                       min-w-[300px] flex flex-col items-start justify-center hover:shadow-green transition duration-200 
                                       ease-in-out cursor-pointer min-h-[200px] border ${classBorderCard}`}
                                 >
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        ITEM: <strong className="text-slate-400 text-[15px] font-semibold"> {item?.nome}</strong>
+                                    <p className={`text-[13px] px-3 pt-2 font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
+                                        <strong className="text-slate-400 text-[20px] font-normal"> {item?.nome}</strong>
                                     </p>
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        GÊNERO:  <strong className="text-slate-400 text-[15px] font-semibold"> {genero}</strong>
+                                    <p className={`text-[13px] px-3 -mt-[8px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
+                                        <strong className="text-slate-400 text-[20px] font-normal"> {genero}</strong>
                                     </p>
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        TAMANHO: <strong className="text-slate-200 text-[15px] font-semibold"> {tamanho?.nome}</strong>
+                                    <p className={`text-[13px] px-3 pb-2 -mt-[8px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
+                                        TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
                                     </p>
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE Á EXPEDIR:  <strong className="text-yellow-400 text-[15px] font-semibold"> {quantidade}</strong>
+                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
+                                        QUANTIDADE Á EXPEDIR:  <strong className="text-yellow-400 text-[20px] font-normal"> {quantidade}</strong>
                                     </p>
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE EXPEDIDA:  <strong className="text-green-400 text-[15px] font-semibold"> {quantidadeExpedida}</strong>
+                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
+                                        QUANTIDADE EXPEDIDA:  <strong className="text-green-400 text-[20px] font-normal"> {quantidadeExpedida}</strong>
                                     </p>
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        ESTOQUE:  <strong className={`${colorEstoque} text-[15px] font-semibold`}> {estoque}</strong>
+                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
+                                        ESTOQUE:  <strong className={`${colorEstoque} text-[20px] font-normal`}> {estoque}</strong>
                                     </p>
-                                    <p className="text-[12px] font-semibold text-slate-500 tracking-[1px]">
-                                        BARCODE:  <strong className="text-slate-400 text-[15px] font-semibold"> {barcode}</strong>
+                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
+                                        BARCODE:  <strong className="text-slate-400 text-[20px] font-normal"> {barcode}</strong>
                                     </p>
                                 </div>
                             );
@@ -245,10 +248,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <BotaoGradeUp stringButtton={""} iconSize={19} bgColor={"bg-green-700"}
                                     bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} width={`min-w-[55px] max-w-[55px]`}
-                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`}/>
+                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
                                     bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} width={`min-w-[55px] max-w-[55px]`}
-                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`}/>
+                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <ItemsGradeInputTextHor value={String(props.grade.id)}
                                     labelName={`GRADE ID :`} />
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}

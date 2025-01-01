@@ -280,7 +280,7 @@ export default function Grades() {
         message={modalEncGradeMessage}
         onClose={closeModalEncGrade}
         mutate={swrMutate}
-        escolaGrade={formData.ESCOLA_GRADE} // Passa o mutate diretamente para o ModalEncGrade
+        escolaGrade={formData.ESCOLA_GRADE} 
       />
       {/* Componente ModalGerarCaixa com o mutate passado */}
       <ModalGerarCaixa
