@@ -1,4 +1,4 @@
-import { Embalagem, FormDateInputs, ItensProjects, Stock } from "../interfaces";
+import { Embalagem, FormDateInputs, ItensProjects, Stock, Usuarios } from "../interfaces";
 import Caixa from "../interfaces/Caixa";
 import CaixaItem from "../interfaces/CaixaItem";
 
@@ -52,10 +52,11 @@ const processarCodigoDeBarrasInvert = (
 const processarCodigoDeBarras = (
     value: string,
     formData: any,
+    user: Usuarios | null,
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
     setModalOpen: (open: boolean) => void,
-    OpenModalGerarCaixa: () => void
+    OpenModalGerarCaixa: () => void  
 ) => {
     // Verifica se o valor contém apenas números (0-9)
     const isNumeric = /^[0-9]*$/.test(value);
@@ -111,7 +112,7 @@ const processarCodigoDeBarras = (
             }));
         }
     } else {
-        if (value.length === 8 && value.substring(0, 5) === '99999') {
+        if (value.length === 8 && value.substring(0, 5) === '99999' && user?.id === 1) {
             let nnn = parseInt(value.substring(5));
             if (Number(quantidade) !== Number(quantidadeExpedida)) {
                 if(nnn > (Number(quantidade) - Number(quantidadeExpedida))){

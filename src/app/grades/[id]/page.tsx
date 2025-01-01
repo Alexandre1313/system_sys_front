@@ -61,10 +61,11 @@ export default function Grades() {
       processarCodigoDeBarras(
         value,
         formData,
+        user,
         setFormData,
         setModalMessage,
         setModalOpen,
-        OpenModalGerarCaixa
+        OpenModalGerarCaixa       
       );
     } else {
       setFormData((prevData) => ({
