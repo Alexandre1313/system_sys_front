@@ -188,7 +188,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
                             const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-800' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-800';
                             const classBgCard = quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
-                                quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
+                            quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
 
                             const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
