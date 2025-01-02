@@ -25,7 +25,7 @@ export default function Grades() {
   const { id } = useParams();
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [modalMessage, setModalMessage] = useState<string>('');  
+  const [modalMessage, setModalMessage] = useState<string>('');
   const [modalEncGradeOpen, setModalEncGradeOpen] = useState<boolean>(false);
   const [modalEncGradeMessage, setModalEncGradeMessage] = useState<string>('');
   const [modalGerarCaixaMessage, setModalGerarCaixaMessage] = useState<string>('');
@@ -35,7 +35,7 @@ export default function Grades() {
 
   useEffect(() => {
     try {
-      const boxSave0 = localStorage.getItem('saveBox');
+      const boxSave0 = localStorage.getItem('saveBox');    
       if (boxSave0) {
         setIsPend(true);
         setCaixa(JSON.parse(boxSave0));
@@ -65,7 +65,7 @@ export default function Grades() {
         setFormData,
         setModalMessage,
         setModalOpen,
-        OpenModalGerarCaixa       
+        OpenModalGerarCaixa
       );
     } else {
       setFormData((prevData) => ({
@@ -75,18 +75,18 @@ export default function Grades() {
     }
   };
 
-  const handleFormDataChangeDecresc = () => {    
-      processarCodigoDeBarrasInvert(       
-        formData,
-        setFormData,       
-      );           
+  const handleFormDataChangeDecresc = () => {
+    processarCodigoDeBarrasInvert(
+      formData,
+      setFormData,
+    );
   };
 
-  const handleFormDataCaixaAtualChange = (key: string, value: string) => {    
-      setFormData((prevData) => ({
-        ...prevData,
-        [key]: value,
-      }));    
+  const handleFormDataCaixaAtualChange = (key: string, value: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [key]: value,
+    }));
   };
 
   const closeModal = () => {
@@ -110,8 +110,24 @@ export default function Grades() {
   };
 
   const OpenModalGerarCaixa = () => {
+     // console 02
+     console.log(`item selecionado antes: ${JSON.stringify(formData.ITEM_SELECIONADO, null, 4)}`)
+
+    // console 03
+    console.log(`itens grade antes: ${JSON.stringify(formData.ESCOLA_GRADE?.grade?.itensGrade, null, 4)}`)
+
     const novaCaixa = criarCaixa(formData, user?.id);
-    if (novaCaixa) {      
+
+    // console 04
+    console.log(`item selecionado depois: ${JSON.stringify(formData.ITEM_SELECIONADO, null, 4)}`)
+
+    // console 05
+    console.log(`itens grade depois: ${JSON.stringify(formData.ESCOLA_GRADE?.grade?.itensGrade, null, 4)}`)
+
+    // console 06
+    console.log(`caixa depois: ${JSON.stringify(novaCaixa, null, 4)}`)
+
+    if (novaCaixa) {
       setCaixa(novaCaixa);
       setModalGerarCaixaOpen(true);
       setModalGerarCaixaMessage('Deseja encerrar a caixa ?');
@@ -121,7 +137,7 @@ export default function Grades() {
   };
 
   const OpenModalGerarCaixaError = () => {
-    if (isPend) {      
+    if (isPend) {
       setModalGerarCaixaOpen(true);
       setModalGerarCaixaMessage('Deseja encerrar a caixa pendente ?');
     } else {
@@ -129,7 +145,7 @@ export default function Grades() {
     }
   };
 
-  const handlerCaixaPend = () => {    
+  const handlerCaixaPend = () => {
     if (isPend) {
       localStorage.removeItem('saveBox');
     }
@@ -222,7 +238,7 @@ export default function Grades() {
                 OpenModalGerarCaixa={OpenModalGerarCaixa}
                 OpenModalGerarCaixaError={OpenModalGerarCaixaError}
                 printEti={printEti}
-                mutate={swrMutate}                
+                mutate={swrMutate}
               />
             ))}
           </div>
@@ -243,7 +259,7 @@ export default function Grades() {
                 OpenModalGerarCaixaError={OpenModalGerarCaixaError}
                 OpenModalGerarCaixa={OpenModalGerarCaixa}
                 printEti={printEti}
-                mutate={swrMutate}              
+                mutate={swrMutate}
               />
             ))}
           </div>
@@ -264,7 +280,7 @@ export default function Grades() {
                 OpenModalGerarCaixaError={OpenModalGerarCaixaError}
                 OpenModalGerarCaixa={OpenModalGerarCaixa}
                 printEti={printEti}
-                mutate={swrMutate}               
+                mutate={swrMutate}
               />
             ))}
           </div>
@@ -280,7 +296,7 @@ export default function Grades() {
         message={modalEncGradeMessage}
         onClose={closeModalEncGrade}
         mutate={swrMutate}
-        escolaGrade={formData.ESCOLA_GRADE} 
+        escolaGrade={formData.ESCOLA_GRADE}
       />
       {/* Componente ModalGerarCaixa com o mutate passado */}
       <ModalGerarCaixa
@@ -292,7 +308,7 @@ export default function Grades() {
         handlerCaixaPend={handlerCaixaPend}
         mutate={swrMutate}
         box={caixa}
-      />      
+      />
     </div>
   );
 }
