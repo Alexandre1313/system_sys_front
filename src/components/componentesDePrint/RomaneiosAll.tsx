@@ -149,7 +149,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             // Adiciona o endereço em fonte menor
             drawText(
                 page,
-                `ENDEREÇO: RUA ${romaneio.enderecocompany.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecocompany.numero || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.bairro || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.cidade || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.estado || 'NÂO INFORMADO'} - CEP: ${romaneio.enderecocompany.postalCode || 'NÂO INFORMADO'}`,
+                `ENDEREÇO: ${romaneio.enderecocompany.rua || 'NÂO INFORMADO'}, Nº ${romaneio.enderecocompany.numero || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.bairro || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.cidade || 'NÂO INFORMADO'} - ${romaneio.enderecocompany.estado || 'NÂO INFORMADO'} - CEP: ${romaneio.enderecocompany.postalCode || 'NÂO INFORMADO'}`,
                 margin,
                 currentY,
                 fontRegular, // Fonte regular
