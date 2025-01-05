@@ -190,7 +190,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             drawText(page, enderecoLabel, margin, currentY, fontBold, 12);
 
             // Quebrar o texto do endereço se ele ultrapassar a largura da página
-            const enderecoText = `RUA ${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'}`;
+            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'}`;
             const enderecoMaxWidth = pageWidth - margin * 2 - enderecoWidth;
             const enderecoLines = splitText(enderecoText, fontBold, 12, enderecoMaxWidth);
 
