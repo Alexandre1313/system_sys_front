@@ -73,7 +73,7 @@ export default function EntradasEmbalagem() {
 
   const handleFormDataChange = (key: string, value: string) => {
     if (key === 'LEITURADOCODDEBARRAS') {
-      processarQtdParaEstoque(value, formData, selectedEmbalagem, setFormData, setModalMessage, setModalOpenCodeInvalid);
+      processarQtdParaEstoque(value, formData, user, selectedEmbalagem, setFormData, setModalMessage, setModalOpenCodeInvalid);
     } else {
       setFormData((prevData) => ({
         ...prevData,

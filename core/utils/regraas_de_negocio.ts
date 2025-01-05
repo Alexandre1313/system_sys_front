@@ -56,7 +56,7 @@ const processarCodigoDeBarras = (
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
     setModalOpen: (open: boolean) => void,
-    OpenModalGerarCaixa: () => void  
+    OpenModalGerarCaixa: () => void
 ) => {
     // Verifica se o valor contém apenas números (0-9)
     const isNumeric = /^[0-9]*$/.test(value);
@@ -115,7 +115,7 @@ const processarCodigoDeBarras = (
         if (value.length === 8 && value.substring(0, 5) === '99999' && user?.id === 1) {
             let nnn = parseInt(value.substring(5));
             if (Number(quantidade) !== Number(quantidadeExpedida)) {
-                if(nnn > (Number(quantidade) - Number(quantidadeExpedida))){
+                if (nnn > (Number(quantidade) - Number(quantidadeExpedida))) {
                     nnn = (Number(quantidade) - Number(quantidadeExpedida));
                 }
                 setFormData((prevData: any) => ({
@@ -143,7 +143,7 @@ const processarCodigoDeBarras = (
 };
 
 function criarCaixa(formData: any, id: any): Caixa | null {
-    const { ESCOLA_GRADE, NUMERODACAIXA } = formData;   
+    const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
     // Informações para a caixa
     const caixa: Caixa = {
         gradeId: ESCOLA_GRADE.gradeId,
@@ -160,7 +160,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
     let totalExpedido = 0;
 
     // Percorre os itens da grade
-    for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {       
+    for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {
         // Verifica se o item deve ser contado
         if (itemGrade.isCount) {
             const quantidadeParaCaixa = itemGrade.qtyPCaixa; // Pega a quantidade da caixa
@@ -206,13 +206,14 @@ function criarCaixa(formData: any, id: any): Caixa | null {
     // Se não houve expedição de itens, retorne null
     if (totalExpedido === 0) {
         return null;
-    }    
+    }
     return caixa; // Retorna a caixa pronta para inserção no banco
 }
 
 const processarQtdParaEstoque = (
     value: string,
     formData: any,
+    user: Usuarios | null,
     selectedEmbalagem: Embalagem | null | undefined,
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
@@ -235,7 +236,7 @@ const processarQtdParaEstoque = (
         LEITURADOCODDEBARRAS: value, // Sempre atualiza para o valor digitado
     }));
 
-    if (value.length === 5) {
+    if (value.length === 5 && value != '99999') {
         if (selectedEmbalagem) {
             if (value === itemCodigo) {
                 setFormData((prevData: any) => ({
@@ -262,6 +263,26 @@ const processarQtdParaEstoque = (
                 LEITURADOCODDEBARRAS: '',
                 // limpa o campo aqui
             }));
+        }
+    } else {
+        if (value.length === 9 && value.substring(0, 5) === '99999' && user?.id === 1) {
+            let nnn = parseInt(value.substring(5));
+            if (selectedEmbalagem) {
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn), // Incrementa QUANTIDADELIDA
+                    LEITURADOCODDEBARRAS: '',
+                }));
+            } else {
+                // Se a embalagem nao estiver setada
+                setModalMessage('Por favor, selecione o embalador');
+                setModalOpenCodeInvalid(true);
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    LEITURADOCODDEBARRAS: '',
+                    // limpa o campo aqui
+                }));
+            }
         }
     }
 };
