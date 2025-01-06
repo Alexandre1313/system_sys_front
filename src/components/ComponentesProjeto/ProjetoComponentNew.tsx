@@ -11,7 +11,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
             <div className="flex border rounded-lg border-gray-800 shadow hover:border-gray-700 transition-colors duration-700
              transform lg:transition-transform lg:duration-300 hover:-translate-y-2 w-full">               
                 <div className="flex items-center justify-center lg:p-4 p-4 w-full">
-                    <span className="flex text-center text-[17px] font-bold text-teal-700">{projeto.nome}</span>                   
+                    <span className="flex text-center text-[17px] font-bold text-teal-700 hover:text-orange-500">{projeto.nome}</span>                   
                 </div>
             </div>
         </Link>
