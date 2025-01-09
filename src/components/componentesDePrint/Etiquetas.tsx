@@ -7,6 +7,9 @@ export interface EtiquetaProps {
 }
 
 const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
+    if(etiquetas){
+        etiquetas.sort((a, b) => parseInt(a.caixaNumber!) - parseInt(b.caixaNumber!));
+    }    
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
         const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
