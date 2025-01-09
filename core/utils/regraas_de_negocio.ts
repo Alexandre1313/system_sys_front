@@ -148,6 +148,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
     const caixa: Caixa = {
         gradeId: ESCOLA_GRADE.gradeId,
         escolaNumber: ESCOLA_GRADE.numeroEscola,
+        numberJoin: ESCOLA_GRADE.numberJoin,
         projeto: ESCOLA_GRADE.projeto,
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
         qtyCaixa: 0,

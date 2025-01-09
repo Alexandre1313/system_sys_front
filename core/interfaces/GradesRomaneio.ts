@@ -8,6 +8,7 @@ export default interface GradesRomaneio {
     projectname: string;
     escola: string;
     numeroEscola: string;
+    numberJoin: string;
     telefoneCompany: string;
     tipo: string | null;
     emailCompany: string;

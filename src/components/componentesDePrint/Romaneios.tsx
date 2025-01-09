@@ -96,6 +96,16 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             return lines;
         };
 
+        function concatString(nj: string, ne: string, nae: string): string{
+            let description = '';
+            if(nj){
+                description = `${nj} - ${ne}`;
+            }else{
+                description = `RM ${nae} - ${ne}`;
+            }
+                return description;
+        }
+
         // Função para ordenar tamanhos
         const sortTamanhos = (a: string, b: string): number => {
             const numericRegex = /^\d+$/; // Verifica se é numérico
@@ -175,7 +185,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
 
             // Quebrar o texto da escola se ele ultrapassar a largura da página
             const escolaMaxWidth = pageWidth - margin * 2 - escolaWidth;
-            const escolaLines = splitText(romaneio.escola, fontBold, 12, escolaMaxWidth);
+            const escolaLines = splitText( concatString(romaneio.numberJoin, romaneio.escola, romaneio.numeroEscola), fontBold, 12, escolaMaxWidth);
 
             // Desenhar as linhas quebradas do nome da escola
             escolaLines.forEach((line, index) => {

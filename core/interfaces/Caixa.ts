@@ -6,7 +6,8 @@ export default interface Caixa {
     gradeId: number | null | undefined; // Id da grade
     escolaCaixa: string;
     caixaNumber: string | null | undefined;
-    escolaNumber: string;
+    escolaNumber: string;  
+    numberJoin: string;
     qtyCaixa: number;
     projeto: string;
     userId?: number | undefined;

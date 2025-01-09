@@ -7,6 +7,16 @@ export interface EtiquetasRomProps {
 }
 
 const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
+    function concatString(nj: string, ne: string, nae: string): string{
+        let description = '';
+        if(nj){
+            description = `${nj} - ${ne}`;
+        }else{
+            description = `RM ${nae} - ${ne}`;
+        }
+            return description;
+    }
+    
     if(etiquetas){
         etiquetas.sort((a, b) => parseInt(a.caixaNumber!) - parseInt(b.caixaNumber!));
     }
@@ -41,7 +51,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
         etiquetas.forEach((etiqueta) => {
             // Cria uma nova página de etiqueta
             let page = pdfDoc.addPage([pageWidth, pageHeight]);
-            const { escolaNumber, projeto, qtyCaixa, escolaCaixa, caixaNumber, caixaItem, gradeId } = etiqueta;
+            const { escolaNumber, numberJoin, projeto, qtyCaixa, escolaCaixa, caixaNumber, caixaItem, gradeId } = etiqueta;
 
             // Desenho das bordas da etiqueta
             const borderX = 5;
@@ -74,7 +84,8 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
             textY -= 18;
 
             // Nome da escola (Fonte menor) com quebra de linha a cada 34 caracteres, sem quebrar palavras
-            const escolaLines = splitTextByCharLimit(escolaCaixa, 34);
+            const escolaLines = splitTextByCharLimit( concatString( numberJoin, escolaCaixa, escolaNumber), 34);
+
             escolaLines.forEach((line) => {
                 page.drawText(line, {
                     x: textX,

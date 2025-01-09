@@ -90,6 +90,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             nomeEscola: escola.nome,
             projeto: escola.projeto?.nome,
             numeroEscola: escola.numeroEscola,
+            numberJoin: escola.numberJoin,
             idEscola: escola.id,
             gradeId: grade.id,
             finalizada: grade.finalizada,
