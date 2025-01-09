@@ -210,7 +210,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `ROMANEIO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
                 margin,
                 currentY,
                 fontBold,
@@ -260,7 +260,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 if (!composicao) {
                     drawText(page, `${groupKey.toUpperCase()}`, margin, currentY, fontBold, 10);
                     currentY -= lineHeight + 0.5;
-                    currentY -= 15; 
+                    currentY -= 15;
                 }
 
                 // **Composição**: Verificar se existe e mostrar acima da linha de separação
@@ -343,13 +343,13 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
 
             drawText(page, 'Fone:', pageWidth / 2 - 72, rodapeY - 12, fontBold, 10, rgb(0, 0, 1));
             drawText(page, romaneio.telefoneCompany, pageWidth / 2 - 37, rodapeY - 12, fontRegular, 10, rgb(0, 0, 1));
-        });
+        });        
 
         // Salvar e exibir o PDF
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+        window.open(url, '_blank');               
     };
 
     return (
