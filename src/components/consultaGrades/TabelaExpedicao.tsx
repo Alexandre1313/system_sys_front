@@ -63,13 +63,15 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
       {/* Tabela de Detalhes por Grade */}
       {expedicaoData.map((grade) => {
         const { prevista, expedida, restante } = calculateTotais(grade.itens);
+        const bgSit = prevista === expedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
+          expedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
 
         return (
           <div key={grade.itens[0].gradeId} className="mb-8">
             {/* Tabela com os totais por grade */}
             <table className="min-w-full text-[16px] border-collapse border border-zinc-700 table-fixed">
               <thead>
-                <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
+                <tr className={`${bgSit}} text-zinc-500 border-b border-zinc-700`}>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[20%]">Unidade Escolar</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[10%]">Grade ID</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Data / Item</th>
@@ -103,8 +105,9 @@ const TabelaExpedicao: React.FC<TabelaExpedicaoProps> = ({ expedicaoData }) => {
                     <td className="px-4 py-2 border border-zinc-700 w-[15%]">{item.tamanho}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.quantidadePrevista}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[10%]">{item.quantidadeExpedida}</td>
-                    <td className={item.statusExpedicao === 'Concluído' ? 'px-4 py-2 border border-zinc-700 w-[10%] text-green-600' :
-                      'px-4 py-2 border border-zinc-700 w-[10%] text-red-600'}>{item.statusExpedicao}</td>
+                    <td className={item.statusExpedicao === 'Concluído' ? 'px-4 py-2 border border-zinc-700 w-[10%] text-green-600' : item.statusExpedicao === 'Inicializado' ?
+                     'px-4 py-2 border border-zinc-700 w-[10%] text-yellow-600': 
+                     'px-4 py-2 border border-zinc-700 w-[10%] text-red-600'}>{item.statusExpedicao}</td>
                   </tr>
                 ))}
               </tbody>
