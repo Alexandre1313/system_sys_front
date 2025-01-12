@@ -16,12 +16,12 @@ export interface ItemGradeInputTextStateBarProps {
     labelposition?: string;
     bgBackGround?: string;
     maxWhidth?: string;
+    inputRef: React.RefObject<HTMLInputElement>;
+    isFocuss: () => void;
     setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
 
-export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStateBarProps) {
-    const inputRef = useRef<HTMLInputElement>(null);
-    
+export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStateBarProps) {    
     // Acessar o valor correto do formData usando o labelName como chave   
     const labelName = concat(props.labelName);
     const value = props.formData[labelName] || "";
@@ -32,9 +32,7 @@ export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStat
     };
 
     useEffect(() => {
-        if(inputRef.current){
-            inputRef.current.focus();  // Sempre que o componente renderizar, coloca o foco no input
-        }        
+        props.isFocuss();    
     }, []); 
 
     return (
@@ -47,7 +45,7 @@ export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStat
                 {props.labelName}
             </label>
             <input                
-                ref={inputRef}
+                ref={props.inputRef}
                 className={`flex p-2 ${props.maxWhidth ? props.maxWhidth: 'w-full'} text-left ${props.txtSize ? props.txtSize: 'text-[27px]'}
                 ${props.bgBackGround ? props.bgBackGround : 'bg-trans'}
                 ${props.isFocus ? props.isFocus: 'outline-none'} 

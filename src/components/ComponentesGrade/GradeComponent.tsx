@@ -21,6 +21,8 @@ export interface GradeComponentProps {
     escola: Escola;
     formData: { [key: string]: any }; // Estado do pai passado como objeto   
     isPend: boolean | null;
+    inputRef: React.RefObject<HTMLInputElement>;
+    isFocus: () => void;
     handlerOpnEncGradeMoodify: () => void
     setFormData: (key: string, value: string) => void // Função que atualiza o estado no pai    
     handleFormDataChangeDecresc: () => void
@@ -304,6 +306,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         txtSize={`text-[23px]`}
+                                        inputRef={props.inputRef}
+                                        isFocuss={props.isFocus}
                                         placeholder={`Mantenha o cursor aqui...`}
                                         isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
                                         focus:ring focus:ring-emerald-500`}

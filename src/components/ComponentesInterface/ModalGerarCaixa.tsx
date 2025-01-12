@@ -8,7 +8,7 @@ import CaixaResume from './CaixarResume';
 interface ModalGerarCaixaProps {
   box: Caixa | null;
   isOpen: boolean;
-  message: string;
+  message: string;  
   setFormData: (key: string, value: string) => void; 
   onClose: () => void;
   mutate: () => void;
@@ -42,11 +42,11 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
       const audio = new Audio(soundFile); // Cria o novo áudio
       audio.play(); // Reproduz o som
     }
-  }, [isOpen, message]); // Executa o efeito quando `isOpen` ou `message` mudam
+  }, [isOpen, message]); // Executa o efeito quando `isOpen` ou `message` mudam  
 
   const handleGerarCaixa = async () => {
     setIsLoading(true);
-    setIsError(false);
+    setIsError(false);    
     try {
       setMsg(`Por favor, aguarde...`);
       const data = await inserirCaixa(box);

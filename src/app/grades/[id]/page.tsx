@@ -10,7 +10,7 @@ import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponen
 import { useAuth } from '@/contexts/AuthContext';
 import { getGradesPorEscolas } from '@/hooks_api/api';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
 import Caixa from '../../../../core/interfaces/Caixa';
@@ -24,6 +24,8 @@ const fetcher = async (id: number) => {
 export default function Grades() {
   const { id } = useParams();
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
   const [modalEncGradeOpen, setModalEncGradeOpen] = useState<boolean>(false);
@@ -35,7 +37,7 @@ export default function Grades() {
 
   useEffect(() => {
     try {
-      const boxSave0 = localStorage.getItem('saveBox');    
+      const boxSave0 = localStorage.getItem('saveBox');
       if (boxSave0) {
         setIsPend(true);
         setCaixa(JSON.parse(boxSave0));
@@ -55,6 +57,12 @@ export default function Grades() {
     QUANTIDADENACAIXAATUAL: '0',
     NUMERODACAIXA: '',
   });
+
+  const isFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.focus(); 
+    }
+  }
 
   const handleFormDataChange = (key: string, value: string) => {
     if (key === 'CODDEBARRASLEITURA') {
@@ -103,6 +111,7 @@ export default function Grades() {
     setModalGerarCaixaOpen(false);
     setModalGerarCaixaMessage('');
     setCaixa(null);
+    isFocus();
     if (formData.ESCOLA_GRADE?.totalAExpedir === 0) {
       setModalEncGradeOpen(true);
       setModalEncGradeMessage('Grade finalizada');
@@ -110,8 +119,8 @@ export default function Grades() {
   };
 
   const OpenModalGerarCaixa = () => {
-     // console 02
-     console.log(`item selecionado antes: ${JSON.stringify(formData.ITEM_SELECIONADO, null, 4)}`)
+    // console 02
+    console.log(`item selecionado antes: ${JSON.stringify(formData.ITEM_SELECIONADO, null, 4)}`)
 
     // console 03
     console.log(`itens grade antes: ${JSON.stringify(formData.ESCOLA_GRADE?.grade?.itensGrade, null, 4)}`)
@@ -145,11 +154,9 @@ export default function Grades() {
     }
   };
 
-  const handlerCaixaPend = () => {
-    if (isPend) {
-      localStorage.removeItem('saveBox');
-    }
-    setIsPend(null);
+  const handlerCaixaPend = () => {    
+    localStorage.removeItem('saveBox');    
+    setIsPend(null);    
   }
 
   const handleItemSelecionado = (item: GradeItem | null) => {
@@ -229,6 +236,8 @@ export default function Grades() {
                 escola={escola}
                 formData={formData}
                 isPend={isPend}
+                inputRef={inputRef}
+                isFocus={isFocus}
                 handleFormDataChangeDecresc={handleFormDataChangeDecresc}
                 handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
                 setFormData={handleFormDataChange}
@@ -250,6 +259,8 @@ export default function Grades() {
                 escola={escola}
                 formData={formData}
                 isPend={isPend}
+                inputRef={inputRef}
+                isFocus={isFocus}
                 handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
                 handleFormDataChangeDecresc={handleFormDataChangeDecresc}
                 setFormData={handleFormDataChange}
@@ -271,6 +282,8 @@ export default function Grades() {
                 escola={escola}
                 formData={formData}
                 isPend={isPend}
+                inputRef={inputRef}
+                isFocus={isFocus}
                 handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
                 setFormData={handleFormDataChange}
                 handleItemSelecionado={handleItemSelecionado}
@@ -301,7 +314,7 @@ export default function Grades() {
       {/* Componente ModalGerarCaixa com o mutate passado */}
       <ModalGerarCaixa
         isOpen={modalGerarCaixaOpen}
-        message={modalGerarCaixaMessage}
+        message={modalGerarCaixaMessage}       
         setFormData={handleFormDataCaixaAtualChange}
         handleNumberBox={handleNumberBox}
         onClose={closeModalGerarCaixa}
