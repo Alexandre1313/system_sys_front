@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { concat } from "../../../core/utils/tools";
 
 export interface ItemGradeInputTextStateBarProps {
@@ -33,7 +33,7 @@ export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStat
 
     useEffect(() => {
         props.isFocuss();    
-    }, []); 
+    }); 
 
     return (
         <div className="flex flex-col items-start justify-center gap-y-3 w-full">
