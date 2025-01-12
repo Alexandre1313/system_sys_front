@@ -1,6 +1,7 @@
 import { PDFDocument, PDFFont, StandardFonts, rgb } from 'pdf-lib';
 import { Printer } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
+import { convertSPTime } from '../../../core/utils/tools';
 
 export interface RomaneiosProps {
     romaneios: GradesRomaneio[];
@@ -200,7 +201,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             drawText(page, enderecoLabel, margin, currentY, fontBold, 12);
 
             // Quebrar o texto do endereço se ele ultrapassar a largura da página
-            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'}`;
+            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.cidade || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.estado || 'NÃO INFORMADO'}`;
             const enderecoMaxWidth = pageWidth - margin * 2 - enderecoWidth;
             const enderecoLines = splitText(enderecoText, fontBold, 12, enderecoMaxWidth);
 
@@ -354,12 +355,28 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             drawText(page, 'Fone:', pageWidth / 2 - 72, rodapeY - 12, fontBold, 10, rgb(0, 0, 1));
             drawText(page, romaneio.telefoneCompany, pageWidth / 2 - 37, rodapeY - 12, fontRegular, 10, rgb(0, 0, 1));
         });
+        const data = new Date()
+        const dataSp = convertSPTime(String(data));
 
-        // Salvar e exibir o PDF
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+         // Salvar e gerar o PDF em bytes
+         const pdfBytes = await pdfDoc.save();
+         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+         const url = URL.createObjectURL(blob);
+ 
+         // Criar um link temporário para iniciar o download
+         const link = document.createElement('a');
+         link.href = url;
+ 
+         // Defina o nome do arquivo para download
+         const nomeArquivo = concatString(romaneios[0].numberJoin, `${romaneios[0].escola} - ${dataSp}`, `${romaneios[0].numeroEscola}`);
+         link.download = nomeArquivo; // O nome do arquivo será 'romaneio_gerado.pdf'
+ 
+         // Dispara o download
+         link.click();
+         window.open(url, '_blank'); 
+ 
+         // Revoga a URL para liberar recursos
+         URL.revokeObjectURL(url);
     };
 
     return (

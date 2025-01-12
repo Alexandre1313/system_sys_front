@@ -14,6 +14,7 @@ import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
+import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -300,7 +301,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         isReadOnly={true} />
-                                    <ItemGradeInputTextState labelName={'CÓD DE BARRAS LEITURA'}
+                                    <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         txtSize={`text-[23px]`}
                                         placeholder={`Mantenha o cursor aqui...`}
