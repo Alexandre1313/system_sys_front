@@ -59,7 +59,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           handleCaixaAtualChange()
           onClose()
           clearTimeout(timeout)
-        }, 500)
+        }, 300)
       }
     } catch (error) {
       console.error("Erro ao encerrar a caixa:", error);

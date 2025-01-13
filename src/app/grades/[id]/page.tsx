@@ -17,6 +17,7 @@ import Caixa from '../../../../core/interfaces/Caixa';
 import { criarCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert } from '../../../../core/utils/regraas_de_negocio';
 
 const fetcher = async (id: number) => {
+  console.log('Fetching data for id:', id);
   const escolaComGrades = await getGradesPorEscolas(id);
   return escolaComGrades;
 };
@@ -60,7 +61,7 @@ export default function Grades() {
 
   const isFocus = () => {
     if (inputRef.current) {
-      inputRef.current.focus(); 
+      inputRef.current.focus();
     }
   }
 
@@ -154,9 +155,9 @@ export default function Grades() {
     }
   };
 
-  const handlerCaixaPend = () => {    
-    localStorage.removeItem('saveBox');    
-    setIsPend(null);    
+  const handlerCaixaPend = () => {
+    localStorage.removeItem('saveBox');
+    setIsPend(null);
   }
 
   const handleItemSelecionado = (item: GradeItem | null) => {
@@ -199,7 +200,9 @@ export default function Grades() {
   }
 
   // Usando SWR para buscar dados da escola e suas grades
-  const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id!));
+  const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id!), {
+    revalidateOnFocus: false, 
+  });
 
   if (!data && !error) {
     return <IsLoading />
@@ -314,7 +317,7 @@ export default function Grades() {
       {/* Componente ModalGerarCaixa com o mutate passado */}
       <ModalGerarCaixa
         isOpen={modalGerarCaixaOpen}
-        message={modalGerarCaixaMessage}       
+        message={modalGerarCaixaMessage}
         setFormData={handleFormDataCaixaAtualChange}
         handleNumberBox={handleNumberBox}
         onClose={closeModalGerarCaixa}
