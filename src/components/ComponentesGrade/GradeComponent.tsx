@@ -285,19 +285,23 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                         labelName={`TOTAL DO ITEM JÁ EXPEDIDO`} />
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">
+                                <div className="flex flex-row justify-start items-center gap-x-5">                                    
                                     <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
                                         formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true}
-                                        valueColor={`text-yellow-500`} labelColor={`text-yellow-500`} />
+                                        isReadOnly={true}  bgBackGround={`bg-black`}
+                                        valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
+                                        height={`h-[80px]`} txtSize={`text-[56px]`} maxWhidth={`max-w-[300px]`}
+                                        colorBorder={`border-yellow-500`}/>
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         isReadOnly={true}
-                                        valueColor={`text-white`} labelColor={`text-red-500`}
-                                        bgBackGround={`bg-red-500`} txtSize={`text-[35px]`}
-                                        maxWhidth={`max-w-[300px]`} />
+                                        valueColor={`text-white`} labelColor={`text-whitw`}
+                                        bgBackGround={`bg-black`} txtSize={`text-[56px]`}
+                                        maxWhidth={`max-w-[300px]`}
+                                        height={`h-[80px]`} 
+                                        colorBorder={`border-white`}/>
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}

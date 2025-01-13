@@ -13,6 +13,8 @@ export interface ItemGradeInputTextStateProps {
     labelposition?: string;
     bgBackGround?: string;
     maxWhidth?: string;
+    height?: string;
+    colorBorder?: string;
     setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
 
@@ -40,8 +42,9 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
                 ${props.bgBackGround ? props.bgBackGround : 'bg-trans'}
                 ${props.isFocus ? props.isFocus: 'outline-none'} 
                 rounded-md  border h-[50px] min-w-[374px] ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
-                border-gray-700 ${props.valueColor ? props.valueColor: 'text-green-400'} 
-                placeholder:text-[rgba(333,333,333,0.2)]`}
+                ${props.valueColor ? props.valueColor: 'text-green-400'} 
+                placeholder:text-[rgba(333,333,333,0.1)] ${props.height ? props.height: ''}
+                ${props.colorBorder ? props.colorBorder: 'border-gray-700'}`}
                 type="text"   
                 placeholder={props.placeholder}  
                 readOnly={props.isReadOnly}           
