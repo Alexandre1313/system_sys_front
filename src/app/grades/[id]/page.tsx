@@ -202,6 +202,7 @@ export default function Grades() {
   // Usando SWR para buscar dados da escola e suas grades
   const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id!), {
     revalidateOnFocus: false, 
+    revalidateOnReconnect: false
   });
 
   if (!data && !error) {
