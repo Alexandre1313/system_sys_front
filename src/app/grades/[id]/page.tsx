@@ -24,7 +24,7 @@ const fetcher = async (id: number) => {
 
 export default function Grades() {
   const { id } = useParams();
-
+  
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);

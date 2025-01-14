@@ -110,8 +110,8 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
-        props.handleItemSelecionado(null)
-        props.handleEscolaGradeSelecionada(null)
+        //props.handleItemSelecionado(null)
+        //props.handleEscolaGradeSelecionada(null)
         setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
     };
 
