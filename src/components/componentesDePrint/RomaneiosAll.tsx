@@ -129,7 +129,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             } else {
                 return a.localeCompare(b); // Ordem alfabética para outros
             }
-        };      
+        };
 
         for (const romaneio of romaneioAr) {
             const page = pdfDoc.addPage([pageWidth, pageHeight]);
@@ -233,7 +233,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             currentY -= lineHeight + 1;
 
             // Tipagem de groupedData corrigida para um objeto (e não array)
-            const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
+            /*const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
 
                 // Verifique se o grupo já existe no acumulador, se não, crie-o
@@ -243,6 +243,39 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
 
                 // Adiciona o item ao grupo correspondente
                 acc[groupKey].items.push(curr);
+
+                return acc;
+            }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);*/
+
+            const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
+                const groupKey = `${curr.item} ${curr.genero}`;
+
+                // Verifique se o projeto é "SANTO ANDRÉ"
+                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉ") {
+                    if (curr.item === "KIT UNIFORME") {
+                        // Criando o grupo para "KIT INVERNO" com composição "XXX"
+                        const groupInvernoKey = `KIT INVERNO ${curr.genero}`;
+                        if (!acc[groupInvernoKey]) {
+                            acc[groupInvernoKey] = { items: [], composicao: "01 CALÇA, 01 JAQUETA" }; // Novo grupo "KIT INVERNO"
+                        }
+                        acc[groupInvernoKey].items.push(curr);
+
+                        // Criando o grupo para "KIT VERÃO" com composição "XXX"
+                        const groupVeraoKey = `KIT VERÃO ${curr.genero}`;
+                        if (!acc[groupVeraoKey]) {
+                            acc[groupVeraoKey] = { items: [], composicao: "02 BERMUDAS, 01 CAMISETA GOLA POLO, 02 CAMISETAS DECOTE V" }; // Novo grupo "KIT VERÃO"
+                        }
+                        acc[groupVeraoKey].items.push(curr);
+                    } else {
+                        // Se não for "KIT UNIFORME", mantém o item original no grupo
+                        acc[groupKey] = acc[groupKey] || { items: [], composicao: curr.composicao };
+                        acc[groupKey].items.push(curr);
+                    }
+                } else {
+                    // Se o projeto não for "SANTO ANDRÉ", mantém o item original
+                    acc[groupKey] = acc[groupKey] || { items: [], composicao: curr.composicao };
+                    acc[groupKey].items.push(curr);
+                }
 
                 return acc;
             }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);
@@ -355,9 +388,9 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             drawText(page, romaneio.emailCompany, pageWidth / 2 - 37, rodapeY, fontRegular, 10, rgb(0, 0, 1));
 
             drawText(page, 'Fone:', pageWidth / 2 - 72, rodapeY - 12, fontBold, 10, rgb(0, 0, 1));
-            drawText(page, romaneio.telefoneCompany, pageWidth / 2 - 37, rodapeY - 12, fontRegular, 10, rgb(0, 0, 1));           
-        };     
-        
+            drawText(page, romaneio.telefoneCompany, pageWidth / 2 - 37, rodapeY - 12, fontRegular, 10, rgb(0, 0, 1));
+        };
+
         const pdfBytes = await pdfDoc.save();
         return pdfBytes;
     };
@@ -589,7 +622,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             currentY -= lineHeight + 1;
 
             // Tipagem de groupedData corrigida para um objeto (e não array)
-            const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
+            /*const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
 
                 // Verifique se o grupo já existe no acumulador, se não, crie-o
@@ -599,6 +632,39 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
 
                 // Adiciona o item ao grupo correspondente
                 acc[groupKey].items.push(curr);
+
+                return acc;
+            }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);*/
+
+            const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
+                const groupKey = `${curr.item} ${curr.genero}`;
+
+                // Verifique se o projeto é "SANTO ANDRÉ"
+                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉ") {
+                    if (curr.item === "KIT UNIFORME") {
+                        // Criando o grupo para "KIT INVERNO" com composição "XXX"
+                        const groupInvernoKey = `KIT INVERNO ${curr.genero}`;
+                        if (!acc[groupInvernoKey]) {
+                            acc[groupInvernoKey] = { items: [], composicao: "01 CALÇA, 01 JAQUETA" }; // Novo grupo "KIT INVERNO"
+                        }
+                        acc[groupInvernoKey].items.push(curr);
+
+                        // Criando o grupo para "KIT VERÃO" com composição "XXX"
+                        const groupVeraoKey = `KIT VERÃO ${curr.genero}`;
+                        if (!acc[groupVeraoKey]) {
+                            acc[groupVeraoKey] = { items: [], composicao: "02 BERMUDAS, 01 CAMISETA GOLA POLO, 02 CAMISETAS DECOTE V" }; // Novo grupo "KIT VERÃO"
+                        }
+                        acc[groupVeraoKey].items.push(curr);
+                    } else {
+                        // Se não for "KIT UNIFORME", mantém o item original no grupo
+                        acc[groupKey] = acc[groupKey] || { items: [], composicao: curr.composicao };
+                        acc[groupKey].items.push(curr);
+                    }
+                } else {
+                    // Se o projeto não for "SANTO ANDRÉ", mantém o item original
+                    acc[groupKey] = acc[groupKey] || { items: [], composicao: curr.composicao };
+                    acc[groupKey].items.push(curr);
+                }
 
                 return acc;
             }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);

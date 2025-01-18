@@ -97,14 +97,14 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             return lines;
         };
 
-        function concatString(nj: string, ne: string, nae: string): string{
+        function concatString(nj: string, ne: string, nae: string): string {
             let description = '';
-            if(nj){
+            if (nj) {
                 description = `${nj} - ${ne}`;
-            }else{
+            } else {
                 description = `RM ${nae} - ${ne}`;
             }
-                return description;
+            return description;
         }
 
         // Função para ordenar tamanhos
@@ -186,7 +186,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
 
             // Quebrar o texto da escola se ele ultrapassar a largura da página
             const escolaMaxWidth = pageWidth - margin * 2 - escolaWidth;
-            const escolaLines = splitText( concatString(romaneio.numberJoin, romaneio.escola, romaneio.numeroEscola), fontBold, 12, escolaMaxWidth);
+            const escolaLines = splitText(concatString(romaneio.numberJoin, romaneio.escola, romaneio.numeroEscola), fontBold, 12, escolaMaxWidth);
 
             // Desenhar as linhas quebradas do nome da escola
             escolaLines.forEach((line, index) => {
@@ -230,7 +230,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             );
             currentY -= lineHeight + 1;
 
-            // Tipagem de groupedData corrigida para um objeto (e não array)
+            /* Tipagem de groupedData corrigida para um objeto (e não array)
             const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
 
@@ -243,7 +243,43 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                 acc[groupKey].items.push(curr);
 
                 return acc;
+            }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);*/
+
+            const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
+                const groupKey = `${curr.item} ${curr.genero}`;
+
+                // Verifique se o projeto é "SANTO ANDRÉ"
+                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉ") {
+                    if (curr.item === "KIT UNIFORME") {
+                        // Criando o grupo para "KIT INVERNO" com composição "XXX"
+                        const groupInvernoKey = `KIT INVERNO ${curr.genero}`;
+                        if (!acc[groupInvernoKey]) {
+                            acc[groupInvernoKey] = { items: [], composicao: "01 CALÇA, 01 JAQUETA" }; // Novo grupo "KIT INVERNO"
+                        }
+                        acc[groupInvernoKey].items.push(curr);
+
+                        // Criando o grupo para "KIT VERÃO" com composição "XXX"
+                        const groupVeraoKey = `KIT VERÃO ${curr.genero}`;
+                        if (!acc[groupVeraoKey]) {
+                            acc[groupVeraoKey] = { items: [], composicao: "02 BERMUDAS, 01 CAMISETA GOLA POLO, 02 CAMISETAS DECOTE V" }; // Novo grupo "KIT VERÃO"
+                        }
+                        acc[groupVeraoKey].items.push(curr);
+                    } else {
+                        // Se não for "KIT UNIFORME", mantém o item original no grupo
+                        acc[groupKey] = acc[groupKey] || { items: [], composicao: curr.composicao };
+                        acc[groupKey].items.push(curr);
+                    }
+                } else {
+                    // Se o projeto não for "SANTO ANDRÉ", mantém o item original
+                    acc[groupKey] = acc[groupKey] || { items: [], composicao: curr.composicao };
+                    acc[groupKey].items.push(curr);
+                }
+
+                return acc;
             }, {} as Record<string, { items: { tamanho: string; quantidade: number }[]; composicao: string }>);
+
+            // Exibindo o groupedData para garantir que as réplicas estão sendo geradas corretamente
+            console.log(JSON.stringify(groupedData, null, 2));
 
             Object.keys(groupedData).forEach((groupKey) => {
                 const { composicao } = groupedData[groupKey];
@@ -259,19 +295,19 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                     color: rgb(149 / 255, 149 / 255, 149 / 255), // Cor cinza discreto
                     thickness: 0.01 // Linha fina
                 });
- 
+
                 currentY -= 15;
 
                 // Exibe o nome do grupo
-                if(composicao){
+                if (composicao) {
                     drawText(page, `${groupKey.toUpperCase()} - KIT COMPOSTO POR:`, margin, currentY, fontBold, 10);
                     currentY -= lineHeight + 0.5;
                 }
 
-                if(!composicao){
+                if (!composicao) {
                     drawText(page, `${groupKey.toUpperCase()}`, margin, currentY, fontBold, 10);
                     currentY -= lineHeight + 0.5;
-                    currentY -= 15; 
+                    currentY -= 15;
                 }
 
                 // **Composição**: Verificar se existe e mostrar acima da linha de separação
@@ -289,8 +325,8 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
                     composicaoLines.forEach((line) => {
                         drawText(page, line, margin, currentY, fontRegular, 8); // Exibe o conteúdo da composição
                         currentY -= lineHeight; // Ajusta a posição para a próxima linha
-                    });                   
-                    currentY -= 15; 
+                    });
+                    currentY -= 15;
                 }
 
                 // Calcular largura dinâmica das células
@@ -358,25 +394,25 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
         const data = new Date()
         const dataSp = convertSPTime(String(data));
 
-         // Salvar e gerar o PDF em bytes
-         const pdfBytes = await pdfDoc.save();
-         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-         const url = URL.createObjectURL(blob);
- 
-         // Criar um link temporário para iniciar o download
-         const link = document.createElement('a');
-         link.href = url;
- 
-         // Defina o nome do arquivo para download
-         const nomeArquivo = concatString(romaneios[0].numberJoin, `${romaneios[0].escola} - ${dataSp}`, `${romaneios[0].numeroEscola}`);
-         link.download = nomeArquivo; // O nome do arquivo será 'romaneio_gerado.pdf'
- 
-         // Dispara o download
-         link.click();
-         window.open(url, '_blank'); 
- 
-         // Revoga a URL para liberar recursos
-         URL.revokeObjectURL(url);
+        // Salvar e gerar o PDF em bytes
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        // Criar um link temporário para iniciar o download
+        const link = document.createElement('a');
+        link.href = url;
+
+        // Defina o nome do arquivo para download
+        const nomeArquivo = concatString(romaneios[0].numberJoin, `${romaneios[0].escola} - ${dataSp}`, `${romaneios[0].numeroEscola}`);
+        link.download = nomeArquivo; // O nome do arquivo será 'romaneio_gerado.pdf'
+
+        // Dispara o download
+        link.click();
+        window.open(url, '_blank');
+
+        // Revoga a URL para liberar recursos
+        URL.revokeObjectURL(url);
     };
 
     return (
