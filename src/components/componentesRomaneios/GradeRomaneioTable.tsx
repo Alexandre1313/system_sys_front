@@ -10,7 +10,7 @@ interface GradeRomaneioTableProps {
 export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
   const printable = props.romaneio[0].isPrint;
 
-  const textSize = '13px';
+  const textSize = '16px';
   const textColor = `${printable ? 'text-green-500' : 'text-zinc-400'}`;
   const fonte = 'font-semibold';
   const borderColor = 'border-zinc-800';
