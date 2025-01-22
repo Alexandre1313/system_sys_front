@@ -112,7 +112,7 @@ const processarCodigoDeBarras = (
             }));
         }
     } else {
-        if (value.length === 8 && value.substring(0, 5) === '99999' && user?.id === 1) {
+        if (value.length === 8 && value.substring(0, 5) === '99999' && user?.id) {
             let nnn = parseInt(value.substring(5));
             if (Number(quantidade) !== Number(quantidadeExpedida)) {
                 if (nnn > (Number(quantidade) - Number(quantidadeExpedida))) {
