@@ -6,7 +6,7 @@ interface GradeRomaneioProps {
 }
 
 export default function GradeRomaneio(props: GradeRomaneioProps) {
-    const textSize = '13px';
+    const textSize = '15px';
     const textColor = 'text-zinc-400';
     const fonte = 'font-semibold';
 
