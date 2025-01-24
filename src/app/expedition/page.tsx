@@ -1,20 +1,32 @@
-'use client'
+'use client';
 
+import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
 import { useState } from "react";
 
-const fetcher = async (id: number) => {
-
-};
-
-const arr = [1, 2, 3]
+const arr = [1, 2, 3];
 
 export default function Expedition() {
     const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro
+    const [selectedGrades, setSelectedGrades] = useState<number[]>([]); // Grades selecionadas
 
-    const toggleTheme = () => setIsDark(!isDark ? true: false);
+    const toggleTheme = () => setIsDark(!isDark);
+
+    const handleCheckboxChange = (id: number) => {
+        setSelectedGrades((prev) =>
+            prev.includes(id) ? prev.filter((grade) => grade !== id) : [...prev, id]
+        );
+    };
+
+    const handleConfirm = () => {
+        if (selectedGrades.length === 0) {
+            alert("Nenhuma grade selecionada para impressão!");
+        } else {
+            alert(`Grades selecionadas: ${selectedGrades.join(", ")}`);
+        }
+    };
 
     const containerClass = isDark
-        ? "bg-gray-900 text-gray-200"
+        ? "bg-[#181818] text-gray-200"
         : "bg-gray-100 text-gray-900";
 
     const tableHeaderClass = isDark
@@ -28,38 +40,54 @@ export default function Expedition() {
         ? `${buttonBaseClass} bg-gray-700 text-gray-200 hover:bg-gray-600`
         : `${buttonBaseClass} bg-gray-300 text-gray-900 hover:bg-gray-400`;
 
+    const checkboxClass = isDark
+        ? "w-6 h-6 bg-gray-700 rounded-md border-2 border-gray-600 checked:bg-green-500 focus:outline-none cursor-pointer"
+        : "w-6 h-6 bg-gray-200 rounded-md border-2 border-gray-400 checked:bg-green-500 focus:outline-none cursor-pointer";
+
     const borderClass = isDark
         ? "border border-gray-600"
         : "border border-gray-300";
 
     return (
         <div className={`${containerClass} flex flex-col w-full min-h-screen items-center justify-start p-5 gap-y-5`}>
+            <div className={`flex w-full mb-12`}>
+                <TitleComponentFixed stringOne={`GRADES DA ESCOLA: ${`EXAMPLE`}`} />
+            </div>
             {arr.map((i) => (
                 <div
                     key={i}
-                    className={`flex flex-col items-center justify-center p-4 ${borderClass} rounded-md w-full shadow-md ${isDark ? "bg-gray-800" : "bg-white"
+                    className={`flex flex-col items-center justify-center p-2 ${borderClass} rounded-md w-full shadow-md ${isDark ? "bg-gray-800" : "bg-white"
                         }`}
                 >
                     <table className="w-full border-collapse text-sm">
                         <thead>
                             <tr className={`${tableHeaderClass} text-center`}>
-                                <th className="p-2 font-semibold">AJUSTAR GRADE</th>
-                                <th className="p-2 font-semibold">STATUS</th>
-                                <th className="p-2 font-semibold">TOTAL DA GRADE</th>
-                                <th className="p-2 font-semibold">À EXPEDIR</th>
-                                <th className="p-2 font-semibold">EXPEDIDO</th>
-                                <th className="p-2 font-semibold">ITENS</th>
-                                <th className="p-2 font-semibold">ETIQUETAS</th>
-                                <th className="p-2 font-semibold">ITENS DA GRADE</th>
+                                <th className="p-2 font-semibold w-[10%]">SELECIONAR</th>
+                                <th className="p-2 font-semibold w-[10%]">AJUSTAR GRADE</th>
+                                <th className="p-2 font-semibold w-[10%]">STATUS</th>
+                                <th className="p-2 font-semibold w-[10%]">TOTAL DA GRADE</th>
+                                <th className="p-2 font-semibold w-[10%]">À EXPEDIR</th>
+                                <th className="p-2 font-semibold w-[10%]">EXPEDIDO</th>
+                                <th className="p-2 font-semibold w-[20%]">ITENS</th>
+                                <th className="p-2 font-semibold w-[10%]">ETIQUETAS</th>
+                                <th className="p-2 font-semibold w-[10%]">ITENS DA GRADE</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr
                                 className={`text-center ${isDark
-                                        ? "border-b border-gray-600"
-                                        : "border-b border-gray-300"
+                                    ? "border-b border-gray-600"
+                                    : "border-b border-gray-300"
                                     }`}
                             >
+                                <td className="p-2">
+                                    <input
+                                        type="checkbox"
+                                        className={checkboxClass}
+                                        checked={selectedGrades.includes(i)}
+                                        onChange={() => handleCheckboxChange(i)}
+                                    />
+                                </td>
                                 <td className="p-2">
                                     <button
                                         className={buttonClass}
@@ -100,13 +128,22 @@ export default function Expedition() {
                     </table>
                 </div>
             ))}
-            {/* Botão para alternar tema */}
-            <button
-                onClick={toggleTheme}
-                className={`mb-5 ${buttonClass}`}
-            >
-                Alternar para {isDark ? "Modo Claro" : "Modo Escuro"}
-            </button>
+
+            {/* Botões no final lado a lado */}
+            <div className="flex gap-4 mt-5">
+                <button
+                    onClick={toggleTheme}
+                    className={buttonClass}
+                >
+                    Alternar para {isDark ? "Modo Claro" : "Modo Escuro"}
+                </button>
+                <button
+                    onClick={handleConfirm}
+                    className={buttonClass}
+                >
+                    Confirmar Impressão
+                </button>
+            </div>
         </div>
     );
 }
