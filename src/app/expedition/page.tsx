@@ -11,7 +11,7 @@ const arr = [1, 2, 3]
 export default function Expedition() {
     const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro
 
-    const toggleTheme = () => setIsDark(!isDark);
+    const toggleTheme = () => setIsDark(!isDark ? true: false);
 
     const containerClass = isDark
         ? "bg-gray-900 text-gray-200"
@@ -37,7 +37,7 @@ export default function Expedition() {
             {arr.map((i) => (
                 <div
                     key={i}
-                    className={`flex flex-col items-center justify-center p-4 ${borderClass} rounded-md w-full bg-white shadow-md ${isDark ? "bg-gray-800" : "bg-white"
+                    className={`flex flex-col items-center justify-center p-4 ${borderClass} rounded-md w-full shadow-md ${isDark ? "bg-gray-800" : "bg-white"
                         }`}
                 >
                     <table className="w-full border-collapse text-sm">
