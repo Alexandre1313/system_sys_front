@@ -3,7 +3,11 @@
 import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
 import { useState } from "react";
 
-const arr = [1, 2, 3];
+/*const fetcher = async (id: number) => {
+
+};*/
+
+const arr = [1, 2, 3]
 
 export default function Expedition() {
     const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro
