@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 
-const fetcher = async (id: number) => {
+/*const fetcher = async (id: number) => {
 
 };
 
-const arr = [1, 2, 3]
+const arr = [1, 2, 3]*/
 
 export default function Expedition() {
     const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro
