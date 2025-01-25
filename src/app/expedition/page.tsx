@@ -13,21 +13,7 @@ export default function Expedition() {
     const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro
     const [selectedGrades, setSelectedGrades] = useState<number[]>([]); // Grades selecionadas
 
-    const toggleTheme = () => setIsDark(!isDark);
-
-    const handleCheckboxChange = (id: number) => {
-        setSelectedGrades((prev) =>
-            prev.includes(id) ? prev.filter((grade) => grade !== id) : [...prev, id]
-        );
-    };
-
-    const handleConfirm = () => {
-        if (selectedGrades.length === 0) {
-            alert("Nenhuma grade selecionada para impressão!");
-        } else {
-            alert(`Grades selecionadas: ${selectedGrades.join(", ")}`);
-        }
-    };
+    const toggleTheme = () => setIsDark(!isDark);       
 
     const containerClass = isDark
         ? "bg-[#181818] text-gray-200"
@@ -65,16 +51,15 @@ export default function Expedition() {
                 >
                     <table className="w-full border-collapse text-sm">
                         <thead>
-                            <tr className={`${tableHeaderClass} text-center`}>
-                                <th className="p-2 font-semibold w-[10%]">SELECIONAR</th>
+                            <tr className={`${tableHeaderClass} text-center`}>                               
                                 <th className="p-2 font-semibold w-[10%]">AJUSTAR GRADE</th>
                                 <th className="p-2 font-semibold w-[10%]">STATUS</th>
                                 <th className="p-2 font-semibold w-[10%]">TOTAL DA GRADE</th>
                                 <th className="p-2 font-semibold w-[10%]">À EXPEDIR</th>
                                 <th className="p-2 font-semibold w-[10%]">EXPEDIDO</th>
                                 <th className="p-2 font-semibold w-[20%]">ITENS</th>
-                                <th className="p-2 font-semibold w-[10%]">ETIQUETAS</th>
-                                <th className="p-2 font-semibold w-[10%]">ITENS DA GRADE</th>
+                                <th className="p-2 font-semibold w-[15%]">ETIQUETAS</th>
+                                <th className="p-2 font-semibold w-[15%]">ITENS DA GRADE</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,16 +67,8 @@ export default function Expedition() {
                                 className={`text-center ${isDark
                                     ? "border-b border-gray-600"
                                     : "border-b border-gray-300"
-                                    }`}
-                            >
-                                <td className="p-2">
-                                    <input
-                                        type="checkbox"
-                                        className={checkboxClass}
-                                        checked={selectedGrades.includes(i)}
-                                        onChange={() => handleCheckboxChange(i)}
-                                    />
-                                </td>
+                                    }`}                            >
+                               
                                 <td className="p-2">
                                     <button
                                         className={buttonClass}
@@ -105,7 +82,7 @@ export default function Expedition() {
                                 <td className="p-2">{i}</td>
                                 <td className="p-2">{i}</td>
                                 <td className="p-2">
-                                    <ul className="list-disc pl-5">
+                                    <ul className="pl-5">
                                         {arr.map((item, idx) => (
                                             <li key={idx}>{item}</li>
                                         ))}
@@ -140,13 +117,7 @@ export default function Expedition() {
                     className={buttonClass}
                 >
                     Alternar para {isDark ? "Modo Claro" : "Modo Escuro"}
-                </button>
-                <button
-                    onClick={handleConfirm}
-                    className={buttonClass}
-                >
-                    Confirmar Impressão
-                </button>
+                </button>               
             </div>
         </div>
     );
