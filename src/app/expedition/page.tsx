@@ -108,9 +108,7 @@ export default function Expedition() {
                         </tbody>
                     </table>
                 </div>
-            ))}
-
-            {/* Botões no final lado a lado */}
+            ))}          
             <div className="flex gap-4 mt-5">
                 <button
                     onClick={toggleTheme}
