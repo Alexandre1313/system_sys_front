@@ -10,8 +10,7 @@ import { useState } from "react";
 const arr = [1, 2, 3]
 
 export default function Expedition() {
-    const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro
-    const [selectedGrades, setSelectedGrades] = useState<number[]>([]); // Grades selecionadas
+    const [isDark, setIsDark] = useState(true); // Alternar entre temas claro e escuro 
 
     const toggleTheme = () => setIsDark(!isDark);       
 
@@ -29,10 +28,6 @@ export default function Expedition() {
     const buttonClass = isDark
         ? `${buttonBaseClass} bg-gray-700 text-gray-200 hover:bg-gray-600`
         : `${buttonBaseClass} bg-gray-300 text-gray-900 hover:bg-gray-400`;
-
-    const checkboxClass = isDark
-        ? "w-6 h-6 bg-gray-700 rounded-md border-2 border-gray-600 checked:bg-green-500 focus:outline-none cursor-pointer"
-        : "w-6 h-6 bg-gray-200 rounded-md border-2 border-gray-400 checked:bg-green-500 focus:outline-none cursor-pointer";
 
     const borderClass = isDark
         ? "border border-gray-600"
