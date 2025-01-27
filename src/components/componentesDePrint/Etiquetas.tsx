@@ -18,7 +18,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
     }
 
     if(etiquetas){
-        etiquetas.sort((a, b) => parseInt(a.caixaNumber!) - parseInt(b.caixaNumber!));
+        etiquetas.sort((a, b) => parseInt(b.caixaNumber!) - parseInt(a.caixaNumber!));
     }    
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
