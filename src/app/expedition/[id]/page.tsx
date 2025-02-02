@@ -64,6 +64,9 @@ export default function Expedition() {
     const buttonBaseClass =
         "rounded px-4 py-2 cursor-pointer transition-colors duration-300 min-w-[200px]";
 
+    const buttonBaseClassTelaItems =
+        "rounded px-6 py-4 cursor-pointer transition-colors duration-300 min-w-[200px]";
+
     const buttonBaseClassTheme =
         "rounded px-4 py-2 cursor-pointer transition-colors duration-300 fixed bottom-5 left-1/2 transform -translate-x-1/2 min-w-[400px]";
 
@@ -361,14 +364,24 @@ export default function Expedition() {
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                         className={`${isDark ? "bg-[#181818]" : "bg-white"} shadow-md min-w-[75%] min-h-[85%] mt-5
                             flex flex-col items-center justify-start border border-zinc-600`}
-                        >
-                        <div>
-                            <button
-                                onClick={() => ""}
-                                className={""}
-                            >
-                                {isDark ? "ENCERRAR CAIXA" : "ENCERRAR CAIXA"}
-                            </button>
+                    >
+                        <div className={`flex w-full items-center justify-center p-8`}>
+                            <div className={`flex w-[70%] items-center justify-start`}>
+                                <button
+                                    onClick={() => ""}
+                                    className={`${buttonBaseClassTelaItems} ${isDark ? `bg-blue-700 text-white hover:bg-blue-600` : `bg-blue-500 text-white hover:bg-blue-400`}`}
+                                >
+                                    {isDark ? "DECREMENTAR ITEM" : "DECREMENTAR ITEM"}
+                                </button>
+                            </div>
+                            <div className={`flex w-[30%] items-center justify-end`}>
+                                <button
+                                    onClick={() => ""}
+                                    className={`${buttonBaseClassTelaItems} ${isDark ? `bg-yellow-700 text-white hover:bg-yellow-600` : `bg-yellow-500 text-white hover:bg-yellow-400`}`}
+                                >
+                                    {isDark ? "ENCERRAR CAIXA" : "ENCERRAR CAIXA"}
+                                </button>
+                            </div>
                         </div>
                         <div className={`flex flex-col text-black w-full items-center justify-center`}>
 
