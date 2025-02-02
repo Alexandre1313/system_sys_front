@@ -213,10 +213,13 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
                                     </p>
                                     <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE Á EXPEDIR:  <strong className="text-yellow-400 text-[20px] font-normal"> {quantidade}</strong>
+                                        QUANTIDADE PREVISTA:  <strong className="text-yellow-400 text-[20px] font-normal"> {quantidade}</strong>
                                     </p>
                                     <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
                                         QUANTIDADE EXPEDIDA:  <strong className="text-green-400 text-[20px] font-normal"> {quantidadeExpedida}</strong>
+                                    </p>
+                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
+                                        QUANTIDADE Á EXPEDIR:  <strong className="text-blue-400 text-[20px] font-normal"> {quantidade - quantidadeExpedida}</strong>
                                     </p>
                                     <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
                                         ESTOQUE:  <strong className={`${colorEstoque} text-[20px] font-normal`}> {estoque}</strong>
