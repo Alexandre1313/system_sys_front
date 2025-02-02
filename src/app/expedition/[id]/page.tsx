@@ -282,6 +282,7 @@ export default function Expedition() {
                             <table className="w-full border-collapse text-sm">
                                 <thead>
                                     <tr className={`${tableHeaderClass} text-left`}>
+                                        <th className="p-2 font-semibold w-[10%]"></th>
                                         <th className="p-2 font-semibold w-[20%]">ITEM</th>
                                         <th className="p-2 font-semibold w-[10%]">GÊNERO</th>
                                         <th className="p-2 font-semibold w-[10%]">TAMANHO</th>
@@ -289,19 +290,25 @@ export default function Expedition() {
                                         <th className="p-2 font-semibold w-[10%]">EXPEDIDO</th>
                                         <th className="p-2 font-semibold w-[10%]">Á EXPEDIR</th>
                                         <th className="p-2 font-semibold w-[10%]">ESTOQUE</th>
-                                        <th className="p-2 font-semibold w-[10%]">CÓD. BARRAS</th>
-                                        <th className="p-2 font-semibold w-[10%]"></th>
+                                        <th className="p-2 font-semibold w-[10%]">CÓD. BARRAS</th>                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {grade.itensGrade.map((item: any) =>
                                         <tr
                                             key={item.id}
-                                            className={`text-left hover:bg-green-600 hover:bg-opacity-10 ${isDark
-                                                ? "border-b border-gray-600"
-                                                : "border-b border-gray-300"
-                                                } ${getBgColor(item.quantidade, item.quantidadeExpedida)}`}                            >
-
+                                            className={`text-left ${isDark
+                                                ? "border-b border-gray-600 hover:bg-white hover:bg-opacity-30"
+                                                : "border-b border-gray-300 hover:bg-black hover:bg-opacity-30"
+                                                } ${getBgColor(item.quantidade, item.quantidadeExpedida)}`}>
+                                            <td className="p-2">
+                                                <button
+                                                    className={buttonClass}
+                                                    onClick={mostrarOcultarItensDaGrade}
+                                                >
+                                                    EXPEDIR ITEM
+                                                </button>
+                                            </td>
                                             <td className="p-2 text-[20px]">
                                                 <span>{``}</span>
                                                 <span>{item.itemTamanho.itemNome}</span>
@@ -333,15 +340,7 @@ export default function Expedition() {
                                             <td className="p-2 text-[20px]">
                                                 <span>{``}</span>
                                                 <span>{item.itemTamanho.barcode}</span>
-                                            </td>
-                                            <td className="p-2">
-                                                <button
-                                                    className={buttonClass}
-                                                    onClick={mostrarOcultarItensDaGrade}
-                                                >
-                                                    EXPEDIR ITEM
-                                                </button>
-                                            </td>
+                                            </td>                                           
                                         </tr>
                                     )}
                                 </tbody>
