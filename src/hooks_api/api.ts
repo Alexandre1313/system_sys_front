@@ -1,6 +1,10 @@
 import {
     Caixa,
-    Escola, FinalyGrade, Grade,
+    Embalagem,
+    EntryInput,
+    Escola,
+    EscolaGradesItems,
+    FinalyGrade, Grade,
     GradeOpenBySchool,
     GradesRomaneio, Login,
     ProjectItems,
@@ -10,8 +14,6 @@ import {
     QtyEmbDay, StockGenerate,
     Usuarios
 } from "../../core";
-import Embalagem from "../../core/interfaces/Embalagem";
-import EntryInput from "../../core/interfaces/EntryInput";
 import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos/projetosall`;
@@ -32,7 +34,9 @@ const urlEstoqueSituacao = `http://${ip}:${port}/projetos/saldos/`;
 const urlExcluirGradeItem = `http://${ip}:${port}/gradeitens/`;
 const urlAtualizarGradeItem = `http://${ip}:${port}/gradeitens/alterarquantidade/`;
 const urlStatusGrades = `http://${ip}:${port}/projetos/statusgrades/`;
-
+const urlEBI = `http://${ip}:${port}/escolas/escolagradesByItems/`;
+const urlObterGrade = `http://${ip}:${port}/grades/`;
+const urlAjustarGrade = `http://${ip}:${port}/grades/ajustar/`;
 
 async function siginn(credentials: Login): Promise<Usuarios | null> {
     try {
@@ -263,7 +267,7 @@ async function gradeItemModify(id: any, quantidadeExpedida: any): Promise<string
     }
 }
 
-async function getProjectsGradesSaldos(projectId: string, dateStr: string): Promise<GradeOpenBySchool[] | null>{
+async function getProjectsGradesSaldos(projectId: string, dateStr: string): Promise<GradeOpenBySchool[] | null> {
     const response = await fetch(`${urlStatusGrades}${projectId}/${dateStr}`)
     if (!response.ok) {
         console.log(`Erro ao buscar dados: ${response.statusText}`)
@@ -273,6 +277,46 @@ async function getProjectsGradesSaldos(projectId: string, dateStr: string): Prom
     return data;
 }
 
+async function getGradesPorEscolasByItems(id: string): Promise<EscolaGradesItems | null> {
+    const response = await fetch(`${urlEBI}${id}`);
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getGrade(id: string): Promise<Grade> {
+    const response = await fetch(`${urlObterGrade}${id}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar garde: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function ajust(id: string): Promise<Grade | null> {
+    try {
+        const response = await fetch(`${urlAjustarGrade}${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {            
+            return null;
+        }
+        const data: Grade = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro ao ajustar grade:', error);
+        return null;
+    }
+}
+
 export {
-    finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesRoman, getProdEmbDay, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb, siginn, stockGenerate, getProjectsGradesSaldos
+    finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
+    getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos,
+    getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
+    siginn, stockGenerate, getGrade, ajust
 };

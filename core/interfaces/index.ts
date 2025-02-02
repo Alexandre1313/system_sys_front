@@ -4,8 +4,10 @@ import Caixa from "./Caixa";
 import Company from "./Company";
 import DataInserction from "./DataInserction";
 import Embalagem from "./Embalagem";
+import EntryInput from "./EntryInput";
 import Escola from "./Escola";
 import EscolaGrade from "./EscolaGrade";
+import EscolaGradesItems from "./EscolaGradesItems";
 import Estoque from "./Estoque";
 import FinalyGrade from "./FinalyGrade";
 import FormData from "./FormData";
@@ -31,6 +33,8 @@ import TelephonesCompany from "./TelephonesCompany";
 import Usuarios from "./Usuarios";
 
 export type {
-    AddressCompany, Barcode, Caixa, Company, DataInserction, Embalagem, Escola, EscolaGrade, Estoque, FinalyGrade, FormData, FormDateInputs, Grade, GradeItem, GradeOpenBySchool, GradesRomaneio, Item, ItemTamanho, ItensProjects, Login, ProjectItems, Projeto, ProjetosSimp, ProjetoStockItems, QtyEmbDay, Stock,
-    StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios
+    AddressCompany, Barcode, Caixa, Company, DataInserction, Embalagem, EntryInput, Escola, EscolaGrade,
+     EscolaGradesItems, Estoque, FinalyGrade, FormData, FormDateInputs, Grade, GradeItem, GradeOpenBySchool,
+    GradesRomaneio, Item, ItemTamanho, ItensProjects, Login, ProjectItems, Projeto, ProjetosSimp,
+    ProjetoStockItems, QtyEmbDay, Stock, StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios
 };
