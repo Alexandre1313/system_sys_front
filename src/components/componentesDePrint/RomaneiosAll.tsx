@@ -251,7 +251,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
 
                 // Verifique se o projeto é "SANTO ANDRÉ"
-                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉ") {
+                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉppp") {
                     if (curr.item === "KIT UNIFORME") {
                         // Criando o grupo para "KIT INVERNO" com composição "XXX"
                         const groupInvernoKey = `KIT INVERNO ${curr.genero}`;
