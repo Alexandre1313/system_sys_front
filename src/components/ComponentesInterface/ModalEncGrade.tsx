@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'react-feather';
 import { EscolaGrade } from '../../../core';
+import { Status } from '../../../core/interfaces/Status';
 
 interface ModalEncGradeProps {
     isOpen: boolean;
@@ -39,7 +40,7 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
         setIsLoading(true);
         setIsError(false); // Reset error state on new attempt
         try {
-            const data = await finalizarGrades({ id: escolaGrade?.gradeId, finalizada: true });
+            const data = await finalizarGrades({ id: escolaGrade?.gradeId, finalizada: true, status: Status.EXPEDIDA });
             if (data) {
                 mutate();
                 setMsg('Grade finalizada com sucesso!');
