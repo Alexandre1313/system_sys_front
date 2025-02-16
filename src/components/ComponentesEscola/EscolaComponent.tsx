@@ -22,12 +22,12 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
         >
             <div className="flex w-[100%] gap-x-6 items-start">
                 <div className="flex items-center justify-start min-w-[25px] lg:w-[25px]">
-                    <span className="text-[13px] font-light lg:text-[13px] text-yellow-300">
+                    <span className="text-[14px] font-light lg:text-[14px] text-yellow-300">
                         {escola.numeroEscola}
                     </span>
                 </div>
                 <div className="flex items-center justify-start">
-                    <span className={`text-[13px] font-light lg:text-[13px] ${statusClass}`}>
+                    <span className={`text-[14px] font-light lg:text-[14px] ${statusClass}`}>
                         {escola.nome}
                     </span>
                 </div>

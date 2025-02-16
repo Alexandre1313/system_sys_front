@@ -176,11 +176,21 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             drawLine(page, margin, currentY, pageWidth - margin, currentY, rgb(0, 0, 1));
             currentY -= 20; // Espaço reduzido antes do cabeçalho
 
-            // Cabeçalho
-            drawText(page, `PREFEITURA DO MUNICÍPIO DE ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
-            currentY -= lineHeight;
-            drawText(page, 'SECRETARIA MUNICIPAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
-            currentY -= lineHeight;
+            if (romaneio.projectname.trim().toUpperCase() === "RIO GRANDE DO SUL") {
+                // Cabeçalho
+                drawText(page, `GOVERNO DO ESTADO DO ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+                drawText(page, 'SECRETARIA ESTADUAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+            }
+
+            if (romaneio.projectname.trim().toUpperCase() !== "RIO GRANDE DO SUL") {
+                // Cabeçalho
+                drawText(page, `PREFEITURA DO MUNICÍPIO DE ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+                drawText(page, 'SECRETARIA MUNICIPAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+            }
 
             // Dados da escola
             const escolaWidth = fontBold.widthOfTextAtSize('UNIDADE ESCOLAR:', 12) + 10;
@@ -203,7 +213,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             drawText(page, enderecoLabel, margin, currentY, fontBold, 12);
 
             // Quebrar o texto do endereço se ele ultrapassar a largura da página
-            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.cidade || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.estado || 'NÃO INFORMADO'}`;
+            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.cidade || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.estado || 'NÃO INFORMADO'} - ${`CEP: ${romaneio.enderecoschool.postalCode}` || ''}`;
             const enderecoMaxWidth = pageWidth - margin * 2 - enderecoWidth;
             const enderecoLines = splitText(enderecoText, fontBold, 12, enderecoMaxWidth);
 
@@ -565,11 +575,21 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             drawLine(page, margin, currentY, pageWidth - margin, currentY, rgb(0, 0, 1));
             currentY -= 20; // Espaço reduzido antes do cabeçalho
 
-            // Cabeçalho
-            drawText(page, `PREFEITURA DO MUNICÍPIO DE ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
-            currentY -= lineHeight;
-            drawText(page, 'SECRETARIA MUNICIPAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
-            currentY -= lineHeight;
+            if (romaneio.projectname.trim().toUpperCase() === "RIO GRANDE DO SUL") {
+                // Cabeçalho
+                drawText(page, `GOVERNO DO ESTADO DO ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+                drawText(page, 'SECRETARIA ESTADUAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+            }
+
+            if (romaneio.projectname.trim().toUpperCase() !== "RIO GRANDE DO SUL") {
+                // Cabeçalho
+                drawText(page, `PREFEITURA DO MUNICÍPIO DE ${romaneio.projectname.toUpperCase()}`, margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+                drawText(page, 'SECRETARIA MUNICIPAL DE EDUCAÇÃO', margin, currentY, fontRegular, 14);
+                currentY -= lineHeight;
+            }
 
             // Dados da escola
             const escolaWidth = fontBold.widthOfTextAtSize('UNIDADE ESCOLAR:', 12) + 10;
@@ -592,7 +612,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             drawText(page, enderecoLabel, margin, currentY, fontBold, 12);
 
             // Quebrar o texto do endereço se ele ultrapassar a largura da página
-            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.cidade || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.estado || 'NÃO INFORMADO'}`;
+            const enderecoText = `${romaneio.enderecoschool.rua || 'NÃO INFORMADO'}, Nº ${romaneio.enderecoschool.numero || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.bairro || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.cidade || 'NÃO INFORMADO'} - ${romaneio.enderecoschool.estado || 'NÃO INFORMADO'} - ${`CEP: ${romaneio.enderecoschool.postalCode}` || ''}`;
             const enderecoMaxWidth = pageWidth - margin * 2 - enderecoWidth;
             const enderecoLines = splitText(enderecoText, fontBold, 12, enderecoMaxWidth);
 
@@ -640,7 +660,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
 
                 // Verifique se o projeto é "SANTO ANDRÉ"
-                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉ") {
+                if (romaneio.projectname.trim().toUpperCase() === "SANTO ANDRÉPPP") {
                     if (curr.item === "KIT UNIFORME") {
                         // Criando o grupo para "KIT INVERNO" com composição "XXX"
                         const groupInvernoKey = `KIT INVERNO ${curr.genero}`;
