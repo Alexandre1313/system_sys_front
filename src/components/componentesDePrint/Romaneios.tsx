@@ -240,6 +240,20 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             );
             currentY -= lineHeight + 1;
 
+            // REPOSIÇÃO   
+            if (romaneio.tipo) {
+                drawText(
+                    page,
+                    `${romaneio.tipo}`,
+                    margin,
+                    currentY,
+                    fontBold,
+                    12,
+                    rgb(0, 0, 1)
+                );
+                currentY -= lineHeight + 1;
+            }
+
             /* Tipagem de groupedData corrigida para um objeto (e não array)
             const groupedData = romaneio.tamanhosQuantidades.reduce((acc, curr) => {
                 const groupKey = `${curr.item} ${curr.genero}`;
