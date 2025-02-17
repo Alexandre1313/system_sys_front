@@ -153,8 +153,9 @@ export default function Expedition() {
     };
 
     // funções mostrar/Ocultar itens da grade
-    const mostrarOcultarItensDaGrade = () => {
+    const mostrarOcultarItensDaGrade = (item: any) => {
         setMostrarItens(mostrarItens ? false : true)
+        console.log(item)
     }
 
     // funções utils
@@ -304,7 +305,7 @@ export default function Expedition() {
                                             <td className="p-2">
                                                 <button
                                                     className={buttonClass}
-                                                    onClick={mostrarOcultarItensDaGrade}
+                                                    onClick={() => mostrarOcultarItensDaGrade(item)}
                                                 >
                                                     EXPEDIR ITEM
                                                 </button>
