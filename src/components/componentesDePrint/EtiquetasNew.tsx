@@ -1,12 +1,12 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { ChevronsRight } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 
-export interface EtiquetaProps {
+export interface EtiquetaNewProps {
     etiquetas: Caixa[];
+    classNew: string;
 }
 
-const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
+const EtiquetasNew = ({ etiquetas, classNew }: EtiquetaNewProps) => {
     function concatString(nj: string, ne: string, nae: string): string{
         let description = '';
         if(nj){
@@ -217,11 +217,10 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
         <button
             type="button"
             onClick={gerarPDF}
-            className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
-            bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]">
-                ETIQUETAS <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+            className={classNew}>
+                ETIQUETAS 
         </button>          
     );
 };
 
-export default Etiquetas;
+export default EtiquetasNew;
