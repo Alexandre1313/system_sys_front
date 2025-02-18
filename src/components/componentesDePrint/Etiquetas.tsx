@@ -77,7 +77,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
             page.drawText(`${escolaNumber} - ${projeto}`, {
                 x: textX,
                 y: textY,
-                size: 18,
+                size: 16,
                 font: font,
                 color: rgb(0, 0, 0),
             });
