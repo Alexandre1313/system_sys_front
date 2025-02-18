@@ -43,7 +43,8 @@ export default function Expedition() {
     const [gradeItens, setGradeItens] = useState<any>(null);
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [selectedGrade, setSelectedGrade] = useState<any>(null);
-
+    console.log(gradeItens);
+    
     // Usando SWR
     const { data, error, mutate: swrMutate } = useSWR(typeof id === 'string' && id ? ['grades', id] : null, () => fetcher(id!), {
         revalidateOnFocus: false,
@@ -454,7 +455,7 @@ export default function Expedition() {
                                         {`ITEM`}
                                     </label>
                                     <textarea
-                                        className="p-2 w-full text-left text-[27px] bg-transparent rounded-md outline-none border-b
+                                        className="p-2 w-full text-left text-[20px] bg-transparent rounded-md outline-none border-b
                                          border-gray-700 text-cyan-500 resize-none min-w-[374px] overflow-hidden"
                                         name={``}
                                         id={``}
@@ -468,7 +469,7 @@ export default function Expedition() {
                                      text-zinc-400 tracking-[2px]">
                                         {`GÊNERO`}
                                     </label>
-                                    <input className="flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
+                                    <input className="flex p-2 w-full text-left text-[20px] bg-trans rounded-md  
                                        outline-none border-b border-gray-700 text-cyan-500 h-[50px] min-w-[374px]"
                                         type="text"
                                         name={``}
@@ -482,7 +483,7 @@ export default function Expedition() {
                                      text-zinc-400 tracking-[2px]">
                                         {`TAMANHO`}
                                     </label>
-                                    <input className="flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
+                                    <input className="flex p-2 w-full text-left text-[20px] bg-trans rounded-md  
                                        outline-none border-b border-gray-700 text-cyan-500 h-[50px] min-w-[374px]"
                                         type="text"
                                         name={``}
@@ -496,7 +497,7 @@ export default function Expedition() {
                                      text-zinc-400 tracking-[2px]">
                                         {`CÓDIGO DE BARRAS`}
                                     </label>
-                                    <input className="flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
+                                    <input className="flex p-2 w-full text-left text-[20px] bg-trans rounded-md  
                                        outline-none border-b border-gray-700 text-cyan-500 h-[50px] min-w-[374px]"
                                         type="text"
                                         name={``}
