@@ -178,6 +178,24 @@ export default function Home() {
               Run Projects →
             </a>
           </Link>
+          <Link href={'/resume'} legacyBehavior>
+            <a
+              className="flex button items-center text-[13px] gap-2 hover:underline hover:underline-offset-4"
+              href=""
+              target=""
+              rel="noopener noreferrer"
+            >
+              <Image
+                aria-hidden
+                src="https://nextjs.org/icons/globe.svg"
+                alt="Globe icon"
+                width={16}
+                height={0}
+                priority
+              />
+              Run Resumes →
+            </a>
+          </Link>
         </div>
         <div className={`row-start-3 flex gap-6 flex-wrap text-[17px] items-center justify-center pt-14 text-zinc-600`}>
           © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
