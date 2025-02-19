@@ -1,4 +1,5 @@
 import Caixa from "./Caixa";
+import { Status } from "./Status";
 
 export default interface GradesRomaneio {
     id: number;
@@ -8,6 +9,7 @@ export default interface GradesRomaneio {
     projectname: string;
     escola: string;
     numeroEscola: string;
+    status: Status;
     numberJoin: string;
     telefoneCompany: string;
     tipo: string | null;

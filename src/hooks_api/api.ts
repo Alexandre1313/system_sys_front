@@ -28,6 +28,7 @@ const urlGetEmb = `http://${ip}:${port}/embalagem`;
 const urlGetEmbDay = `http://${ip}:${port}/entradas/totaldia/`;
 const urlEnterStock = `http://${ip}:${port}/entradas/gerarestoque`;
 const urlGetDatesOffGrades = `http://${ip}:${port}/projetos/datas/`;
+const urlGetRemessasOffGrades = `http://${ip}:${port}/projetos/remessas/`;
 const urlGetGradesPorData = `http://${ip}:${port}/projetos/roman/`;
 const urlLogin = `http://${ip}:${port}/usuarios/login`;
 const urlEstoqueSituacao = `http://${ip}:${port}/projetos/saldos/`;
@@ -37,6 +38,8 @@ const urlStatusGrades = `http://${ip}:${port}/projetos/statusgrades/`;
 const urlEBI = `http://${ip}:${port}/escolas/escolagradesByItems/`;
 const urlObterGrade = `http://${ip}:${port}/grades/`;
 const urlAjustarGrade = `http://${ip}:${port}/grades/ajustar/`;
+const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
+
 
 async function siginn(credentials: Login): Promise<Usuarios | null> {
     try {
@@ -124,6 +127,15 @@ async function getDatesGrades(projectId: number | null): Promise<Date[]> {
     const response = await fetch(`${urlGetDatesOffGrades}${projectId}`)
     if (!response.ok) {
         throw new Error(`Erro ao buscar grades para o projeto: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getRemessasGrades(projectId: number | null): Promise<number[]> {
+    const response = await fetch(`${urlGetRemessasOffGrades}${projectId}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar remessas para o projeto: ${response.statusText}`)
     }
     const data = await response.json();
     return data;
@@ -314,9 +326,19 @@ async function ajust(id: string): Promise<Grade | null> {
     }
 }
 
+async function getFilterGrades(projectId: string, remessa: string, status: string): Promise<GradesRomaneio[] | null> {
+    const response = await fetch(`${urlFilterStatus}${projectId}/${remessa}/${status}`)
+    if (!response.ok) {
+        console.log(`Erro ao buscar dados: ${response.statusText}`)
+        return null
+    }
+    const data = await response.json();
+    return data;
+}
+
 export {
     finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
     getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos,
     getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
-    siginn, stockGenerate, getGrade, ajust
+    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades
 };

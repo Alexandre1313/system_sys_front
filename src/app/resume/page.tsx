@@ -1,115 +1,136 @@
-"use client"
+'use client'
 
-// Tipo dos dados, apenas para validação e autocompletar
-type ItemQuantities = { [key: string]: number };
-type Grade = {
-  idGrade: number;
-  itens: { [item: string]: ItemQuantities };
-  totalGradeItens: number;
-};
-type Escola = {
-  nome: string;
-  numeroEscola: string;
-  numberJoin: string;
-  grades: Grade[];
-  totalEscolaItens: number;
-  totalCaixasEscola: number;
-};
-type Projeto = {
-  nomeProjeto: string;
-  escolas: Escola[];
-  totalGeralItens: number;
-  totalGeralCaixas: number;
+import { useEffect, useState } from 'react';
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import { CreateServerSelectComponentProjects } from '@/components/componentesRomaneios/createServerSelectComponentProjects';
+import { CreateServerSelectComponentRemessa } from '@/components/componentesRomaneios/createServerSelectComponentRemessa';
+import { getFilterGrades } from '@/hooks_api/api';
+import { GradesRomaneio } from '../../../core';
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import GradesFilter from '@/components/componentesRomaneios/GradesFiltter';
+
+const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string): Promise<GradesRomaneio[] | null> => {
+  try {
+    const resp = await getFilterGrades(String(projectId), String(remessa), status);
+    return resp;
+  } catch (error) {
+    console.error("Erro ao buscar grades:", error);
+    return null;
+  }
 };
 
-const Home = () => {
-  const projeto: Projeto = {
-    nomeProjeto: "SANTOS",
-    escolas: [
-      {
-        nome: "UME - CRECHE SONHO DE CRIANÇA - CECAJAS",
-        numeroEscola: "37",
-        numberJoin: "RM 123",
-        grades: [
-          {
-            idGrade: 1179,
-            itens: {
-              "KIT UNIFORME": { "04": 78, "02": 53 }
-            },
-            totalGradeItens: 131
-          }
-        ],
-        totalEscolaItens: 131,
-        totalCaixasEscola: 6
-      },
-      {
-        nome: "UME - TREZE DE MAIO - CASA DA CRIANÇA STOS",
-        numeroEscola: "13",
-        numberJoin: "RM 99",
-        grades: [
-          {
-            idGrade: 1169,
-            itens: {
-              "KIT UNIFORME": { "02": 73, "04": 65, "06": 49, "08": 11 }
-            },
-            totalGradeItens: 198
-          }
-        ],
-        totalEscolaItens: 198,
-        totalCaixasEscola: 11
-      },
-      // Adicione outras escolas conforme necessário
-    ],
-    totalGeralItens: 3909,
-    totalGeralCaixas: 231
+export default function ConsultaStatusGrades() {
+  const [projectId, setProjectId] = useState<number | null>(null);
+  const [remessa, setRemessa] = useState<number | null>(null);
+  const [status, setStatus] = useState<string>("EXPEDIDA");
+  const [data, setData] = useState<GradesRomaneio[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [serverSelect, setServerSelect] = useState<JSX.Element | null>(null);
+  const [serverSelectRemessa, setServerSelectRemessa] = useState<JSX.Element | null>(null);
+
+  // Função para buscar as grades com os filtros
+  const loaderFilter = async () => {
+    if (!projectId || !remessa || !status) return;
+    
+    setIsLoading(true);
+    const res = await fetcherGradesPStatus(projectId, remessa, status);
+    setData(res);
+    setIsLoading(false);
   };
 
+  // Atualiza as grades automaticamente quando os filtros mudam
+  useEffect(() => {
+    loaderFilter();
+  }, [projectId, remessa, status]);
+
+  // Carrega o seletor de projetos
+  useEffect(() => {
+    async function fetchServerSelect() {
+      const selectComponent = await CreateServerSelectComponentProjects({
+        onSelectChange: setProjectId,
+      });
+      setServerSelect(selectComponent);
+    }
+    fetchServerSelect();
+  }, []);
+
+  // Carrega o seletor de remessas quando o projeto muda
+  useEffect(() => {
+    if (!projectId) {
+      setServerSelectRemessa(null);
+      return;
+    }
+
+  async function fetchServerSelectRemessas() {
+      const selectComponent = await CreateServerSelectComponentRemessa({
+        onSelectChange: setRemessa,
+        projectId,
+      });
+      setServerSelectRemessa(selectComponent);
+    }
+    fetchServerSelectRemessas();
+  }, [projectId]);
+
   return (
-    <div className="bg-[#181818] bg-opacity-80 min-h-screen p-8">
-      <h1 className="text-3xl text-white mb-8">{projeto.nomeProjeto}</h1>
+    <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
+      <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
+      <div className="flex flex-col items-center justify-start min-h-[95vh] pt-7 gap-y-5 w-full">
+        <div className="flex w-full p-[1.1rem] pt-8 fixed bg-[#1F1F1F] gap-x-5">
+          {/* Seletor de Status */}
+          <select
+            id="select-status"
+            title="Selecione um status"
+            className="flex w-[310px] bg-[#181818] py-2 px-3 text-[14px] text-zinc-400 no-arrow outline-none cursor-pointer h-[35px] border border-zinc-800"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="EXPEDIDA">EXPEDIDAS</option>
+            <option value="DESPACHADA">DESPACHADAS</option>
+            <option value="PRONTA">PRONTAS</option>
+            <option value="IMPRESSA">IMPRESSAS</option>
+            <option value="TODAS">TODAS</option>
+          </select>
 
-      {/* Renderizando as escolas */}
-      {projeto.escolas.map((escola) => (
-        <div key={escola.numeroEscola} className="bg-[#252525] rounded-lg shadow-lg mb-6 p-6">
-          <h2 className="text-xl text-white mb-4">{escola.nome}</h2>
-          <p className="text-sm text-zinc-400">Número da Escola: {escola.numeroEscola}</p>
-          <p className="text-sm text-zinc-400">Número de Join: {escola.numberJoin}</p>
-          <p className="text-sm text-zinc-400">Total de Caixas: {escola.totalCaixasEscola}</p>
+          {/* Seletor de Projeto */}
+          {serverSelect ?? (
+            <div className="flex flex-col justify-center items-start">
+              <p className="flex w-[310px] bg-[#181818] py-2 px-2 pl-3 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
+                SELECIONE O PROJETO
+              </p>
+            </div>
+          )}
 
-          {/* Renderizando as grades de cada escola */}
-          {escola.grades.map((grade) => (
-            <div key={grade.idGrade} className="bg-[#333] rounded-lg mb-4 p-4">
-              <h3 className="text-lg text-white">Grade ID: {grade.idGrade}</h3>
-              <div className="mt-4">
-                {/* Renderizando os itens da grade */}
-                {Object.entries(grade.itens).map(([itemName, quantities]) => (
-                  <div key={itemName} className="mb-2">
-                    <h4 className="text-md text-white">{itemName}</h4>
-                    <div className="grid grid-cols-2 gap-4">
-                      {Object.entries(quantities).map(([size, quantity]) => (
-                        <div key={size} className="text-sm text-zinc-400">
-                          <p>{size}: {quantity}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-2 text-sm text-zinc-400">Total de Itens na Grade: {grade.totalGradeItens}</p>
+          {/* Seletor de Remessa */}
+          {serverSelectRemessa ?? (projectId && (
+            <div className="flex flex-col justify-center items-start">
+              <p className="flex w-[310px] bg-[#181818] py-2 px-2 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
+                AGUARDE...
+              </p>
             </div>
           ))}
 
-          <p className="mt-4 text-sm text-white">Total de Itens na Escola: {escola.totalEscolaItens}</p>
-          <p className="text-sm text-white">Total de Caixas na Escola: {escola.totalCaixasEscola}</p>
+          {/* Botão de Busca */}
+          <button onClick={loaderFilter} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            BUSCAR
+          </button>
         </div>
-      ))}
 
-      <div className="mt-8 text-white">
-        <p>Total de Itens: {projeto.totalGeralItens}</p>
-        <p>Total de Caixas: {projeto.totalGeralCaixas}</p>
+        {/* Exibição dos Resultados */}
+        <div className="flex w-full flex-col items-center justify-start pt-24">
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full h-[82vh]">
+              <IsLoading />
+            </div>
+          ) : data?.length ? (
+            <GradesFilter expedicaoData={data}/>
+          ) : (
+            <div className="flex items-center justify-center w-full h-[82vh]">
+              <p className="text-lg text-blue-500">NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
-};
-
-export default Home;
+}
