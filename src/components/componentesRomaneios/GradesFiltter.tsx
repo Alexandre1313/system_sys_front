@@ -151,10 +151,10 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                     </table>
                   </div>
                   <p className="text-teal-400 mt-2 uppercase">
-                    Total de itens para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
+                    Total de itens expedidos para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
                   </p>
                   <p className="text-teal-400 uppercase">
-                    Quantidade de caixas: <span className="text-orange-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
+                    Total de volumes para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
                   </p>
                 </div>
               );
@@ -169,8 +169,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
       <div className="flex items-center justify-center fixed bottom-0 left-0 px-14 h-[80px] bg-[#1F1F1F] w-full
        text-center text-orange-400 text-2xl font-normal mt-10 uppercase">
         <div className='flex gap-x-24 items-center justify-start w-1/2'>
-          <p>Total Geral de Itens para as escolas:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-          <p>Total Geral de Caixas:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+          <p>Total Geral de Itens expedidos:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+          <p>Total de volumes gerados:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
         </div>
         <div className='flex gap-x-10 items-center justify-end w-1/2'>
           <button onClick={o => ""} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px]
