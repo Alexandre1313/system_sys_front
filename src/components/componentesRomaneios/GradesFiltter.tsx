@@ -171,7 +171,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
           <p>Total de volumes gerados:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
         </div>
         <div className='flex gap-x-10 items-center justify-end w-1/2'>
-          <button onClick={o => ""} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px]
+          <button onClick={() => ""} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px]
            bg-zinc-700 text-white rounded-md hover:bg-zinc-600">
             GERAR ROMANEIOS
           </button>
