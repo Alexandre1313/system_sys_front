@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 //import { useEffect } from "react";
 
@@ -130,15 +129,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="https://nextjs.org/icons/file.svg"
-                alt="File icon"
-                width={16}
-                height={0}
-                priority
-              />
+            >             
               Run Packages →
             </a>
           </Link>
@@ -148,15 +139,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="https://nextjs.org/icons/window.svg"
-                alt="Window icon"
-                width={16}
-                height={0}
-                priority
-              />
+            >              
               Run Shipping Manifests →
             </a>
           </Link>
@@ -166,15 +149,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="https://nextjs.org/icons/globe.svg"
-                alt="Globe icon"
-                width={16}
-                height={0}
-                priority
-              />
+            >              
               Run Projects →
             </a>
           </Link>
@@ -184,15 +159,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="https://nextjs.org/icons/globe.svg"
-                alt="Globe icon"
-                width={16}
-                height={0}
-                priority
-              />
+            >              
               Run Resumes →
             </a>
           </Link>

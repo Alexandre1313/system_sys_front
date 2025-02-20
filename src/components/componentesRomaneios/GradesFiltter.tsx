@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { GradesRomaneio } from '../../../core';
 import { motion } from 'framer-motion';
 import { AlertTriangle } from 'react-feather';
 import { alterarPDespachadas } from '@/hooks_api/api';
+import { GradesRomaneio } from '../../../core';
+import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
+import PagePdfRelatorio from '../componentesDePrint/PagePdfRelatorio';
+import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
 
 interface GradeFilterProps {
   expedicaoData: GradesRomaneio[];
@@ -22,8 +25,9 @@ const fetcherAlterStatus = async (ids: number[]): Promise<number[] | null> => {
 export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProps) {
 
   const [expedidasIds, setExpedidasIds] = useState<number[]>([]);
-  const [ajustStatus, setAjustStatus] = useState(false); 
-  const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);  
+  const [gradesRoman, setGradesRoman] = useState<GradesRomaneio[]>([]);
+  const [ajustStatus, setAjustStatus] = useState(false);
+  const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
 
   const groupedByStatus = useMemo(() => {
     return expedicaoData.reduce((acc, grade) => {
@@ -38,35 +42,37 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
       .filter(grade => grade.status === "EXPEDIDA")
       .map(grade => grade.id);
     setExpedidasIds(ids);
+    const romanExpeds = expedicaoData.filter(grade => grade.status === "EXPEDIDA");
+    setGradesRoman(romanExpeds);
   }, [expedicaoData]);
 
   const abrirModalAjustStatus = () => {
-    setAjustStatus(ajustStatus ? false : true);    
+    setAjustStatus(ajustStatus ? false : true);
   }
 
   const fecharModalAjustStatus = () => {
-    setAjustStatus(ajustStatus ? false : true);    
+    setAjustStatus(ajustStatus ? false : true);
   }
 
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
-    if(resp){
-        setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs: ${resp}`);
-        const timeout = setTimeout(() => {
-          setDesp("DESPACHADA");
-          setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
-          setAjustStatus(false);
-          setExpedidasIds([]);
-          clearTimeout(timeout);
-        }, 1500);
-        return
-    } 
+    if (resp) {
+      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs: ${resp}`);
+      const timeout = setTimeout(() => {
+        setDesp("DESPACHADA");
+        setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
+        setAjustStatus(false);
+        setExpedidasIds([]);
+        clearTimeout(timeout);
+      }, 1500);
+      return
+    }
     setMessage(`ERRO AO MUDAR STATUS DAS GRADES`);
     const timeout = setTimeout(() => {
-      setMessage(`TENTE NOVAMENTE`);     
+      setMessage(`TENTE NOVAMENTE`);
       clearTimeout(timeout);
     }, 1500);
-    return  
+    return
   }
 
   // Cores mais suaves para as bordas conforme status (opacidade reduzida)
@@ -165,16 +171,27 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
         );
       })}
       <div className="flex items-center justify-center fixed bottom-0 left-0 px-14 h-[80px] bg-[#1F1F1F] w-full
-       text-center text-orange-400 text-2xl font-normal mt-10 uppercase">
+       text-center text-orange-400 text-xl font-normal mt-10 uppercase">
         <div className='flex gap-x-24 items-center justify-start w-1/2'>
           <p>Total Geral de Itens expedidos:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
           <p>Total de volumes gerados:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
         </div>
         <div className='flex gap-x-10 items-center justify-end w-1/2'>
-          <button onClick={() => ""} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px]
-           bg-zinc-700 text-white rounded-md hover:bg-zinc-600">
-            GERAR ROMANEIOS
-          </button>
+          <div>
+            {expedidasIds.length > 0 && (
+              <RomaneiosAll romaneios={gradesRoman} />
+            )}
+          </div>
+          <div>
+            {expedicaoData && (
+              <PagePdfRelatorio expedicaoData={expedicaoData} />
+            )}
+          </div>
+          <div>
+            {expedicaoData && (
+              <PageExcelRelatorio expedicaoData={expedicaoData} />
+            )}
+          </div>
           <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">
             MUDAR STATUS
           </button>
@@ -192,7 +209,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="bg-white p-8 rounded-md shadow-md min-w-[30%] min-h-[40%]
-                        flex flex-col items-center justify-center"
+                        flex flex-col items-center justify-center max-w-[800px]"
           >
             <div>
               <AlertTriangle size={90} color={`rgba(255, 0, 0, 1)`} />
@@ -200,7 +217,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             <div className={`flex flex-col text-black w-full items-center justify-center`}>
               <h2 className={`text-[50px] font-bold`}>{`MUDANÇA DE STATUS`}</h2>
               <h2 className={`text-[30px] font-bold`}>{message}</h2>
-              <h2 className={`text-[30px] font-bold`}>{`GRADES DE ID: ${expedidasIds}`}</h2>
+              <h2 className={`text-[30px] font-bold text-wrap`}>{`GRADES DE ID: ${expedidasIds}`}</h2>
               <span className={`text-[17px] font-bold`}>DESEJA MESMO ALTERAR O STATUS DAS GRADES?</span>
               <span className={`text-[17px] font-bold`}>A OPERAÇÃO NÃO PODERÁ SER REVERTIDA</span>
             </div>
