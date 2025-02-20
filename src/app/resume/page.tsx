@@ -111,7 +111,7 @@ export default function ConsultaStatusGrades() {
           ))}
 
           {/* Botão de Busca */}
-          <button onClick={loaderFilter} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          <button onClick={loaderFilter} className="px-6 py-1 min-w-[250px] h-[34px] bg-zinc-700 text-white rounded-md hover:bg-zinc-600">
             BUSCAR
           </button>
         </div>
@@ -123,7 +123,7 @@ export default function ConsultaStatusGrades() {
               <IsLoading />
             </div>
           ) : data?.length ? (
-            <GradesFilter expedicaoData={data}/>
+            <GradesFilter expedicaoData={data} setDesp={setStatus}/>
           ) : (
             <div className="flex items-center justify-center w-full h-[82vh]">
               <p className="text-lg text-blue-500">NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>

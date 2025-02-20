@@ -39,7 +39,26 @@ const urlEBI = `http://${ip}:${port}/escolas/escolagradesByItems/`;
 const urlObterGrade = `http://${ip}:${port}/grades/`;
 const urlAjustarGrade = `http://${ip}:${port}/grades/ajustar/`;
 const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
+const urlAlterStatus = `http://${ip}:${port}/grades/alterdespachadas`;
 
+async function alterarPDespachadas(ids: number[]): Promise<number[] | null> {
+    try {
+        const response = await fetch(urlAlterStatus, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ids),
+        });
+        if (!response.ok) {
+            throw new Error(`Erro ao atualizar o status das grades: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erro ao buscar grades para atualização: ${error}`);
+    }
+}
 
 async function siginn(credentials: Login): Promise<Usuarios | null> {
     try {
@@ -340,5 +359,5 @@ export {
     finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
     getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos,
     getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
-    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades
+    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas
 };
