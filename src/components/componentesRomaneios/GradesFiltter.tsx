@@ -23,9 +23,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
 
   const [expedidasIds, setExpedidasIds] = useState<number[]>([]);
   const [ajustStatus, setAjustStatus] = useState(false); 
-  const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
-
-  console.log(expedidasIds)
+  const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);  
 
   const groupedByStatus = useMemo(() => {
     return expedicaoData.reduce((acc, grade) => {
