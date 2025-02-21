@@ -32,6 +32,7 @@ export default interface GradesRomaneio {
       tamanho: string;
       composicao: string;
       quantidade: number;
+      previsto: number;
     }[];
     caixas:Caixa[];   
     enderecocompany: {

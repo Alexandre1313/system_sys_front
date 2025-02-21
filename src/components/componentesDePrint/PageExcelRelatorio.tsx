@@ -14,15 +14,20 @@ export default function PageExcelRelatorio({ expedicaoData }: PageExcelRelatorio
 
         // Definição de estilos globais
         const headerStyle = {
-            font: { bold: true, color: { argb: "FFFFFF" } },
-            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "4F81BD" } },
-            alignment: { horizontal: "center", vertical: "middle" },
+            font: { bold: true, color: { argb: "FFFFFF" } }, // Cabeçalho com texto branco
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "C9C9C9" } },
+            alignment: { horizontal: "left", vertical: "middle", wrapText: true },
         };
 
         const totalStyle = {
-            font: { bold: true },
+            font: { bold: true, color: { argb: "000000" } }, // Total com texto preto
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "D9D9D9" } },
-            alignment: { horizontal: "center" },
+            alignment: { horizontal: "left", wrapText: true },
+        };
+
+        const generalStyle = {
+            font: { color: { argb: "000000" } }, // Texto geral com fonte preta
+            alignment: { horizontal: "left", wrapText: true },
         };
 
         let rowIndex = 1;
@@ -38,10 +43,20 @@ export default function PageExcelRelatorio({ expedicaoData }: PageExcelRelatorio
         rowIndex += 3;
 
         expedicaoData.forEach((grade) => {
-            worksheet.addRow([`PROJETO: ${grade.projectname}`, `EMPRESA: ${grade.company}`, "", ""]).font = { bold: true };
-            worksheet.addRow([`ESCOLA: ${grade.escola} (Nº ${grade.numeroEscola})`, `NÚMERO JOIN: ${grade.numberJoin}`, "", ""]).font = { bold: true };
-            worksheet.addRow([`ID GRADE: ${grade.id}`, "", "", ""]).font = { bold: true };
-            worksheet.addRow([]); // Linha em branco
+            // Linha de PROJETO, ESCOLA e ID GRADE com fundo igual ao do cabeçalho
+            worksheet.addRow([`PROJETO: ${grade.projectname}`, `EMPRESA: ${grade.company}`, "", ""]).eachCell((cell) => {
+                Object.assign(cell, { ...headerStyle, font: { color: { argb: "000000" } } }); // Alinhamento e fonte preta
+            });
+            worksheet.addRow([`ESCOLA: ${grade.escola} (Nº ${grade.numeroEscola})`, `NÚMERO JOIN: ${grade.numberJoin}`, "", ""]).eachCell((cell) => {
+                Object.assign(cell, { ...headerStyle, font: { color: { argb: "000000" } } });
+            });
+            worksheet.addRow([`ID GRADE: ${grade.id}`, "", "", ""]).eachCell((cell) => {
+                Object.assign(cell, { ...headerStyle, font: { color: { argb: "000000" } } });
+            });
+            worksheet.addRow(["", "", "", ""]).eachCell((cell) => {
+                Object.assign(cell, { ...headerStyle, font: { color: { argb: "000000" } } });
+            });
+           
             rowIndex += 4;
 
             // Cabeçalho da tabela
@@ -53,7 +68,10 @@ export default function PageExcelRelatorio({ expedicaoData }: PageExcelRelatorio
 
             // Dados da tabela
             grade.tamanhosQuantidades.forEach((item) => {
-                worksheet.addRow([item.item, item.genero, item.tamanho, item.quantidade]);
+                const row = worksheet.addRow([item.item, item.genero, item.tamanho, item.quantidade]);
+                row.eachCell((cell) => {
+                    Object.assign(cell, generalStyle); // Aplica o estilo geral (alinhamento à esquerda e fonte preta)
+                });
                 rowIndex++;
             });
 
@@ -71,11 +89,21 @@ export default function PageExcelRelatorio({ expedicaoData }: PageExcelRelatorio
 
         // Ajustando largura das colunas
         worksheet.columns = [
-            { width: 30 },
-            { width: 20 },
-            { width: 20 },
-            { width: 15 },
+            { width: 60, style: { alignment: { wrapText: true } } },
+            { width: 40, style: { alignment: { wrapText: true } } },
+            { width: 40, style: { alignment: { wrapText: true } } },
+            { width: 30, style: { alignment: { wrapText: true } } },
         ];
+
+        // Ajustando a altura das linhas automaticamente para caber o conteúdo
+        worksheet.eachRow((row) => {
+            row.eachCell((cell) => {
+                if (cell.text) {
+                    const lines = cell.text.split("\n").length;
+                    row.height = Math.max(row.height || 15, lines * 20); // Ajuste de altura baseado na quantidade de linhas
+                }
+            });
+        });
 
         // Gerando o arquivo
         const buffer = await workbook.xlsx.writeBuffer();

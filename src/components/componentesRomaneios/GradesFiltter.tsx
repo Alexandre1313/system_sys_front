@@ -106,6 +106,10 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
   return (
     <div className="w-full px-6 py-4 bg-[#181818]">
       {Object.entries(groupedByStatus).map(([status, grades]) => {
+         const totalItensPrev = grades.reduce(
+          (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0),
+          0
+        );
         const totalItens = grades.reduce(
           (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0),
           0
@@ -121,6 +125,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             <h2 className="text-3xl font-semibold text-yellow-700 mb-4 uppercase"><span className='text-cyan-500 text-3xl pl-5'>{`STATUS: ${status}`}</span></h2>
             {grades.map((grade) => {
               const totalQuantidade = grade.tamanhosQuantidades.reduce((sum, item) => sum + item.quantidade, 0);
+              const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, item) => sum + item.previsto, 0);
               return (
                 <div
                   key={grade.id}
@@ -136,10 +141,11 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                     <table className="w-full text-zinc-400 border-collapse">
                       <thead>
                         <tr className={`border-b ${statusBorders[status]} border-opacity-30`}>
-                          <th className="py-2 px-4 text-left uppercase w-[25%]">Item</th>
-                          <th className="py-2 px-4 text-left uppercase w-[25%]">Gênero</th>
-                          <th className="py-2 px-4 text-left uppercase w-[25%]">Tamanho</th>
-                          <th className="py-2 px-4 text-left uppercase w-[25%]">Quantidade</th>
+                          <th className="py-2 px-4 text-left uppercase w-[20%]">Item</th>
+                          <th className="py-2 px-4 text-left uppercase w-[20%]">Gênero</th>
+                          <th className="py-2 px-4 text-left uppercase w-[20%]">Tamanho</th>
+                          <th className="py-2 px-4 text-left uppercase w-[20%]">Previsto</th>
+                          <th className="py-2 px-4 text-left uppercase w-[20%]">Expedido</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -148,13 +154,17 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                             <td className="py-2 px-4 uppercase text-left">{item.item}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.genero}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.tamanho}</td>
+                            <td className="py-2 px-4 uppercase text-left">{item.previsto}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.quantidade}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                  <p className="text-teal-400 mt-2 uppercase">
+                  <p className="text-teal-400 mt-4 uppercase">
+                    Total de itens previstos para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{totalPrevisto}</span>
+                  </p>
+                  <p className="text-teal-400 uppercase">
                     Total de itens expedidos para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
                   </p>
                   <p className="text-teal-400 uppercase">
@@ -163,20 +173,22 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                 </div>
               );
             })}
-            <div className="text-right text-teal-500 font-semibold uppercase">
-              <p className="text-lg">Total de itens do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalItens}</span></p>
-              <p className="text-lg">Total de caixas: <span className="text-orange-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
+            <div className="text-right text-teal-500 font-normal uppercase">
+              <p className="text-lg">Total de itens previstos do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
+              <p className="text-lg">Total de itens expedidos do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalItens}</span></p>
+              <p className="text-lg">Total de volumes do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
             </div>
           </div>
         );
       })}
       <div className="flex items-center justify-center fixed bottom-0 left-0 px-14 h-[80px] bg-[#1F1F1F] w-full
        text-center text-orange-400 text-xl font-normal mt-10 uppercase">
-        <div className='flex gap-x-24 items-center justify-start w-1/2'>
-          <p>Total Geral de Itens expedidos:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-          <p>Total de volumes gerados:<span className='text-cyan-500 text-3xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+        <div className='flex gap-x-24 items-center justify-start w-[70%]'>
+          <p>Total Geral de Itens previstos:<span className='text-cyan-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
+          <p>Total Geral de Itens expedidos:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+          <p>Total de volumes gerados:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
         </div>
-        <div className='flex gap-x-10 items-center justify-end w-1/2'>
+        <div className='flex gap-x-10 items-center justify-end w-[30%]'>
           <div>
             {expedidasIds.length > 0 && (
               <RomaneiosAll romaneios={gradesRoman} />
