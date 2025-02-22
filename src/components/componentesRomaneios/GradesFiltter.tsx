@@ -106,7 +106,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
   return (
     <div className="w-full px-6 py-4 bg-[#181818]">
       {Object.entries(groupedByStatus).map(([status, grades]) => {
-         const totalItensPrev = grades.reduce(
+        const totalItensPrev = grades.reduce(
           (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0),
           0
         );
@@ -229,7 +229,13 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             <div className={`flex flex-col text-black w-full items-center justify-center`}>
               <h2 className={`text-[50px] font-bold`}>{`MUDANÇA DE STATUS`}</h2>
               <h2 className={`text-[30px] font-bold`}>{message}</h2>
-              <h2 className={`text-[30px] font-bold text-wrap`}>{`GRADES DE ID: ${expedidasIds}`}</h2>
+              <div className={`flex items-center justify-center flex-wrap`}>
+                {expedidasIds.map((id, index) => (
+                  <span key={index} className={`text-[25px] font-bold mr-2`}>
+                    {id}
+                  </span>
+                ))}
+              </div>
               <span className={`text-[17px] font-bold`}>DESEJA MESMO ALTERAR O STATUS DAS GRADES?</span>
               <span className={`text-[17px] font-bold`}>A OPERAÇÃO NÃO PODERÁ SER REVERTIDA</span>
             </div>
