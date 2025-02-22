@@ -230,6 +230,9 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
               <h2 className={`text-[50px] font-bold`}>{`MUDANÇA DE STATUS`}</h2>
               <h2 className={`text-[30px] font-bold`}>{message}</h2>
               <div className={`flex items-center justify-center flex-wrap`}>
+                <span className={`text-[25px] font-bold mr-2`}>
+                  {`GRADES IDs AFETADOS:`}
+                </span>
                 {expedidasIds.map((id, index) => (
                   <span key={index} className={`text-[25px] font-bold mr-2`}>
                     {id}
