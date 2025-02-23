@@ -26,6 +26,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
 
   const [expedidasIds, setExpedidasIds] = useState<number[]>([]);
   const [gradesRoman, setGradesRoman] = useState<GradesRomaneio[]>([]);
+  const [escolasUnicas, setEscolasUnicas] = useState<string[]>([]);
   const [ajustStatus, setAjustStatus] = useState(false);
   const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
 
@@ -44,6 +45,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
     setExpedidasIds(ids);
     const romanExpeds = expedicaoData.filter(grade => grade.status === "EXPEDIDA");
     setGradesRoman(romanExpeds);
+    const uniqueEscolas = Array.from(new Set(expedicaoData.map(grade => grade.escola)));
+    setEscolasUnicas(uniqueEscolas);
   }, [expedicaoData]);
 
   const abrirModalAjustStatus = () => {
@@ -57,14 +60,15 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
     if (resp) {
-      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs: ${resp}`);
+      setExpedidasIds(resp);
+      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);
       const timeout = setTimeout(() => {
         setDesp("DESPACHADA");
         setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
         setAjustStatus(false);
         setExpedidasIds([]);
         clearTimeout(timeout);
-      }, 1500);
+      }, 3500);
       return
     }
     setMessage(`ERRO AO MUDAR STATUS DAS GRADES`);
@@ -154,8 +158,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                             <td className="py-2 px-4 uppercase text-left">{item.item}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.genero}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.tamanho}</td>
-                            <td className="py-2 px-4 uppercase text-left">{item.previsto}</td>
-                            <td className="py-2 px-4 uppercase text-left">{item.quantidade}</td>
+                            <td className="py-2 px-4 uppercase text-purple-500 text-left">{item.previsto}</td>
+                            <td className="py-2 px-4 uppercase text-green-600 text-left">{item.quantidade}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -181,32 +185,39 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
           </div>
         );
       })}
-      <div className="flex items-center justify-center fixed bottom-0 left-0 px-14 h-[80px] bg-[#1F1F1F] w-full
-       text-center text-orange-400 text-xl font-normal mt-10 uppercase">
-        <div className='flex gap-x-24 items-center justify-start w-[70%]'>
-          <p>Total Geral de Itens previstos:<span className='text-cyan-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
-          <p>Total Geral de Itens expedidos:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-          <p>Total de volumes gerados:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+      <div className={`flex justify-center items-center flex-col fixed bottom-0 left-0 px-14 h-[110px] bg-[#1F1F1F] w-full
+           text-center text-lg font-normal mt-10 pb-2 uppercase gap-y-2`}>
+        <div className={`flex justify-start items-center`}>
+          <h4 className="text-md font-semibold text-zinc-300 uppercase">Totais</h4>
         </div>
-        <div className='flex gap-x-10 items-center justify-end w-[30%]'>
-          <div>
-            {expedidasIds.length > 0 && (
-              <RomaneiosAll romaneios={gradesRoman} />
-            )}
+        <div className="flex items-center justify-center  text-orange-400 w-full border border-zinc-600 p-3 rounded-md">
+          <div className='flex gap-x-24 items-center justify-start w-[70%]'>
+            <p>Previstos:<span className='text-cyan-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
+            <p>Expedidos:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+            <p>Volumes:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+            <p>Qty grades:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.length}</span></p>
+            <p>Qty escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
           </div>
-          <div>
-            {expedicaoData && (
-              <PagePdfRelatorio expedicaoData={expedicaoData} />
-            )}
+          <div className='flex gap-x-10 items-center justify-end w-[30%]'>
+            <div>
+              {expedidasIds.length > 0 && (
+                <RomaneiosAll romaneios={gradesRoman} />
+              )}
+            </div>
+            <div>
+              {expedicaoData && (
+                <PagePdfRelatorio expedicaoData={expedicaoData} />
+              )}
+            </div>
+            <div>
+              {expedicaoData && (
+                <PageExcelRelatorio expedicaoData={expedicaoData} />
+              )}
+            </div>
+            <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">
+              MUDAR STATUS
+            </button>
           </div>
-          <div>
-            {expedicaoData && (
-              <PageExcelRelatorio expedicaoData={expedicaoData} />
-            )}
-          </div>
-          <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">
-            MUDAR STATUS
-          </button>
         </div>
       </div>
 
