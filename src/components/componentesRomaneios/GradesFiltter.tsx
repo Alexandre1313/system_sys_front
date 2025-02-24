@@ -6,6 +6,7 @@ import { GradesRomaneio } from '../../../core';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 import PagePdfRelatorio from '../componentesDePrint/PagePdfRelatorio';
 import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
+import PageExcelRelatorioF from '../componentesDePrint/PageExcelRelatorioF';
 
 interface GradeFilterProps {
   expedicaoData: GradesRomaneio[];
@@ -218,6 +219,11 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             </div>
             <div>
               {expedicaoData && (
+                <PageExcelRelatorioF expedicaoData={expedicaoData} />
+              )}
+            </div>
+            <div>
+              {expedicaoData && (
                 <PagePdfRelatorio expedicaoData={expedicaoData} />
               )}
             </div>
@@ -257,7 +263,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                   {`GRADES IDs AFETADOS:`}
                 </span>
                 {expedidasIds.map((id, index) => (
-                  <span key={index} className={`text-[25px] font-bold mr-2`}>
+                  <span key={index} className={`text-[25px] text-red-700 font-bold mr-2`}>
                     {id}
                   </span>
                 ))}

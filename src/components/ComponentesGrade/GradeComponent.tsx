@@ -84,6 +84,11 @@ export default function GradeComponent(props: GradeComponentProps) {
         }
     };
 
+    const oneExpedida = props.grade.status === "EXPEDIDA" || props.grade.status === "DESPACHADA";   
+    const desativado = oneExpedida;   
+
+    const statusClass = desativado  ? "pointer-events-none opacity-50" : "";
+
     const fecharTela = () => {
         setMostrarTela(false);
     };
@@ -135,7 +140,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Card com informações */}
-            <div className={`flex flex-col m-2 p-3  border rounded-md gap-y-0 ${borderColor}`}>
+            <div className={`flex flex-col m-2 p-3  border-[3px] rounded-md gap-y-0 ${borderColor}`}>
                 <h2 className="text-[13px] font-normal text-gray-400">
                     TOTAL DE ITENS NA GRADE:
                     <strong className="ml-2 font-semi-bold text-[17px] text-orange-600">{totalGrade}</strong>
@@ -167,8 +172,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <button
                         type="button"
                         onClick={abrirTela}
-                        className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
-                         bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]"
+                        className={`flex items-center justify-center mt-3 px-3 py-1 bg-blue-500
+                            ${statusClass} hover:bg-green-500 hover:bg-opacity-10 bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]`}
                     >
                         ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
                     </button>
@@ -192,7 +197,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
                             const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-800' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-800';
                             const classBgCard = quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
-                            quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
+                                quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
 
                             const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
@@ -288,13 +293,13 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                         labelName={`TOTAL DO ITEM JÁ EXPEDIDO`} />
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">                                    
+                                <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
                                         formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true}  bgBackGround={`bg-black`}
+                                        isReadOnly={true} bgBackGround={`bg-black`}
                                         valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
                                         height={`h-[80px]`} txtSize={`text-[56px]`} maxWhidth={`max-w-[300px]`}
-                                        colorBorder={`border-yellow-500`}/>
+                                        colorBorder={`border-yellow-500`} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
@@ -303,8 +308,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         valueColor={`text-white`} labelColor={`text-whitw`}
                                         bgBackGround={`bg-black`} txtSize={`text-[56px]`}
                                         maxWhidth={`max-w-[300px]`}
-                                        height={`h-[80px]`} 
-                                        colorBorder={`border-white`}/>
+                                        height={`h-[80px]`}
+                                        colorBorder={`border-white`} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
