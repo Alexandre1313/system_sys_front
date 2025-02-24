@@ -1,7 +1,7 @@
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import ProjetoComponentNew from '@/components/ComponentesProjeto/ProjetoComponentNew';
 import { Projeto } from '../../../core';
 import { get } from "../../hooks_api/api";
-import ProjetoComponentNew from '@/components/ComponentesProjeto/ProjetoComponentNew';
 
 export const revalidate = 0;
 

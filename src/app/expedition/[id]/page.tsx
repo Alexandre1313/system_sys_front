@@ -1,15 +1,15 @@
 'use client';
 
-import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
-import { useEffect, useState } from "react";
-import { useParams } from 'next/navigation';
-import useSWR from "swr";
-import { ajust, getGradesPorEscolasByItems } from "@/hooks_api/api";
-import { Caixa, EscolaGradesItems } from "../../../../core";
-import IsLoading from "@/components/ComponentesInterface/IsLoading";
-import { motion } from "framer-motion";
-import { AlertTriangle } from "react-feather";
 import EtiquetasNew from "@/components/componentesDePrint/EtiquetasNew";
+import IsLoading from "@/components/ComponentesInterface/IsLoading";
+import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
+import { ajust, getGradesPorEscolasByItems } from "@/hooks_api/api";
+import { motion } from "framer-motion";
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { AlertTriangle } from "react-feather";
+import useSWR from "swr";
+import { Caixa, EscolaGradesItems } from "../../../../core";
 
 const fetcher = async (id: string) => {
     const escolaComGradesByItems = await getGradesPorEscolasByItems(id);

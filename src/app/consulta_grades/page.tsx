@@ -1,14 +1,14 @@
 'use client'
 
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import { CreateServerSelectComponentDates } from '@/components/componentesRomaneios/createServerSelectComponentDates';
 import { CreateServerSelectComponentProjects } from '@/components/componentesRomaneios/createServerSelectComponentProjects';
 import TabelaExpedicao from '@/components/consultaGrades/TabelaExpedicao';
 import { getProjectsGradesSaldos } from '@/hooks_api/api';
 import { useEffect, useState } from 'react';
-import { GradeOpenBySchool } from '../../../core';
 import useSWR from 'swr';
-import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import { GradeOpenBySchool } from '../../../core';
 
 const fetcherGradesPDateSaldos = async (projectId: number, dateStr: string): Promise<GradeOpenBySchool[] | null> => {
     const resp = await getProjectsGradesSaldos(String(projectId), String(dateStr));

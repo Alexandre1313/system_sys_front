@@ -11,10 +11,10 @@ import BotaoGradeUp from "../ComponentesInterface/BotaoGradeUp";
 import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
 import TitleComponentFixed from "../ComponentesInterface/TitleComponentFixed";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
+import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
-import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 
 export interface GradeComponentProps {
     grade: Grade;
