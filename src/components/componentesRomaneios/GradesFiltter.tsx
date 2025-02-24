@@ -57,6 +57,11 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
     setAjustStatus(ajustStatus ? false : true);
   }
 
+  function calcularPorcentagem(parte: number, total: number): string {
+    if (total === 0) return `${(0).toFixed(2)} %`.replace('.', ','); 
+    return `${((parte / total) * 100).toFixed(2)} %`.replace('.', ',');
+  }
+
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
     if (resp) {
@@ -159,28 +164,31 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                             <td className="py-2 px-4 uppercase text-left">{item.genero}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.tamanho}</td>
                             <td className="py-2 px-4 uppercase text-purple-500 text-left">{item.previsto}</td>
-                            <td className="py-2 px-4 uppercase text-green-600 text-left">{item.quantidade}</td>
+                            <td className="py-2 px-4 uppercase text-green-500 text-left">{item.quantidade}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
                   <p className="text-teal-400 mt-4 uppercase">
-                    Total de itens previstos para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{totalPrevisto}</span>
+                    Total de itens previstos para a escola: <span className="text-purple-500 pl-3 font-normal text-xl">{totalPrevisto}</span>
                   </p>
                   <p className="text-teal-400 uppercase">
-                    Total de itens expedidos para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
+                    Total de itens expedidos para a escola: <span className="text-green-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
                   </p>
                   <p className="text-teal-400 uppercase">
-                    Total de volumes para a escola: <span className="text-orange-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
+                    Total de volumes para a escola: <span className="text-red-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
+                  </p>
+                  <p className="text-teal-400 uppercase">
+                    <span className="text-yellow-300 pr-3 font-normal text-xl">{calcularPorcentagem(totalQuantidade, totalPrevisto)}</span> concluído
                   </p>
                 </div>
               );
             })}
             <div className="text-right text-teal-500 font-normal uppercase">
-              <p className="text-lg">Total de itens previstos do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
-              <p className="text-lg">Total de itens expedidos do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalItens}</span></p>
-              <p className="text-lg">Total de volumes do grupo: <span className="text-orange-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
+              <p className="text-lg">Total de itens previstos do grupo: <span className="text-purple-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
+              <p className="text-lg">Total de itens expedidos do grupo: <span className="text-green-500 pl-3 font-normal text-xl">{totalItens}</span></p>
+              <p className="text-lg">Total de volumes do grupo: <span className="text-red-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
             </div>
           </div>
         );
@@ -191,12 +199,12 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
           <h4 className="text-md font-semibold text-zinc-300 uppercase">Totais</h4>
         </div>
         <div className="flex items-center justify-center  text-orange-400 w-full border border-zinc-600 p-3 rounded-md">
-          <div className='flex gap-x-24 items-center justify-start w-[70%]'>
-            <p>Previstos:<span className='text-cyan-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
-            <p>Expedidos:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-            <p>Volumes:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
-            <p>Qty grades:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.length}</span></p>
-            <p>Qty escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
+          <div className='flex gap-x-10 items-center justify-start w-[70%]'>
+            <p>Previstos:<span className='text-purple-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
+            <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+            <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+            <p>Grades:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.length}</span></p>
+            <p>Escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
           </div>
           <div className='flex gap-x-10 items-center justify-end w-[30%]'>
             <div>
