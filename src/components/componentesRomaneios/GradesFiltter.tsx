@@ -211,7 +211,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0))}</span>
             </p>
           </div>
-          <div className='flex gap-x-10 items-center justify-end w-[30%]'>
+          <div className='flex gap-x-6 items-center justify-end w-[30%]'>
             <div>
               {expedidasIds.length > 0 && (
                 <RomaneiosAll romaneios={gradesRoman} />
