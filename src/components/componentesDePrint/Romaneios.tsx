@@ -97,6 +97,16 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             return lines;
         };
 
+        function concatStringArchive(nj: string, ne: string, nae: string, np: string, gi: string): string {
+            let description = '';
+            if (nj) {
+                description = `${np} - ${nj} - ${ne} - ${gi}`;
+            } else {
+                description = `${np} - RM ${nae} - ${ne} - ${gi}`;
+            }
+            return description;
+        }
+
         function concatString(nj: string, ne: string, nae: string): string {
             let description = '';
             if (nj) {
@@ -428,7 +438,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
         link.href = url;
 
         // Defina o nome do arquivo para download
-        const nomeArquivo = concatString(romaneios[0].numberJoin, `${romaneios[0].escola} - ${dataSp}`, `${romaneios[0].numeroEscola}`);
+        const nomeArquivo = `${concatStringArchive(romaneios[0].numberJoin, romaneios[0].escola, romaneios[0].numeroEscola, romaneios[0].projectname, `GRADEid-${romaneios[0].id}`)} - ${dataSp}.pdf`.replace(/[\/:*?"<>|]/g, "_");
         link.download = nomeArquivo; // O nome do arquivo será 'romaneio_gerado.pdf'
 
         // Dispara o download

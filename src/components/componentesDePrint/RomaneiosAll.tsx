@@ -97,7 +97,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             }
 
             return lines;
-        };
+        };       
 
         function concatString(nj: string, ne: string, nae: string): string {
             let description = '';
@@ -508,6 +508,16 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             return lines;
         };
 
+        function concatStringArchive(nj: string, ne: string, nae: string, np: string, gi: string): string {
+            let description = '';
+            if (nj) {
+                description = `${np} - ${nj} - ${ne} - ${gi}`;
+            } else {
+                description = `${np} - RM ${nae} - ${ne} - ${gi}`;
+            }
+            return description;
+        }
+
         function concatString(nj: string, ne: string, nae: string): string {
             let description = '';
             if (nj) {
@@ -830,12 +840,12 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const pdfBytes = await gerarPDFUnic([romaneio]);
 
             // Adiciona o PDF ao arquivo ZIP
-            const safeFileName = `${concatString(romaneio.numberJoin, romaneio.escola, romaneio.numeroEscola)} - ${dataSp}.pdf`.replace(/[\/:*?"<>|]/g, "_");
+            const safeFileName = `${concatStringArchive(romaneio.numberJoin, romaneio.escola, romaneio.numeroEscola, romaneio.projectname, `GRADEid-${romaneio.id}`)} - ${dataSp}.pdf`.replace(/[\/:*?"<>|]/g, "_");
             zip.file(safeFileName, pdfBytes);
         };
 
         const zipBytes = await zip.generateAsync({ type: 'blob' });
-        saveAs(zipBytes, 'Romaneios.zip');
+        saveAs(zipBytes, `ROMANEIOS DE ENTREGA DO PROJETO ${romaneios[0].projectname} - DATA ${dataSp}.zip`.replace(/[\/:*?"<>|]/g, "-"));
 
         // Salvar e exibir o PDF
         const pdfBytes = await pdfDoc.save();

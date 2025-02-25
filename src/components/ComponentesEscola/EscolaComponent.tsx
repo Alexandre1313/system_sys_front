@@ -6,18 +6,22 @@ export interface EscolaComponentProps {
 }
 
 export default function EscolaComponent({ escola }: EscolaComponentProps) {
-    // Verifica se há alguma grade com 'finalizada' = false    
     const oneExpedida = escola.grades.some((grade: Grade) => grade.status === "EXPEDIDA" || grade.status === "DESPACHADA");
     const todasExpedidas = escola.grades.every((grade: Grade) => grade.status === "EXPEDIDA" || grade.status === "DESPACHADA");
-    const desativado = false; //oneExpedida && todasExpedidas;
+    const desativado = false; 
+    
+    const repo = escola.grades.some((grade: Grade) => (grade.tipo && grade.tipo === "REPOSIÇÃO") && grade.status === "PRONTA");
 
-    // Define a classe de estilo dependendo do estado das grades
-    let statusClass = oneExpedida && !todasExpedidas ? "text-cyan-500" : oneExpedida && todasExpedidas ? "text-green-600" : "text-slate-200";    
-    const repo = escola.grades.some((grade: Grade) => grade.tipo && grade.tipo === "REPOSIÇÃO");
-    if(repo){
-        console.log("aqui")
+    let statusClass = "text-slate-200"; 
+    
+    if (repo) {        
         statusClass = "text-red-500";
-    } 
+    }   
+    else if (oneExpedida && !todasExpedidas) {
+        statusClass = "text-cyan-500";
+    } else if (oneExpedida && todasExpedidas) {
+        statusClass = "text-green-600";
+    }
 
     return (
         <Link
