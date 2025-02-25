@@ -12,7 +12,12 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
     const desativado = false; //oneExpedida && todasExpedidas;
 
     // Define a classe de estilo dependendo do estado das grades
-    const statusClass = oneExpedida && !todasExpedidas ? "text-cyan-500" : oneExpedida && todasExpedidas ? "text-green-600" : "text-slate-200";
+    let statusClass = oneExpedida && !todasExpedidas ? "text-cyan-500" : oneExpedida && todasExpedidas ? "text-green-600" : "text-slate-200";    
+    const repo = escola.grades.some((grade: Grade) => grade.tipo && grade.tipo === "REPOSIÇÃO");
+    if(repo){
+        console.log("aqui")
+        statusClass = "text-red-500";
+    } 
 
     return (
         <Link
