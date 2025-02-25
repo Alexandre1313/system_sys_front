@@ -251,7 +251,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                     currentY,
                     fontBold,
                     12,
-                    rgb(0, 1, 0)
+                    rgb(1, 0, 0)
                 );
                 currentY -= lineHeight + 1;
             }
@@ -664,7 +664,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
                     currentY,
                     fontBold,
                     12,
-                    rgb(0, 1, 0)
+                    rgb(1, 0, 0)
                 );
                 currentY -= lineHeight + 1;
             }
