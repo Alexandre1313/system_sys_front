@@ -10,7 +10,11 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
     const todasExpedidas = escola.grades.every((grade: Grade) => grade.status === "EXPEDIDA" || grade.status === "DESPACHADA");
     const desativado = false; 
     
-    const repo = escola.grades.some((grade: Grade) => (grade.tipo && grade.tipo === "REPOSIÇÃO") && grade.status === "PRONTA");
+    const repo = escola.grades.some(
+        (grade: Grade) => 
+            grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" 
+            && grade.status === "PRONTA"
+    );
 
     let statusClass = "text-slate-200"; 
     
