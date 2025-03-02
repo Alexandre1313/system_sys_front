@@ -4,9 +4,9 @@ import { AlertTriangle } from 'react-feather';
 import { alterarPDespachadas } from '@/hooks_api/api';
 import { GradesRomaneio } from '../../../core';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
-import PagePdfRelatorio from '../componentesDePrint/PagePdfRelatorio';
 import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
 import PageExcelRelatorioF from '../componentesDePrint/PageExcelRelatorioF';
+import PageExcelSimple from '../componentesDePrint/PageExcelSimple';
 
 interface GradeFilterProps {
   expedicaoData: GradesRomaneio[];
@@ -142,9 +142,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                   className={`mb-6 p-4 border ${statusBorders[status] || 'border-gray-400'} rounded-md ${statusBackgrounds[status]} border-opacity-40`}
                 >
                   <h3 className="text-2xl font-semibold text-teal-700 uppercase">
-                    {`PROJETO: ${grade.projectname} - ${grade.company} - GRADE ID: `}<span className="text-cyan-500 pl-3 pr-3 font-normal text-xl">{grade.id}</span>
-                    {`Última atualização: `}
-                    <span className="text-yellow-500 pl-3 font-normal text-xl">{grade.update}</span>
+                    {`PROJETO: ${grade.projectname} - ${grade.company} - GRADE ID: `}<span className="text-cyan-500 pl-3 pr-3 font-normal text-2xl">{grade.id}</span>                  
+                    <span className="text-yellow-500 pl-3 font-normal text-2xl">{`Última atualização: ${grade.update}`}</span>
                   </h3>
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola} (Nº {grade.numeroEscola})</p>
                   <p className="text-green-600 uppercase text-xl">Número Join: {grade.numberJoin}</p>
@@ -226,7 +225,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             </div>
             <div>
               {expedicaoData && (
-                <PagePdfRelatorio expedicaoData={expedicaoData} />
+                <PageExcelSimple expedicaoData={expedicaoData} />
               )}
             </div>
             <div>

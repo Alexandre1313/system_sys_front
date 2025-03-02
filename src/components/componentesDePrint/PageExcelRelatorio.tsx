@@ -212,10 +212,10 @@ export default function PageExcelRelatorio({ expedicaoData }: PageExcelRelatorio
         // Ajustando largura das colunas
         worksheet.columns = [
             { width: 2, style: { alignment: { wrapText: true } } },
-            { width: 60, style: { alignment: { wrapText: true } } },
+            { width: 100, style: { alignment: { wrapText: true } } },
             { width: 40, style: { alignment: { wrapText: true } } },
             { width: 40, style: { alignment: { wrapText: true } } },
-            { width: 30, style: { alignment: { wrapText: true } } },
+            { width: 40, style: { alignment: { wrapText: true } } },
         ];
 
         // Ajustando a altura das linhas automaticamente para caber o conteúdo
