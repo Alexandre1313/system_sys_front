@@ -32,7 +32,7 @@ export default function PageExcelSimple({ expedicaoData }: PageExcelSimpleProps)
             alignment: { horizontal: "center", wrapText: true },
         };
 
-        let rowIndex = 1;
+        //let rowIndex = 1;
 
         // Cabeçalho: COMPANHIA e GRADEID
         worksheet.addRow([
@@ -70,11 +70,11 @@ export default function PageExcelSimple({ expedicaoData }: PageExcelSimpleProps)
             Object.assign(cell, headerStyle);
         });
 
-        rowIndex += 2;
+        //rowIndex += 2;
 
         // Variáveis para totais gerais
         let totalVolumes = 0;
-        let totalSizes: { [key: string]: number } = {};
+        const totalSizes: { [key: string]: number } = {};
 
         // Inicializando os totais de tamanho
         sizeArray.forEach((size) => {
@@ -84,13 +84,13 @@ export default function PageExcelSimple({ expedicaoData }: PageExcelSimpleProps)
         // Dados por escola
         expedicaoData.forEach((grade) => {
             // Inicializando as quantidades de cada tamanho
-            let sizeQuantities: { [key: string]: number } = {};
+            const sizeQuantities: { [key: string]: number } = {};
             sizeArray.forEach((size) => {
                 sizeQuantities[size] = 0;
             });
 
             // A quantidade de cada tamanho
-            let volumes = grade?.caixas?.length || 0;
+            const volumes = grade?.caixas?.length || 0;
 
             grade?.tamanhosQuantidades?.forEach((item) => {
                 if (sizeQuantities.hasOwnProperty(item.tamanho)) {
