@@ -75,7 +75,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         ).values()
     );
 
-    const borderColor = total === totalExpedido ? 'border-green-900' : 'border-gray-700';
+    const borderColor = total === totalExpedido ? 'border-green-500' : 'border-gray-500';
 
     const abrirTela = () => {
         setMostrarTela(true);
@@ -140,7 +140,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Card com informações */}
-            <div className={`flex flex-col m-2 p-3  border-[3px] rounded-md gap-y-0 ${borderColor}`}>
+            <div className={`flex flex-col m-2 p-3  border-[5px] rounded-md gap-y-0 ${borderColor}`}>
                 <h2 className="text-[13px] font-normal text-gray-400">
                     TOTAL DE ITENS NA GRADE:
                     <strong className="ml-2 font-semi-bold text-[17px] text-orange-600">{totalGrade}</strong>
