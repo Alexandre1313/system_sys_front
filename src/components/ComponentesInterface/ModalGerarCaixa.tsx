@@ -8,22 +8,24 @@ import CaixaResume from './CaixarResume';
 interface ModalGerarCaixaProps {
   box: Caixa | null;
   isOpen: boolean;
-  message: string;  
-  setFormData: (key: string, value: string) => void; 
+  message: string;
+  isPend: boolean | null;
+  setFormData: (key: string, value: string) => void;
   onClose: () => void;
   mutate: () => void;
   handleNumberBox: (numeracaixa: string) => void;
   handlerCaixaPend: () => void;
+  handlerCaixaPend2: () => void;
 }
 
-const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, setFormData, onClose, mutate, handleNumberBox, handlerCaixaPend }) => {
+const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, isPend, setFormData, onClose, mutate, handleNumberBox, handlerCaixaPend, handlerCaixaPend2 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState<string>(message);
   const [isError, setIsError] = useState(false);
 
-  const handleCaixaAtualChange = () => {       
-    const value  = '0';      
-    setFormData('QUANTIDADENACAIXAATUAL', value);      
+  const handleCaixaAtualChange = () => {
+    const value = '0';
+    setFormData('QUANTIDADENACAIXAATUAL', value);
   };
 
   const getSoundForMessage = (message: string) => {
@@ -46,7 +48,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
 
   const handleGerarCaixa = async () => {
     setIsLoading(true);
-    setIsError(false);    
+    setIsError(false);
     try {
       setMsg(`Por favor, aguarde...`);
       const data = await inserirCaixa(box);
@@ -104,6 +106,14 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           >
             {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : 'Encerrar Caixa'}
           </button>
+          {isPend &&(<button
+            className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-red-500 hover:bg-red-700'}
+            flex items-center justify-center`}
+            onClick={handlerCaixaPend2}
+            disabled={isLoading}
+          >
+            {'Limpar Caixa'}
+          </button>)}
         </div>
       </motion.div>
     </div>

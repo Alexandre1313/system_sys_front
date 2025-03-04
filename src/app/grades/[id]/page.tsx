@@ -24,7 +24,7 @@ const fetcher = async (id: number) => {
 
 export default function Grades() {
   const { id } = useParams();
-  
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -156,8 +156,28 @@ export default function Grades() {
   };
 
   const handlerCaixaPend = () => {
-    localStorage.removeItem('saveBox');
-    setIsPend(null);
+    try {
+      const boxSave0 = localStorage.getItem('saveBox');
+      if (boxSave0) {
+        setIsPend(null);
+        localStorage.removeItem('saveBox');
+      }
+    } catch (error) {
+      console.error('Erro ao descartar a saveBox', error);
+    }
+  }
+
+  const handlerCaixaPend2 = () => {
+    try {
+      const boxSave0 = localStorage.getItem('saveBox');
+      if (boxSave0) {
+        setIsPend(null);
+        localStorage.removeItem('saveBox');
+        closeModalGerarCaixa()
+      }
+    } catch (error) {
+      console.error('Erro ao descartar a saveBox', error);
+    }
   }
 
   const handleItemSelecionado = (item: GradeItem | null) => {
@@ -201,7 +221,7 @@ export default function Grades() {
 
   // Usando SWR para buscar dados da escola e suas grades
   const { data, error, mutate: swrMutate } = useSWR(id ? ['grades', id] : null, () => fetcher(+id!), {
-    revalidateOnFocus: false, 
+    revalidateOnFocus: false,
     revalidateOnReconnect: false
   });
 
@@ -323,8 +343,10 @@ export default function Grades() {
         handleNumberBox={handleNumberBox}
         onClose={closeModalGerarCaixa}
         handlerCaixaPend={handlerCaixaPend}
+        handlerCaixaPend2={handlerCaixaPend2}
         mutate={swrMutate}
         box={caixa}
+        isPend={isPend}
       />
     </div>
   );
