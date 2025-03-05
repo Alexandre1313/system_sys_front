@@ -4,16 +4,18 @@ export interface ItemsProjectsProps {
   item: ItensProjects;
   embalagemId: number | undefined;
   itemTamanhoId: number;
+  index: number;
   onClick: (item: ItensProjects, embalagemId: number | undefined , itemTamanhoId: number) => void;  
   mutationAll?: () => void;
 }
 
-export default function ItemsProjects({ onClick, item, embalagemId, itemTamanhoId }: ItemsProjectsProps) {
+export default function ItemsProjects({ onClick, item, index, embalagemId, itemTamanhoId }: ItemsProjectsProps) {
   const itemSelect = item;
   const itemGenero = item.genero;
   const itemNome = itemSelect.nome;
   const itemTamanho = itemSelect.tamanho;
   const itemBarcode = itemSelect.barcode;
+  const bgColor = index % 2 === 0 ? `bg-gray-700 bg-opacity-10`: ``;
   const classColor =
     itemGenero === 'FEMININO'
       ? 'text-zinc-300'
@@ -23,8 +25,8 @@ export default function ItemsProjects({ onClick, item, embalagemId, itemTamanhoI
   return (
     <div
       onClick={() => onClick(item, embalagemId, itemTamanhoId)} // Passando o item como argumento para a função `onClick`
-      className={`flex justify-start items-center w-full border-[0.001em] hover:bg-green-600 hover:bg-opacity-30
-            border-zinc-900 p-[0.30rem] rounded-md cursor-pointer`}
+      className={`flex justify-start items-center w-full border-[0.001em] hover:bg-gray-700 hover:bg-opacity-30
+            border-zinc-900 p-[0.60rem] rounded-md cursor-pointer ${bgColor}`}
     >
       <div className={`flex justify-start items-start gap-x-4 w-[35%]`}>
         <span className={`text-[14px] text-zinc-500`}>ITEM:</span>

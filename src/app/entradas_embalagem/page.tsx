@@ -242,10 +242,10 @@ export default function EntradasEmbalagem() {
           </button>
         </div>
       </div>
-      <div className="flex pt-12 flex-col border-0 gap-y-2 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
+      <div className="flex pt-12 flex-col border-0 gap-y-0 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
         {(projectItems && projectItems.itensProject && projectItems.itensProject.length > 0) ? (
-          projectItems.itensProject.map((item) => (
-            <ItemsProjects key={item.id} item={item}
+          projectItems.itensProject.map((item, index) => (
+            <ItemsProjects key={item.id} item={item} index={index}
               onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)}
               itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
           ))
