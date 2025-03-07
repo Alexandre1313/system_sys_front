@@ -29,6 +29,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
   const [gradesRoman, setGradesRoman] = useState<GradesRomaneio[]>([]);
   const [escolasUnicas, setEscolasUnicas] = useState<string[]>([]);
   const [ajustStatus, setAjustStatus] = useState(false);
+  const [reposicoes, setReposicoes] = useState<GradesRomaneio[]>([]);
+  const [pedidosValidos, setPedidosValidos] = useState<GradesRomaneio[]>([]);
   const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
 
   const groupedByStatus = useMemo(() => {
@@ -44,8 +46,12 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
       .filter(grade => grade.status === "EXPEDIDA")
       .map(grade => grade.id);
     setExpedidasIds(ids);
-    const romanExpeds = expedicaoData.filter(grade => grade.status === "EXPEDIDA");
+    const romanExpeds = expedicaoData.filter(grade => grade.status === "EXPEDIDA" || "DESPACHADA");
     setGradesRoman(romanExpeds);
+    const pedRepo = expedicaoData.filter(grade => grade.tipo);
+    setReposicoes(pedRepo);
+    const pedValid = expedicaoData.filter(grade => !grade.tipo);
+    setPedidosValidos(pedValid);
     const uniqueEscolas = Array.from(new Set(expedicaoData.map(grade => grade.escola)));
     setEscolasUnicas(uniqueEscolas);
   }, [expedicaoData]);
@@ -203,7 +209,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
         <div className="flex items-center justify-center  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
           <div className='flex gap-x-10 items-center justify-start w-[70%]'>
             <p>Previstos:<span className='text-purple-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
-            <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+            <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+            <p>Reposições:<span className='text-slate-300 text-2xl pl-5'>{reposicoes.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
             <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
             <p>Grades:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.length}</span></p>
             <p>Escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
@@ -214,7 +221,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
           </div>
           <div className='flex gap-x-6 items-center justify-end w-[30%]'>
             <div>
-              {expedidasIds.length > 0 && (
+              {expedicaoData && (
                 <RomaneiosAll romaneios={gradesRoman} />
               )}
             </div>
