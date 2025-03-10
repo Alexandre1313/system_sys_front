@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
-import { AlertTriangle } from 'react-feather';
 import { alterarPDespachadas } from '@/hooks_api/api';
+import { motion } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
+import { AlertTriangle } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
-import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
 import PageExcelRelatorioF from '../componentesDePrint/PageExcelRelatorioF';
 import PageExcelSimple from '../componentesDePrint/PageExcelSimple';
+import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 
 interface GradeFilterProps {
   expedicaoData: GradesRomaneio[];
@@ -65,7 +65,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
   }
 
   function calcularPorcentagem(parte: number, total: number): string {
-    if (total === 0) return `${(0).toFixed(2)} %`.replace('.', ','); 
+    if (total === 0) return `${(0).toFixed(2)} %`.replace('.', ',');
     return `${((parte / total) * 100).toFixed(2)} %`.replace('.', ',');
   }
 
@@ -148,7 +148,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                   className={`mb-6 p-4 border ${statusBorders[status] || 'border-gray-400'} rounded-md ${statusBackgrounds[status]} border-opacity-40`}
                 >
                   <h3 className="text-2xl font-semibold text-teal-700 uppercase">
-                    {`PROJETO: ${grade.projectname} - ${grade.company} - GRADE ID: `}<span className="text-cyan-500 pl-3 pr-3 font-normal text-2xl">{grade.id}</span>                  
+                    {`PROJETO: ${grade.projectname} - ${grade.company} - GRADE ID: `}<span className="text-cyan-500 pl-3 pr-3 font-normal text-2xl">{grade.id}</span>
                     <span className="text-yellow-500 pl-3 font-normal text-2xl">{`Última atualização: ${grade.update}`}</span>
                   </h3>
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola} (Nº {grade.numeroEscola})</p>
@@ -158,19 +158,22 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                     <table className="w-full text-zinc-400 border-collapse">
                       <thead>
                         <tr className={`border-b ${statusBorders[status]} border-opacity-30`}>
-                          <th className="py-2 px-4 text-left uppercase w-[20%]">Item</th>
-                          <th className="py-2 px-4 text-left uppercase w-[20%]">Gênero</th>
-                          <th className="py-2 px-4 text-left uppercase w-[20%]">Tamanho</th>
-                          <th className="py-2 px-4 text-left uppercase w-[20%]">Previsto</th>
-                          <th className="py-2 px-4 text-left uppercase w-[20%]">Expedido</th>
+                          <th className="py-2 px-4 text-left uppercase w-[17%]">Item</th>
+                          <th className="py-2 px-4 text-left uppercase w-[19%]">Gênero</th>
+                          <th className="py-2 px-4 text-left uppercase w-[16%]">Tamanho</th>
+                          <th className="py-2 px-4 text-left uppercase w-[16%]">À expedir</th>
+                          <th className="py-2 px-4 text-left uppercase w-[16%]">Previsto</th>
+                          <th className="py-2 px-4 text-left uppercase w-[16%]">Expedido</th>
                         </tr>
                       </thead>
                       <tbody>
                         {grade.tamanhosQuantidades.map((item, index) => (
-                          <tr key={index} className={`border-b ${statusBorders[status]} border-opacity-30`}>
+                          <tr key={index} className={`border-b ${statusBorders[status]} border-opacity-60
+                          ${item.previsto > item.quantidade ? 'bg-zinc-400 bg-opacity-[0.07]' : ''}`}>
                             <td className="py-2 px-4 uppercase text-left">{item.item}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.genero}</td>
                             <td className="py-2 px-4 uppercase text-left">{item.tamanho}</td>
+                            <td className="py-2 px-4 uppercase text-cyan-500 text-left">{item.previsto - item.quantidade}</td>
                             <td className="py-2 px-4 uppercase text-purple-500 text-left">{item.previsto}</td>
                             <td className="py-2 px-4 uppercase text-green-500 text-left">{item.quantidade}</td>
                           </tr>
@@ -178,23 +181,64 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                       </tbody>
                     </table>
                   </div>
-                  <p className="text-teal-400 mt-4 uppercase">
-                    Total de itens previstos para a escola: <span className="text-purple-500 pl-3 font-normal text-xl">{totalPrevisto}</span>
-                  </p>
-                  <p className="text-teal-400 uppercase">
-                    Total de itens expedidos para a escola: <span className="text-green-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
-                  </p>
-                  <p className="text-teal-400 uppercase">
-                    Total de volumes para a escola: <span className="text-red-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
-                  </p>
-                  <p className="text-teal-400 uppercase">
-                    <span className="text-yellow-300 pr-3 font-normal text-xl">{calcularPorcentagem(totalQuantidade, totalPrevisto)}</span> concluído
-                  </p>
+                  <div className={`flex w-full flex-col items-start justify-center`}>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[17%]`}>
+                        <p className="text-teal-400 mt-4 uppercase">
+                          Total de itens previstos para a escola:
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-purple-500 mt-4 pl-3 font-normal text-xl">{totalPrevisto}</span>
+                      </div>
+                    </div>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[17%]`}>
+                        <p className="text-teal-400 uppercase">
+                          Total de itens à expedir para a escola:
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-cyan-500 pl-3 font-normal text-xl">{totalPrevisto - totalQuantidade}</span>
+                      </div>
+                    </div>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[17%]`}>
+                        <p className="text-teal-400 uppercase">
+                          Total de itens expedidos para a escola:
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-green-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
+                      </div>
+                    </div>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[17%]`}>
+                        <p className="text-teal-400 uppercase">
+                          Total de volumes para a escola:
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-red-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
+                      </div>
+                    </div>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[17%]`}>
+                        <p className="text-teal-400 uppercase">
+                          concluído
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-yellow-300 pl-3 font-normal text-xl">{calcularPorcentagem(totalQuantidade, totalPrevisto)}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               );
             })}
             <div className="text-right text-teal-500 font-normal uppercase">
               <p className="text-lg">Total de itens previstos do grupo: <span className="text-purple-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
+              <p className="text-lg">Total de itens à expedir do grupo: <span className="text-cyan-500 pl-3 font-normal text-xl">{totalItensPrev - totalItens}</span></p>
               <p className="text-lg">Total de itens expedidos do grupo: <span className="text-green-500 pl-3 font-normal text-xl">{totalItens}</span></p>
               <p className="text-lg">Total de volumes do grupo: <span className="text-red-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
             </div>
@@ -216,7 +260,7 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             <p>Escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
             <p>CONCLUÍDO<span className='text-yellow-300 text-2xl pl-5'>
               {calcularPorcentagem(expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0),
-               expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0))}</span>
+                expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0))}</span>
             </p>
           </div>
           <div className='flex gap-x-6 items-center justify-end w-[30%]'>
