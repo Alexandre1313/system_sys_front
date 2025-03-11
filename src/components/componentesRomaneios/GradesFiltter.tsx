@@ -80,14 +80,14 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
         setAjustStatus(false);
         setExpedidasIds([]);
         clearTimeout(timeout);
-      }, 3500);
+      }, 1000);
       return
     }
     setMessage(`ERRO AO MUDAR STATUS DAS GRADES`);
     const timeout = setTimeout(() => {
       setMessage(`TENTE NOVAMENTE`);
       clearTimeout(timeout);
-    }, 1500);
+    }, 1000);
     return
   }
 
@@ -183,53 +183,53 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
                   </div>
                   <div className={`flex w-full flex-col items-start justify-center`}>
                     <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[17%]`}>
-                        <p className="text-teal-400 mt-4 uppercase">
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
+                        <p className="text-teal-400 mt-10 uppercase">
                           Total de itens previstos para a escola:
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-purple-500 mt-4 pl-3 font-normal text-xl">{totalPrevisto}</span>
+                        <span className="text-purple-500 mt-10 pl-3 font-normal text-xl pb-3">{totalPrevisto}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[17%]`}>
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
                         <p className="text-teal-400 uppercase">
                           Total de itens à expedir para a escola:
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-cyan-500 pl-3 font-normal text-xl">{totalPrevisto - totalQuantidade}</span>
+                        <span className="text-cyan-500 pl-3 font-normal text-xl pb-3">{totalPrevisto - totalQuantidade}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[17%]`}>
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
                         <p className="text-teal-400 uppercase">
                           Total de itens expedidos para a escola:
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-green-500 pl-3 font-normal text-xl">{totalQuantidade}</span>
+                        <span className="text-green-500 pl-3 font-normal text-xl pb-3">{totalQuantidade}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[17%]`}>
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
                         <p className="text-teal-400 uppercase">
                           Total de volumes para a escola:
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-red-500 pl-3 font-normal text-xl">{grade.caixas.length}</span>
+                        <span className="text-red-500 pl-3 font-normal text-xl pb-3">{grade.caixas.length}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[17%]`}>
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
                         <p className="text-teal-400 uppercase">
                           concluído
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-yellow-300 pl-3 font-normal text-xl">{calcularPorcentagem(totalQuantidade, totalPrevisto)}</span>
+                        <span className="text-yellow-300 pl-3 font-normal text-xl pb-3">{calcularPorcentagem(totalQuantidade, totalPrevisto)}</span>
                       </div>
                     </div>
                   </div>
