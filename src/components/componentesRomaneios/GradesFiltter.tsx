@@ -9,6 +9,7 @@ import PageExcelSimple from '../componentesDePrint/PageExcelSimple';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 
 interface GradeFilterProps {
+  stat: string;
   expedicaoData: GradesRomaneio[];
   setDesp: (status: string) => void;
 }
@@ -23,7 +24,7 @@ const fetcherAlterStatus = async (ids: number[]): Promise<number[] | null> => {
   }
 };
 
-export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProps) {
+export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilterProps) {
 
   const [expedidasIds, setExpedidasIds] = useState<number[]>([]);
   const [gradesRoman, setGradesRoman] = useState<GradesRomaneio[]>([]);
@@ -31,6 +32,8 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
   const [ajustStatus, setAjustStatus] = useState(false);
   const [reposicoes, setReposicoes] = useState<GradesRomaneio[]>([]);
   const [pedidosValidos, setPedidosValidos] = useState<GradesRomaneio[]>([]);
+  const [escolasEntregues, setEscolasEntregues] = useState<string[]>([]);
+  const [escolasParaEnvio, setEscolasParaEnvio] = useState<string[]>([]);
   const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
 
   const groupedByStatus = useMemo(() => {
@@ -52,6 +55,12 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
     setReposicoes(pedRepo);
     const pedValid = expedicaoData.filter(grade => !grade.tipo);
     setPedidosValidos(pedValid);
+    const escolasParaEnvio = expedicaoData.filter(grade => grade.status === 'EXPEDIDA' && !grade.tipo);
+    const escPEnvio = Array.from(new Set(escolasParaEnvio.map(grade => grade.escola)));
+    setEscolasParaEnvio(escPEnvio);
+    const escolasAtendidas = expedicaoData.filter(grade => grade.status === 'DESPACHADA' && !grade.tipo);
+    const escAtendidas = Array.from(new Set(escolasAtendidas.map(grade => grade.escola)));
+    setEscolasEntregues(escAtendidas);
     const uniqueEscolas = Array.from(new Set(expedicaoData.map(grade => grade.escola)));
     setEscolasUnicas(uniqueEscolas);
   }, [expedicaoData]);
@@ -255,12 +264,18 @@ export default function GradesFilter({ expedicaoData, setDesp }: GradeFilterProp
             <p>Previstos com reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
             <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
             <p>Reposições:<span className='text-slate-300 text-2xl pl-5'>{reposicoes.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-            <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>           
+            <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+            {stat === 'TODAS' && (
+              <>
+                <p>Escolas atendidas:<span className='text-emerald-500 text-2xl pl-5'>{escolasEntregues.length}</span></p>
+                <p>Escolas prontas para envio:<span className='text-blue-500 text-2xl pl-5'>{escolasParaEnvio.length}</span></p>
+              </>
+            )}
           </div>
         </div>
         <div className="flex items-center justify-center  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
           <div className='flex gap-x-10 items-center justify-start w-[70%]'>
-            <p>Previstos sem reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>           
+            <p>Previstos sem reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
             <p>Grades:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.length}</span></p>
             <p>Escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
             <p>CONCLUÍDO<span className='text-yellow-300 text-2xl pl-5'>

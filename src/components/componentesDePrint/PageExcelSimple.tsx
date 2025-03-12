@@ -108,20 +108,7 @@ export default function PageExcelSimple({ expedicaoData }: PageExcelSimpleProps)
         bottom: { style: "thin", color: { argb: "000000" } },
         right: { style: "thin", color: { argb: "000000" } },
       },
-    };
-
-    worksheet.addRow(["COMPANHIA", "GRADEID", "", "", "", "", "", ""]).eachCell((cell) => {
-      Object.assign(cell, headerStyle);
-    });
-
-    worksheet.addRow([expedicaoData[0]?.company || "", expedicaoData[0]?.id || "", "", "", "", "", "", ""]).eachCell((cell) => {
-      Object.assign(cell, generalStyle);
-    });
-
-    worksheet.mergeCells("A1:A2");
-    worksheet.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
-
-    worksheet.addRow([]);
+    };   
 
     const genderSizes: { [key: string]: Set<string> } = {};
 

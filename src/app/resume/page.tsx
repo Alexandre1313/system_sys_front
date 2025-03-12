@@ -123,7 +123,7 @@ export default function ConsultaStatusGrades() {
               <IsLoading />
             </div>
           ) : data?.length ? (
-            <GradesFilter expedicaoData={data} setDesp={setStatus}/>
+            <GradesFilter stat={status} expedicaoData={data} setDesp={setStatus}/>
           ) : (
             <div className="flex items-center justify-center w-full h-[82vh]">
               <p className="text-lg text-blue-500">NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
