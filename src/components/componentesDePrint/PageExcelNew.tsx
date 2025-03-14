@@ -279,8 +279,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         });
 
         let totalVolumes = 0;
-        let totalGeral = 0;
-        let totcol = 0;
+        let totalGeral = 0;        
 
         const totalSizes: { [key: string]: number } = {};
 
