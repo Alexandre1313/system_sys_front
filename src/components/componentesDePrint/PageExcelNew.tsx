@@ -260,8 +260,10 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
             } else if (colNumber <= headerRow.cellCount) {
                 Object.assign(cell, generalStyle); // Estilo para as colunas de tamanhos
-            } else if (colNumber === headerRow.cellCount - 1) {
+            } else if (colNumber === headerRow.cellCount - 2) {
                 Object.assign(cell, generalStyle); // Estilo para a coluna "TOTAL"
+            } else if (colNumber === headerRow.cellCount - 1) {
+                Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
             } else if (colNumber === headerRow.cellCount) {
                 Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
             }
@@ -375,7 +377,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 if (colNumber === 4) {
                     Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                 }
-                if (colNumber === headerRow.cellCount - 1) {
+                if (colNumber === headerRow.cellCount - 2) {
                     Object.assign(cell, volumeTotalStyle); // Estilo para "TOTAL"
                 }
                 if (colNumber === headerRow.cellCount - 2) {
