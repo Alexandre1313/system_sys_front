@@ -7,6 +7,7 @@ import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
 import PageExcelRelatorioF from '../componentesDePrint/PageExcelRelatorioF';
 import PageExcelSimple from '../componentesDePrint/PageExcelSimple';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
+import PageExcelNew from '../componentesDePrint/PageExcelNew';
 
 interface GradeFilterProps {
   stat: string;
@@ -292,6 +293,11 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
             <div>
               {expedicaoData && (
                 <PageExcelRelatorioF expedicaoData={expedicaoData} />
+              )}
+            </div>
+            <div>
+              {expedicaoData && (
+                <PageExcelNew expedicaoDataB={expedicaoData} />
               )}
             </div>
             <div>

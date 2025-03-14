@@ -13,31 +13,7 @@ export default function PageExcelSimple({ expedicaoData }: PageExcelSimpleProps)
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("EXPEDIÇÃO");
 
-    // Estilos para colunas específicas
-    const headerStyle = {
-      font: { bold: true, color: { argb: "FFFFFF" } },
-      fill: { type: "pattern", pattern: "solid", fgColor: { argb: "1b1a1e" } },
-      alignment: { horizontal: "center", vertical: "middle", wrapText: true },
-      border: {
-        top: { style: "thin", color: { argb: "000000" } },
-        left: { style: "thin", color: { argb: "000000" } },
-        bottom: { style: "thin", color: { argb: "000000" } },
-        right: { style: "thin", color: { argb: "000000" } },
-      },
-    };
-
-    const generalStyle = {
-      font: { color: { argb: "818181" } },
-      fill: { type: "pattern", pattern: "solid", fgColor: { argb: "1f1f1f" } },
-      alignment: { horizontal: "center", vertical: "middle", wrapText: true },
-      border: {
-        top: { style: "thin", color: { argb: "000000" } },
-        left: { style: "thin", color: { argb: "000000" } },
-        bottom: { style: "thin", color: { argb: "000000" } },
-        right: { style: "thin", color: { argb: "000000" } },
-      },
-    };
-
+    // Estilos para colunas específicas  
     const totalStyle = {
       font: { bold: true, color: { argb: "FFFFFF" }, size: 14 },
       fill: { type: "pattern", pattern: "solid", fgColor: { argb: "4c4c4c" } },
