@@ -3,7 +3,6 @@ import { saveAs } from "file-saver";
 import { GradesRomaneio } from "../../../core";
 import { Download } from "react-feather";
 import { convertSPTime } from "../../../core/utils/tools";
-import GradeRomaneio from "../componentesRomaneios/GradeRomaneio";
 
 export interface PageEntExcelProps {
     expedicaoDataB: GradesRomaneio[];
