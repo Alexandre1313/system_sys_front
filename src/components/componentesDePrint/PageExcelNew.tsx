@@ -56,11 +56,34 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         });
     };
 
-    const expedicaoDataFilterNormal = expedicaoDataB.filter((grade) => !grade.tipo);
-    const expedicaoData = ordenarGrades(expedicaoDataFilterNormal);
+    function mergeSchools(schoolsArray: GradesRomaneio[]) {
+        const mergedSchools: GradesRomaneio[] = [];
+    
+        schoolsArray.forEach(school => {
+            const existingSchool = mergedSchools.find(item => item.numeroEscola === school.numeroEscola);
+    
+            if (existingSchool) {
+                // Mescla os arrays de "caixas" e "tamanhosQuantidades"
+                existingSchool.caixas = [...existingSchool.caixas, ...school.caixas];
+                existingSchool.tamanhosQuantidades = [
+                    ...existingSchool.tamanhosQuantidades,
+                    ...school.tamanhosQuantidades
+                ];
+            } else {
+                // Se a escola não existir no mergedSchools, adiciona ela ao array
+                mergedSchools.push({ ...school });
+            }
+        });    
+        return mergedSchools;
+    }
 
-    const expedicaoDataFilterRepo = expedicaoDataB.filter((grade) => grade.tipo);
-    const expedicaoDataRepo = ordenarGrades(expedicaoDataFilterRepo);    
+    const expedicaoDataFilterNormal = expedicaoDataB.filter((grade) => !grade.tipo);
+    const mergeSchols = mergeSchools(expedicaoDataFilterNormal);
+    const expedicaoData = ordenarGrades(mergeSchols);
+
+    const expedicaoDataFilterRepo = expedicaoDataB.filter((grade) => grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" );
+    const mergeSchols2 = mergeSchools(expedicaoDataFilterRepo);
+    const expedicaoDataRepo = ordenarGrades(mergeSchols2);    
 
     const generateExcel = async () => {
         const workbook = new ExcelJS.Workbook();
@@ -240,7 +263,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             "", // Coluna vazia inicial
             "ESCOLA", // Coluna "ESCOLA"
             "FATURADO POR", // Coluna "FATURADO POR"
-            "SAÌDA",
+            "TÉRMINO EM",
             ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                 ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
                 `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
@@ -447,17 +470,17 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
         // Ajustando a largura das colunas
         worksheet.columns = [
-            { width: 3 }, // Coluna vazia inicial
+            { width: 2 }, // Coluna vazia inicial
             { width: 47 }, // Coluna "ESCOLA"
-            { width: 27 }, // Coluna "FATURADO POR"
-            { width: 20 }, // Coluna "SAÌDA"
+            { width: 30 }, // Coluna "FATURADO POR"
+            { width: 17 }, // Coluna "SAÌDA"
             ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                ...sortedItemGenderSizes[key].map(() => ({ width: 15 })), // Tamanhos
-                { width: 13 }, // Total por item + gênero
+                ...sortedItemGenderSizes[key].map(() => ({ width: 11 })), // Tamanhos
+                { width: 18 }, // Total por item + gênero
             ]),
             { width: 15 }, // Total geral
             { width: 15 }, // Total volumes
-            { width: 3 }, // Total volumes
+            { width: 2 }, // Total volumes
         ];
 
         if(expedicaoDataRepo.length > 0){
@@ -493,7 +516,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 "", // Coluna vazia inicial
                 "ESCOLA", // Coluna "ESCOLA"
                 "REPOSIÇÕES POR", // Coluna "FATURADO POR"
-                "SAÌDA",
+                "TÉRMINO EM",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                     ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
                     `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
@@ -701,17 +724,17 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
     
             // Ajustando a largura das colunas
             worksheetr.columns = [
-                { width: 3 }, // Coluna vazia inicial
+                { width: 2 }, // Coluna vazia inicial
                 { width: 47 }, // Coluna "ESCOLA"
-                { width: 27 }, // Coluna "FATURADO POR"
-                { width: 20 }, // Coluna "SAÌDA"
+                { width: 30 }, // Coluna "FATURADO POR"
+                { width: 17 }, // Coluna "SAÌDA"
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                    ...sortedItemGenderSizes[key].map(() => ({ width: 15 })), // Tamanhos
-                    { width: 13 }, // Total por item + gênero
+                    ...sortedItemGenderSizes[key].map(() => ({ width: 11 })), // Tamanhos
+                    { width: 18 }, // Total por item + gênero
                 ]),
                 { width: 15 }, // Total geral
                 { width: 15 }, // Total volumes
-                { width: 3 }, // Total volumes
+                { width: 2 }, // Total volumes
             ];
         }
 
