@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
 import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
-import PageExcelRelatorioF from '../componentesDePrint/PageExcelRelatorioF';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 import PageExcelNew from '../componentesDePrint/PageExcelNew';
 import PageEntExcel from '../componentesDePrint/PageEntExcel';
+import PageExcelNewfaltas from '../componentesDePrint/PageExcelNewfaltas';
 
 interface GradeFilterProps {
   stat: string;
@@ -292,7 +292,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
             </div>
             <div>
               {expedicaoData && (
-                <PageExcelRelatorioF expedicaoData={expedicaoData} />
+                <PageExcelNewfaltas expedicaoDataB={expedicaoData} />
               )}
             </div>
             <div>
