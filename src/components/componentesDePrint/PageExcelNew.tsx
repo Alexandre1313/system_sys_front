@@ -27,30 +27,30 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
     const formatarData = (data: string | undefined): string => {
         if (!data) return "N/A"; // Caso não tenha data, retorna "N/A"
-    
+
         // Regex para capturar datas no formato dd/mm/yyyy hh:mm:ss
         const regex = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})$/;
         const match = data.match(regex);
-    
+
         if (!match) return "N/A"; // Se a data não tem o formato esperado, retorna "N/A"
-    
+
         // Desestrutura a data capturada pela regex (não precisamos do primeiro valor)
         const [, dia, mes, ano] = match;
-    
+
         // Retorna a data no formato dd/mm/yyyy (sem as horas)
         return `${dia}/${mes}/${ano}`;
-    };    
+    };
 
     const ordenarGrades = (grades: GradesRomaneio[]): GradesRomaneio[] => {
         return grades.sort((a, b) => {
             // Converte as datas de 'a' e 'b' para objetos Date, ignorando a hora
             const dateA = new Date(a.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada
             const dateB = new Date(b.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada
-    
+
             // Comparação das datas
             if (dateA > dateB) return -1; // Mais recente primeiro
             if (dateA < dateB) return 1;  // Mais antiga primeiro
-    
+
             // Se as datas forem iguais, ordenar por nome da escola
             return a.escola.localeCompare(b.escola);
         });
@@ -58,10 +58,10 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
     function mergeSchools(schoolsArray: GradesRomaneio[]) {
         const mergedSchools: GradesRomaneio[] = [];
-    
+
         schoolsArray.forEach(school => {
             const existingSchool = mergedSchools.find(item => item.numeroEscola === school.numeroEscola);
-    
+
             if (existingSchool) {
                 // Mescla os arrays de "caixas" e "tamanhosQuantidades"
                 existingSchool.caixas = [...existingSchool.caixas, ...school.caixas];
@@ -73,7 +73,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 // Se a escola não existir no mergedSchools, adiciona ela ao array
                 mergedSchools.push({ ...school });
             }
-        });    
+        });
         return mergedSchools;
     }
 
@@ -81,13 +81,12 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
     const mergeSchols = mergeSchools(expedicaoDataFilterNormal);
     const expedicaoData = ordenarGrades(mergeSchols);
 
-    const expedicaoDataFilterRepo = expedicaoDataB.filter((grade) => grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" );
+    const expedicaoDataFilterRepo = expedicaoDataB.filter((grade) => grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO");
     const mergeSchols2 = mergeSchools(expedicaoDataFilterRepo);
-    const expedicaoDataRepo = ordenarGrades(mergeSchols2);    
+    const expedicaoDataRepo = ordenarGrades(mergeSchols2);
 
     const generateExcel = async () => {
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet("EXPEDIÇÃO");
 
         // Estilos para colunas específicas
         const totalVolumes2 = {
@@ -233,289 +232,39 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             },
         };
 
-        const itemGenderSizes: { [key: string]: Set<string> } = {};
-
-        expedicaoData.forEach((grade) => {
-            grade?.tamanhosQuantidades?.forEach((item) => {
-                if (item.item && item.genero) {
-                    // Criando uma chave composta (item + genero)
-                    const key = `${item.item}_${item.genero}`;
-
-                    // Se ainda não existir a chave para essa combinação, cria um Set vazio
-                    if (!itemGenderSizes[key]) {
-                        itemGenderSizes[key] = new Set<string>();
-                    }
-
-                    // Adicionando o tamanho ao Set correspondente
-                    itemGenderSizes[key].add(item.tamanho);
-                }
-            });
-        });
-
-        const sortedItemGenderSizes: { [key: string]: string[] } = {};
-
-        Object.keys(itemGenderSizes).forEach((key) => {
-            // Use a função ordenarTamanhos para garantir a ordem correta
-            sortedItemGenderSizes[key] = ordenarTamanhos(Array.from(itemGenderSizes[key]));
-        });
-
-        const headerRow = worksheet.addRow([
-            "", // Coluna vazia inicial
-            "UNIDADE ESCOLAR", // Coluna "ESCOLA"
-            "FATURADO POR", // Coluna "FATURADO POR"
-            "TÉRMINO EM",
-            ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
-                `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
-            ]),
-            "TOTAL", // Coluna para o total geral por escola
-            "TOTAL VOLUMES", // Coluna para o total de volumes
-            "",
-        ]);
-
-        // Aplicando os estilos nas células do cabeçalho
-        headerRow.eachCell((cell, colNumber) => {
-            const cellValue = cell.value?.toString().toUpperCase() || '';
-
-            if (colNumber === 1) {
-                Object.assign(cell, generalStyle); // Estilo para a primeira coluna (vazia ou "ESCOLA")
-            } else if (colNumber === 2) {
-                Object.assign(cell, generalStyle); // Estilo para "ESCOLA"
-            } else if (colNumber === 3) {
-                Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
-            } else if (colNumber === 4) {
-                Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
-            } else if (colNumber <= headerRow.cellCount) {
-                Object.assign(cell, generalStyle); // Estilo para as colunas de tamanhos
-            } else if (colNumber === headerRow.cellCount - 2) {
-                Object.assign(cell, generalStyle); // Estilo para a coluna "TOTAL"
-            } else if (colNumber === headerRow.cellCount - 1) {
-                Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
-            } else if (colNumber === headerRow.cellCount) {
-                Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
-            }
-
-            if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
-                Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
-            }
-
-        });
-
-        let totalVolumes = 0;
-        let totalGeral = 0;        
-
-        const totalSizes: { [key: string]: number } = {};
-
-        // Inicializando o totalSizes para cada combinação de item + gênero + tamanho
-        Object.keys(sortedItemGenderSizes).forEach((key) => {
-            sortedItemGenderSizes[key].forEach((size) => {
-                totalSizes[`${key}_${size}`] = 0;
-            });
-        });
-
-        expedicaoData.forEach((grade) => {
-            const sizeQuantities: { [key: string]: number } = {};
-
-            // Inicializando sizeQuantities para cada combinação de item + gênero + tamanho
-            Object.keys(sortedItemGenderSizes).forEach((key) => {
-                sortedItemGenderSizes[key].forEach((size) => {
-                    sizeQuantities[`${key}_${size}`] = 0;
-                });
-            });
-
-            const volumes = grade?.caixas?.length || 0;
-
-            // Contabilizando as quantidades de tamanhos (somando valores corretamente)
-            grade?.tamanhosQuantidades?.forEach((item) => {
-                const key = `${item.item}_${item.genero}`;  // Usando item + genero como chave
-                const sizeKey = `${key}_${item.tamanho}`;  // Tamanho dentro do item + genero
-                if (sizeQuantities.hasOwnProperty(sizeKey)) {
-                    sizeQuantities[sizeKey] += item.quantidade;
-                }
-            });
-
-            // Calculando os totais por escola
-            const totalForSchool = Object.values(sizeQuantities).reduce((acc, val) => acc + val, 0);
-
-            // Calculando os totais por item + gênero
-            Object.keys(sortedItemGenderSizes).reduce((acc, key) => {
-                const totalItemGenderSize = sortedItemGenderSizes[key].reduce(
-                    (accSize, size) => accSize + sizeQuantities[`${key}_${size}`],
-                    0
-                );
-                totalSizes[`${key}`] = totalItemGenderSize;
-                totalGeral += totalItemGenderSize;  // Somando ao total geral
-                return acc + totalItemGenderSize;
-            }, 0);
-
-            // Adicionando uma nova linha na planilha
-            const row = worksheet.addRow([
-                "", // Coluna vazia inicial
-                {
-                    richText: [
-                        { text: `${grade.escola} `, font: { color: { argb: "FFFFFF" } } }, // Estilo para a escola
-                        { text: `(${grade.numeroEscola})`, font: { color: { argb: "818181" } } } // Estilo para o número da escola
-                    ],
-                    alignment: { horizontal: 'left' } // Alinhamento à esquerda
-                }, // Coluna "ESCOLA"
-                grade?.company || "N/A", // Coluna "FATURADO POR" (se tiver a propriedade "faturadoPor")
-                formatarData(grade.update),
-                ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                    ...sortedItemGenderSizes[key].map((size) => sizeQuantities[`${key}_${size}`] || 0), // Tamanhos
-                    totalSizes[`${key}`] || 0, // Total por item + gênero
-                ]),
-                totalForSchool, // Total por escola
-                volumes, // Total de volumes
-                "",
-            ]);
-
-            // Aplicando estilos nas células da linha
-            row.eachCell((cell, colNumber) => {
-                const firstCellValue = worksheet.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-
-                // Estilo para as colunas de tamanhos, com alternância de cor
-                const isOddRow = row.number % 2 !== 0; // Verifica se a linha é ímpar                
-                if (isOddRow) {
-                    Object.assign(cell, volumeColumnStyleGrayLightest); // Azul Claro para linhas ímpares
-                }
-                if (!isOddRow) {
-                    Object.assign(cell, volumeColumnStyleGraySlightlyDarker); // Azul Escuro para linhas pares
-                }
-                if (Number(cell.value) > 0) {
-                    cell.style = {
-                        ...cell.style,
-                        fill: {
-                            type: 'pattern',
-                            pattern: 'solid',
-                            fgColor: { argb: 'B0C4DE' }, // Cor verde discreta (mais claro)
-                        },
-                    };
-                }
-
-                if (colNumber === 1) {
-                    Object.assign(cell, generalStyle); // Estilo para a coluna vazia inicial
-                }
-                if (colNumber === 2) {
-                    Object.assign(cell, schoolStyle); // Estilo para a coluna "ESCOLA"
-                }
-                if (colNumber === 3) {
-                    Object.assign(cell, totalStyle); // Estilo para a coluna "FATURADO POR"
-                }
-                if (colNumber === 4) {
-                    Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
-                }
-                if (colNumber === headerRow.cellCount - 2) {
-                    Object.assign(cell, volumeTotalStyle); // Estilo para "TOTAL"
-                }
-                if (colNumber === headerRow.cellCount - 3) {
-                    Object.assign(cell, genderTotalStyle); // Estilo para TOTAL GÊNERO
-                }
-
-                if (colNumber === headerRow.cellCount) {
-                    Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
-                }
-
-                // Aplicação do estilo específico para gêneros
-                if (firstCellValue.includes('FEMININO') || firstCellValue.includes('MASCULINO') || firstCellValue.includes('UNISSEX')) {
-                    Object.assign(cell, Number(cell.value) > 0 ? totalStyle2: totalStyle); // Estilo específico para linha com essas palavras
-                }
-
-                // Aplicação do estilo para volumes
-                if (firstCellValue.includes('VOLUMES')) {
-                    Object.assign(cell, totalVolumes2); // Estilo específico para linha com essas palavras
-                }
-            });
-
-            // Atualizando os totais de tamanho
-            Object.keys(sortedItemGenderSizes).forEach((key) => {
-                sortedItemGenderSizes[key].forEach((size) => {
-                    totalSizes[`${key}_${size}`] += sizeQuantities[`${key}_${size}`];
-                });
-            });
-            totalVolumes += volumes;
-        });
-
-        const totalRow = worksheet.addRow([
-            "", // Coluna vazia inicial
-            "TOTAL GERAL", // Título da linha
-            "==>",
-            "==>", // Coluna vazia para "FATURADO POR"
-            ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
-                // Filtrar chaves que contém o tamanho e somar os valores
-                //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
-                //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
-                return [
-                    ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0), // Totais de cada tamanho
-                    "", // Total por item + gênero (somando os tamanhos)
-                ];
-            }),
-            // Soma total geral (somente itens que possuem tamanho devem ser considerados)
-            /*Object.keys(totalSizes)
-                .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
-                .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
-            totalGeral,
-            totalVolumes, // Total de volumes
-            "",
-        ]);
-
-        // Aplicando o estilo de total
-        totalRow.eachCell((cell, colNumber) => {
-            const cellValue = worksheet.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-            Object.assign(cell, generalStyle2);
-
-            if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
-                Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
-            }
-        });
-
-        // Ajustando a largura das colunas
-        worksheet.columns = [
-            { width: 2 }, // Coluna vazia inicial
-            { width: 47 }, // Coluna "ESCOLA"
-            { width: 30 }, // Coluna "FATURADO POR"
-            { width: 17 }, // Coluna "SAÌDA"
-            ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                ...sortedItemGenderSizes[key].map(() => ({ width: 11 })), // Tamanhos
-                { width: 18 }, // Total por item + gênero
-            ]),
-            { width: 15 }, // Total geral
-            { width: 15 }, // Total volumes
-            { width: 2 }, // Total volumes
-        ];
-
-        if(expedicaoDataRepo.length > 0){
-            const worksheetr = workbook.addWorksheet("REPOSIÇÃO");           
+        if (expedicaoData.length > 0) {
+            const worksheet = workbook.addWorksheet("EXPEDIÇÃO");
 
             const itemGenderSizes: { [key: string]: Set<string> } = {};
 
-            expedicaoDataRepo.forEach((grade) => {
+            expedicaoData.forEach((grade) => {
                 grade?.tamanhosQuantidades?.forEach((item) => {
                     if (item.item && item.genero) {
                         // Criando uma chave composta (item + genero)
                         const key = `${item.item}_${item.genero}`;
-    
+
                         // Se ainda não existir a chave para essa combinação, cria um Set vazio
                         if (!itemGenderSizes[key]) {
                             itemGenderSizes[key] = new Set<string>();
                         }
-    
+
                         // Adicionando o tamanho ao Set correspondente
                         itemGenderSizes[key].add(item.tamanho);
                     }
                 });
             });
-    
+
             const sortedItemGenderSizes: { [key: string]: string[] } = {};
-    
+
             Object.keys(itemGenderSizes).forEach((key) => {
                 // Use a função ordenarTamanhos para garantir a ordem correta
                 sortedItemGenderSizes[key] = ordenarTamanhos(Array.from(itemGenderSizes[key]));
             });
-    
-            const headerRow = worksheetr.addRow([
+
+            const headerRow = worksheet.addRow([
                 "", // Coluna vazia inicial
                 "UNIDADE ESCOLAR", // Coluna "ESCOLA"
-                "REPOSIÇÕES POR", // Coluna "FATURADO POR"
+                "FATURADO POR", // Coluna "FATURADO POR"
                 "TÉRMINO EM",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                     ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
@@ -525,11 +274,11 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 "TOTAL VOLUMES", // Coluna para o total de volumes
                 "",
             ]);
-    
+
             // Aplicando os estilos nas células do cabeçalho
             headerRow.eachCell((cell, colNumber) => {
                 const cellValue = cell.value?.toString().toUpperCase() || '';
-    
+
                 if (colNumber === 1) {
                     Object.assign(cell, generalStyle); // Estilo para a primeira coluna (vazia ou "ESCOLA")
                 } else if (colNumber === 2) {
@@ -547,37 +296,37 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 } else if (colNumber === headerRow.cellCount) {
                     Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
                 }
-    
+
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
                 }
-    
+
             });
-    
+
             let totalVolumes = 0;
             let totalGeral = 0;
-    
+
             const totalSizes: { [key: string]: number } = {};
-    
+
             // Inicializando o totalSizes para cada combinação de item + gênero + tamanho
             Object.keys(sortedItemGenderSizes).forEach((key) => {
                 sortedItemGenderSizes[key].forEach((size) => {
                     totalSizes[`${key}_${size}`] = 0;
                 });
             });
-    
-            expedicaoDataRepo.forEach((grade) => {
+
+            expedicaoData.forEach((grade) => {
                 const sizeQuantities: { [key: string]: number } = {};
-    
+
                 // Inicializando sizeQuantities para cada combinação de item + gênero + tamanho
                 Object.keys(sortedItemGenderSizes).forEach((key) => {
                     sortedItemGenderSizes[key].forEach((size) => {
                         sizeQuantities[`${key}_${size}`] = 0;
                     });
                 });
-    
+
                 const volumes = grade?.caixas?.length || 0;
-    
+
                 // Contabilizando as quantidades de tamanhos (somando valores corretamente)
                 grade?.tamanhosQuantidades?.forEach((item) => {
                     const key = `${item.item}_${item.genero}`;  // Usando item + genero como chave
@@ -586,10 +335,10 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                         sizeQuantities[sizeKey] += item.quantidade;
                     }
                 });
-    
+
                 // Calculando os totais por escola
                 const totalForSchool = Object.values(sizeQuantities).reduce((acc, val) => acc + val, 0);
-    
+
                 // Calculando os totais por item + gênero
                 Object.keys(sortedItemGenderSizes).reduce((acc, key) => {
                     const totalItemGenderSize = sortedItemGenderSizes[key].reduce(
@@ -600,15 +349,14 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     totalGeral += totalItemGenderSize;  // Somando ao total geral
                     return acc + totalItemGenderSize;
                 }, 0);
-    
+
                 // Adicionando uma nova linha na planilha
-                const row = worksheetr.addRow([
+                const row = worksheet.addRow([
                     "", // Coluna vazia inicial
                     {
                         richText: [
                             { text: `${grade.escola} `, font: { color: { argb: "FFFFFF" } } }, // Estilo para a escola
-                            { text: `(${grade.numeroEscola}) `, font: { color: { argb: "818181" } } }, 
-                            { text: `(REPOSIÇÃO)`, font: { color: { argb: "FF0000" } } }, 
+                            { text: `(${grade.numeroEscola})`, font: { color: { argb: "818181" } } } // Estilo para o número da escola
                         ],
                         alignment: { horizontal: 'left' } // Alinhamento à esquerda
                     }, // Coluna "ESCOLA"
@@ -622,11 +370,11 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     volumes, // Total de volumes
                     "",
                 ]);
-    
+
                 // Aplicando estilos nas células da linha
                 row.eachCell((cell, colNumber) => {
-                    const firstCellValue = worksheetr.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-    
+                    const firstCellValue = worksheet.getCell(1, colNumber).value?.toString().toUpperCase() || '';
+
                     // Estilo para as colunas de tamanhos, com alternância de cor
                     const isOddRow = row.number % 2 !== 0; // Verifica se a linha é ímpar                
                     if (isOddRow) {
@@ -645,7 +393,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                             },
                         };
                     }
-    
+
                     if (colNumber === 1) {
                         Object.assign(cell, generalStyle); // Estilo para a coluna vazia inicial
                     }
@@ -664,22 +412,22 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     if (colNumber === headerRow.cellCount - 3) {
                         Object.assign(cell, genderTotalStyle); // Estilo para TOTAL GÊNERO
                     }
-    
+
                     if (colNumber === headerRow.cellCount) {
                         Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                     }
-    
+
                     // Aplicação do estilo específico para gêneros
                     if (firstCellValue.includes('FEMININO') || firstCellValue.includes('MASCULINO') || firstCellValue.includes('UNISSEX')) {
-                        Object.assign(cell, Number(cell.value) > 0 ? totalStyle2: totalStyle); // Estilo específico para linha com essas palavras
+                        Object.assign(cell, Number(cell.value) > 0 ? totalStyle2 : totalStyle); // Estilo específico para linha com essas palavras
                     }
-    
+
                     // Aplicação do estilo para volumes
                     if (firstCellValue.includes('VOLUMES')) {
                         Object.assign(cell, totalVolumes2); // Estilo específico para linha com essas palavras
                     }
                 });
-    
+
                 // Atualizando os totais de tamanho
                 Object.keys(sortedItemGenderSizes).forEach((key) => {
                     sortedItemGenderSizes[key].forEach((size) => {
@@ -688,7 +436,262 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 });
                 totalVolumes += volumes;
             });
-    
+
+            const totalRow = worksheet.addRow([
+                "", // Coluna vazia inicial
+                "TOTAL GERAL", // Título da linha
+                "==>",
+                "==>", // Coluna vazia para "FATURADO POR"
+                ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
+                    // Filtrar chaves que contém o tamanho e somar os valores
+                    //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
+                    //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
+                    return [
+                        ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0), // Totais de cada tamanho
+                        "", // Total por item + gênero (somando os tamanhos)
+                    ];
+                }),
+                // Soma total geral (somente itens que possuem tamanho devem ser considerados)
+                /*Object.keys(totalSizes)
+                    .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
+                    .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
+                totalGeral,
+                totalVolumes, // Total de volumes
+                "",
+            ]);
+
+            // Aplicando o estilo de total
+            totalRow.eachCell((cell, colNumber) => {
+                const cellValue = worksheet.getCell(1, colNumber).value?.toString().toUpperCase() || '';
+                Object.assign(cell, generalStyle2);
+
+                if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
+                    Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
+                }
+            });
+
+            // Ajustando a largura das colunas
+            worksheet.columns = [
+                { width: 2 }, // Coluna vazia inicial
+                { width: 47 }, // Coluna "ESCOLA"
+                { width: 30 }, // Coluna "FATURADO POR"
+                { width: 17 }, // Coluna "SAÌDA"
+                ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
+                    ...sortedItemGenderSizes[key].map(() => ({ width: 11 })), // Tamanhos
+                    { width: 18 }, // Total por item + gênero
+                ]),
+                { width: 15 }, // Total geral
+                { width: 15 }, // Total volumes
+                { width: 2 }, // Total volumes
+            ];
+        }
+
+        if (expedicaoDataRepo.length > 0) {
+            const worksheetr = workbook.addWorksheet("REPOSIÇÃO");
+
+            const itemGenderSizes: { [key: string]: Set<string> } = {};
+
+            expedicaoDataRepo.forEach((grade) => {
+                grade?.tamanhosQuantidades?.forEach((item) => {
+                    if (item.item && item.genero) {
+                        // Criando uma chave composta (item + genero)
+                        const key = `${item.item}_${item.genero}`;
+
+                        // Se ainda não existir a chave para essa combinação, cria um Set vazio
+                        if (!itemGenderSizes[key]) {
+                            itemGenderSizes[key] = new Set<string>();
+                        }
+
+                        // Adicionando o tamanho ao Set correspondente
+                        itemGenderSizes[key].add(item.tamanho);
+                    }
+                });
+            });
+
+            const sortedItemGenderSizes: { [key: string]: string[] } = {};
+
+            Object.keys(itemGenderSizes).forEach((key) => {
+                // Use a função ordenarTamanhos para garantir a ordem correta
+                sortedItemGenderSizes[key] = ordenarTamanhos(Array.from(itemGenderSizes[key]));
+            });
+
+            const headerRow = worksheetr.addRow([
+                "", // Coluna vazia inicial
+                "UNIDADE ESCOLAR", // Coluna "ESCOLA"
+                "REPOSIÇÕES POR", // Coluna "FATURADO POR"
+                "TÉRMINO EM",
+                ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
+                    ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
+                    `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
+                ]),
+                "TOTAL", // Coluna para o total geral por escola
+                "TOTAL VOLUMES", // Coluna para o total de volumes
+                "",
+            ]);
+
+            // Aplicando os estilos nas células do cabeçalho
+            headerRow.eachCell((cell, colNumber) => {
+                const cellValue = cell.value?.toString().toUpperCase() || '';
+
+                if (colNumber === 1) {
+                    Object.assign(cell, generalStyle); // Estilo para a primeira coluna (vazia ou "ESCOLA")
+                } else if (colNumber === 2) {
+                    Object.assign(cell, generalStyle); // Estilo para "ESCOLA"
+                } else if (colNumber === 3) {
+                    Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
+                } else if (colNumber === 4) {
+                    Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
+                } else if (colNumber <= headerRow.cellCount) {
+                    Object.assign(cell, generalStyle); // Estilo para as colunas de tamanhos
+                } else if (colNumber === headerRow.cellCount - 2) {
+                    Object.assign(cell, generalStyle); // Estilo para a coluna "TOTAL"
+                } else if (colNumber === headerRow.cellCount - 1) {
+                    Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
+                } else if (colNumber === headerRow.cellCount) {
+                    Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
+                }
+
+                if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
+                    Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
+                }
+
+            });
+
+            let totalVolumes = 0;
+            let totalGeral = 0;
+
+            const totalSizes: { [key: string]: number } = {};
+
+            // Inicializando o totalSizes para cada combinação de item + gênero + tamanho
+            Object.keys(sortedItemGenderSizes).forEach((key) => {
+                sortedItemGenderSizes[key].forEach((size) => {
+                    totalSizes[`${key}_${size}`] = 0;
+                });
+            });
+
+            expedicaoDataRepo.forEach((grade) => {
+                const sizeQuantities: { [key: string]: number } = {};
+
+                // Inicializando sizeQuantities para cada combinação de item + gênero + tamanho
+                Object.keys(sortedItemGenderSizes).forEach((key) => {
+                    sortedItemGenderSizes[key].forEach((size) => {
+                        sizeQuantities[`${key}_${size}`] = 0;
+                    });
+                });
+
+                const volumes = grade?.caixas?.length || 0;
+
+                // Contabilizando as quantidades de tamanhos (somando valores corretamente)
+                grade?.tamanhosQuantidades?.forEach((item) => {
+                    const key = `${item.item}_${item.genero}`;  // Usando item + genero como chave
+                    const sizeKey = `${key}_${item.tamanho}`;  // Tamanho dentro do item + genero
+                    if (sizeQuantities.hasOwnProperty(sizeKey)) {
+                        sizeQuantities[sizeKey] += item.quantidade;
+                    }
+                });
+
+                // Calculando os totais por escola
+                const totalForSchool = Object.values(sizeQuantities).reduce((acc, val) => acc + val, 0);
+
+                // Calculando os totais por item + gênero
+                Object.keys(sortedItemGenderSizes).reduce((acc, key) => {
+                    const totalItemGenderSize = sortedItemGenderSizes[key].reduce(
+                        (accSize, size) => accSize + sizeQuantities[`${key}_${size}`],
+                        0
+                    );
+                    totalSizes[`${key}`] = totalItemGenderSize;
+                    totalGeral += totalItemGenderSize;  // Somando ao total geral
+                    return acc + totalItemGenderSize;
+                }, 0);
+
+                // Adicionando uma nova linha na planilha
+                const row = worksheetr.addRow([
+                    "", // Coluna vazia inicial
+                    {
+                        richText: [
+                            { text: `${grade.escola} `, font: { color: { argb: "FFFFFF" } } }, // Estilo para a escola
+                            { text: `(${grade.numeroEscola}) `, font: { color: { argb: "818181" } } },
+                            { text: `(REPOSIÇÃO)`, font: { color: { argb: "FF0000" } } },
+                        ],
+                        alignment: { horizontal: 'left' } // Alinhamento à esquerda
+                    }, // Coluna "ESCOLA"
+                    grade?.company || "N/A", // Coluna "FATURADO POR" (se tiver a propriedade "faturadoPor")
+                    formatarData(grade.update),
+                    ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
+                        ...sortedItemGenderSizes[key].map((size) => sizeQuantities[`${key}_${size}`] || 0), // Tamanhos
+                        totalSizes[`${key}`] || 0, // Total por item + gênero
+                    ]),
+                    totalForSchool, // Total por escola
+                    volumes, // Total de volumes
+                    "",
+                ]);
+
+                // Aplicando estilos nas células da linha
+                row.eachCell((cell, colNumber) => {
+                    const firstCellValue = worksheetr.getCell(1, colNumber).value?.toString().toUpperCase() || '';
+
+                    // Estilo para as colunas de tamanhos, com alternância de cor
+                    const isOddRow = row.number % 2 !== 0; // Verifica se a linha é ímpar                
+                    if (isOddRow) {
+                        Object.assign(cell, volumeColumnStyleGrayLightest); // Azul Claro para linhas ímpares
+                    }
+                    if (!isOddRow) {
+                        Object.assign(cell, volumeColumnStyleGraySlightlyDarker); // Azul Escuro para linhas pares
+                    }
+                    if (Number(cell.value) > 0) {
+                        cell.style = {
+                            ...cell.style,
+                            fill: {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: 'B0C4DE' }, // Cor verde discreta (mais claro)
+                            },
+                        };
+                    }
+
+                    if (colNumber === 1) {
+                        Object.assign(cell, generalStyle); // Estilo para a coluna vazia inicial
+                    }
+                    if (colNumber === 2) {
+                        Object.assign(cell, schoolStyle); // Estilo para a coluna "ESCOLA"
+                    }
+                    if (colNumber === 3) {
+                        Object.assign(cell, totalStyle); // Estilo para a coluna "FATURADO POR"
+                    }
+                    if (colNumber === 4) {
+                        Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
+                    }
+                    if (colNumber === headerRow.cellCount - 2) {
+                        Object.assign(cell, volumeTotalStyle); // Estilo para "TOTAL"
+                    }
+                    if (colNumber === headerRow.cellCount - 3) {
+                        Object.assign(cell, genderTotalStyle); // Estilo para TOTAL GÊNERO
+                    }
+
+                    if (colNumber === headerRow.cellCount) {
+                        Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
+                    }
+
+                    // Aplicação do estilo específico para gêneros
+                    if (firstCellValue.includes('FEMININO') || firstCellValue.includes('MASCULINO') || firstCellValue.includes('UNISSEX')) {
+                        Object.assign(cell, Number(cell.value) > 0 ? totalStyle2 : totalStyle); // Estilo específico para linha com essas palavras
+                    }
+
+                    // Aplicação do estilo para volumes
+                    if (firstCellValue.includes('VOLUMES')) {
+                        Object.assign(cell, totalVolumes2); // Estilo específico para linha com essas palavras
+                    }
+                });
+
+                // Atualizando os totais de tamanho
+                Object.keys(sortedItemGenderSizes).forEach((key) => {
+                    sortedItemGenderSizes[key].forEach((size) => {
+                        totalSizes[`${key}_${size}`] += sizeQuantities[`${key}_${size}`];
+                    });
+                });
+                totalVolumes += volumes;
+            });
+
             const totalRow = worksheetr.addRow([
                 "", // Coluna vazia inicial
                 "TOTAL GERAL", // Título da linha
@@ -711,17 +714,17 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 totalVolumes, // Total de volumes
                 "",
             ]);
-    
+
             // Aplicando o estilo de total
             totalRow.eachCell((cell, colNumber) => {
                 const cellValue = worksheetr.getCell(1, colNumber).value?.toString().toUpperCase() || '';
                 Object.assign(cell, generalStyle2);
-    
+
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
                 }
             });
-    
+
             // Ajustando a largura das colunas
             worksheetr.columns = [
                 { width: 2 }, // Coluna vazia inicial
@@ -745,7 +748,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
             new Blob([buffer]),
-            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`: `RELATORIO_EXPEDICAO_REPOSICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`
+            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx` : `RELATORIO_EXPEDICAO_REPOSICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`
         );
     }
 

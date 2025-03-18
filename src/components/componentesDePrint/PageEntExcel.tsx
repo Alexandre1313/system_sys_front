@@ -56,9 +56,18 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
         });
     };
 
-    function mergeSchools(schoolsArray: GradesRomaneio[]) {
+    function mergeSchools(schoolsArray: GradesRomaneio[]): GradesRomaneio[] {
         const mergedSchools: GradesRomaneio[] = [];
 
+        // Verifica se há mais de uma escola distinta no array
+        const distinctSchools = [...new Set(schoolsArray.map(school => school.numeroEscola))];
+
+        // Se houver apenas uma escola distinta, retorne o array original
+        if (distinctSchools.length === 1) {
+            return schoolsArray;
+        }
+
+        // Caso contrário, realiza a mesclagem
         schoolsArray.forEach(school => {
             const existingSchool = mergedSchools.find(item => item.numeroEscola === school.numeroEscola);
 
@@ -74,6 +83,7 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
                 mergedSchools.push({ ...school });
             }
         });
+
         return mergedSchools;
     }
 
