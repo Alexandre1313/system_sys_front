@@ -261,7 +261,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
         const headerRow = worksheet.addRow([
             "", // Coluna vazia inicial
-            "ESCOLA", // Coluna "ESCOLA"
+            "UNIDADE ESCOLAR", // Coluna "ESCOLA"
             "FATURADO POR", // Coluna "FATURADO POR"
             "TÉRMINO EM",
             ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
@@ -514,7 +514,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
     
             const headerRow = worksheetr.addRow([
                 "", // Coluna vazia inicial
-                "ESCOLA", // Coluna "ESCOLA"
+                "UNIDADE ESCOLAR", // Coluna "ESCOLA"
                 "REPOSIÇÕES POR", // Coluna "FATURADO POR"
                 "TÉRMINO EM",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
@@ -745,7 +745,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
             new Blob([buffer]),
-            `RELATORIO_EXPEDICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`
+            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`: `RELATORIO_EXPEDICAO_REPOSICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`
         );
     }
 
