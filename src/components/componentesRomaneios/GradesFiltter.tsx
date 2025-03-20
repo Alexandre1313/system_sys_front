@@ -146,7 +146,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
           <div
             key={status}
             className={`mb-10 p-6 border ${statusBorders[status] || 'border-gray-600'} rounded-lg ${statusBackgrounds[status]}
-             border-opacity-40 mb-24`}
+             border-opacity-40 mb-48`}
           >
             <h2 className="text-3xl font-semibold text-yellow-700 mb-4 uppercase"><span className='text-cyan-500 text-3xl pl-5'>{`STATUS: ${status}`}</span></h2>
             {grades.map((grade) => {
@@ -311,7 +311,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
               )}
             </div>
             <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">
-              MUDAR STATUS
+              DESPACHAR
             </button>
           </div>
         </div>
