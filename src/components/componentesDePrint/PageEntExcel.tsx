@@ -59,27 +59,38 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
     function mergeSchools(schoolsArray: GradesRomaneio[]): GradesRomaneio[] {
         const mergedSchools: GradesRomaneio[] = [];
 
-        // Verifica se há mais de uma escola distinta no array
-        const distinctSchools = [...new Set(schoolsArray.map(school => school.numeroEscola))];
-
-        // Se houver apenas uma escola distinta, retorne o array original
-        if (distinctSchools.length === 1) {
-            return schoolsArray;
-        }
-
-        // Caso contrário, realiza a mesclagem
+        // Itera sobre todas as escolas
         schoolsArray.forEach(school => {
             const existingSchool = mergedSchools.find(item => item.numeroEscola === school.numeroEscola);
 
+            // Converte a data de 'existingSchool' e 'school' para objetos Date (sem considerar hora)
+            const dateExisting = existingSchool ? new Date(existingSchool.update.split(' ')[0].split('/').reverse().join('/')) : null;
+            const dateCurrent = new Date(school.update.split(' ')[0].split('/').reverse().join('/'));
+
+            // Verifica se a data é a mesma (ignora hora)
+            const isSameDate = dateExisting && dateExisting.getFullYear() === dateCurrent.getFullYear() &&
+                dateExisting.getMonth() === dateCurrent.getMonth() &&
+                dateExisting.getDate() === dateCurrent.getDate();
+
+            // Verifica se o tipo é "reposicao"
+           const isReposicao = school.tipo?.normalize("NFD").replace(/\p{M}/gu, "").trim().toUpperCase() === "REPOSICAO";
+
+            // Se a escola já existe no mergedSchools
             if (existingSchool) {
-                // Mescla os arrays de "caixas" e "tamanhosQuantidades"
-                existingSchool.caixas = [...existingSchool.caixas, ...school.caixas];
-                existingSchool.tamanhosQuantidades = [
-                    ...existingSchool.tamanhosQuantidades,
-                    ...school.tamanhosQuantidades
-                ];
+                // Se as datas são iguais e o tipo não for "reposicao", mescla as caixas e tamanhos
+                if (isSameDate && !isReposicao) {
+                    existingSchool.caixas = [...existingSchool.caixas, ...school.caixas];
+                    existingSchool.tamanhosQuantidades = [
+                        ...existingSchool.tamanhosQuantidades,
+                        ...school.tamanhosQuantidades
+                    ];
+                }
+                // Se as datas são diferentes ou o tipo for "reposicao", adiciona novamente no array
+                else if (!isSameDate || isReposicao) {
+                    mergedSchools.push({ ...school }); // Adiciona a escola novamente no array
+                }
             } else {
-                // Se a escola não existir no mergedSchools, adiciona ela ao array
+                // Se a escola ainda não foi encontrada no mergedSchools, adiciona ela
                 mergedSchools.push({ ...school });
             }
         });
@@ -394,7 +405,8 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
                     {
                         richText: [
                             { text: `${grade.escola} `, font: { color: { argb: "FFFFFF" } } }, // Estilo para a escola
-                            { text: `(${grade.numeroEscola})`, font: { color: { argb: "818181" } } } // Estilo para o número da escola
+                            { text: `(${grade.numeroEscola}) `, font: { color: { argb: "818181" } } },
+                            { text: `${!grade.tipo ? '': `(${grade.tipo})`}`, font: { color: { argb: "FF0000" } } }  // Estilo para o número da escola
                         ],
                         alignment: { horizontal: 'left' } // Alinhamento à esquerda
                     }, // Coluna "ESCOLA"
