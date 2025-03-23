@@ -27,41 +27,49 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
 
     const formatarData = (data: string | undefined): string => {
         if (!data) return "N/A"; // Caso não tenha data, retorna "N/A"
-    
+
         // Regex para capturar datas no formato dd/mm/yyyy hh:mm:ss
         const regex = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})$/;
         const match = data.match(regex);
-    
+
         if (!match) return "N/A"; // Se a data não tem o formato esperado, retorna "N/A"
-    
+
         // Desestrutura a data capturada pela regex (não precisamos do primeiro valor)
         const [, dia, mes, ano] = match;
-    
+
         // Retorna a data no formato dd/mm/yyyy (sem as horas)
         return `${dia}/${mes}/${ano}`;
-    };    
+    };
 
     const ordenarGrades = (grades: GradesRomaneio[]): GradesRomaneio[] => {
         return grades.sort((a, b) => {
-            // Converte as datas de 'a' e 'b' para objetos Date, ignorando a hora
-            const dateA = new Date(a.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada
-            const dateB = new Date(b.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada
-    
-            // Comparação das datas
-            if (dateA > dateB) return -1; // Mais recente primeiro
-            if (dateA < dateB) return 1;  // Mais antiga primeiro
-    
-            // Se as datas forem iguais, ordenar por nome da escola
-            return a.escola.localeCompare(b.escola);
+            // Calcula a soma das diferenças (quantidade - previsto) para todos os itens do array 'tamanhosQuantidades' de 'a'
+            const somaDiferencaA = a.tamanhosQuantidades.reduce((total, item) => total + (item.quantidade - item.previsto), 0);
+            // Calcula a soma das diferenças (quantidade - previsto) para todos os itens do array 'tamanhosQuantidades' de 'b'
+            const somaDiferencaB = b.tamanhosQuantidades.reduce((total, item) => total + (item.quantidade - item.previsto), 0);
+
+            // Primeiro, ordenar as escolas com diferença maior que zero
+            if (somaDiferencaA > 0 && somaDiferencaB <= 0) return 1; // 'a' vem antes de 'b' se 'a' tem diferença positiva e 'b' não
+            if (somaDiferencaA <= 0 && somaDiferencaB > 0) return -1;  // 'b' vem antes de 'a' se 'b' tem diferença positiva e 'a' não
+
+            // Se ambos têm diferença positiva ou ambos têm diferença igual a zero, ordenar pela soma da diferença (maior para menor)
+            if (somaDiferencaA > somaDiferencaB) return 1; // 'a' vem antes de 'b' se somaDiferencaA for maior
+            if (somaDiferencaA < somaDiferencaB) return -1;  // 'b' vem antes de 'a' se somaDiferencaB for maior
+
+            // Se a soma das diferenças for igual, ordenar pelo número da escola (de menor para maior)
+            const numeroEscolaA = parseInt(a.numeroEscola, 10);
+            const numeroEscolaB = parseInt(b.numeroEscola, 10);
+
+            return numeroEscolaA - numeroEscolaB;
         });
     };
 
     function mergeSchools(schoolsArray: GradesRomaneio[]) {
         const mergedSchools: GradesRomaneio[] = [];
-    
+
         schoolsArray.forEach(school => {
             const existingSchool = mergedSchools.find(item => item.numeroEscola === school.numeroEscola);
-    
+
             if (existingSchool) {
                 // Mescla os arrays de "caixas" e "tamanhosQuantidades"
                 existingSchool.caixas = [...existingSchool.caixas, ...school.caixas];
@@ -73,7 +81,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 // Se a escola não existir no mergedSchools, adiciona ela ao array
                 mergedSchools.push({ ...school });
             }
-        });    
+        });
         return mergedSchools;
     }
 
@@ -81,13 +89,13 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
     const mergeSchols = mergeSchools(expedicaoDataFilterNormal);
     const expedicaoData = ordenarGrades(mergeSchols);
 
-    const expedicaoDataFilterRepo = expedicaoDataB.filter((grade) => grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" );
+    const expedicaoDataFilterRepo = expedicaoDataB.filter((grade) => grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO");
     const mergeSchols2 = mergeSchools(expedicaoDataFilterRepo);
-    const expedicaoDataRepo = ordenarGrades(mergeSchols2);    
+    const expedicaoDataRepo = ordenarGrades(mergeSchols2);
 
     const generateExcel = async () => {
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet("EXPEDIÇÃO");
+        const worksheet = workbook.addWorksheet("EXPEDIÇÃO FALTAS");
 
         // Estilos para colunas específicas
         const totalVolumes2 = {
@@ -106,9 +114,9 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 wrapText: true
             },
             border: {
-                top: { style: "thin", color: { argb: "000000" } },
+                top: { style: "thin", color: { argb: "4F4F4F" } },
                 //left: { style: "thin", color: { argb: "000000" } },
-                bottom: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "4F4F4F" } },
                 //right: { style: "thin", color: { argb: "000000" } },
             },
         };
@@ -126,7 +134,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         };
 
         const generalStyle2 = {
-            font: { color: { argb: "A8D08D" }, size: 13 },
+            font: { color: { argb: "FFD700" }, size: 13 },
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
@@ -137,8 +145,8 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
             },
         };
 
-        const totalStyle2 = {
-            font: { bold: true, color: { argb: "A8D08D" } },
+        const totalStyle3 = {
+            font: { bold: true, color: { argb: "FFD700" } },
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "4c4c4c" } },
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
@@ -187,7 +195,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
 
         const volumeTotalStyle = {
             font: { bold: true, color: { argb: "FFFFFF" }, size: 12 },
-            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "f5a623" } },
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "B22222" } },
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
                 top: { style: "thin", color: { argb: "000000" } },
@@ -215,20 +223,20 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "F8F8F8" } }, // Cinza quase branco
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
-                top: { style: "thin", color: { argb: "000000" } },
+                top: { style: "thin", color: { argb: "F8F8F8" } },
                 //left: { style: "thin", color: { argb: "000000" } },
-                bottom: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "F8F8F8" } },
                 //right: { style: "thin", color: { argb: "000000" } },
             },
         };
 
         const volumeColumnStyleGraySlightlyDarker = {
-            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "DCDCDC" } }, // Cinza muito suave, mais escuro
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "EFEFEF" } }, // Cinza muito suave, mais escuro
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
-                top: { style: "thin", color: { argb: "000000" } },
+                top: { style: "thin", color: { argb: "EFEFEF" } },
                 //left: { style: "thin", color: { argb: "000000" } },
-                bottom: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "EFEFEF" } },
                 //right: { style: "thin", color: { argb: "000000" } },
             },
         };
@@ -261,15 +269,15 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
 
         const headerRow = worksheet.addRow([
             "", // Coluna vazia inicial
-            "ESCOLA", // Coluna "ESCOLA"
+            "UNIDADE ESCOLAR", // Coluna "ESCOLA"
             "FATURADO POR", // Coluna "FATURADO POR"
-            "TÉRMINO EM",
+            "ÚLTIMA ATUALIZAÇÃO",
             ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                 ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
-                `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
+                `FALTAS ${key.toUpperCase()}`, // Total por item + gênero
             ]),
-            "TOTAL", // Coluna para o total geral por escola
-            "TOTAL VOLUMES", // Coluna para o total de volumes
+            "TOTAL FALTANTE", // Coluna para o total geral por escola
+            "VOLUMES JÁ GERADOS", // Coluna para o total de volumes
             "",
         ]);
 
@@ -302,7 +310,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         });
 
         let totalVolumes = 0;
-        let totalGeral = 0;        
+        let totalGeral = 0;
 
         const totalSizes: { [key: string]: number } = {};
 
@@ -330,7 +338,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 const key = `${item.item}_${item.genero}`;  // Usando item + genero como chave
                 const sizeKey = `${key}_${item.tamanho}`;  // Tamanho dentro do item + genero
                 if (sizeQuantities.hasOwnProperty(sizeKey)) {
-                    sizeQuantities[sizeKey] += item.previsto;
+                    sizeQuantities[sizeKey] -= (item.previsto - item.quantidade);
                 }
             });
 
@@ -361,10 +369,10 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 grade?.company || "N/A", // Coluna "FATURADO POR" (se tiver a propriedade "faturadoPor")
                 formatarData(grade.update),
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                    ...sortedItemGenderSizes[key].map((size) => sizeQuantities[`${key}_${size}`] || 0), // Tamanhos
-                    totalSizes[`${key}`] || 0, // Total por item + gênero
+                    ...sortedItemGenderSizes[key].map((size) => Math.abs(sizeQuantities[`${key}_${size}`] || 0)), // Tamanhos
+                    Math.abs(totalSizes[`${key}`] || 0), // Total por item + gênero
                 ]),
-                totalForSchool, // Total por escola
+                Math.abs(totalForSchool), // Total por escola
                 volumes, // Total de volumes
                 "",
             ]);
@@ -381,7 +389,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 if (!isOddRow) {
                     Object.assign(cell, volumeColumnStyleGraySlightlyDarker); // Azul Escuro para linhas pares
                 }
-                if (Number(cell.value) > 0) {
+                if (Number(cell.value) < 0) {
                     cell.style = {
                         ...cell.style,
                         fill: {
@@ -391,7 +399,16 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                         },
                     };
                 }
-
+                if (Number(cell.value) > 0) {
+                    cell.style = {
+                        ...cell.style,
+                        fill: {
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: 'F4CCCC' }, // Cor verde discreta (mais claro)
+                        },
+                    };
+                }
                 if (colNumber === 1) {
                     Object.assign(cell, generalStyle); // Estilo para a coluna vazia inicial
                 }
@@ -417,7 +434,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
 
                 // Aplicação do estilo específico para gêneros
                 if (firstCellValue.includes('FEMININO') || firstCellValue.includes('MASCULINO') || firstCellValue.includes('UNISSEX')) {
-                    Object.assign(cell, Number(cell.value) > 0 ? totalStyle2: totalStyle); // Estilo específico para linha com essas palavras
+                    Object.assign(cell, Number(cell.value) > 0 ? totalStyle3 : totalStyle); // Estilo específico para linha com essas palavras
                 }
 
                 // Aplicação do estilo para volumes
@@ -437,7 +454,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
 
         const totalRow = worksheet.addRow([
             "", // Coluna vazia inicial
-            "TOTAL GERAL", // Título da linha
+            "TOTAL GERAL FALTANTE", // Título da linha
             "==>",
             "==>", // Coluna vazia para "FATURADO POR"
             ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
@@ -445,7 +462,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
                 //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
                 return [
-                    ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0), // Totais de cada tamanho
+                    ...sortedItemGenderSizes[key].map((size) => Math.abs(totalSizes[`${key}_${size}`] || 0)), // Totais de cada tamanho
                     "", // Total por item + gênero (somando os tamanhos)
                 ];
             }),
@@ -453,7 +470,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
             /*Object.keys(totalSizes)
                 .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
                 .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
-            totalGeral,
+            Math.abs(totalGeral),
             totalVolumes, // Total de volumes
             "",
         ]);
@@ -461,7 +478,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         // Aplicando o estilo de total
         totalRow.eachCell((cell, colNumber) => {
             const cellValue = worksheet.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-            Object.assign(cell, generalStyle2);
+            Object.assign(cell, Number(cell.value) > 0 ? generalStyle2 : generalStyle);
 
             if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                 Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
@@ -483,8 +500,8 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
             { width: 2 }, // Total volumes
         ];
 
-        if(expedicaoDataRepo.length > 0){
-            const worksheetr = workbook.addWorksheet("REPOSIÇÃO");           
+        if (expedicaoDataRepo.length > 0) {
+            const worksheetr = workbook.addWorksheet("REPOSIÇÃO FALTAS");
 
             const itemGenderSizes: { [key: string]: Set<string> } = {};
 
@@ -493,43 +510,43 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                     if (item.item && item.genero) {
                         // Criando uma chave composta (item + genero)
                         const key = `${item.item}_${item.genero}`;
-    
+
                         // Se ainda não existir a chave para essa combinação, cria um Set vazio
                         if (!itemGenderSizes[key]) {
                             itemGenderSizes[key] = new Set<string>();
                         }
-    
+
                         // Adicionando o tamanho ao Set correspondente
                         itemGenderSizes[key].add(item.tamanho);
                     }
                 });
             });
-    
+
             const sortedItemGenderSizes: { [key: string]: string[] } = {};
-    
+
             Object.keys(itemGenderSizes).forEach((key) => {
                 // Use a função ordenarTamanhos para garantir a ordem correta
                 sortedItemGenderSizes[key] = ordenarTamanhos(Array.from(itemGenderSizes[key]));
             });
-    
+
             const headerRow = worksheetr.addRow([
                 "", // Coluna vazia inicial
-                "ESCOLA", // Coluna "ESCOLA"
+                "UNIDADE ESCOLAR", // Coluna "ESCOLA"
                 "REPOSIÇÕES POR", // Coluna "FATURADO POR"
-                "TÉRMINO EM",
+                "ÚLTIMA ATUALIZAÇÃO",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                     ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
-                    `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
+                    `FALTAS ${key.toUpperCase()}`, // Total por item + gênero
                 ]),
-                "TOTAL", // Coluna para o total geral por escola
-                "TOTAL VOLUMES", // Coluna para o total de volumes
+                "TOTAL FALTANTE", // Coluna para o total geral por escola
+                "VOLUMES JÁ GERADOS", // Coluna para o total de volumes
                 "",
             ]);
-    
+
             // Aplicando os estilos nas células do cabeçalho
             headerRow.eachCell((cell, colNumber) => {
                 const cellValue = cell.value?.toString().toUpperCase() || '';
-    
+
                 if (colNumber === 1) {
                     Object.assign(cell, generalStyle); // Estilo para a primeira coluna (vazia ou "ESCOLA")
                 } else if (colNumber === 2) {
@@ -547,49 +564,53 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 } else if (colNumber === headerRow.cellCount) {
                     Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
                 }
-    
+
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
                 }
-    
+
             });
-    
+
             let totalVolumes = 0;
             let totalGeral = 0;
-    
+
             const totalSizes: { [key: string]: number } = {};
-    
+
             // Inicializando o totalSizes para cada combinação de item + gênero + tamanho
             Object.keys(sortedItemGenderSizes).forEach((key) => {
                 sortedItemGenderSizes[key].forEach((size) => {
                     totalSizes[`${key}_${size}`] = 0;
                 });
             });
-    
+
             expedicaoDataRepo.forEach((grade) => {
                 const sizeQuantities: { [key: string]: number } = {};
-    
+
                 // Inicializando sizeQuantities para cada combinação de item + gênero + tamanho
                 Object.keys(sortedItemGenderSizes).forEach((key) => {
                     sortedItemGenderSizes[key].forEach((size) => {
                         sizeQuantities[`${key}_${size}`] = 0;
                     });
                 });
-    
+
                 const volumes = grade?.caixas?.length || 0;
-    
+
                 // Contabilizando as quantidades de tamanhos (somando valores corretamente)
                 grade?.tamanhosQuantidades?.forEach((item) => {
                     const key = `${item.item}_${item.genero}`;  // Usando item + genero como chave
                     const sizeKey = `${key}_${item.tamanho}`;  // Tamanho dentro do item + genero
                     if (sizeQuantities.hasOwnProperty(sizeKey)) {
-                        sizeQuantities[sizeKey] += item.previsto;
+                        if ((item.previsto - item.quantidade) === 0) {
+                            sizeQuantities[sizeKey] += 0;
+                        } else {
+                            sizeQuantities[sizeKey] -= (item.previsto - item.quantidade);
+                        }
                     }
                 });
-    
+
                 // Calculando os totais por escola
                 const totalForSchool = Object.values(sizeQuantities).reduce((acc, val) => acc + val, 0);
-    
+
                 // Calculando os totais por item + gênero
                 Object.keys(sortedItemGenderSizes).reduce((acc, key) => {
                     const totalItemGenderSize = sortedItemGenderSizes[key].reduce(
@@ -600,33 +621,33 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                     totalGeral += totalItemGenderSize;  // Somando ao total geral
                     return acc + totalItemGenderSize;
                 }, 0);
-    
+
                 // Adicionando uma nova linha na planilha
                 const row = worksheetr.addRow([
                     "", // Coluna vazia inicial
                     {
                         richText: [
                             { text: `${grade.escola} `, font: { color: { argb: "FFFFFF" } } }, // Estilo para a escola
-                            { text: `(${grade.numeroEscola}) `, font: { color: { argb: "818181" } } }, 
-                            { text: `(REPOSIÇÃO)`, font: { color: { argb: "FF0000" } } }, 
+                            { text: `(${grade.numeroEscola}) `, font: { color: { argb: "818181" } } },
+                            { text: `(REPOSIÇÃO)`, font: { color: { argb: "FF0000" } } },
                         ],
                         alignment: { horizontal: 'left' } // Alinhamento à esquerda
                     }, // Coluna "ESCOLA"
                     grade?.company || "N/A", // Coluna "FATURADO POR" (se tiver a propriedade "faturadoPor")
                     formatarData(grade.update),
                     ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                        ...sortedItemGenderSizes[key].map((size) => sizeQuantities[`${key}_${size}`] || 0), // Tamanhos
-                        totalSizes[`${key}`] || 0, // Total por item + gênero
+                        ...sortedItemGenderSizes[key].map((size) => Math.abs(sizeQuantities[`${key}_${size}`] || 0)), // Tamanhos
+                        Math.abs(totalSizes[`${key}`] || 0), // Total por item + gênero
                     ]),
-                    totalForSchool, // Total por escola
+                    Math.abs(totalForSchool), // Total por escola
                     volumes, // Total de volumes
                     "",
                 ]);
-    
+
                 // Aplicando estilos nas células da linha
                 row.eachCell((cell, colNumber) => {
                     const firstCellValue = worksheetr.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-    
+
                     // Estilo para as colunas de tamanhos, com alternância de cor
                     const isOddRow = row.number % 2 !== 0; // Verifica se a linha é ímpar                
                     if (isOddRow) {
@@ -635,17 +656,26 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                     if (!isOddRow) {
                         Object.assign(cell, volumeColumnStyleGraySlightlyDarker); // Azul Escuro para linhas pares
                     }
+                    if (Number(cell.value) < 0) {
+                        cell.style = {
+                            ...cell.style,
+                            fill: {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '90EE90' }, // Cor verde discreta (mais claro)
+                            },
+                        };
+                    }
                     if (Number(cell.value) > 0) {
                         cell.style = {
                             ...cell.style,
                             fill: {
                                 type: 'pattern',
                                 pattern: 'solid',
-                                fgColor: { argb: 'B0C4DE' }, // Cor verde discreta (mais claro)
+                                fgColor: { argb: 'F4CCCC' }, // Cor verde discreta (mais claro)
                             },
                         };
                     }
-    
                     if (colNumber === 1) {
                         Object.assign(cell, generalStyle); // Estilo para a coluna vazia inicial
                     }
@@ -664,22 +694,22 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                     if (colNumber === headerRow.cellCount - 3) {
                         Object.assign(cell, genderTotalStyle); // Estilo para TOTAL GÊNERO
                     }
-    
+
                     if (colNumber === headerRow.cellCount) {
                         Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                     }
-    
+
                     // Aplicação do estilo específico para gêneros
                     if (firstCellValue.includes('FEMININO') || firstCellValue.includes('MASCULINO') || firstCellValue.includes('UNISSEX')) {
-                        Object.assign(cell, Number(cell.value) > 0 ? totalStyle2: totalStyle); // Estilo específico para linha com essas palavras
+                        Object.assign(cell, Number(cell.value) > 0 ? totalStyle3 : totalStyle); // Estilo específico para linha com essas palavras
                     }
-    
+
                     // Aplicação do estilo para volumes
                     if (firstCellValue.includes('VOLUMES')) {
                         Object.assign(cell, totalVolumes2); // Estilo específico para linha com essas palavras
                     }
                 });
-    
+
                 // Atualizando os totais de tamanho
                 Object.keys(sortedItemGenderSizes).forEach((key) => {
                     sortedItemGenderSizes[key].forEach((size) => {
@@ -688,10 +718,10 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 });
                 totalVolumes += volumes;
             });
-    
+
             const totalRow = worksheetr.addRow([
                 "", // Coluna vazia inicial
-                "TOTAL GERAL", // Título da linha
+                "TOTAL GERAL FALTANTE", // Título da linha
                 "==>",
                 "==>", // Coluna vazia para "FATURADO POR"
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
@@ -699,7 +729,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                     //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
                     //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
                     return [
-                        ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0), // Totais de cada tamanho
+                        ...sortedItemGenderSizes[key].map((size) => Math.abs(totalSizes[`${key}_${size}`] || 0)), // Totais de cada tamanho
                         "", // Total por item + gênero (somando os tamanhos)
                     ];
                 }),
@@ -707,21 +737,21 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 /*Object.keys(totalSizes)
                     .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
                     .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
-                totalGeral,
+                Math.abs(totalGeral),
                 totalVolumes, // Total de volumes
                 "",
             ]);
-    
+
             // Aplicando o estilo de total
             totalRow.eachCell((cell, colNumber) => {
                 const cellValue = worksheetr.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-                Object.assign(cell, generalStyle2);
-    
+                Object.assign(cell, Number(cell.value) > 0 ? generalStyle2 : generalStyle);
+
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
                 }
             });
-    
+
             // Ajustando a largura das colunas
             worksheetr.columns = [
                 { width: 2 }, // Coluna vazia inicial

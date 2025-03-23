@@ -214,20 +214,20 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "F8F8F8" } }, // Cinza quase branco
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
-                top: { style: "thin", color: { argb: "000000" } },
+                top: { style: "thin", color: { argb: "F8F8F8" } },
                 //left: { style: "thin", color: { argb: "000000" } },
-                bottom: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "F8F8F8" } },
                 //right: { style: "thin", color: { argb: "000000" } },
             },
         };
 
         const volumeColumnStyleGraySlightlyDarker = {
-            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "DCDCDC" } }, // Cinza muito suave, mais escuro
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "EFEFEF" } }, // Cinza muito suave, mais escuro
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
-                top: { style: "thin", color: { argb: "000000" } },
+                top: { style: "thin", color: { argb: "EFEFEF" } },
                 //left: { style: "thin", color: { argb: "000000" } },
-                bottom: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "EFEFEF" } },
                 //right: { style: "thin", color: { argb: "000000" } },
             },
         };
