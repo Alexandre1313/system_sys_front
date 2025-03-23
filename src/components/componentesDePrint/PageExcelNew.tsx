@@ -136,6 +136,30 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             },
         };
 
+        const generalStyle3 = {
+            font: { color: { argb: "00FFFF" }, size: 13 },
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
+            alignment: { horizontal: "center", vertical: "middle", wrapText: true },
+            border: {
+                top: { style: "thin", color: { argb: "000000" } },
+                //left: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "000000" } },
+                //right: { style: "thin", color: { argb: "000000" } },
+            },
+        };
+
+        const generalStyle4 = {
+            font: { color: { argb: "FFD700" }, size: 13 },
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
+            alignment: { horizontal: "center", vertical: "middle", wrapText: true },
+            border: {
+                top: { style: "thin", color: { argb: "000000" } },
+                //left: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "000000" } },
+                //right: { style: "thin", color: { argb: "000000" } },
+            },
+        };
+
         const totalStyle2 = {
             font: { bold: true, color: { argb: "A8D08D" } },
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "4c4c4c" } },
@@ -463,10 +487,18 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             // Aplicando o estilo de total
             totalRow.eachCell((cell, colNumber) => {
                 const cellValue = worksheet.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-                Object.assign(cell, generalStyle2);
+                Object.assign(cell, Number(cell.value) > 0 ? generalStyle2 : generalStyle);
 
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
+                }
+
+                if (cellValue === "TOTAL") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle3 : generalStyle);
+                }
+
+                if (cellValue === "TOTAL VOLUMES") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle4 : generalStyle);
                 }
             });
 
@@ -718,10 +750,16 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             // Aplicando o estilo de total
             totalRow.eachCell((cell, colNumber) => {
                 const cellValue = worksheetr.getCell(1, colNumber).value?.toString().toUpperCase() || '';
-                Object.assign(cell, generalStyle2);
+                Object.assign(cell, Number(cell.value) > 0 ? generalStyle2 : generalStyle);
 
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
+                }
+                if (cellValue === "TOTAL") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle3 : generalStyle);
+                }
+                if (cellValue === "TOTAL VOLUMES") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle4 : generalStyle);
                 }
             });
 

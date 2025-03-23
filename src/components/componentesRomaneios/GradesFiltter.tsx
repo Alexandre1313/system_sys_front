@@ -255,10 +255,10 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
           </div>
         );
       })}
-      <div className={`flex justify-center items-center flex-col fixed bottom-0 left-0 px-14 h-[200px] bg-[#1F1F1F] w-full
+      <div className={`flex justify-center items-center flex-col fixed bottom-0 left-0 px-6 h-[150px] bg-[#1F1F1F] w-full
            text-center text-lg font-normal mt-10 pb-2 uppercase gap-y-2`}>
         <div className={`flex justify-start items-center`}>
-          <h4 className="text-md font-semibold text-zinc-300 uppercase">Totais</h4>
+          <h4 className="text-md font-semibold text-zinc-300 uppercase"></h4>
         </div>
         <div className="flex items-center justify-start  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
           <div className='flex gap-x-10 items-center justify-start w-[100%]'>
@@ -285,34 +285,34 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
             </p>
           </div>
           <div className='flex gap-x-6 items-center justify-end w-[30%]'>
-            <div>
+            <div title='GERAÇÃO DE ROMANEIS DE EMBARQUE/ENTREGA'>
               {expedicaoData && (
-                <RomaneiosAll romaneios={gradesRoman} />
+                <RomaneiosAll romaneios={gradesRoman} data-tip="Clique aqui para mais informações" />
               )}
             </div>
-            <div>
+            <div title='RELATÓRIO EM EXCEL FALTAS EM TEMPO REAL'>
               {expedicaoData && (
                 <PageExcelNewfaltas expedicaoDataB={expedicaoData} />
               )}
             </div>
-            <div>
+            <div title='RELATÓRIO EM EXCEL EXPEDIDOS NO DIA'>
               {expedicaoData && (
                 <PageExcelNew expedicaoDataB={expedicaoData} />
               )}
             </div>
-            <div>
+            <div title='RELATÓRIO EM EXCEL POR ENTREGA'>
               {expedicaoData && (
                 <PageEntExcel expedicaoDataB={expedicaoData} />
               )}
             </div>
-            <div>
+            <div title='RELATÓRIO EM EXCEL POR GRADE'>
               {expedicaoData && (
                 <PageExcelRelatorio expedicaoData={expedicaoData} />
               )}
             </div>
             <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">
               DESPACHAR
-            </button>
+            </button>             
           </div>
         </div>
       </div>
