@@ -164,9 +164,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {uniqueItems.map((it, index) => {
                         return (
                             <div key={index} className={`flex`}>
-                                <strong className="ml-0 font-normal text-[14px] text-slate-500">{it.nome}</strong>
+                                <strong className="ml-0 font-normal text-[16px] text-slate-500">{it.nome}</strong>
                                 <strong className={`ml-2 mr-2 font-normal text-[14px]`}>-</strong>
-                                <strong className="ml-0 font-normal text-[14px] text-slate-500">{it.genero}</strong>
+                                <strong className="ml-0 font-normal text-[16px] text-slate-500">{it.genero}</strong>
                             </div>)
                     })}
                 </div>
