@@ -797,7 +797,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             className="flex items-center justify-center px-2 py-1 bg-transparent hover:bg-transparent hover:bg-opacity-30 
               bg-opacity-20 text-zinc-400 font-semibold text-[13px] min-w-full z-50 pointer-events-auto"
         >
-            <Download className="text-emerald-300 hover:text-yellow-500" size={27} strokeWidth={2} />
+            <Download className="text-emerald-600 hover:text-emerald-400" size={27} strokeWidth={2} />
         </button>
     );
 }

@@ -77,7 +77,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     let borderColor = total === totalExpedido ? 'border-green-500' : 'border-gray-500';
 
-    if(props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" && total > totalExpedido ){
+    if (props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" && total > totalExpedido) {
         borderColor = 'border-red-500';
     }
 
@@ -88,10 +88,10 @@ export default function GradeComponent(props: GradeComponentProps) {
         }
     };
 
-    const oneExpedida = props.grade.status === "EXPEDIDA" || props.grade.status === "DESPACHADA";   
-    const desativado = oneExpedida;   
+    const oneExpedida = props.grade.status === "EXPEDIDA" || props.grade.status === "DESPACHADA";
+    const desativado = oneExpedida;
 
-    const statusClass = desativado  ? "pointer-events-none opacity-50" : "";
+    const statusClass = desativado ? "pointer-events-none opacity-50" : "";
 
     const fecharTela = () => {
         setMostrarTela(false);
@@ -158,9 +158,16 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <strong className="ml-2 font-semi-bold text-[17px] text-green-400">{totalExpedido}</strong>
                 </h2>
                 <div className={`flex flex-col`}>
-                    <h2 className="text-[14px] font-normal text-blue-400 mb-2 mt-2">
-                        {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
-                    </h2>
+                    <div className={`flex items-center justify-start gap-x-5`}>
+                        {props.grade.tipo && (
+                            <h2 className="text-[14px] font-normal text-red-600 mb-2 mt-2">
+                                {props.grade.tipo}
+                            </h2>
+                        )}
+                        <h2 className="text-[14px] font-normal text-blue-400 mb-2 mt-2">
+                            {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
+                        </h2>
+                    </div>
                     {uniqueItems.map((it, index) => {
                         return (
                             <div key={index} className={`flex`}>
