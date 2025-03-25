@@ -45,14 +45,13 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         return grades.sort((a, b) => {
             // Converte as datas de 'a' e 'b' para objetos Date, ignorando a hora
             const dateA = new Date(a.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada
-            const dateB = new Date(b.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada
-
+            const dateB = new Date(b.update.split(' ')[0].split('/').reverse().join('/')); // Formata a data para ser comparada    
             // Comparação das datas
             if (dateA > dateB) return -1; // Mais recente primeiro
-            if (dateA < dateB) return 1;  // Mais antiga primeiro
-
-            // Se as datas forem iguais, ordenar por nome da escola
-            return a.escola.localeCompare(b.escola);
+            if (dateA < dateB) return 1;  // Mais antiga primeiro    
+            const numeroEscolaA = parseInt(a.numeroEscola, 10);
+            const numeroEscolaB = parseInt(b.numeroEscola, 10);
+            return numeroEscolaA - numeroEscolaB;
         });
     };
 
