@@ -215,6 +215,26 @@ export default function Grades() {
     }));
   };
 
+  // Função auxiliar para converter a data no formato "2025-01-13 16:35:56.052" para um objeto Date
+  const parseDate = (dateString: any) => {
+    // Substitui o espaço por 'T' para tornar o formato compatível com o ISO 8601
+    const formattedDateString = dateString.replace(' ', 'T');
+    return new Date(formattedDateString);
+  };
+
+  // Função para verificar se a data de atualização está mais de 1 dia atrás
+  const isMoreThanOneDayAgo = (updateDate: any) => {
+    // Verifique se a data é válida antes de tentar acessar getTime()
+    if (isNaN(updateDate.getTime())) {
+      return false; // Retorna false se a data não for válida
+    }
+
+    const currentDate = new Date();
+    const differenceInTime = currentDate.getTime() - updateDate.getTime(); // getTime() retorna o timestamp (número de milissegundos)
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24); // Converte de milissegundos para dias
+    return differenceInDays > 1;
+  };
+
   const printEti = (etiquetas: Caixa[]) => {
     return (<Etiquetas etiquetas={etiquetas} />)
   }
@@ -242,10 +262,22 @@ export default function Grades() {
   const escola = data as Escola;
   const grades = escola?.grades || [];
 
-  const terco = Math.ceil(grades.length / 3);
-  const primeiraParte = grades.slice(0, terco);
-  const segundaParte = grades.slice(terco, terco * 2);
-  const terceiraParte = grades.slice(terco * 2);
+  // Filtrando grades com base nos critérios especificados
+  const filteredGrades = grades.filter((grade) => {
+    // Verifique se dataUpdate existe e é válida
+    if (!grade.updatedAt) {
+      return true; // Se não houver data de atualização, mantemos a grade
+    }
+
+    const updateDate = parseDate(grade.updatedAt); // Converta a data de atualização
+    return grade.status !== 'DESPACHADA' || !isMoreThanOneDayAgo(updateDate);
+  });
+
+  // Calculando a divisão em 3 partes
+  const terco = Math.ceil(filteredGrades.length / 3);
+  const primeiraParte = filteredGrades.slice(0, terco);
+  const segundaParte = filteredGrades.slice(terco, terco * 2);
+  const terceiraParte = filteredGrades.slice(terco * 2);
 
   return (
     <div className="flex flex-col p-2 lg:p-1">
