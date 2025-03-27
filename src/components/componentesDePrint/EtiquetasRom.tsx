@@ -7,22 +7,23 @@ export interface EtiquetasRomProps {
 }
 
 const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
-    function concatString(nj: string, ne: string, nae: string): string{
+    function concatString(nj: string, ne: string, nae: string): string {
         let description = '';
-        if(nj){
+        if (nj) {
             description = `${nj} - ${ne}`;
-        }else{
+        } else {
             description = `RM ${nae} - ${ne}`;
         }
-            return description;
+        return description;
     }
-    
-    if(etiquetas){
+
+    if (etiquetas) {
         etiquetas.sort((a, b) => parseInt(b.caixaNumber!) - parseInt(a.caixaNumber!));
     }
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
         const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        const font2 = await pdfDoc.embedFont(StandardFonts.Helvetica);        
 
         // Configurações da etiqueta
         const pageWidth = 215;  // Largura da etiqueta
@@ -84,7 +85,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
             textY -= 18;
 
             // Nome da escola (Fonte menor) com quebra de linha a cada 34 caracteres, sem quebrar palavras
-            const escolaLines = splitTextByCharLimit( concatString( numberJoin, escolaCaixa, escolaNumber), 34);
+            const escolaLines = splitTextByCharLimit(concatString(numberJoin, escolaCaixa, escolaNumber), 34);
 
             escolaLines.forEach((line) => {
                 page.drawText(line, {
@@ -117,7 +118,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                 }
 
                 // Renderiza o item com quebra de linha a cada 39 caracteres, sem quebrar palavras
-                const itemText = `${item.itemName} - ${item.itemGenero} - tamanho: ${item.itemTam}`;
+                const itemText = `${item.itemName} - ${item.itemGenero} - TAM: ${item.itemTam}`;
                 const itemLines = splitTextByCharLimit(itemText, 39);
                 itemLines.forEach((line) => {
                     page.drawText(line, {
@@ -197,13 +198,38 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
             textY -= 18;
 
             // Número da caixa no final da etiqueta
-            page.drawText(`Caixa ${String(caixaNumber).padStart(2, '0')} / ${String(etiquetas.length).padStart(2, '0')}`, {
+            const caixaNumberText = `${String(caixaNumber).padStart(2, '0')} /`; // Número da caixa
+            const totalLabelsText = ` ${String(etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
+
+            // Calcular a largura do texto
+            const textWidth = font.widthOfTextAtSize(`Caixa: ${caixaNumberText}`, 14);
+
+            // Desenha "Caixa" com o número da caixa em uma cor (preto)
+            page.drawText(`Caixa: ${caixaNumberText}`, {
                 x: textX,
                 y: textY > margem ? textY : margem, // Garante que o número fique visível
                 size: 14,
-                font: font,
-                color: rgb(0, 0, 0),
+                font: font, // Usando a variável 'font' que você está utilizando
+                color: rgb(0, 0, 0), // Cor do número da caixa (preto)
             });
+
+            // Desenha o total de etiquetas com uma cor diferente (por exemplo, vermelho)
+            page.drawText(totalLabelsText, {
+                x: textX + font.widthOfTextAtSize(`Caixa ${caixaNumberText}`, 14) + 5, // Ajusta a posição X após o número da caixa
+                y: textY > margem ? textY : margem, // Garante que o número fique visível
+                size: 14,
+                font: font2, // Usando a variável 'font' que você está utilizando
+                color: rgb(1, 0, 0), // Cor do total de etiquetas (vermelho)
+            });
+
+            // Desenha a linha para simular o sublinhado
+            page.drawLine({
+                start: { x: textX, y: textY > margem ? textY - 3 : margem - 3 }, // Começa um pouco abaixo do texto
+                end: { x: textX + textWidth, y: textY > margem ? textY - 2 : margem - 2 }, // Finaliza ao lado direito do texto
+                thickness: 2, // Espessura da linha
+                color: rgb(0, 0, 0), // Cor da linha (preto)
+            });
+
         });
 
         // Salva e exibe o PDF
