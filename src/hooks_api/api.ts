@@ -6,7 +6,7 @@ import {
     EscolaGradesItems,
     FinalyGrade, Grade,
     GradeOpenBySchool,
-    GradesRomaneio, Login,
+    GradesRomaneio, Grafo, Login,
     ProjectItems,
     Projeto,
     ProjetosSimp,
@@ -40,6 +40,7 @@ const urlObterGrade = `http://${ip}:${port}/grades/`;
 const urlAjustarGrade = `http://${ip}:${port}/grades/ajustar/`;
 const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
 const urlAlterStatus = `http://${ip}:${port}/grades/alterdespachadas`;
+const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
 
 async function alterarPDespachadas(ids: number[]): Promise<number[] | null> {
     try {
@@ -77,6 +78,15 @@ async function siginn(credentials: Login): Promise<Usuarios | null> {
     } catch (error) {
         throw new Error(`Erro ao buscar usuário: ${error}`);
     }
+}
+
+async function getGrafico(): Promise<Grafo[]> {
+    const response = await fetch(urlGrafics);
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados dos projetos: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
 }
 
 async function get(): Promise<Projeto[]> {
@@ -334,7 +344,7 @@ async function ajust(id: string): Promise<Grade | null> {
                 'Content-Type': 'application/json',
             },
         });
-        if (!response.ok) {            
+        if (!response.ok) {
             return null;
         }
         const data: Grade = await response.json();
@@ -359,5 +369,5 @@ export {
     finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
     getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos,
     getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
-    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas
+    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas, getGrafico
 };
