@@ -23,7 +23,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
     }   
     else if (oneExpedida && !todasExpedidas) {
         statusClass = "text-cyan-500";
-    } else if (oneExpedida && todasExpedidas) {
+    } else if ((oneExpedida && todasExpedidas) || escola.grades.length === 0) {
         statusClass = "text-green-600";
     }
 
