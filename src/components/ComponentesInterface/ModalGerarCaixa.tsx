@@ -1,6 +1,6 @@
 import { inserirCaixa } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
@@ -22,6 +22,8 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState<string>(message);
   const [isError, setIsError] = useState(false);
+
+  const encerrarCaixaRef = useRef<HTMLButtonElement>(null);
 
   const handleCaixaAtualChange = () => {
     const value = '0';
@@ -73,6 +75,24 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
     }
   };
 
+  // Adicionar um evento de teclado global para o evento de seta direita
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        if (encerrarCaixaRef.current) {
+          encerrarCaixaRef.current.click(); // Aciona o clique do botão "Encerrar Caixa"
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Limpeza do evento ao desmontar o componente
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []); // O hook é executado apenas uma vez quando o componente é montado
+
   if (!isOpen) return null;
 
   return (
@@ -99,6 +119,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         <div className="flex w-full justify-between mt-4 gap-4">
           {/* Botão Encerrar Grade */}
           <button
+            ref={encerrarCaixaRef}
             className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-yellow-500 hover:bg-yellow-700'}
             flex items-center justify-center`}
             onClick={handleGerarCaixa}
@@ -106,7 +127,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           >
             {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : 'Encerrar Caixa'}
           </button>
-          {isPend &&(<button
+          {isPend && (<button
             className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-red-500 hover:bg-red-700'}
             flex items-center justify-center`}
             onClick={handlerCaixaPend2}
