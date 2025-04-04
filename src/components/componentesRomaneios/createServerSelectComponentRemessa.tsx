@@ -9,7 +9,7 @@ export async function CreateServerSelectComponentRemessa({ onSelectChange, proje
   const dates = await getRemessasGrades(projectId);
 
   return (
-    <div className={`flex flex-col justify-center items-start`}>     
+    <div className={`flex flex-col justify-center items-start`}>
       <select
         id="select-remessas"
         title="Selecione a remessa preferida"
@@ -22,10 +22,11 @@ export async function CreateServerSelectComponentRemessa({ onSelectChange, proje
       >
         <option value="">SELECIONE A REMESSA</option>
         {dates.map((r, index) => (
-          <option key={index} value={Number(r)}>
-            {`REMESSA: ${r}`}
-          </option>
+          <option key={index} value={Number(r)}>{`REMESSA: ${r}`}</option>
         ))}
+        {dates.length > 0 && (
+          <option value="-1">TODAS AS REMESSAS</option>
+        )}
       </select>
     </div>
   );
