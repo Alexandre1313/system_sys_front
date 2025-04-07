@@ -28,12 +28,16 @@ export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
     <table className={`table-auto w-full border-collapse border border-zinc-950`}>
       <tbody>
         <tr
-          className={`hover:bg-green-600 hover:bg-opacity-10 cursor-pointer`}
-        >
+          className={`hover:bg-green-600 hover:bg-opacity-10 cursor-pointer flex items-start w-full`}
+        >         
           <td
             className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[5%]`}
           >
             {schoolNumber}
+          </td>
+          <td className={`flex justify-start items-end gap-y-3  w-[5%] min-w-[5%]`}>
+            {printable ? printTwo() : null}
+            {print()}
           </td>
           <td
             className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[35%]`}
@@ -51,18 +55,10 @@ export default function GradeRomaneioTable(props: GradeRomaneioTableProps) {
             {projectName}
           </td>
           <td
-            className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[17%]`}
+            className={`border ${borderColor} px-4 py-1 text-[${textSize}] ${textColor} ${fonte} text-left w-[19%]`}
           >
             {create}
-          </td>
-          <td
-            className={`border ${borderColor} px-4 py-1 text-center w-[7%]`}
-          >
-            <div className={`flex justify-end items-center gap-y-3 w-full`}>
-              {printable ? printTwo(): null}
-              {print()}
-            </div>
-          </td>
+          </td>          
         </tr>
       </tbody>
     </table>
