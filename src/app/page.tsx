@@ -1,9 +1,11 @@
+'use client'
+
 import Link from "next/link";
-//import { useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Home() {
 
-  /*useEffect(() => {
+  useEffect(() => {
     // Este código é para garantir que a imagem de fundo seja aplicada corretamente
     document.body.style.backgroundImage = "url('/background.png')";
     document.body.style.backgroundSize = "cover";
@@ -14,7 +16,7 @@ export default function Home() {
       // Limpa o estilo ao sair da página
       document.body.style.backgroundImage = "none";
     };
-  }, []);*/
+  }, []);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -131,7 +133,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >             
+            >
               Run Packages →
             </a>
           </Link>
@@ -141,7 +143,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >              
+            >
               Run Shipping Manifests →
             </a>
           </Link>
@@ -151,7 +153,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >              
+            >
               Run Projects →
             </a>
           </Link>
@@ -161,7 +163,7 @@ export default function Home() {
               href=""
               target=""
               rel="noopener noreferrer"
-            >              
+            >
               Run Resumes →
             </a>
           </Link>
