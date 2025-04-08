@@ -43,6 +43,7 @@ export default function Expedition() {
     const [gradeItens, setGradeItens] = useState<any>(null);
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [selectedGrade, setSelectedGrade] = useState<any>(null);   
+    if(gradeItens){}
     
     // Usando SWR
     const { data, error, mutate: swrMutate } = useSWR(typeof id === 'string' && id ? ['grades', id] : null, () => fetcher(id!), {
