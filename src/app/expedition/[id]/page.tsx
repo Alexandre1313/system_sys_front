@@ -42,8 +42,7 @@ export default function Expedition() {
     // states modal alterar itens da grade  
     const [gradeItens, setGradeItens] = useState<any>(null);
     const [selectedItem, setSelectedItem] = useState<any>(null);
-    const [selectedGrade, setSelectedGrade] = useState<any>(null);
-    console.log(gradeItens);
+    const [selectedGrade, setSelectedGrade] = useState<any>(null);   
     
     // Usando SWR
     const { data, error, mutate: swrMutate } = useSWR(typeof id === 'string' && id ? ['grades', id] : null, () => fetcher(id!), {
@@ -164,9 +163,7 @@ export default function Expedition() {
         setMostrarItens(mostrarItens ? false : true);
         setGradeItens(gradeItens);
         setSelectedItem(selectedItem);
-        setSelectedGrade(selectedGrade);
-        console.log(gradeItens)
-        console.log(selectedItem)
+        setSelectedGrade(selectedGrade);       
     }
 
     // funções Ocultar itens da grade
