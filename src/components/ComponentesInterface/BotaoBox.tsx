@@ -20,7 +20,7 @@ export default function BotaoBox(props: BotaoBoxProps) {
     useEffect(() => {
         // Adiciona o ouvinte de evento global para a tecla "Enter"
         const handleGlobalKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "Enter") {
+            if (event.key === "ArrowLeft") {
                 if (btnRef.current) {
                     btnRef.current.click(); // Simula o clique no botão
                 }
