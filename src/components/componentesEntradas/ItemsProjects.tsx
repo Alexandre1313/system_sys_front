@@ -20,8 +20,8 @@ export default function ItemsProjects({ onClick, item, index, embalagemId, itemT
     itemGenero === 'FEMININO'
       ? 'text-zinc-300'
       : itemGenero === 'MASCULINO'
-      ? 'text-blue-500'
-      : 'text-yellow-500';
+      ? 'text-zinc-300'
+      : 'text-zinc-300';
   return (
     <div
       onClick={() => onClick(item, embalagemId, itemTamanhoId)} // Passando o item como argumento para a função `onClick`
