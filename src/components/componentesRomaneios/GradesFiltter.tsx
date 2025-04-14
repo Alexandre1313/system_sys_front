@@ -159,7 +159,8 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                 >
                   <h3 className="text-2xl font-semibold text-teal-700 uppercase">
                     {`PROJETO: ${grade.projectname} - ${grade.company} - GRADE ID: `}<span className="text-cyan-500 pl-3 pr-3 font-normal text-2xl">{grade.id}</span>
-                    <span className="text-yellow-500 pl-3 font-normal text-2xl">{`Última atualização: ${grade.update}`}</span>
+                    <span className="text-yellow-500 pl-3 font-normal text-lg">{`Última atualização: ${grade.update}`}</span>
+                    <span className="text-red-500 pl-3 font-normal text-lg">{`${grade.tipo ? grade.tipo: ''}`}</span>
                   </h3>
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola} (Nº {grade.numeroEscola})</p>
                   <p className="text-green-600 uppercase text-xl">Número Join: {grade.numberJoin}</p>
