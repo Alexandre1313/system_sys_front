@@ -279,6 +279,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     labelName={`GRADE ID :`} />
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
                                     labelName={`ESCOLA Nº :`} />
+                                <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
+                                    labelName={`VOLUMES :`} />
                             </div>
                             <div className="flex gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
