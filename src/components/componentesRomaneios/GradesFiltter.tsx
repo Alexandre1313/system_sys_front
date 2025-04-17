@@ -70,20 +70,51 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
     const termoBusca = busca.trim().toLowerCase();
 
+    // 1. Filtrar por nome da escola
     let filtradas = grades.filter((grade) =>
       grade.escola.toLowerCase().includes(termoBusca)
     );
 
+    // 2. Se nada encontrado, filtrar por número da escola
     if (filtradas.length === 0) {
       filtradas = grades.filter((grade) =>
         grade.numeroEscola.toString().includes(termoBusca)
       );
     }
 
+    // 3. Se ainda nada, filtrar por data de update
     if (filtradas.length === 0) {
       filtradas = grades.filter((grade) =>
-        grade.update.toString().includes(termoBusca)
+        grade.update.toLowerCase().includes(termoBusca)
       );
+    }
+
+    // 4. Se ainda nada, filtrar por nome do item
+    if (filtradas.length === 0) {
+      filtradas = grades.filter((grade) =>
+        grade.tamanhosQuantidades.some((item) =>
+          item.item.toLowerCase().includes(termoBusca)
+        )
+      );
+    }
+
+    // 5. Se ainda nada, tentar busca combinada (ex: "31/03 bermuda")
+    if (filtradas.length === 0 && termoBusca.includes(' ')) {
+      const termos = termoBusca.split(/\s+/); // divide por espaço
+
+      filtradas = grades.filter((grade) => {
+        const campos = [
+          grade.escola.toLowerCase(),
+          grade.numeroEscola.toString(),
+          grade.update.toLowerCase(),
+          ...grade.tamanhosQuantidades.map(item => item.item.toLowerCase()),
+        ];
+
+        // todos os termos devem aparecer em algum campo
+        return termos.every((termo) =>
+          campos.some((campo) => campo.includes(termo))
+        );
+      });
     }
 
     return filtradas;
@@ -163,21 +194,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
 
         const termoBusca = buscaEscola.trim().toLowerCase();
 
-        let gradesFiltradas = grades.filter((grade) =>
-          grade.escola.toLowerCase().includes(termoBusca)
-        );
-
-        if (gradesFiltradas.length === 0) {
-          gradesFiltradas = grades.filter((grade) =>
-            grade.numeroEscola.toString().includes(termoBusca)
-          );
-        }
-
-        if (gradesFiltradas.length === 0) {
-          gradesFiltradas = grades.filter((grade) =>
-            grade.update.toString().includes(termoBusca)
-          );
-        }
+        const gradesFiltradas = filtrarGradesPorPrioridade(grades, termoBusca);
 
         if (gradesFiltradas.length === 0) return null;
 
