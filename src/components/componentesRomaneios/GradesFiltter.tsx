@@ -1,7 +1,7 @@
 import { alterarPDespachadas } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
-import { AlertTriangle } from 'react-feather';
+import { AlertTriangle, Search } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
 import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
@@ -27,6 +27,7 @@ const fetcherAlterStatus = async (ids: number[]): Promise<number[] | null> => {
 
 export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilterProps) {
 
+  const [buscaEscola, setBuscaEscola] = useState('');
   const [expedidasIds, setExpedidasIds] = useState<number[]>([]);
   const [gradesRoman, setGradesRoman] = useState<GradesRomaneio[]>([]);
   const [escolasUnicas, setEscolasUnicas] = useState<string[]>([]);
@@ -132,15 +133,22 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   return (
     <div className="w-full px-6 py-4 bg-[#181818]">
       {Object.entries(groupedByStatus).map(([status, grades]) => {
-        const totalItensPrev = grades.reduce(
+        const gradesFiltradas = grades.filter((grade) =>
+          grade.escola.toLowerCase().includes(buscaEscola) ||
+          grade.numeroEscola.toString().includes(buscaEscola)
+        );
+
+        if (gradesFiltradas.length === 0) return null;
+
+        const totalItensPrev = gradesFiltradas.reduce(
           (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0),
           0
         );
-        const totalItens = grades.reduce(
+        const totalItens = gradesFiltradas.reduce(
           (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0),
           0
         );
-        const totalCaixas = grades.reduce((sum, grade) => sum + grade.caixas.length, 0);
+        const totalCaixas = gradesFiltradas.reduce((sum, grade) => sum + grade.caixas.length, 0);
 
         return (
           <div
@@ -149,7 +157,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
              border-opacity-40 mb-48`}
           >
             <h2 className="text-3xl font-semibold text-yellow-700 mb-4 uppercase"><span className='text-cyan-500 text-3xl pl-5'>{`STATUS: ${status}`}</span></h2>
-            {grades.map((grade) => {
+            {gradesFiltradas.map((grade) => {
               const totalQuantidade = grade.tamanhosQuantidades.reduce((sum, item) => sum + item.quantidade, 0);
               const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, item) => sum + item.previsto, 0);
               return (
@@ -160,7 +168,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                   <h3 className="text-2xl font-semibold text-teal-700 uppercase">
                     {`PROJETO: ${grade.projectname} - ${grade.company} - GRADE ID: `}<span className="text-cyan-500 pl-3 pr-3 font-normal text-2xl">{grade.id}</span>
                     <span className="text-yellow-500 pl-3 font-normal text-lg">{`Última atualização: ${grade.update}`}</span>
-                    <span className="text-red-500 pl-3 font-normal text-lg">{`${grade.tipo ? grade.tipo: ''}`}</span>
+                    <span className="text-red-500 pl-3 font-normal text-lg">{`${grade.tipo ? grade.tipo : ''}`}</span>
                   </h3>
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola} (Nº {grade.numeroEscola})</p>
                   <p className="text-green-600 uppercase text-xl">Número Join: {grade.numberJoin}</p>
@@ -262,17 +270,36 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
           <h4 className="text-md font-semibold text-zinc-300 uppercase"></h4>
         </div>
         <div className="flex items-center justify-start  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
-          <div className='flex gap-x-10 items-center justify-start w-[100%]'>
-            <p>Previstos com reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
-            <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-            <p>Reposições:<span className='text-slate-300 text-2xl pl-5'>{reposicoes.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-            <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
-            {stat === 'TODAS' && (
-              <>
-                <p>Escolas atendidas:<span className='text-emerald-500 text-2xl pl-5'>{escolasEntregues.length}</span></p>
-                <p>Escolas prontas para envio:<span className='text-blue-500 text-2xl pl-5'>{escolasParaEnvio.length}</span></p>
-              </>
-            )}
+          <div className='flex items-center justify-between w-[100%]'>
+            <div className={`flex gap-x-10`}>
+              <p>Previstos com reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
+              <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+              <p>Reposições:<span className='text-slate-300 text-2xl pl-5'>{reposicoes.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
+              <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+              {stat === 'TODAS' && (
+                <>
+                  <p>Escolas atendidas:<span className='text-emerald-500 text-2xl pl-5'>{escolasEntregues.length}</span></p>
+                  <p>Escolas prontas para envio:<span className='text-blue-500 text-2xl pl-5'>{escolasParaEnvio.length}</span></p>
+                </>
+              )}
+            </div>
+            <div className="flex w-auto justify-center lg:pt-0 mb-0">
+              <div className="relative w-full lg:w-54">
+                <Search
+                  color="#ccc"
+                  size={18}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Filtrar..."
+                  className="w-full py-[7px] pl-10 pr-3 rounded border bg-[#181818] 
+                 border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
+                  value={buscaEscola}
+                  onChange={(e) => setBuscaEscola(e.target.value.toLowerCase())}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex items-center justify-center  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
@@ -313,7 +340,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
             </div>
             <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">
               DESPACHAR
-            </button>             
+            </button>
           </div>
         </div>
       </div>
