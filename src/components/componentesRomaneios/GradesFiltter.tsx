@@ -144,8 +144,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
       {Object.entries(groupedByStatus).map(([status, grades]) => {
         const gradesFiltradas = grades.filter((grade) =>
           grade.escola.toLowerCase().includes(buscaEscola) ||
-          grade.numeroEscola.toString().includes(buscaEscola) ||
-          grade.id.toString().includes(buscaEscola)          
+          grade.numeroEscola.toString().includes(buscaEscola)                    
         );       
 
         if (gradesFiltradas.length === 0) return null;
