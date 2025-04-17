@@ -35,17 +35,17 @@ export default function TitleComponentFixed(props: TitleComponentFixedProps) {
                 </Link>
             </div>
             <div className={`flex w-[80%] justify-center items-center`}>
-                <h2 className='text-blue-500 text-[14px] lg:text-lg'>
+                <h2 className='text-blue-500 text-[12px] lg:text-lg'>
                     <strong>{props.stringOne}</strong>
                     <span> {props.twoPoints} </span>
                     <strong>{props.stringTwo}</strong>
                 </h2>
             </div>
-            <div className={`flex w-[10%] justify-center items-center`}>
+            <div className={`flex lg:w-[10%] justify-center items-center`}>
                 <button 
                     type={`button`}
                     onClick={handlerLogout}
-                    className={`text-[10px] text-zinc-600 flex items-center justify-center border px-3 py-1
+                    className={`lg:text-[11px] text-[10px] text-zinc-600 flex items-center justify-center border lg:px-3 px-1 lg:py-1 pv-[2px]
                                border-zinc-600 rounded-md hover:bg-zinc-600 hover:text-white transition duration-500`}>
                     LOGOUT
                 </button>

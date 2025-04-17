@@ -76,12 +76,12 @@ export default function ConsultaStatusGrades() {
     <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
       <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
       <div className="flex flex-col items-center justify-start min-h-[95vh] pt-7 gap-y-5 w-full">
-        <div className="flex w-full p-[1.1rem] pt-8 fixed bg-[#1F1F1F] gap-x-5">
+        <div className="flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed bg-[#1F1F1F] gap-x-5">
           {/* Seletor de Status */}
           <select
             id="select-status"
             title="Selecione um status"
-            className="flex w-[310px] bg-[#181818] py-2 px-3 text-[14px] text-zinc-400 no-arrow outline-none cursor-pointer h-[35px] border border-zinc-800"
+            className="flex lg:w-[310px] w-[80px] bg-[#181818] py-2 px-3 lg:text-[14px] text-[12px] text-zinc-400 no-arrow outline-none cursor-pointer lg:h-[35px] border border-zinc-800"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
@@ -95,7 +95,7 @@ export default function ConsultaStatusGrades() {
           {/* Seletor de Projeto */}
           {serverSelect ?? (
             <div className="flex flex-col justify-center items-start">
-              <p className="flex w-[310px] bg-[#181818] py-2 px-2 pl-3 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
+              <p className="flex lg:w-[310px] w-[80px] bg-[#181818] py-2 px-2 pl-3 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
                 SELECIONE O PROJETO
               </p>
             </div>
