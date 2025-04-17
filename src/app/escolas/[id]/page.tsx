@@ -5,9 +5,11 @@ import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import { getProjetosComEscolas } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
-import { useParams } from 'next/navigation'; // Agora use o useParams
+import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { Projeto } from '../../../../core';
+import { useState } from 'react';
+import { Search } from 'react-feather';
 
 // Definindo o fetcher
 const fetcher = async (id: number): Promise<Projeto> => {
@@ -17,6 +19,8 @@ const fetcher = async (id: number): Promise<Projeto> => {
 
 export default function Escolas() {
     const { id } = useParams();
+
+    const [busca, setBusca] = useState('');
 
     // Convertendo 'd' para número. Se 'd' não estiver definido, 'id' será 'undefined'. 
 
@@ -58,7 +62,13 @@ export default function Escolas() {
     }
 
     // Ordenando as escolas alfabeticamente pelo nome
-    const escolasOrdenadas = projeto.escolas.sort((a, b) => parseInt(a.numeroEscola, 10) - parseInt(b.numeroEscola, 10));
+    const escolasFiltradas = projeto.escolas.filter((escola) =>
+        escola.nome.toLowerCase().includes(busca)
+    );
+
+    const escolasOrdenadas = escolasFiltradas.sort(
+        (a, b) => parseInt(a.numeroEscola, 10) - parseInt(b.numeroEscola, 10)
+    );
 
     // Dividindo as escolas em três partes
     const terco = Math.ceil(escolasOrdenadas.length / 3);
@@ -67,15 +77,34 @@ export default function Escolas() {
     const terceiraParte = escolasOrdenadas.slice(terco * 2);
     let cont: number = 0;
     return (
-       
+
         <>
             <div className='flex flex-col p-2 lg:p-1'>
                 <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-1 rounded-md">
                     <TitleComponentFixed stringOne={`${projeto.nome}`}
                         twoPoints={`-`}
                         stringTwo={`ESCOLAS`} />
+                    <div className="flex w-full justify-center lg:pt-12 fixed">
+                        <div className="relative w-full lg:w-1/4">
+                            {/* Ícone da lupa dentro do input */}
+                            <Search
+                                color="#ccc"
+                                size={21}
+                                className="absolute left-3 top-1/3 transform -translate-y-1/2 pointer-events-none"
+                                strokeWidth={1}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Buscar escola..."
+                                className="w-full mb-6 p-2 pl-12 rounded border bg-[#181818] 
+                                border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-1"
+                                value={busca}
+                                onChange={(e) => setBusca(e.target.value.toLowerCase())}
+                            />
+                        </div>
+                    </div>
                     <div className="flex flex-col lg:flex-row justify-between lg:min-h-[95vh]
-                    p-2 lg:p-7 rounded-md lg:pt-12 w-full pt-7">
+                    p-2 lg:p-7 rounded-md lg:pt-28 w-full pt-7">
                         {/* Primeira parte das escolas */}
                         <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
                             {primeiraParte.map((escola) => (
@@ -96,7 +125,7 @@ export default function Escolas() {
                                     }}
                                 >
                                     <EscolaComponent key={escola.id} escola={escola} />
-                                </motion.div>                             
+                                </motion.div>
                             ))}
                         </div>
 
