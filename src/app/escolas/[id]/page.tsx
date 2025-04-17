@@ -83,7 +83,6 @@ export default function Escolas() {
     const terceiraParte = escolasOrdenadas.slice(terco * 2);
     let cont: number = 0;
     return (
-
         <>
             <div className='flex flex-col p-2 lg:p-1'>
                 <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-1 rounded-md">
@@ -120,7 +119,7 @@ export default function Escolas() {
                                     animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
                                     transition={{
                                         duration: 0.03,
-                                        delay: cont++ * 0.02, // Incrementa o atraso para cada item
+                                        delay: cont++ * 0.007, // Incrementa o atraso para cada item
                                     }}
                                     style={{
                                         display: 'flex',
@@ -144,7 +143,7 @@ export default function Escolas() {
                                     animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
                                     transition={{
                                         duration: 0.03,
-                                        delay: cont++ * 0.02, // Incrementa o atraso para cada item
+                                        delay: cont++ * 0.007, // Incrementa o atraso para cada item
                                     }}
                                     style={{
                                         display: 'flex',
@@ -168,7 +167,7 @@ export default function Escolas() {
                                     animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
                                     transition={{
                                         duration: 0.03,
-                                        delay: cont++ * 0.02, // Incrementa o atraso para cada item
+                                        delay: cont++ * 0.007, // Incrementa o atraso para cada item
                                     }}
                                     style={{
                                         display: 'flex',
