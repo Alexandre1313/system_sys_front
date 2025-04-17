@@ -97,7 +97,7 @@ export default function Escolas() {
                                 type="text"
                                 placeholder="Buscar escola..."
                                 className="w-full mb-6 p-2 pl-12 rounded border bg-[#181818] 
-                                border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-1"
+                                border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
                                 value={busca}
                                 onChange={(e) => setBusca(e.target.value.toLowerCase())}
                             />
