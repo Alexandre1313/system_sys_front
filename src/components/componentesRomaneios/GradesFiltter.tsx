@@ -46,26 +46,35 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
     }, {} as Record<string, GradesRomaneio[]>);
   }, [expedicaoData]);
 
-  useEffect(() => {
-    const ids = expedicaoData
+  const atualizacao = (arr: GradesRomaneio[]) => {
+    const ids = arr
       .filter(grade => grade.status === "EXPEDIDA")
       .map(grade => grade.id);
     setExpedidasIds(ids);
-    const romanExpeds = expedicaoData.filter(grade => grade.status === "EXPEDIDA" || "DESPACHADA");
+    const romanExpeds = arr.filter(grade => ["EXPEDIDA", "DESPACHADA"].includes(grade.status));
     setGradesRoman(romanExpeds);
-    const pedRepo = expedicaoData.filter(grade => grade.tipo);
+    const pedRepo = arr.filter(grade => grade.tipo);
     setReposicoes(pedRepo);
-    const pedValid = expedicaoData.filter(grade => !grade.tipo);
+    const pedValid = arr.filter(grade => !grade.tipo);
     setPedidosValidos(pedValid);
-    const escolasParaEnvio = expedicaoData.filter(grade => grade.status === 'EXPEDIDA' && !grade.tipo);
+    const escolasParaEnvio = arr.filter(grade => grade.status === 'EXPEDIDA' && !grade.tipo);
     const escPEnvio = Array.from(new Set(escolasParaEnvio.map(grade => grade.escola)));
     setEscolasParaEnvio(escPEnvio);
-    const escolasAtendidas = expedicaoData.filter(grade => grade.status === 'DESPACHADA' && !grade.tipo);
+    const escolasAtendidas = arr.filter(grade => grade.status === 'DESPACHADA' && !grade.tipo);
     const escAtendidas = Array.from(new Set(escolasAtendidas.map(grade => grade.escola)));
     setEscolasEntregues(escAtendidas);
-    const uniqueEscolas = Array.from(new Set(expedicaoData.map(grade => grade.escola)));
+    const uniqueEscolas = Array.from(new Set(arr.map(grade => grade.escola)));
     setEscolasUnicas(uniqueEscolas);
-  }, [expedicaoData]);
+  }
+
+  useEffect(() => {
+    const todasFiltradas = expedicaoData.filter((grade) =>
+      grade.escola.toLowerCase().includes(buscaEscola) ||
+      grade.numeroEscola.toString().includes(buscaEscola) ||
+      grade.id.toString().includes(buscaEscola)
+    );
+    atualizacao(todasFiltradas);
+  }, [expedicaoData, buscaEscola]);  
 
   const abrirModalAjustStatus = () => {
     setAjustStatus(ajustStatus ? false : true);
@@ -135,8 +144,9 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
       {Object.entries(groupedByStatus).map(([status, grades]) => {
         const gradesFiltradas = grades.filter((grade) =>
           grade.escola.toLowerCase().includes(buscaEscola) ||
-          grade.numeroEscola.toString().includes(buscaEscola)
-        );
+          grade.numeroEscola.toString().includes(buscaEscola) ||
+          grade.id.toString().includes(buscaEscola)          
+        );       
 
         if (gradesFiltradas.length === 0) return null;
 
