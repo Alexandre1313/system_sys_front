@@ -67,14 +67,32 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
     setEscolasUnicas(uniqueEscolas);
   }
 
-  useEffect(() => {
-    const todasFiltradas = expedicaoData.filter((grade) =>
-      grade.escola.toLowerCase().includes(buscaEscola) ||
-      grade.numeroEscola.toString().includes(buscaEscola) ||
-      grade.id.toString().includes(buscaEscola)
+  function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
+    const termoBusca = busca.trim().toLowerCase();
+
+    let filtradas = grades.filter((grade) =>
+      grade.escola.toLowerCase().includes(termoBusca)
     );
+
+    if (filtradas.length === 0) {
+      filtradas = grades.filter((grade) =>
+        grade.numeroEscola.toString().includes(termoBusca)
+      );
+    }
+
+    if (filtradas.length === 0) {
+      filtradas = grades.filter((grade) =>
+        grade.update.toString().includes(termoBusca)
+      );
+    }
+
+    return filtradas;
+  }
+
+  useEffect(() => {
+    const todasFiltradas = filtrarGradesPorPrioridade(expedicaoData, buscaEscola);
     atualizacao(todasFiltradas);
-  }, [expedicaoData, buscaEscola]);  
+  }, [expedicaoData, buscaEscola]);
 
   const abrirModalAjustStatus = () => {
     setAjustStatus(ajustStatus ? false : true);
@@ -142,10 +160,24 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   return (
     <div className="w-full px-6 py-4 bg-[#181818]">
       {Object.entries(groupedByStatus).map(([status, grades]) => {
-        const gradesFiltradas = grades.filter((grade) =>
-          grade.escola.toLowerCase().includes(buscaEscola) ||
-          grade.numeroEscola.toString().includes(buscaEscola)                    
-        );       
+
+        const termoBusca = buscaEscola.trim().toLowerCase();
+
+        let gradesFiltradas = grades.filter((grade) =>
+          grade.escola.toLowerCase().includes(termoBusca)
+        );
+
+        if (gradesFiltradas.length === 0) {
+          gradesFiltradas = grades.filter((grade) =>
+            grade.numeroEscola.toString().includes(termoBusca)
+          );
+        }
+
+        if (gradesFiltradas.length === 0) {
+          gradesFiltradas = grades.filter((grade) =>
+            grade.update.toString().includes(termoBusca)
+          );
+        }
 
         if (gradesFiltradas.length === 0) return null;
 
@@ -153,10 +185,12 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
           (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0),
           0
         );
+
         const totalItens = gradesFiltradas.reduce(
           (sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0),
           0
         );
+
         const totalCaixas = gradesFiltradas.reduce((sum, grade) => sum + grade.caixas.length, 0);
 
         return (
