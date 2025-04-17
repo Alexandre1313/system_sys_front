@@ -62,9 +62,15 @@ export default function Escolas() {
     }
 
     // Ordenando as escolas alfabeticamente pelo nome
-    const escolasFiltradas = projeto.escolas.filter((escola) =>
+    let escolasFiltradas = projeto.escolas.filter((escola) => 
         escola.nome.toLowerCase().includes(busca)
     );
+
+    if(escolasFiltradas.length === 0){
+        escolasFiltradas = projeto.escolas.filter((escola) =>
+            escola.numeroEscola.toString().includes(busca)
+        )
+    }
 
     const escolasOrdenadas = escolasFiltradas.sort(
         (a, b) => parseInt(a.numeroEscola, 10) - parseInt(b.numeroEscola, 10)
