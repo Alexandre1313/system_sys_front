@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronsRight } from "react-feather";
+import { ChevronsRight, Search } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
@@ -42,6 +42,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
+    const [busca, setBusca] = useState('');
 
     useEffect(() => {
         const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
@@ -141,6 +142,22 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const print = () => { return props.printEti(props.grade.gradeCaixas) }
 
+    let itensFiltrados = props.grade.itensGrade.filter((itemGrade) => 
+        itemGrade.itemTamanho?.tamanho?.nome.toLowerCase().includes(busca)        
+    );
+
+    if(itensFiltrados.length === 0){
+        itensFiltrados = props.grade.itensGrade.filter((itemGrade) => 
+            itemGrade.itemTamanho?.item?.genero.toLowerCase().includes(busca)
+        );
+    }
+
+    if(itensFiltrados.length === 0){
+        itensFiltrados = props.grade.itensGrade.filter((itemGrade) => 
+            itemGrade.itemTamanho?.item?.nome.toLowerCase().includes(busca)
+        );
+    }
+
     return (
         <>
             {/* Card com informações */}
@@ -194,11 +211,29 @@ export default function GradeComponent(props: GradeComponentProps) {
             {/* Modal - Tela de sobreposição para Itens da Grade */}
             {mostrarTela && (
                 <div className="absolute inset-0 z-50 bg-[#181818] bg-opacity-100 flex 
-                pt-9 flex-col items-center lg:min-h-[100%] min-h-[190vh]">
+                pt-9 flex-col items-center lg:min-h-[110%] min-h-[290vh]">
                     <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
-                    {/* Ajustar o espaçamento abaixo do título */}
-                    <div className="flex flex-wrap justify-center w-full max-w-[1400px] p-8 mt-12">
-                        {props.grade.itensGrade.map((itemGrade, index) => {
+                    <div className="flex w-full justify-center lg:pt-[2.5rem] fixed">
+                        <div className="relative w-full lg:w-1/4">
+                            {/* Ícone da lupa dentro do input */}
+                            <Search
+                                color="#ccc"
+                                size={21}
+                                className="absolute left-3 top-1/3 transform -translate-y-1/2 pointer-events-none"
+                                strokeWidth={1}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Buscar => 1º tamanho - 2ª Gênero - 3º Nome"
+                                className="w-full mb-6 p-2 pl-12 rounded border bg-[#181818] 
+                                                    border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
+                                value={busca}
+                                onChange={(e) => setBusca(e.target.value.toLowerCase())}
+                            />
+                        </div>
+                    </div>                   
+                    <div className="flex flex-wrap justify-center w-full max-w-[1400px] p-8 mt-16">
+                        {itensFiltrados.map((itemGrade, index) => {
                             const item = itemGrade?.itemTamanho?.item;
                             const genero = item?.genero;
                             const tamanho = itemGrade?.itemTamanho?.tamanho;
@@ -248,7 +283,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         })}
                     </div>
                     {/* Botão de fechar */}
-                    <div className="fixed top-[0.35rem] left-[8.07rem] flex justify-start w-full mt-2 pt-16">
+                    <div className="fixed top-[0.35rem] left-[8.07rem] w-auto flex justify-start mt-2 pt-16">
                         <BotaoArrowLeft onClick={fecharTela} stringButtton={`VOLTAR`} iconSize={20}
                             bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
                     </div>
