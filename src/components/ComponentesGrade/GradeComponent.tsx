@@ -142,20 +142,48 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const print = () => { return props.printEti(props.grade.gradeCaixas) }
 
-    let itensFiltrados = props.grade.itensGrade.filter((itemGrade) => 
-        itemGrade.itemTamanho?.tamanho?.nome.toLowerCase().includes(busca)        
+    const termos = busca.split(/\s+/);
+
+    let itensFiltrados = props.grade.itensGrade.filter((itemGrade) =>
+        itemGrade.itemTamanho?.tamanho?.nome.toLowerCase().includes(busca)
     );
 
-    if(itensFiltrados.length === 0){
-        itensFiltrados = props.grade.itensGrade.filter((itemGrade) => 
+    if (itensFiltrados.length === 0) {
+        itensFiltrados = props.grade.itensGrade.filter((itemGrade) =>
             itemGrade.itemTamanho?.item?.genero.toLowerCase().includes(busca)
         );
     }
 
-    if(itensFiltrados.length === 0){
-        itensFiltrados = props.grade.itensGrade.filter((itemGrade) => 
+    if (itensFiltrados.length === 0) {
+        itensFiltrados = props.grade.itensGrade.filter((itemGrade) =>
             itemGrade.itemTamanho?.item?.nome.toLowerCase().includes(busca)
         );
+    }
+
+    if (itensFiltrados.length === 0 && termos.length === 2) {
+        const [termoTamanho, termoGenero] = termos;
+
+        itensFiltrados = props.grade.itensGrade.filter((itemGrade) => {
+            const tamanho = itemGrade.itemTamanho?.tamanho?.nome.toLowerCase();
+            const genero = itemGrade.itemTamanho?.item?.genero.toLowerCase();
+            const nome = itemGrade.itemTamanho?.item?.nome.toLowerCase();
+
+            return tamanho?.includes(termoTamanho) && genero?.includes(termoGenero) || tamanho?.includes(termoTamanho) && nome?.includes(termoGenero);
+        });
+    }
+   
+    if (itensFiltrados.length === 0) {
+        itensFiltrados = props.grade.itensGrade.filter((itemGrade) => {
+            const campos = [
+                itemGrade.itemTamanho?.tamanho?.nome.toLowerCase(),
+                itemGrade.itemTamanho?.item?.genero.toLowerCase(),
+                itemGrade.itemTamanho?.item?.nome.toLowerCase(),
+            ];
+
+            return termos.every((termo) =>
+                campos.some((campo) => campo?.includes(termo))
+            );
+        });
     }
 
     return (
@@ -231,7 +259,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 onChange={(e) => setBusca(e.target.value.toLowerCase())}
                             />
                         </div>
-                    </div>                   
+                    </div>
                     <div className="flex flex-wrap justify-center w-full max-w-[1400px] p-8 mt-16">
                         {itensFiltrados.map((itemGrade, index) => {
                             const item = itemGrade?.itemTamanho?.item;
