@@ -211,7 +211,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             {/* Modal - Tela de sobreposição para Itens da Grade */}
             {mostrarTela && (
                 <div className="absolute inset-0 z-50 bg-[#181818] bg-opacity-100 flex 
-                pt-9 flex-col items-center lg:min-h-[110%] min-h-[290vh]">
+                pt-9 flex-col items-center lg:min-h-[101%] min-h-[290vh]">
                     <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
                     <div className="flex w-full justify-center lg:pt-[2.5rem] fixed">
                         <div className="relative w-full lg:w-1/4">
