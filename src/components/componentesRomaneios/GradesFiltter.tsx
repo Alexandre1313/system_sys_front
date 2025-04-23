@@ -98,10 +98,23 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
       );
     }
 
-    // 5. Se ainda nada, tentar busca combinada (ex: "31/03 bermuda")
+    // 5 - Busca combinada com melhoria
     if (filtradas.length === 0 && termoBusca.includes(' ')) {
-      const termos = termoBusca.split(/\s+/); // divide por espaço
+      const termos = termoBusca.split(/\s+/);
 
+      const tamanhosPadrao = [
+        "00", "01", "02", "04", "06", "08", "10", "12", "14", "16", // Numéricos
+        "6m", // Meses
+        "pp 18-21", "p 22-25", "m 26-29", "g 30-33", "gg 34-37", "xgg 38-41", "adulto 42-44", // Faixas com medidas
+        "pp", "p", "m", "g", "gg", "xg", "xgg", // Letras
+        "eg", "egg", "eg/lg", "exg", // Extra grandes
+        "g1", "g2", "g3" // Plus size
+      ];
+
+      const termosTamanhos = termos.filter(t => tamanhosPadrao.includes(t));
+      const termosTexto = termos.filter(t => !tamanhosPadrao.includes(t));
+
+      // Filtra grades com base nos termos combinados (nome, número, update, item)
       filtradas = grades.filter((grade) => {
         const campos = [
           grade.escola.toLowerCase(),
@@ -110,11 +123,32 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
           ...grade.tamanhosQuantidades.map(item => item.item.toLowerCase()),
         ];
 
-        // todos os termos devem aparecer em algum campo
-        return termos.every((termo) =>
+        return termosTexto.every((termo) =>
           campos.some((campo) => campo.includes(termo))
         );
       });
+
+      // Agora filtra os itens dentro das grades encontradas
+      if (filtradas.length > 0) {
+        filtradas = filtradas
+          .map((grade) => {
+            const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
+              const itemNome = item.item.toLowerCase();
+              const itemTamanho = item.tamanho.toLowerCase();
+
+              const combinaTamanho = termosTamanhos.length === 0 || termosTamanhos.includes(itemTamanho);
+              const combinaItem = termosTexto.length === 0 || termosTexto.some((termo) => itemNome.includes(termo));
+
+              return combinaTamanho && combinaItem;
+            });
+
+            return {
+              ...grade,
+              tamanhosQuantidades: itensFiltrados,
+            };
+          })
+          .filter((grade) => grade.tamanhosQuantidades.length > 0);
+      }
     }
 
     return filtradas;
