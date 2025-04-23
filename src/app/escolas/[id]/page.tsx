@@ -118,8 +118,8 @@ export default function Escolas() {
                                     initial={{ opacity: 0, y: 20 }} // Começa invisível e um pouco abaixo
                                     animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
                                     transition={{
-                                        duration: 0.03,
-                                        delay: cont++ * 0.007, // Incrementa o atraso para cada item
+                                        duration: 0.01,
+                                        delay: cont++ * 0.005, // Incrementa o atraso para cada item
                                     }}
                                     style={{
                                         display: 'flex',
@@ -142,8 +142,8 @@ export default function Escolas() {
                                     initial={{ opacity: 0, y: 20 }} // Começa invisível e um pouco abaixo
                                     animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
                                     transition={{
-                                        duration: 0.03,
-                                        delay: cont++ * 0.007, // Incrementa o atraso para cada item
+                                        duration: 0.01,
+                                        delay: cont++ * 0.005, // Incrementa o atraso para cada item
                                     }}
                                     style={{
                                         display: 'flex',
@@ -166,8 +166,8 @@ export default function Escolas() {
                                     initial={{ opacity: 0, y: 20 }} // Começa invisível e um pouco abaixo
                                     animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
                                     transition={{
-                                        duration: 0.03,
-                                        delay: cont++ * 0.007, // Incrementa o atraso para cada item
+                                        duration: 0.01,
+                                        delay: cont++ * 0.005, // Incrementa o atraso para cada item
                                     }}
                                     style={{
                                         display: 'flex',
