@@ -76,11 +76,11 @@ export default function Escolas() {
         (a, b) => parseInt(a.numeroEscola, 10) - parseInt(b.numeroEscola, 10)
     );
 
-    // Dividindo as escolas em três partes
-    const terco = Math.ceil(escolasOrdenadas.length / 3);
-    const primeiraParte = escolasOrdenadas.slice(0, terco);
-    const segundaParte = escolasOrdenadas.slice(terco, terco * 2);
-    const terceiraParte = escolasOrdenadas.slice(terco * 2);
+    const quarto = Math.ceil(escolasOrdenadas.length / 4);
+    const primeiraParte = escolasOrdenadas.slice(0, quarto);
+    const segundaParte = escolasOrdenadas.slice(quarto, quarto * 2);
+    const terceiraParte = escolasOrdenadas.slice(quarto * 2, quarto * 3);
+    const quartaParte = escolasOrdenadas.slice(quarto * 3);
     let cont: number = 0;
     return (
         <>
@@ -161,6 +161,29 @@ export default function Escolas() {
                         {/* Terceira parte das escolas */}
                         <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
                             {terceiraParte.map((escola) => (
+                                <motion.div
+                                    key={escola.id}
+                                    initial={{ opacity: 0, y: 20 }} // Começa invisível e um pouco abaixo
+                                    animate={{ opacity: 1, y: 0 }} // Anima para visível e na posição correta
+                                    transition={{
+                                        duration: 0.01,
+                                        delay: cont++ * 0.005, // Incrementa o atraso para cada item
+                                    }}
+                                    style={{
+                                        display: 'flex',
+                                        padding: '0',
+                                        width: '100%',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-start'
+                                    }}
+                                >
+                                    <EscolaComponent key={escola.id} escola={escola} />
+                                </motion.div>
+                            ))}
+                        </div>
+                         {/* Quarta parte das escolas */}
+                         <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
+                            {quartaParte.map((escola) => (
                                 <motion.div
                                     key={escola.id}
                                     initial={{ opacity: 0, y: 20 }} // Começa invisível e um pouco abaixo

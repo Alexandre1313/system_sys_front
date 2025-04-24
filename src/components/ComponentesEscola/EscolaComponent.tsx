@@ -24,7 +24,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
     else if (oneExpedida && !todasExpedidas) {
         statusClass = "text-cyan-500";
     } else if ((oneExpedida && todasExpedidas) || escola.grades.length === 0) {
-        statusClass = "text-green-600";
+        statusClass = "text-emerald-400";
     }
 
     return (
@@ -35,7 +35,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
         >
             <div className="flex w-[100%] gap-x-6 items-start">
                 <div className="flex items-center justify-start min-w-[25px] lg:w-[25px]">
-                    <span className="text-[14px] font-light lg:text-[14px] text-yellow-300">
+                    <span className="text-[14px] font-light lg:text-[14px] text-yellow-200">
                         {escola.numeroEscola}
                     </span>
                 </div>
