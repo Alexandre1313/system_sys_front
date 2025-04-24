@@ -27,7 +27,7 @@ const fetcherAlterStatus = async (ids: number[]): Promise<number[] | null> => {
 
 export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilterProps) {
 
-  const [buscaEscola, setBuscaEscola] = useState('');
+  const [buscaEscola, setBuscaEscola] = useState<string>('');
   const [expedidasIds, setExpedidasIds] = useState<number[]>([]);
   const [gradesRoman, setGradesRoman] = useState<GradesRomaneio[]>([]);
   const [escolasUnicas, setEscolasUnicas] = useState<string[]>([]);
@@ -388,7 +388,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                   type="text"
                   placeholder="Filtrar..."
                   className="w-full py-[7px] pl-10 pr-3 rounded border bg-[#181818] 
-                 border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
+                 border-neutral-600 text-[#4EC9B0] placeholder:text-neutral-400 focus:outline-none"
                   value={buscaEscola}
                   onChange={(e) => setBuscaEscola(e.target.value.toLowerCase())}
                 />

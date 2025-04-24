@@ -42,7 +42,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
-    const [busca, setBusca] = useState('');
+    const [busca, setBusca] = useState<string>('');
 
     useEffect(() => {
         const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
@@ -254,7 +254,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 type="text"
                                 placeholder="Buscar => 1º tamanho - 2ª Gênero - 3º Nome"
                                 className="w-full mb-6 p-2 pl-12 rounded border bg-[#181818] 
-                                                    border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
+                                                    border-neutral-600 text-[#4EC9B0] placeholder:text-neutral-400 focus:outline-none"
                                 value={busca}
                                 onChange={(e) => setBusca(e.target.value.toLowerCase())}
                             />

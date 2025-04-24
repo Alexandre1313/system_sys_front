@@ -20,7 +20,7 @@ const fetcher = async (id: number): Promise<Projeto> => {
 export default function Escolas() {
     const { id } = useParams();
 
-    const [busca, setBusca] = useState('');
+    const [busca, setBusca] = useState<string>('');
 
     // Convertendo 'd' para número. Se 'd' não estiver definido, 'id' será 'undefined'. 
 
@@ -85,11 +85,11 @@ export default function Escolas() {
     return (
         <>
             <div className='flex flex-col p-2 lg:p-1'>
-                <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-1 rounded-md">
+                <div className="flex flex-col items-center min-h-[101vh] pt-7 lg:pt-1 rounded-md">
                     <TitleComponentFixed stringOne={`${projeto.nome}`}
                         twoPoints={`-`}
                         stringTwo={`ESCOLAS`} />
-                    <div className="flex w-full justify-center lg:pt-12 fixed">
+                    <div className="flex w-full justify-center lg:pt-14 fixed">
                         <div className="relative w-full lg:w-1/4">
                             {/* Ícone da lupa dentro do input */}
                             <Search
@@ -102,7 +102,7 @@ export default function Escolas() {
                                 type="text"
                                 placeholder="Buscar escola..."
                                 className="w-full mb-6 p-2 pl-12 rounded border bg-[#181818] 
-                                border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
+                                border-neutral-600 text-[#4EC9B0] placeholder:text-neutral-400 focus:outline-none"
                                 value={busca}
                                 onChange={(e) => setBusca(e.target.value.toLowerCase())}
                             />

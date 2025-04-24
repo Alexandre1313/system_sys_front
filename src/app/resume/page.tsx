@@ -75,7 +75,7 @@ export default function ConsultaStatusGrades() {
   return (
     <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
       <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
-      <div className="flex flex-col items-center justify-start min-h-[95vh] pt-7 gap-y-5 w-full">
+      <div className="flex flex-col items-center justify-start min-h-[101vh] pt-7 gap-y-5 w-full">
         <div className="flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed bg-[#1F1F1F] gap-x-5">
           {/* Seletor de Status */}
           <select
