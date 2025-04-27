@@ -233,7 +233,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
                 margin,
                 currentY,
                 fontBold,
@@ -551,7 +551,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
         };
 
         const zip = new JSZip();
-        const data = new Date()
+        const data = new Date();
         const dataSp = convertSPTime(String(data));
 
         for (const romaneio of romaneios) {
@@ -656,7 +656,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
                 margin,
                 currentY,
                 fontBold,
