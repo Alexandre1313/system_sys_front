@@ -16,8 +16,8 @@ export default async function Projetos() {
                 <TitleComponentFixed stringOne={`PROJETOS`} />
                 <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
                   p-4 pt-7 lg:p-9 gap-y-5 lg:gap-y-10">
-                    <div className="flexRRFE max-w-[1200px] border border-transparent 
-                      rounded-lg gap-x-12 flex-wrap gap-y-12 p-1 lg:p-3">
+                    <div className="flexRRFE max-w-[1300px] border border-transparent 
+                      rounded-lg gap-x-6 flex-wrap gap-y-6 p-1 lg:p-3">
                         {
                             projetos.length > 0 ? (
                                 projetos
