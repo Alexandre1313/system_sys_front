@@ -3,8 +3,13 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat"
-      style={{ background: 'linear-gradient(180deg,rgba(24, 24, 24, 1) 55%, rgba(52, 102, 75, 0.51) 100%)' }}
+      className="min-h-screen"
+      style={{
+        background: 'linear-gradient(180deg,rgba(24, 24, 24, 0.97) 59%, rgba(52, 102, 75, 0.97) 100%)'
+        //backgroundSize: 'cover',
+        //backgroundPosition: 'center',
+        //backgroundRepeat: 'no-repeat',
+      }}
     >
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-2 lg:gap-8 row-start-2 items-center sm:items-center justify-center">
@@ -155,10 +160,11 @@ export default function Home() {
               </a>
             </Link>
           </div>
-          <div className={`row-start-3 flex gap-6 flex-wrap lg:text-[17px] text-[8px] items-center justify-center pt-14 text-zinc-400`}>
+          <div className={`row-start-3 flex gap-6 flex-wrap lg:text-[17px] text-[8px] items-center justify-center pt-14 text-zinc-300`}>
             © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
           </div>
         </footer>
       </div>
     </div>
-  );}
+  );
+}
