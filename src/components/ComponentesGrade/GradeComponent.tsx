@@ -327,7 +327,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
                     <div className="p-24 pt-5 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
-                        <div className="flex justify-between w-full bg-[#252525] p-4 pb-6 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
+                        <div className="flex lg:flex-row flex-col justify-between w-full bg-[#252525] p-4 pb-6 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
                             <div className="flex gap-x-9">
                                 <BotaoArrowLeftSmall stringButtton={""} bgColor={"bg-red-700"}
                                     iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} width={`min-w-[55px] max-w-[55px]`}
@@ -345,7 +345,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
                                     labelName={`VOLUMES :`} />
                             </div>
-                            <div className="flex gap-x-9">
+                            <div className="lg:flex lg:gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
                                     bgHoverColor={"hover:bg-yellow-500"} onClick={props.OpenModalGerarCaixa}
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
