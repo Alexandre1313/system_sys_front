@@ -9,6 +9,7 @@ import PageExcelNew from '../componentesDePrint/PageExcelNew';
 import PageEntExcel from '../componentesDePrint/PageEntExcel';
 import PageExcelNewfaltas from '../componentesDePrint/PageExcelNewfaltas';
 import { GradesRomaneio } from '../../../core';
+import { convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG } from '../../../core/utils/tools';
 
 interface GradeFilterProps {
   stat: string;
@@ -299,11 +300,11 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                             <td className="py-2 px-4 uppercase text-left w-[23%]">{item.item}</td>
                             <td className="py-2 px-4 uppercase text-left w-[11%]">{item.genero}</td>
                             <td className="py-2 px-4 uppercase text-left w-[11%]">{item.tamanho}</td>
-                            <td className="py-2 px-4 uppercase text-cyan-500 text-left w-[11%]">{item.previsto - item.quantidade}</td>
-                            <td className="py-2 px-4 uppercase text-purple-500 text-left w-[11%]">{item.previsto}</td>
-                            <td className="py-2 px-4 uppercase text-green-500 text-left w-[11%]">{item.quantidade}</td>
-                            <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{`${((item.peso!).toFixed(3)).replace('.', ',')} Kg`}</td>
-                            <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{`${((item.peso! * item.quantidade)?.toFixed(3)).replace('.', ',')} Kg`}</td>
+                            <td className="py-2 px-4 uppercase text-cyan-500 text-left w-[11%]">{convertMilharFormat(item.previsto - item.quantidade)}</td>
+                            <td className="py-2 px-4 uppercase text-purple-500 text-left w-[11%]">{convertMilharFormat(item.previsto)}</td>
+                            <td className="py-2 px-4 uppercase text-green-500 text-left w-[11%]">{convertMilharFormat(item.quantidade)}</td>
+                            <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{convertMilharFormatKG(item.peso!)}</td>
+                            <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{convertMilharFormatKG(item.peso! * item.quantidade)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -317,7 +318,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-purple-500 mt-10 pl-3 font-normal text-xl pb-3">{totalPrevisto}</span>
+                        <span className="text-purple-500 mt-10 pl-3 font-normal text-xl pb-3">{convertMilharFormat(totalPrevisto)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -327,7 +328,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-cyan-500 pl-3 font-normal text-xl pb-3">{totalPrevisto - totalQuantidade}</span>
+                        <span className="text-cyan-500 pl-3 font-normal text-xl pb-3">{convertMilharFormat(totalPrevisto - totalQuantidade)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -337,7 +338,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-green-500 pl-3 font-normal text-xl pb-3">{totalQuantidade}</span>
+                        <span className="text-green-500 pl-3 font-normal text-xl pb-3">{convertMilharFormat(totalQuantidade)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -347,7 +348,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-red-500 pl-3 font-normal text-xl pb-3">{grade.caixas.length}</span>
+                        <span className="text-red-500 pl-3 font-normal text-xl pb-3">{convertMilharFormat(grade.caixas.length)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -357,7 +358,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{`${((grade.peso).toFixed(3)).replace('.', ',')} Kg`}</span>
+                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{convertMilharFormatKG(grade.peso)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -367,7 +368,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                         </p>
                       </div>
                       <div className={`flex w-auto`}>
-                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{`${((grade.cubagem)?.toFixed(3))?.replace('.', ',')} m³`}</span>
+                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{convertMilharFormatCUB(grade.cubagem)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -385,12 +386,12 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
               );
             })}
             <div className="text-right text-teal-500 font-normal">
-              <p className="text-lg uppercase">Total de itens previstos do grupo: <span className="text-purple-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
-              <p className="text-lg uppercase">Total de itens à expedir do grupo: <span className="text-cyan-500 pl-3 font-normal text-xl">{totalItensPrev - totalItens}</span></p>
-              <p className="text-lg uppercase">Total de itens expedidos do grupo: <span className="text-green-500 pl-3 font-normal text-xl">{totalItens}</span></p>
-              <p className="text-lg uppercase">Total de volumes do grupo: <span className="text-red-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
-              <p className="text-lg">TOTAL PESAGEM DO GRUPO: <span className="text-blue-500 pl-3 font-normal text-xl">{`${totalPesoGrupo.toFixed(3).replace('.', ',')} Kg`}</span></p>
-              <p className="text-lg">TOTAL CUBAGEM DO GRUPO: <span className="text-blue-500 pl-3 font-normal text-xl">{`${totalM3Grupo.toFixed(3).replace('.', ',')} m³`}</span></p>
+              <p className="text-lg uppercase">Total de itens previstos do grupo: <span className="text-purple-500 pl-3 font-normal text-xl">{convertMilharFormat(totalItensPrev)}</span></p>
+              <p className="text-lg uppercase">Total de itens à expedir do grupo: <span className="text-cyan-500 pl-3 font-normal text-xl">{convertMilharFormat(totalItensPrev - totalItens)}</span></p>
+              <p className="text-lg uppercase">Total de itens expedidos do grupo: <span className="text-green-500 pl-3 font-normal text-xl">{convertMilharFormat(totalItens)}</span></p>
+              <p className="text-lg uppercase">Total de volumes do grupo: <span className="text-red-500 pl-3 font-normal text-xl">{convertMilharFormat(totalCaixas)}</span></p>
+              <p className="text-lg">TOTAL PESAGEM DO GRUPO: <span className="text-blue-500 pl-3 font-normal text-xl">{convertMilharFormatKG(totalPesoGrupo)}</span></p>
+              <p className="text-lg">TOTAL CUBAGEM DO GRUPO: <span className="text-blue-500 pl-3 font-normal text-xl">{convertMilharFormatCUB(totalM3Grupo)}</span></p>
             </div>
           </div>
         );
@@ -402,21 +403,21 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
         </div>
         <div className="flex items-center justify-start  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
           <div className='flex items-center justify-between w-[100%]'>
-            <div className={`flex gap-x-10`}>
-              <p>Previstos com reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
-              <p>Expedidos:<span className='text-green-500 text-2xl pl-5'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-              <p>Reposições:<span className='text-slate-300 text-2xl pl-5'>{reposicoes.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0)}</span></p>
-              <p>Volumes:<span className='text-red-500 text-2xl pl-5'>{expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0)}</span></p>
+            <div className={`flex gap-x-10 lowercase`}>
+              <p className={`uppercase`}>PREVISTOS COM REPOSIÇÕES:<span className='text-purple-500 text-2xl pl-5 text-left'>{convertMilharFormat(expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0))}</span></p>
+              <p className={`uppercase`}>EXPEDIDOS:<span className='text-green-500 text-2xl pl-5'>{convertMilharFormat(pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0))}</span></p>
+              <p className={`uppercase`}>REPOSIÇÕES:<span className='text-slate-300 text-2xl pl-5'>{convertMilharFormat(reposicoes.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0))}</span></p>
+              <p className={`uppercase`}>VOLUMES:<span className='text-red-500 text-2xl pl-5'>{convertMilharFormat(expedicaoData.reduce((sum, grade) => sum + grade.caixas.length, 0))}</span></p>
               {stat === 'TODAS' && (
                 <>
-                  <p>Escolas atendidas:<span className='text-emerald-500 text-2xl pl-5'>{escolasEntregues.length}</span></p>
-                  <p>Escolas prontas para envio:<span className='text-blue-500 text-2xl pl-5'>{escolasParaEnvio.length}</span></p>
+                  <p className={`uppercase`}>ESCOLAS ATENDIDAS:<span className='text-emerald-500 text-2xl pl-5'>{convertMilharFormat(escolasEntregues.length)}</span></p>
+                  <p className={`uppercase`}>ESCOLAS PRONTAS PARA ENVIO:<span className='text-blue-500 text-2xl pl-5'>{convertMilharFormat(escolasParaEnvio.length)}</span></p>
                 </>
               )}
                {stat !== 'TODAS' && (
                 <>
-                  <p>Peso total:<span className='text-emerald-500 text-2xl pl-5'>{`${peso.toFixed(3).replace('.', ',')} Kg`}</span></p>
-                  <p>Cubagem total:<span className='text-blue-500 text-2xl pl-5'>{`${cubagem.toFixed(3).replace('.', ',')} m³`}</span></p>
+                  <p className={`uppercase`}>PESO TOTAL:<span className='text-emerald-500 text-2xl pl-5 lowercase'>{convertMilharFormatKG(peso)}</span></p>
+                  <p className={`uppercase`}>CUBAGEM TOTAL:<span className='text-blue-500 text-2xl pl-5 lowercase'>{convertMilharFormatCUB(cubagem)}</span></p>
                 </>
               )}
             </div>
@@ -441,9 +442,9 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
         </div>
         <div className="flex items-center justify-center  text-zinc-500 w-full border border-zinc-600 p-3 rounded-md">
           <div className='flex gap-x-10 items-center justify-start w-[70%]'>
-            <p>Previstos sem reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0)}</span></p>
-            <p>Grades:<span className='text-cyan-500 text-2xl pl-5'>{expedicaoData.length}</span></p>
-            <p>Escolas:<span className='text-cyan-500 text-2xl pl-5'>{escolasUnicas.length}</span></p>
+            <p>Previstos sem reposições:<span className='text-purple-500 text-2xl pl-5 text-left'>{convertMilharFormat(pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0))}</span></p>
+            <p>Grades:<span className='text-cyan-500 text-2xl pl-5'>{convertMilharFormat(expedicaoData.length)}</span></p>
+            <p>Escolas:<span className='text-cyan-500 text-2xl pl-5'>{convertMilharFormat(escolasUnicas.length)}</span></p>
             <p>CONCLUÍDO<span className='text-yellow-300 text-2xl pl-5'>
               {calcularPorcentagem(expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0),
                 expedicaoData.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0))}</span>
