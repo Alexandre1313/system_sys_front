@@ -2,12 +2,13 @@ import { alterarPDespachadas } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Search } from 'react-feather';
-import { GradesRomaneio } from '../../../core';
+
 import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 import PageExcelNew from '../componentesDePrint/PageExcelNew';
 import PageEntExcel from '../componentesDePrint/PageEntExcel';
 import PageExcelNewfaltas from '../componentesDePrint/PageExcelNewfaltas';
+import { GradesRomaneio } from '../../../core';
 
 interface GradeFilterProps {
   stat: string;
@@ -36,6 +37,8 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   const [pedidosValidos, setPedidosValidos] = useState<GradesRomaneio[]>([]);
   const [escolasEntregues, setEscolasEntregues] = useState<string[]>([]);
   const [escolasParaEnvio, setEscolasParaEnvio] = useState<string[]>([]);
+  const [cubagem, setCubagem] = useState<number>(0);
+  const [peso, setPeso] = useState<number>(0);
   const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
 
   const groupedByStatus = useMemo(() => {
@@ -65,6 +68,10 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
     setEscolasEntregues(escAtendidas);
     const uniqueEscolas = Array.from(new Set(arr.map(grade => grade.escola)));
     setEscolasUnicas(uniqueEscolas);
+    const pesoTotal = arr.reduce((sun, grade) => sun + grade.peso, 0);
+    setPeso(pesoTotal);
+    const cubagemTotal = arr.reduce((sun, grade) => sun + grade.cubagem!, 0);
+    setCubagem(cubagemTotal);
   }
 
   function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
@@ -244,6 +251,10 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
 
         const totalCaixas = gradesFiltradas.reduce((sum, grade) => sum + grade.caixas.length, 0);
 
+        const totalPesoGrupo = gradesFiltradas.reduce((sum, grade) => sum + grade.peso, 0);
+
+        const totalM3Grupo = gradesFiltradas.reduce((sum, grade) => sum + grade.cubagem!, 0);
+
         return (
           <div
             key={status}
@@ -271,24 +282,28 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                     <table className="w-full text-zinc-400 border-collapse">
                       <thead>
                         <tr className={`border-b ${statusBorders[status]} border-opacity-30`}>
-                          <th className="py-2 px-4 text-left uppercase w-[17%]">Item</th>
-                          <th className="py-2 px-4 text-left uppercase w-[19%]">Gênero</th>
-                          <th className="py-2 px-4 text-left uppercase w-[16%]">Tamanho</th>
-                          <th className="py-2 px-4 text-left uppercase w-[16%]">À expedir</th>
-                          <th className="py-2 px-4 text-left uppercase w-[16%]">Previsto</th>
-                          <th className="py-2 px-4 text-left uppercase w-[16%]">Expedido</th>
+                          <th className="py-2 px-4 text-left uppercase w-[23%]">Item</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">Gênero</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">Tamanho</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">À expedir</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">Previsto</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">Expedido</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">Peso Unitário</th>
+                          <th className="py-2 px-4 text-left uppercase w-[11%]">Peso Total</th>
                         </tr>
                       </thead>
                       <tbody>
                         {grade.tamanhosQuantidades.map((item, index) => (
                           <tr key={index} className={`border-b ${statusBorders[status]} border-opacity-60
                           ${item.previsto > item.quantidade ? 'bg-zinc-400 bg-opacity-[0.07]' : ''}`}>
-                            <td className="py-2 px-4 uppercase text-left">{item.item}</td>
-                            <td className="py-2 px-4 uppercase text-left">{item.genero}</td>
-                            <td className="py-2 px-4 uppercase text-left">{item.tamanho}</td>
-                            <td className="py-2 px-4 uppercase text-cyan-500 text-left">{item.previsto - item.quantidade}</td>
-                            <td className="py-2 px-4 uppercase text-purple-500 text-left">{item.previsto}</td>
-                            <td className="py-2 px-4 uppercase text-green-500 text-left">{item.quantidade}</td>
+                            <td className="py-2 px-4 uppercase text-left w-[23%]">{item.item}</td>
+                            <td className="py-2 px-4 uppercase text-left w-[11%]">{item.genero}</td>
+                            <td className="py-2 px-4 uppercase text-left w-[11%]">{item.tamanho}</td>
+                            <td className="py-2 px-4 uppercase text-cyan-500 text-left w-[11%]">{item.previsto - item.quantidade}</td>
+                            <td className="py-2 px-4 uppercase text-purple-500 text-left w-[11%]">{item.previsto}</td>
+                            <td className="py-2 px-4 uppercase text-green-500 text-left w-[11%]">{item.quantidade}</td>
+                            <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{`${((item.peso!).toFixed(3)).replace('.', ',')} Kg`}</td>
+                            <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{`${((item.peso! * item.quantidade)?.toFixed(3)).replace('.', ',')} Kg`}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -337,6 +352,26 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
                       <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
+                        <p className="text-teal-400">
+                          PESO TOTAL DA GRADE:
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{`${((grade.peso).toFixed(3)).replace('.', ',')} Kg`}</span>
+                      </div>
+                    </div>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
+                        <p className="text-teal-400 uppercase">
+                          CUBAGEM:
+                        </p>
+                      </div>
+                      <div className={`flex w-auto`}>
+                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{`${((grade.cubagem)?.toFixed(3))?.replace('.', ',')} m³`}</span>
+                      </div>
+                    </div>
+                    <div className={`flex w-full items-center justify-start`}>
+                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
                         <p className="text-teal-400 uppercase">
                           concluído
                         </p>
@@ -349,11 +384,13 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                 </div>
               );
             })}
-            <div className="text-right text-teal-500 font-normal uppercase">
-              <p className="text-lg">Total de itens previstos do grupo: <span className="text-purple-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
-              <p className="text-lg">Total de itens à expedir do grupo: <span className="text-cyan-500 pl-3 font-normal text-xl">{totalItensPrev - totalItens}</span></p>
-              <p className="text-lg">Total de itens expedidos do grupo: <span className="text-green-500 pl-3 font-normal text-xl">{totalItens}</span></p>
-              <p className="text-lg">Total de volumes do grupo: <span className="text-red-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
+            <div className="text-right text-teal-500 font-normal">
+              <p className="text-lg uppercase">Total de itens previstos do grupo: <span className="text-purple-500 pl-3 font-normal text-xl">{totalItensPrev}</span></p>
+              <p className="text-lg uppercase">Total de itens à expedir do grupo: <span className="text-cyan-500 pl-3 font-normal text-xl">{totalItensPrev - totalItens}</span></p>
+              <p className="text-lg uppercase">Total de itens expedidos do grupo: <span className="text-green-500 pl-3 font-normal text-xl">{totalItens}</span></p>
+              <p className="text-lg uppercase">Total de volumes do grupo: <span className="text-red-500 pl-3 font-normal text-xl">{totalCaixas}</span></p>
+              <p className="text-lg">TOTAL PESAGEM DO GRUPO: <span className="text-blue-500 pl-3 font-normal text-xl">{`${totalPesoGrupo.toFixed(3).replace('.', ',')} Kg`}</span></p>
+              <p className="text-lg">TOTAL CUBAGEM DO GRUPO: <span className="text-blue-500 pl-3 font-normal text-xl">{`${totalM3Grupo.toFixed(3).replace('.', ',')} m³`}</span></p>
             </div>
           </div>
         );
@@ -374,6 +411,12 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                 <>
                   <p>Escolas atendidas:<span className='text-emerald-500 text-2xl pl-5'>{escolasEntregues.length}</span></p>
                   <p>Escolas prontas para envio:<span className='text-blue-500 text-2xl pl-5'>{escolasParaEnvio.length}</span></p>
+                </>
+              )}
+               {stat !== 'TODAS' && (
+                <>
+                  <p>Peso total:<span className='text-emerald-500 text-2xl pl-5'>{`${peso.toFixed(3).replace('.', ',')} Kg`}</span></p>
+                  <p>Cubagem total:<span className='text-blue-500 text-2xl pl-5'>{`${cubagem.toFixed(3).replace('.', ',')} m³`}</span></p>
                 </>
               )}
             </div>

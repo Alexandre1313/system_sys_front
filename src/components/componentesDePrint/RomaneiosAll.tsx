@@ -97,7 +97,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             }
 
             return lines;
-        };       
+        };
 
         function concatString(nj: string, ne: string, nae: string): string {
             let description = '';
@@ -233,7 +233,19 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - VOLUMES: ${romaneio.caixas.length}`,
+                margin,
+                currentY,
+                fontBold,
+                12,
+                rgb(0, 0, 1)
+            );
+            currentY -= lineHeight + 1;
+
+            // ROMANEIO DE DESPACHO - PESO/CUBAGEM
+            drawText(
+                page,
+                `PESO: ${romaneio.peso ? `${romaneio.peso.toFixed(3).replace('.', ',')} Kg - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${romaneio.cubagem.toFixed(3).replace('.', ',')} m³` : '0,000 m³'}`,
                 margin,
                 currentY,
                 fontBold,
@@ -418,6 +430,8 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
         const pdfBytes = await pdfDoc.save();
         return pdfBytes;
     };
+
+    if(romaneios.length === 0) return null
 
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
@@ -656,7 +670,19 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - VOLUMES: ${romaneio.caixas.length}`,
+                margin,
+                currentY,
+                fontBold,
+                12,
+                rgb(0, 0, 1)
+            );
+            currentY -= lineHeight + 1;
+
+            // ROMANEIO DE DESPACHO - PESO/CUBAGEM
+            drawText(
+                page,
+                `PESO: ${romaneio.peso ? `${romaneio.peso.toFixed(3).replace('.', ',')} Kg - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${romaneio.cubagem.toFixed(3).replace('.', ',')} m³` : '0,000 m³'}`,
                 margin,
                 currentY,
                 fontBold,
@@ -843,6 +869,8 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             const safeFileName = `${concatStringArchive(romaneio.numberJoin, romaneio.escola, romaneio.numeroEscola, romaneio.projectname, `GRADEid-${romaneio.id}`)} - ${dataSp}.pdf`.replace(/[\/:*?"<>|]/g, "_");
             zip.file(safeFileName, pdfBytes);
         };
+
+        console.log(romaneios)
 
         const zipBytes = await zip.generateAsync({ type: 'blob' });
         saveAs(zipBytes, `ROMANEIOS DE ENTREGA DO PROJETO ${romaneios[0].projectname} - DATA ${dataSp}.zip`.replace(/[\/:*?"<>|]/g, "-"));

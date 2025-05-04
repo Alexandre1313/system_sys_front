@@ -12,6 +12,10 @@ export default interface ItemTamanho {
     tamanho?: Tamanho; // Relacionamento opcional com Tamanho
     barcode?: Barcode; // Relacionamento com o código de barras único
     estoque?: Estoque; // Estoque desse item/tamanho (opcional)
+    peso?: number;       
+    altura?: number;      
+    largura?: number;     
+    profundidade?: number; 
     createdAt?: Date;
     updatedAt?: Date;
     GradeItem?: GradeItem[]; // Relacionamento opcional com GradeItem

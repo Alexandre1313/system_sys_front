@@ -32,10 +32,11 @@ import TamanhoQuantidade from "./TamanhoQuantidade";
 import TelephonesCompany from "./TelephonesCompany";
 import Usuarios from "./Usuarios";
 import Grafo from "./Grafo";
+import TipoEmbalagem from "./TipoEmbalagem";
 
 export type {
     AddressCompany, Barcode, Caixa, Company, DataInserction, Embalagem, EntryInput, Escola, EscolaGrade,
     EscolaGradesItems, Estoque, FinalyGrade, FormData, FormDateInputs, Grade, GradeItem, GradeOpenBySchool,
     GradesRomaneio, Item, ItemTamanho, ItensProjects, Login, ProjectItems, Projeto, ProjetosSimp,
-    ProjetoStockItems, QtyEmbDay, Stock, StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios, Grafo
+    ProjetoStockItems, QtyEmbDay, Stock, StockGenerate, Tamanho, TamanhoQuantidade, TelephonesCompany, Usuarios, Grafo, TipoEmbalagem
 };

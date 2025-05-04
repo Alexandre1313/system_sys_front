@@ -8,6 +8,9 @@ export interface RomaneiosProps {
 }
 
 const Romaneios = ({ romaneios }: RomaneiosProps) => {
+
+    if (romaneios.length === 0) return null
+
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
         const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -241,7 +244,19 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             const currentYear = new Date().getFullYear();
             drawText(
                 page,
-                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - ${romaneio.tipo ? `${romaneio.tipo} - ` : ''}VOLUMES: ${romaneio.caixas.length}`,
+                `DOCUMENTO DE DESPACHO Nº ${romaneio.numeroEscola}/${currentYear} - EMISSÃO: ${convertSPTime(String(new Date()))} - GRADE ID: ${romaneio.id} - VOLUMES: ${romaneio.caixas.length}`,
+                margin,
+                currentY,
+                fontBold,
+                12,
+                rgb(0, 0, 1)
+            );
+            currentY -= lineHeight + 1;
+
+            // ROMANEIO DE DESPACHO - PESO/CUBAGEM
+            drawText(
+                page,
+                `PESO: ${romaneio.peso ? `${romaneio.peso.toFixed(3).replace('.', ',')} Kg - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${romaneio.cubagem.toFixed(3).replace('.', ',')} m³` : '0,000 m³'}`,
                 margin,
                 currentY,
                 fontBold,

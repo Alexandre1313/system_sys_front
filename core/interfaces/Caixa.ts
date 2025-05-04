@@ -1,5 +1,6 @@
 import CaixaItem from "./CaixaItem";
 import GradeItem from "./GradeItem";
+import TipoEmbalagem from "./TipoEmbalagem";
 
 export default interface Caixa {
     id?: number;
@@ -11,6 +12,8 @@ export default interface Caixa {
     qtyCaixa: number;
     projeto: string;
     userId?: number | undefined;
+    tipoEmbalagemId?: number;
+    tipoEmbalagem?: TipoEmbalagem;
     caixaItem: CaixaItem[]; // Relacionamento com  CaixaItem
     itensGrade: GradeItem[];
     createdAt?: Date;

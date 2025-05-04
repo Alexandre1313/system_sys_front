@@ -62,17 +62,22 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             const existingSchool = mergedSchools.find(item => item.numeroEscola === school.numeroEscola);
 
             if (existingSchool) {
-                // Mescla os arrays de "caixas" e "tamanhosQuantidades"
+                // Mescla os arrays
                 existingSchool.caixas = [...existingSchool.caixas, ...school.caixas];
                 existingSchool.tamanhosQuantidades = [
                     ...existingSchool.tamanhosQuantidades,
                     ...school.tamanhosQuantidades
                 ];
+
+                // Soma o peso e a cubagem corretamente
+                existingSchool.peso = (existingSchool.peso || 0) + (school.peso || 0);
+                existingSchool.cubagem = (existingSchool.cubagem || 0) + (school.cubagem || 0);
             } else {
-                // Se a escola não existir no mergedSchools, adiciona ela ao array
+                // Cria cópia do objeto para evitar mutações indesejadas
                 mergedSchools.push({ ...school });
             }
         });
+
         return mergedSchools;
     }
 
@@ -87,7 +92,6 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
     const generateExcel = async () => {
         const workbook = new ExcelJS.Workbook();
 
-        // Estilos para colunas específicas
         const totalVolumes2 = {
             font: {
                 bold: true,
@@ -97,6 +101,52 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 type: "pattern",
                 pattern: "solid",
                 fgColor: { argb: "A8D08D" } // Cor de fundo verde claro
+            },
+            alignment: {
+                horizontal: "center",
+                vertical: "middle",
+                wrapText: true
+            },
+            border: {
+                top: { style: "thin", color: { argb: "000000" } },
+                //left: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "000000" } },
+                //right: { style: "thin", color: { argb: "000000" } },
+            },
+        };
+
+        const totalVolumes3 = {
+            font: {
+                bold: true,
+                color: { argb: "000000" } // Cor da fonte branca
+            },
+            fill: {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "B1A0C7" } // Cor de fundo verde claro
+            },
+            alignment: {
+                horizontal: "center",
+                vertical: "middle",
+                wrapText: true
+            },
+            border: {
+                top: { style: "thin", color: { argb: "000000" } },
+                //left: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "000000" } },
+                //right: { style: "thin", color: { argb: "000000" } },
+            },
+        };
+
+        const totalVolumes4 = {
+            font: {
+                bold: true,
+                color: { argb: "000000" } // Cor da fonte branca
+            },
+            fill: {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "538DD5" } // Cor de fundo verde claro
             },
             alignment: {
                 horizontal: "center",
@@ -148,6 +198,30 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         };
 
         const generalStyle4 = {
+            font: { color: { argb: "FFD700" }, size: 13 },
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
+            alignment: { horizontal: "center", vertical: "middle", wrapText: true },
+            border: {
+                top: { style: "thin", color: { argb: "000000" } },
+                //left: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "000000" } },
+                //right: { style: "thin", color: { argb: "000000" } },
+            },
+        };
+
+        const generalStyle5 = {
+            font: { color: { argb: "00FFFF" }, size: 13 },
+            fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
+            alignment: { horizontal: "center", vertical: "middle", wrapText: true },
+            border: {
+                top: { style: "thin", color: { argb: "000000" } },
+                //left: { style: "thin", color: { argb: "000000" } },
+                bottom: { style: "thin", color: { argb: "000000" } },
+                //right: { style: "thin", color: { argb: "000000" } },
+            },
+        };
+
+        const generalStyle6 = {
             font: { color: { argb: "FFD700" }, size: 13 },
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
@@ -294,7 +368,9 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
                 ]),
                 "TOTAL", // Coluna para o total geral por escola
-                "TOTAL VOLUMES", // Coluna para o total de volumes
+                "TOTAL VOLUMES",
+                "TOTAL PESO",
+                "TOTAL CUBAGEM",
                 "",
             ]);
 
@@ -312,8 +388,12 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                 } else if (colNumber <= headerRow.cellCount) {
                     Object.assign(cell, generalStyle); // Estilo para as colunas de tamanhos
-                } else if (colNumber === headerRow.cellCount - 2) {
+                } else if (colNumber === headerRow.cellCount - 4) {
                     Object.assign(cell, generalStyle); // Estilo para a coluna "TOTAL"
+                } else if (colNumber === headerRow.cellCount - 3) {
+                    Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
+                } else if (colNumber === headerRow.cellCount - 2) {
+                    Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
                 } else if (colNumber === headerRow.cellCount - 1) {
                     Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
                 } else if (colNumber === headerRow.cellCount) {
@@ -328,6 +408,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
             let totalVolumes = 0;
             let totalGeral = 0;
+            let totalPeso = 0;
+            let totalCubagem = 0
 
             const totalSizes: { [key: string]: number } = {};
 
@@ -349,6 +431,11 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 });
 
                 const volumes = grade?.caixas?.length || 0;
+                const cubagem = grade.cubagem || 0;
+                const peso = grade.peso || 0;
+
+                totalPeso += peso;
+                totalCubagem += cubagem;
 
                 // Contabilizando as quantidades de tamanhos (somando valores corretamente)
                 grade?.tamanhosQuantidades?.forEach((item) => {
@@ -390,7 +477,15 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                         totalSizes[`${key}`] || 0, // Total por item + gênero
                     ]),
                     totalForSchool, // Total por escola
-                    volumes, // Total de volumes
+                    volumes,
+                    `${peso.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
+                    })} Kg`,
+                    `${cubagem.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
+                    })} m³`,
                     "",
                 ]);
 
@@ -429,7 +524,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     if (colNumber === 4) {
                         Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                     }
-                    if (colNumber === headerRow.cellCount - 2) {
+                    if (colNumber === headerRow.cellCount - 4) {
                         Object.assign(cell, volumeTotalStyle); // Estilo para "TOTAL"
                     }
                     if (colNumber === headerRow.cellCount - 3) {
@@ -448,6 +543,16 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     // Aplicação do estilo para volumes
                     if (firstCellValue.includes('VOLUMES')) {
                         Object.assign(cell, totalVolumes2); // Estilo específico para linha com essas palavras
+                    }
+
+                    // Aplicação do estilo para total peso
+                    if (firstCellValue.includes('PESO')) {
+                        Object.assign(cell, totalVolumes3); // Estilo específico para linha com essas palavras
+                    }
+
+                    // Aplicação do estilo para total cubagem
+                    if (firstCellValue.includes('CUBAGEM')) {
+                        Object.assign(cell, totalVolumes4); // Estilo específico para linha com essas palavras
                     }
                 });
 
@@ -479,7 +584,15 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
                     .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 totalGeral,
-                totalVolumes, // Total de volumes
+                totalVolumes,
+                `${totalPeso.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3
+                })} Kg`,
+                `${totalCubagem.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3
+                })} m³`,
                 "",
             ]);
 
@@ -499,6 +612,14 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 if (cellValue === "TOTAL VOLUMES") {
                     Object.assign(cell, Number(cell.value) > 0 ? generalStyle4 : generalStyle);
                 }
+
+                if (cellValue === "TOTAL PESO") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle5 : generalStyle);
+                }
+
+                if (cellValue === "TOTAL CUBAGEM") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle6 : generalStyle);
+                }
             });
 
             // Ajustando a largura das colunas
@@ -513,6 +634,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 ]),
                 { width: 15 }, // Total geral
                 { width: 15 }, // Total volumes
+                { width: 20 }, // Total peso
+                { width: 20 }, // Total cubagem
                 { width: 2 }, // Total volumes
             ];
         }
@@ -549,14 +672,16 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
             const headerRow = worksheetr.addRow([
                 "", // Coluna vazia inicial
                 "UNIDADE ESCOLAR", // Coluna "ESCOLA"
-                "REPOSIÇÕES POR", // Coluna "FATURADO POR"
+                "FATURADO POR", // Coluna "FATURADO POR"
                 "TÉRMINO EM",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                     ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
                     `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
                 ]),
                 "TOTAL", // Coluna para o total geral por escola
-                "TOTAL VOLUMES", // Coluna para o total de volumes
+                "TOTAL VOLUMES",
+                "TOTAL PESO",
+                "TOTAL CUBAGEM",
                 "",
             ]);
 
@@ -574,8 +699,12 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                 } else if (colNumber <= headerRow.cellCount) {
                     Object.assign(cell, generalStyle); // Estilo para as colunas de tamanhos
-                } else if (colNumber === headerRow.cellCount - 2) {
+                } else if (colNumber === headerRow.cellCount - 4) {
                     Object.assign(cell, generalStyle); // Estilo para a coluna "TOTAL"
+                } else if (colNumber === headerRow.cellCount - 3) {
+                    Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
+                } else if (colNumber === headerRow.cellCount - 2) {
+                    Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
                 } else if (colNumber === headerRow.cellCount - 1) {
                     Object.assign(cell, generalStyle); // Estilo para a última coluna "TOTAL VOLUMES"
                 } else if (colNumber === headerRow.cellCount) {
@@ -590,6 +719,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
             let totalVolumes = 0;
             let totalGeral = 0;
+            let totalPeso = 0;
+            let totalCubagem = 0
 
             const totalSizes: { [key: string]: number } = {};
 
@@ -611,6 +742,11 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 });
 
                 const volumes = grade?.caixas?.length || 0;
+                const cubagem = grade.cubagem || 0;
+                const peso = grade.peso || 0;
+
+                totalPeso += peso;
+                totalCubagem += cubagem;
 
                 // Contabilizando as quantidades de tamanhos (somando valores corretamente)
                 grade?.tamanhosQuantidades?.forEach((item) => {
@@ -649,11 +785,19 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     grade?.company || "N/A", // Coluna "FATURADO POR" (se tiver a propriedade "faturadoPor")
                     formatarData(grade.update),
                     ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
-                        ...sortedItemGenderSizes[key].map((size) => sizeQuantities[`${key}_${size}`] || 0), // Tamanhos
-                        totalSizes[`${key}`] || 0, // Total por item + gênero
+                        ...sortedItemGenderSizes[key].map((size) => Math.abs(sizeQuantities[`${key}_${size}`] || 0)), // Tamanhos
+                        Math.abs(totalSizes[`${key}`] || 0), // Total por item + gênero
                     ]),
-                    totalForSchool, // Total por escola
+                    Math.abs(totalForSchool), // Total por escola
                     volumes, // Total de volumes
+                    `${peso.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
+                    })} Kg`,
+                    `${cubagem.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
+                    })} m³`,
                     "",
                 ]);
 
@@ -669,6 +813,16 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     if (!isOddRow) {
                         Object.assign(cell, volumeColumnStyleGraySlightlyDarker); // Azul Escuro para linhas pares
                     }
+                    if (Number(cell.value) < 0) {
+                        cell.style = {
+                            ...cell.style,
+                            fill: {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '90EE90' }, // Cor verde discreta (mais claro)
+                            },
+                        };
+                    }
                     if (Number(cell.value) > 0) {
                         cell.style = {
                             ...cell.style,
@@ -679,7 +833,6 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                             },
                         };
                     }
-
                     if (colNumber === 1) {
                         Object.assign(cell, generalStyle); // Estilo para a coluna vazia inicial
                     }
@@ -692,7 +845,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     if (colNumber === 4) {
                         Object.assign(cell, generalStyle); // Estilo para "FATURADO POR"
                     }
-                    if (colNumber === headerRow.cellCount - 2) {
+                    if (colNumber === headerRow.cellCount - 4) {
                         Object.assign(cell, volumeTotalStyle); // Estilo para "TOTAL"
                     }
                     if (colNumber === headerRow.cellCount - 3) {
@@ -711,6 +864,16 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     // Aplicação do estilo para volumes
                     if (firstCellValue.includes('VOLUMES')) {
                         Object.assign(cell, totalVolumes2); // Estilo específico para linha com essas palavras
+                    }
+
+                    // Aplicação do estilo para total peso
+                    if (firstCellValue.includes('PESO')) {
+                        Object.assign(cell, totalVolumes3); // Estilo específico para linha com essas palavras
+                    }
+
+                    // Aplicação do estilo para total cubagem
+                    if (firstCellValue.includes('CUBAGEM')) {
+                        Object.assign(cell, totalVolumes4); // Estilo específico para linha com essas palavras
                     }
                 });
 
@@ -742,7 +905,15 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
                     .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 totalGeral,
-                totalVolumes, // Total de volumes
+                totalVolumes,
+                `${totalPeso.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3
+                })} Kg`,
+                `${totalCubagem.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3
+                })} m³`,
                 "",
             ]);
 
@@ -754,11 +925,21 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 if (cellValue.includes('FEMININO') || cellValue.includes('MASCULINO') || cellValue.includes('UNISSEX')) {
                     Object.assign(cell, genderHeaderStyle); // Estilo específico para FEMININO, UNISSEX ou MASCULINO
                 }
+
                 if (cellValue === "TOTAL") {
                     Object.assign(cell, Number(cell.value) > 0 ? generalStyle3 : generalStyle);
                 }
+
                 if (cellValue === "TOTAL VOLUMES") {
                     Object.assign(cell, Number(cell.value) > 0 ? generalStyle4 : generalStyle);
+                }
+
+                if (cellValue === "TOTAL PESO") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle5 : generalStyle);
+                }
+
+                if (cellValue === "TOTAL CUBAGEM") {
+                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle6 : generalStyle);
                 }
             });
 
@@ -774,6 +955,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 ]),
                 { width: 15 }, // Total geral
                 { width: 15 }, // Total volumes
+                { width: 20 }, // Total peso
+                { width: 20 }, // Total cubagem
                 { width: 2 }, // Total volumes
             ];
         }
