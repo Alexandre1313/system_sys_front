@@ -152,7 +152,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
         projeto: ESCOLA_GRADE.projeto,
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
         qtyCaixa: 0,
-        tipoEmbalagemId: 2,
+        tipoEmbalagemId: 1,
         caixaNumber: NUMERODACAIXA,
         itensGrade: ESCOLA_GRADE.grade.itensGrade,
         userId: id,
