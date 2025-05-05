@@ -331,6 +331,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
         if (expedicaoData.length > 0) {
             const worksheet = workbook.addWorksheet("EXPEDIÇÃO");
+            worksheet.views = [{ state: 'frozen', xSplit: 2, ySplit: 1 }];
 
             const itemGenderSizes: { [key: string]: Set<string> } = {};
 
@@ -642,6 +643,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
         if (expedicaoDataRepo.length > 0) {
             const worksheetr = workbook.addWorksheet("REPOSIÇÃO");
+            worksheetr.views = [{ state: 'frozen', xSplit: 2, ySplit: 1 }];
 
             const itemGenderSizes: { [key: string]: Set<string> } = {};
 
