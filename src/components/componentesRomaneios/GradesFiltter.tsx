@@ -276,7 +276,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                     <span className="text-yellow-500 pl-3 font-normal text-lg">{`Última atualização: ${grade.update}`}</span>
                     <span className="text-red-500 pl-3 font-normal text-lg">{`${grade.tipo ? grade.tipo : ''}`}</span>
                   </h3>
-                  <p className="text-green-600 uppercase text-xl">Escola: {grade.escola} (Nº {grade.numeroEscola})</p>
+                  <p className="text-green-600 uppercase text-xl">Escola: {grade.escola}<span className={`text-orange-400 pl-5`}>(Nº {grade.numeroEscola})</span></p>
                   <p className="text-green-600 uppercase text-xl">Número Join: {grade.numberJoin}</p>
                   <div className="mt-4">
                     <h4 className="text-md font-semibold text-zinc-300 mb-2 uppercase">Itens Expedidos:</h4>
