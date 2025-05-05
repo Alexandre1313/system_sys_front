@@ -2,7 +2,7 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { GradesRomaneio } from "../../../core";
 import { Download } from "react-feather";
-import { convertSPTime } from "../../../core/utils/tools";
+import { convertMilharFormatCUB, convertMilharFormatKG, convertSPTime } from "../../../core/utils/tools";
 
 export interface PageExcelNewProps {
     expedicaoDataB: GradesRomaneio[];
@@ -198,7 +198,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         };
 
         const generalStyle4 = {
-            font: { color: { argb: "FFD700" }, size: 13 },
+            font: { color: { argb: "00FFFF" }, size: 13 },
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
@@ -222,7 +222,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         };
 
         const generalStyle6 = {
-            font: { color: { argb: "FFD700" }, size: 13 },
+            font: { color: { argb: "00FFFF" }, size: 13 },
             fill: { type: "pattern", pattern: "solid", fgColor: { argb: "000000" } },
             alignment: { horizontal: "center", vertical: "middle", wrapText: true },
             border: {
@@ -331,7 +331,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
         if (expedicaoData.length > 0) {
             const worksheet = workbook.addWorksheet("EXPEDIÇÃO");
-            worksheet.views = [{ state: 'frozen', xSplit: 2, ySplit: 1 }];
+            worksheet.views = [{ state: 'frozen', xSplit: 0, ySplit: 1 }];
 
             const itemGenderSizes: { [key: string]: Set<string> } = {};
 
@@ -479,14 +479,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     ]),
                     totalForSchool, // Total por escola
                     volumes,
-                    `${peso.toLocaleString('pt-BR', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    })} Kg`,
-                    `${cubagem.toLocaleString('pt-BR', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    })} m³`,
+                    convertMilharFormatKG(peso),
+                    convertMilharFormatCUB(cubagem),
                     "",
                 ]);
 
@@ -586,14 +580,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 totalGeral,
                 totalVolumes,
-                `${totalPeso.toLocaleString('pt-BR', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                })} Kg`,
-                `${totalCubagem.toLocaleString('pt-BR', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                })} m³`,
+                convertMilharFormatKG(totalPeso),
+                convertMilharFormatCUB(totalCubagem),
                 "",
             ]);
 
@@ -615,11 +603,11 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 }
 
                 if (cellValue === "TOTAL PESO") {
-                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle5 : generalStyle);
+                    Object.assign(cell, String(cell.value).trim().replace(/\s+/g, '') !== "0,000Kg" ? generalStyle5 : generalStyle);
                 }
 
                 if (cellValue === "TOTAL CUBAGEM") {
-                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle6 : generalStyle);
+                    Object.assign(cell, String(cell.value).trim().replace(/\s+/g, '') !== "0,000m³" ? generalStyle6 : generalStyle);
                 }
             });
 
@@ -643,7 +631,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
         if (expedicaoDataRepo.length > 0) {
             const worksheetr = workbook.addWorksheet("REPOSIÇÃO");
-            worksheetr.views = [{ state: 'frozen', xSplit: 2, ySplit: 1 }];
+            worksheetr.views = [{ state: 'frozen', xSplit: 0, ySplit: 1 }];
 
             const itemGenderSizes: { [key: string]: Set<string> } = {};
 
@@ -792,14 +780,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     ]),
                     Math.abs(totalForSchool), // Total por escola
                     volumes, // Total de volumes
-                    `${peso.toLocaleString('pt-BR', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    })} Kg`,
-                    `${cubagem.toLocaleString('pt-BR', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    })} m³`,
+                    convertMilharFormatKG(peso),
+                    convertMilharFormatCUB(cubagem),
                     "",
                 ]);
 
@@ -908,14 +890,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 totalGeral,
                 totalVolumes,
-                `${totalPeso.toLocaleString('pt-BR', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                })} Kg`,
-                `${totalCubagem.toLocaleString('pt-BR', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                })} m³`,
+                convertMilharFormatKG(totalPeso),
+                convertMilharFormatCUB(totalCubagem),
                 "",
             ]);
 
@@ -937,11 +913,11 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 }
 
                 if (cellValue === "TOTAL PESO") {
-                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle5 : generalStyle);
+                    Object.assign(cell, String(cell.value).trim().replace(/\s+/g, '') !== "0,000Kg" ? generalStyle5 : generalStyle);
                 }
 
                 if (cellValue === "TOTAL CUBAGEM") {
-                    Object.assign(cell, Number(cell.value) > 0 ? generalStyle6 : generalStyle);
+                    Object.assign(cell, String(cell.value).trim().replace(/\s+/g, '') !== "0,000m³" ? generalStyle6 : generalStyle);
                 }
             });
 
