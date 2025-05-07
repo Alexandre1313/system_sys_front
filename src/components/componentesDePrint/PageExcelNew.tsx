@@ -479,7 +479,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     ]),
                     totalForSchool, // Total por escola
                     volumes,
-                    peso.toLocaleString('pt-BR', {minimumFractionDigits: 3, maximumFractionDigits: 3}).replace('.', ','),
+                    peso.toFixed(3),
                     convertMilharFormatCUB(cubagem),
                     "",
                 ]);
@@ -670,8 +670,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 ]),
                 "TOTAL", // Coluna para o total geral por escola
                 "TOTAL VOLUMES",
-                "TOTAL PESO",
-                "TOTAL CUBAGEM",
+                "TOTAL PESO Kg",
+                "TOTAL CUBAGEM m³",
                 "",
             ]);
 
@@ -780,7 +780,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     ]),
                     Math.abs(totalForSchool), // Total por escola
                     volumes, // Total de volumes
-                    convertMilharFormatKG(peso),
+                    peso.toFixed(3),
                     convertMilharFormatCUB(cubagem),
                     "",
                 ]);
