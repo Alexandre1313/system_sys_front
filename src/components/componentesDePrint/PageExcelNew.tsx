@@ -479,7 +479,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     ]),
                     totalForSchool, // Total por escola
                     volumes,
-                    peso.toFixed(3),
+                    Math.ceil(peso),
                     convertMilharFormatCUB(cubagem),
                     "",
                 ]);
@@ -780,7 +780,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                     ]),
                     Math.abs(totalForSchool), // Total por escola
                     volumes, // Total de volumes
-                    peso.toFixed(3),
+                    Math.ceil(peso),
                     convertMilharFormatCUB(cubagem),
                     "",
                 ]);
