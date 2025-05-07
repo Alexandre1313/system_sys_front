@@ -279,10 +279,10 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola}<span className={`text-orange-400 pl-5`}>(Nº {grade.numeroEscola})</span></p>
                   <p className="text-green-600 uppercase text-xl">Número Join: {grade.numberJoin}</p>
                   <div className="mt-4">
-                    <h4 className="text-md font-semibold text-zinc-300 mb-2 uppercase">Itens Expedidos:</h4>
+                    <h4 className="text-md font-semibold text-zinc-300 mb-2 uppercase">Itens Previstos:</h4>
                     <table className="w-full text-zinc-400 border-collapse">
-                      <thead>
-                        <tr className={`border-b ${statusBorders[status]} border-opacity-30`}>
+                      <thead className="sticky top-[113px] bg-opacity-100 z-10 bg-zinc-800">
+                        <tr className={`border-b border-zinc-800 border-opacity-100`}>
                           <th className="py-2 px-4 text-left uppercase w-[23%]">Item</th>
                           <th className="py-2 px-4 text-left uppercase w-[11%]">Gênero</th>
                           <th className="py-2 px-4 text-left uppercase w-[11%]">Tamanho</th>
@@ -307,40 +307,23 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                             <td className="py-2 px-4 text-blue-500 text-left w-[11%]">{convertMilharFormatKG(item.peso! * item.quantidade)}</td>
                           </tr>
                         ))}
+                        <tr className={`text-xl text-white bg-opacity-[0.9] align-middle`}>
+                          <td className="py-2 px-4 uppercase text-left w-[23%]">{ }</td>
+                        </tr>
+                        <tr className={`text-xl text-white bg-zinc-800 bg-opacity-[0.9] align-middle`}>
+                          <td className="py-2 px-4 uppercase text-left w-[23%]">{ }</td>
+                          <td className="py-2 px-4 uppercase text-left w-[11%]">{`TOTAIS`}</td>
+                          <td className="py-2 px-4 uppercase text-left w-[11%]">{`==> ==>`}</td>
+                          <td className="py-2 px-4 uppercase text-left w-[11%]">{convertMilharFormat(totalPrevisto - totalQuantidade)}</td>
+                          <td className="py-2 px-4 uppercase text-left w-[11%]">{convertMilharFormat(totalPrevisto)}</td>
+                          <td className="py-2 px-4 uppercase text-left w-[11%]">{convertMilharFormat(totalQuantidade)}</td>
+                          <td className="py-2 px-4 text-left w-[11%]">{ }</td>
+                          <td className="py-2 px-4 text-left w-[11%]">{convertMilharFormatKG(grade.peso)}</td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
-                  <div className={`flex w-full flex-col items-start justify-center`}>
-                    <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
-                        <p className="text-teal-400 mt-10 uppercase">
-                          Total de itens previstos para a escola:
-                        </p>
-                      </div>
-                      <div className={`flex w-auto`}>
-                        <span className="text-purple-500 mt-10 pl-3 font-normal text-xl pb-3">{convertMilharFormat(totalPrevisto)}</span>
-                      </div>
-                    </div>
-                    <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
-                        <p className="text-teal-400 uppercase">
-                          Total de itens à expedir para a escola:
-                        </p>
-                      </div>
-                      <div className={`flex w-auto`}>
-                        <span className="text-cyan-500 pl-3 font-normal text-xl pb-3">{convertMilharFormat(totalPrevisto - totalQuantidade)}</span>
-                      </div>
-                    </div>
-                    <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
-                        <p className="text-teal-400 uppercase">
-                          Total de itens expedidos para a escola:
-                        </p>
-                      </div>
-                      <div className={`flex w-auto`}>
-                        <span className="text-green-500 pl-3 font-normal text-xl pb-3">{convertMilharFormat(totalQuantidade)}</span>
-                      </div>
-                    </div>
+                  <div className={`flex w-full flex-col items-start justify-center mt-6`}>
                     <div className={`flex w-full items-center justify-start`}>
                       <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
                         <p className="text-teal-400 uppercase">
@@ -349,16 +332,6 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                       </div>
                       <div className={`flex w-auto`}>
                         <span className="text-red-500 pl-3 font-normal text-xl pb-3">{convertMilharFormat(grade.caixas.length)}</span>
-                      </div>
-                    </div>
-                    <div className={`flex w-full items-center justify-start`}>
-                      <div className={`flex w-[20.1%] border-b border-dashed border-zinc-500 mb-2 items-center justify-start`}>
-                        <p className="text-teal-400">
-                          PESO TOTAL DA GRADE:
-                        </p>
-                      </div>
-                      <div className={`flex w-auto`}>
-                        <span className="text-blue-500 pl-3 font-normal text-xl pb-3">{convertMilharFormatKG(grade.peso)}</span>
                       </div>
                     </div>
                     <div className={`flex w-full items-center justify-start`}>
@@ -397,7 +370,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
         );
       })}
       <div className={`flex justify-center items-center flex-col fixed bottom-0 left-0 px-6 h-[150px] bg-[#1F1F1F] w-full
-           text-center text-lg font-normal mt-10 pb-2 uppercase gap-y-2`}>
+           text-center text-lg font-normal mt-10 pb-2 uppercase gap-y-2 z-20`}>
         <div className={`flex justify-start items-center`}>
           <h4 className="text-md font-semibold text-zinc-300 uppercase"></h4>
         </div>
@@ -414,7 +387,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                   <p className={`uppercase`}>ESCOLAS PRONTAS PARA ENVIO:<span className='text-blue-500 text-2xl pl-5'>{convertMilharFormat(escolasParaEnvio.length)}</span></p>
                 </>
               )}
-               {stat !== 'TODAS' && (
+              {stat !== 'TODAS' && (
                 <>
                   <p className={`uppercase`}>PESO TOTAL:<span className='text-emerald-500 text-2xl pl-5 lowercase'>{convertMilharFormatKG(peso)}</span></p>
                   <p className={`uppercase`}>CUBAGEM TOTAL:<span className='text-blue-500 text-2xl pl-5 lowercase'>{convertMilharFormatCUB(cubagem)}</span></p>

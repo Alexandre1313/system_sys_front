@@ -28,7 +28,7 @@ export default function TitleComponentFixed(props: TitleComponentFixedProps) {
 
     return (
         <div className={`fixed top-0 left-0 w-full flex border-b border-y-neutral-600  
-                    z-10 py-2 px-4 bg-[#111111] justify-center items-center`}>
+                    z-20 py-2 px-4 bg-[#111111] justify-center items-center`}>
             <div className={`flex w-[10%] justify-start items-center`}>
                 <Link href={'/'}>
                     <ChevronsLeft className="animate-bounceXL" size={18} color={'#fff'} strokeWidth={2} />
