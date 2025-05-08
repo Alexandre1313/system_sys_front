@@ -433,7 +433,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
                 const volumes = grade?.caixas?.length || 0;
                 const cubagem = grade.cubagem || 0;
-                const peso = grade.peso || 0;
+                const peso = Math.ceil(grade.peso || 0);
 
                 totalPeso += peso;
                 totalCubagem += cubagem;
@@ -733,7 +733,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
                 const volumes = grade?.caixas?.length || 0;
                 const cubagem = grade.cubagem || 0;
-                const peso = grade.peso || 0;
+                const peso = Math.ceil(grade.peso || 0);
 
                 totalPeso += peso;
                 totalCubagem += cubagem;
