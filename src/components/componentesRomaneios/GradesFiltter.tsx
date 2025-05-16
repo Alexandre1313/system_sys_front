@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Search } from 'react-feather';
 
-import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
-import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
-import PageExcelNew from '../componentesDePrint/PageExcelNew';
-import PageEntExcel from '../componentesDePrint/PageEntExcel';
-import PageExcelNewfaltas from '../componentesDePrint/PageExcelNewfaltas';
+import Link from 'next/link';
 import { GradesRomaneio } from '../../../core';
 import { convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG } from '../../../core/utils/tools';
-import Link from 'next/link';
+import PageEntExcel from '../componentesDePrint/PageEntExcel';
+import PageExcelNew from '../componentesDePrint/PageExcelNew';
+import PageExcelNewfaltas from '../componentesDePrint/PageExcelNewfaltas';
+import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
+import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 
 interface GradeFilterProps {
   stat: string;
@@ -267,6 +267,8 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
             {gradesFiltradas.map((grade) => {
               const totalQuantidade = grade.tamanhosQuantidades.reduce((sum, item) => sum + item.quantidade, 0);
               const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, item) => sum + item.previsto, 0);
+              const faltaExpedir = totalPrevisto - totalQuantidade;
+              const colorValue = faltaExpedir === 0 ? 'text-green-500': 'text-red-500'; 
               return (
                 <div
                   key={grade.id}
@@ -328,7 +330,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                           <td className="py-2 px-4 uppercase text-left w-[23%]">{ }</td>
                           <td className="py-2 px-4 uppercase text-left w-[11%]">{`TOTAIS`}</td>
                           <td className="py-2 px-4 uppercase text-left w-[11%]">{`==> ==>`}</td>
-                          <td className="py-2 px-4 uppercase text-left w-[11%]">{convertMilharFormat(totalPrevisto - totalQuantidade)}</td>
+                          <td className={`py-2 px-4 uppercase text-left w-[11%] ${colorValue}`}>{convertMilharFormat(faltaExpedir)}</td>
                           <td className="py-2 px-4 uppercase text-left w-[11%]">{convertMilharFormat(totalPrevisto)}</td>
                           <td className="py-2 px-4 uppercase text-left w-[11%]">{convertMilharFormat(totalQuantidade)}</td>
                           <td className="py-2 px-4 text-left w-[11%]">{ }</td>
