@@ -119,7 +119,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
 
                 // Renderiza o item com quebra de linha a cada 39 caracteres, sem quebrar palavras
                 const itemText = `${item.itemName} - ${item.itemGenero} - TAM: ${item.itemTam}`;
-                const itemLines = splitTextByCharLimit(itemText, 39);
+                const itemLines = splitTextByCharLimit(itemText, 42);
                 itemLines.forEach((line) => {
                     page.drawText(line, {
                         x: textX,
