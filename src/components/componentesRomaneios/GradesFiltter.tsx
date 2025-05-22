@@ -282,9 +282,9 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola}
                     {grade.status === "PRONTA" && (
                       <Link href={`/expedition/${grade.escolaId}`}  target="_blank">
-                        <span className={`text-orange-400 pl-5 hover:bg-orange-400 hover:text-black`}>
-                          (Nº {grade.numeroEscola})
-                        </span>
+                        <button type='button' className={`text-orange-400 ml-5 p-[0.1rem] px-6 border border-orange-400 rounded-xl hover:bg-orange-400 hover:text-black cursor-pointer`}>
+                          Nº {grade.numeroEscola}
+                        </button>
                       </Link>
                     )}
                     {grade.status !== "PRONTA" && (
