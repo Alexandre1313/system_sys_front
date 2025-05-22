@@ -85,7 +85,7 @@ const EtiquetasNew = ({ etiquetas, classNew }: EtiquetaNewProps) => {
             textY -= 18;           
 
             // Nome da escola (Fonte menor) com quebra de linha a cada 34 caracteres, sem quebrar palavras
-            const escolaLines = splitTextByCharLimit( concatString( numberJoin, escolaCaixa, escolaNumber ), 34);
+            const escolaLines = splitTextByCharLimit( concatString( numberJoin, escolaCaixa, escolaNumber ), 38);
             escolaLines.forEach((line) => {
                 page.drawText(line, {
                     x: textX,
@@ -117,8 +117,8 @@ const EtiquetasNew = ({ etiquetas, classNew }: EtiquetaNewProps) => {
                 }
 
                 // Renderiza o item com quebra de linha a cada 39 caracteres, sem quebrar palavras
-                const itemText = `${item.itemName} - ${item.itemGenero} - tamanho: ${item.itemTam}`;
-                const itemLines = splitTextByCharLimit(itemText, 39);
+                const itemText = `${item.itemName} - ${item.itemGenero} - TAM: ${item.itemTam}`;
+                const itemLines = splitTextByCharLimit(itemText, 52);
                 itemLines.forEach((line) => {
                     page.drawText(line, {
                         x: textX,

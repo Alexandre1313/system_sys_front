@@ -19,7 +19,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         numTamanhos.sort((a, b) => parseInt(a) - parseInt(b));
 
         // Ordena tamanhos com letras conforme a ordem desejada
-        const ordem = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'EG', 'EX', 'EGG', 'EXG', 'XGG', 'G1', 'G2', 'G3', 'EG/LG'];
+        const ordem = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'EG', 'EX', 'EGG', 'EXG', 'XGG', 'EXGG', 'G1', 'G2', 'G3', 'EG/LG'];
         letraTamanhos.sort((a, b) => ordem.indexOf(a) - ordem.indexOf(b));
 
         return [...numTamanhos, ...letraTamanhos];
