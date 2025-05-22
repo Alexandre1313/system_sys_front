@@ -355,8 +355,8 @@ async function ajust(id: string): Promise<Grade | null> {
     }
 }
 
-async function getFilterGrades(projectId: string, remessa: string, status: string): Promise<GradesRomaneio[] | null> {
-    const response = await fetch(`${urlFilterStatus}${projectId}/${remessa}/${status}`)
+async function getFilterGrades(projectId: string, remessa: string, status: string, tipo: string): Promise<GradesRomaneio[] | null> {
+    const response = await fetch(`${urlFilterStatus}${projectId}/${remessa}/${status}/${tipo}`)
     if (!response.ok) {
         console.log(`Erro ao buscar dados: ${response.statusText}`)
         return null

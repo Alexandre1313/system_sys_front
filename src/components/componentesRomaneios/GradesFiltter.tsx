@@ -288,9 +288,11 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                       </Link>
                     )}
                     {grade.status !== "PRONTA" && (
-                      <span className={`text-orange-400 pl-5`}>
-                        (Nº {grade.numeroEscola})
-                      </span>
+                      <Link className={`pointer-events-none`} href={`/expedition/${grade.escolaId}`}  target="_blank">
+                        <button type='button' className={`text-green-600 ml-5 p-[0.1rem] px-6 border border-green-600 rounded-xl hover:bg-green-600 hover:text-black`}>
+                          Nº {grade.numeroEscola}
+                        </button>
+                      </Link>
                     )}
                   </p>
                   <p className="text-green-600 uppercase text-xl">Número Join: {grade.numberJoin}</p>

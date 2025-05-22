@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { GradesRomaneio } from '../../../core';
 import { CreateServerSelectComponentProjectsResume } from '@/components/componentesRomaneios/createServerSelectComponentProjects.Resume';
 
-const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string): Promise<GradesRomaneio[] | null> => {
+const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string, tipo: string): Promise<GradesRomaneio[] | null> => {
   try {
-    const resp = await getFilterGrades(String(projectId), String(remessa), status);
+    const resp = await getFilterGrades(String(projectId), String(remessa), status, tipo);
     return resp;
   } catch (error) {
     console.error("Erro ao buscar grades:", error);
@@ -23,6 +23,7 @@ export default function ConsultaStatusGrades() {
   const [projectId, setProjectId] = useState<number | null>(null);
   const [remessa, setRemessa] = useState<number | null>(null);
   const [status, setStatus] = useState<string>("EXPEDIDA");
+  const [tipo, setTipo] = useState<string>("T");
   const [data, setData] = useState<GradesRomaneio[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -31,10 +32,10 @@ export default function ConsultaStatusGrades() {
 
   // Função para buscar as grades com os filtros
   const loaderFilter = async () => {
-    if (!projectId || !remessa || !status) return;
+    if (!projectId || !remessa || !status || !tipo) return;
     
     setIsLoading(true);
-    const res = await fetcherGradesPStatus(projectId, remessa, status);
+    const res = await fetcherGradesPStatus(projectId, remessa, status, tipo);
     setData(res);
     setIsLoading(false);
   };
@@ -42,7 +43,7 @@ export default function ConsultaStatusGrades() {
   // Atualiza as grades automaticamente quando os filtros mudam
   useEffect(() => {
     loaderFilter();
-  }, [projectId, remessa, status]);
+  }, [projectId, remessa, status, tipo]);
 
   // Carrega o seletor de projetos
   useEffect(() => {
@@ -76,7 +77,8 @@ export default function ConsultaStatusGrades() {
     <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
       <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
       <div className="flex flex-col items-center justify-start min-h-[101vh] pt-7 gap-y-5 w-full">
-        <div className="flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed bg-[#1F1F1F] gap-x-5 z-[15]">
+        <div className="flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed bg-[#1F1F1F] gap-x-5 z-[15]">         
+
           {/* Seletor de Status */}
           <select
             id="select-status"
@@ -108,7 +110,20 @@ export default function ConsultaStatusGrades() {
                 AGUARDE...
               </p>
             </div>
-          ))}
+          ))} 
+
+            {/* Seletor de Tipo */}
+          <select
+            id="select-tipo"
+            title="Selecione o tipo"
+            className="flex lg:w-[310px] w-[80px] bg-[#181818] py-2 px-3 lg:text-[14px] text-[12px] text-zinc-400 no-arrow outline-none cursor-pointer lg:h-[35px] border border-zinc-800"
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value)}
+          >
+            <option value="T">TODAS</option>
+            <option value="N">PEDIDO NORMAL</option>  
+            <option value="R">REPOSIÇÃO</option>                 
+          </select>         
 
           {/* Botão de Busca */}
           <button onClick={loaderFilter} className="px-6 py-1 min-w-[250px] h-[34px] bg-zinc-700 text-white rounded-md hover:bg-zinc-600">
