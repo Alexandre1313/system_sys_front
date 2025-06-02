@@ -5,10 +5,10 @@ export default function Home() {
     <div
       className="min-h-screen"
       style={{
-        background: 'linear-gradient(180deg,rgba(24, 24, 24, 0.97) 59%, rgba(52, 102, 75, 0.97) 100%)'
-        //backgroundSize: 'cover',
-        //backgroundPosition: 'center',
-        //backgroundRepeat: 'no-repeat',
+        backgroundImage: "linear-gradient(180deg, rgba(24, 24, 24, 0.97) 59%, rgba(52, 102, 75, 0.97) 100%), url('/IMG_RN1.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
