@@ -28,18 +28,18 @@ export default function TitleComponentFixed(props: TitleComponentFixedProps) {
 
     return (
         <div className={`fixed top-0 left-0 w-full flex border-b border-y-neutral-600  
-                    z-20 py-2 px-4 bg-[#111111] justify-center items-center`}>
+                    z-20 py-2 px-4 bg-[#182e23] justify-center items-center`}>
             <div className={`flex w-[10%] justify-start items-center`}>
                 <Link href={'/'}>
                     <ChevronsLeft className="animate-bounceXL" size={18} color={'#fff'} strokeWidth={2} />
                 </Link>
             </div>
             <div className={`flex w-[80%] justify-center items-center`}>
-                <h2 className='text-blue-500 text-[12px] lg:text-lg'>
-                    <strong>{props.stringOne}</strong>
-                    <span> {props.twoPoints} </span>
-                    <strong>{props.stringTwo}</strong>
-                </h2>
+                <div className='text-{#f7f7f7} text-[12px] lg:text-lg'>
+                    <span className={`text-slate-200 text-[12px] lg:text-lg`}>{props.stringOne}</span>
+                    <span className={`text-slate-200 text-[12px] lg:text-lg`}> {props.twoPoints} </span>
+                    <span className={`text-slate-200 text-[12px] lg:text-lg`}>{props.stringTwo}</span>
+                </div>
             </div>
             <div className={`flex lg:w-[10%] justify-center items-center`}>
                 <button 
