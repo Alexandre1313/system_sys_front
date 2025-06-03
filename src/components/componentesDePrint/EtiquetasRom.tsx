@@ -28,7 +28,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
         // Configurações da etiqueta
         const pageWidth = 215;  // Largura da etiqueta
         const pageHeight = 145; // Altura da etiqueta
-        const margem = 3;      // Margem em torno do conteúdo
+        const margem = 2;      // Margem em torno do conteúdo
 
         // Função para dividir texto com base no limite de caracteres sem quebrar palavras
         const splitTextByCharLimit = (text: string, charLimit: number) => {
@@ -77,15 +77,15 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
             page.drawText(`${escolaNumber} - ${projeto}`, {
                 x: textX,
                 y: textY,
-                size: 16,
+                size: 15,
                 font: font,
                 color: rgb(0, 0, 0),
             });
 
-            textY -= 18;
+            textY -= 15;
 
             // Nome da escola (Fonte menor) com quebra de linha a cada 34 caracteres, sem quebrar palavras
-            const escolaLines = splitTextByCharLimit(concatString(numberJoin, escolaCaixa, escolaNumber), 38);
+            const escolaLines = splitTextByCharLimit(concatString(numberJoin, escolaCaixa, escolaNumber), 37);
 
             escolaLines.forEach((line) => {
                 page.drawText(line, {
@@ -97,6 +97,8 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                 });
                 textY -= 12;
             });
+
+            textY -= 3;
 
             // Itens (Fonte ainda menor) com quebra de linha a cada 39 caracteres, sem quebrar palavras
             caixaItem.forEach((item) => {
@@ -139,8 +141,10 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                     font: font,
                     color: rgb(0, 0, 0),
                 });
-                textY -= 16; // Ajusta a posição vertical após a quantidade
+                textY -= 11; // Ajusta a posição vertical após a quantidade
             });
+
+            textY -= 4;
 
             // Antes de desenhar o total da caixa, verifica se ainda há espaço
             if (textY < margem + 20) { // Verifica se há espaço suficiente
@@ -167,7 +171,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                 font: font,
                 color: rgb(0, 0, 0),
             });
-            textY -= 18; // Ajusta a posição vertical após o total da caixa
+            textY -= 15; // Ajusta a posição vertical após o total da caixa
 
             // Número da caixa no final da etiqueta
             if (textY < margem + 20) { // Verifica se há espaço suficiente
@@ -195,29 +199,29 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                 color: rgb(0, 0, 0),
             });
 
-            textY -= 18;
+            textY -= 15;
 
             // Número da caixa no final da etiqueta
             const caixaNumberText = `${String(caixaNumber).padStart(2, '0')} /`; // Número da caixa
             const totalLabelsText = ` ${String(etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
 
             // Calcular a largura do texto
-            const textWidth = font.widthOfTextAtSize(`Caixa: ${caixaNumberText}`, 14);
+            const textWidth = font.widthOfTextAtSize(`Caixa: ${caixaNumberText}`, 13);
 
             // Desenha "Caixa" com o número da caixa em uma cor (preto)
             page.drawText(`Caixa: ${caixaNumberText}`, {
                 x: textX,
                 y: textY > margem ? textY : margem, // Garante que o número fique visível
-                size: 14,
+                size: 13,
                 font: font, // Usando a variável 'font' que você está utilizando
                 color: rgb(0, 0, 0), // Cor do número da caixa (preto)
             });
 
             // Desenha o total de etiquetas com uma cor diferente (por exemplo, vermelho)
             page.drawText(totalLabelsText, {
-                x: textX + font.widthOfTextAtSize(`Caixa ${caixaNumberText}`, 14) + 5, // Ajusta a posição X após o número da caixa
+                x: textX + font.widthOfTextAtSize(`Caixa ${caixaNumberText}`, 13) + 5, // Ajusta a posição X após o número da caixa
                 y: textY > margem ? textY : margem, // Garante que o número fique visível
-                size: 14,
+                size: 13,
                 font: font2, // Usando a variável 'font' que você está utilizando
                 color: rgb(1, 0, 0), // Cor do total de etiquetas (vermelho)
             });
