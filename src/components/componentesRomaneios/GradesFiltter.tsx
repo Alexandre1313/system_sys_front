@@ -52,9 +52,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   }, [expedicaoData]);
 
   const atualizacao = (arr: GradesRomaneio[]) => {
-    const ids = arr
-      .filter(grade => grade.status === "EXPEDIDA")
-      .map(grade => grade.id);
+    const ids = arr.filter(grade => grade.status === "EXPEDIDA").map(grade => grade.id);
     setExpedidasIds(ids);
     const romanExpeds = arr.filter(grade => ["EXPEDIDA", "DESPACHADA"].includes(grade.status));
     setGradesRoman(romanExpeds);
