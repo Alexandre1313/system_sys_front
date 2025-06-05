@@ -363,7 +363,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 "", // Coluna vazia inicial
                 "UNIDADE ESCOLAR", // Coluna "ESCOLA"
                 "FATURADO POR", // Coluna "FATURADO POR"
-                "TÉRMINO EM",
+                "CONCLUSÃO",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                     ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
                     `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
@@ -452,10 +452,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
 
                 // Calculando os totais por item + gênero
                 Object.keys(sortedItemGenderSizes).reduce((acc, key) => {
-                    const totalItemGenderSize = sortedItemGenderSizes[key].reduce(
-                        (accSize, size) => accSize + sizeQuantities[`${key}_${size}`],
-                        0
-                    );
+                    const totalItemGenderSize = sortedItemGenderSizes[key].reduce((accSize, size) => accSize + sizeQuantities[`${key}_${size}`], 0);
                     totalSizes[`${key}`] = totalItemGenderSize;
                     totalGeral += totalItemGenderSize;  // Somando ao total geral
                     return acc + totalItemGenderSize;
@@ -566,18 +563,15 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 "==>",
                 "==>", // Coluna vazia para "FATURADO POR"
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
-                    // Filtrar chaves que contém o tamanho e somar os valores
-                    //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
-                    //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
+                    const totalPerKey = sortedItemGenderSizes[key].reduce(
+                        (acc, size) => acc + (totalSizes[`${key}_${size}`] || 0),
+                        0
+                    );
                     return [
-                        ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0), // Totais de cada tamanho
-                        "", // Total por item + gênero (somando os tamanhos)
+                        ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0),
+                        totalPerKey, // Aqui soma os tamanhos desse item + gênero
                     ];
                 }),
-                // Soma total geral (somente itens que possuem tamanho devem ser considerados)
-                /*Object.keys(totalSizes)
-                    .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
-                    .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 totalGeral,
                 totalVolumes,
                 convertMilharFormatKG(totalPeso),
@@ -628,6 +622,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 { width: 2 }, // Total volumes
             ];
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (expedicaoDataRepo.length > 0) {
             const worksheetr = workbook.addWorksheet("REPOSIÇÃO");
@@ -876,18 +872,15 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 "==>",
                 "==>", // Coluna vazia para "FATURADO POR"
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
-                    // Filtrar chaves que contém o tamanho e somar os valores
-                    //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
-                    //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
+                    const totalPerKey = sortedItemGenderSizes[key].reduce(
+                        (acc, size) => acc + (totalSizes[`${key}_${size}`] || 0),
+                        0
+                    );
                     return [
-                        ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0), // Totais de cada tamanho
-                        "", // Total por item + gênero (somando os tamanhos)
+                        ...sortedItemGenderSizes[key].map((size) => totalSizes[`${key}_${size}`] || 0),
+                        totalPerKey, // Aqui soma os tamanhos desse item + gênero
                     ];
                 }),
-                // Soma total geral (somente itens que possuem tamanho devem ser considerados)
-                /*Object.keys(totalSizes)
-                    .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
-                    .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 totalGeral,
                 totalVolumes,
                 convertMilharFormatKG(totalPeso),
