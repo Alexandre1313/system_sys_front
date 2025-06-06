@@ -151,8 +151,10 @@ export default function ConsultaStatusGrades() {
 
         {/* Exibição dos Resultados */}
         <div className="flex w-full flex-row items-center justify-between mt-[80px]">
-          <div className={`flex flex-col min-w-[350px] max-w-[350px] min-h-[80vh] border-r-1 border-zinc-900 bg-zinc-500`}>
-            <p>alexandre</p>
+          <div className={`flex flex-col min-w-[350px] max-w-[350px]`}>
+            <div className={`fixed top-32 flex flex-col min-w-[350px] max-w-[350px] min-h-[85vh] border-r-1 border-zinc-900 bg-zinc-500`}>
+              <p>alexandre</p>
+            </div>
           </div>
           <div>
             {isLoading ? (
