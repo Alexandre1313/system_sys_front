@@ -2,13 +2,12 @@
 
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
-import { CreateServerSelectComponentRemessa } from '@/components/componentesRomaneios/createServerSelectComponentRemessa';
-import GradesFilter from '@/components/componentesRomaneios/GradesFiltter';
 import { getFilterGrades } from '@/hooks_api/api';
 import { useEffect, useState } from 'react';
 import { GradesRomaneio } from '../../../core';
-import { CreateServerSelectComponentProjectsResume } from '@/components/componentesRomaneios/createServerSelectComponentProjects.Resume';
 import GradesFilterTable from '@/components/componentesRomaneios/GradesFiltterTable';
+import ProjectSelect from '@/components/componentesRomaneios/preojectSelect';
+import RemessaSelect from '@/components/componentesRomaneios/RemessaSelect';
 
 const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string, tipo: string): Promise<GradesRomaneio[] | null> => {
   try {
@@ -27,10 +26,7 @@ export default function ConsultaStatusGrades() {
   const [tipo, setTipo] = useState<string>("T");
   const [data, setData] = useState<GradesRomaneio[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [tema, setTema] = useState<boolean>(true);
-
-  const [serverSelect, setServerSelect] = useState<JSX.Element | null>(null);
-  const [serverSelectRemessa, setServerSelectRemessa] = useState<JSX.Element | null>(null);
+  const [tema, setTema] = useState<boolean>(true); 
 
   // Função para buscar as grades com os filtros
   const loaderFilter = async () => {
@@ -46,34 +42,6 @@ export default function ConsultaStatusGrades() {
   useEffect(() => {
     loaderFilter();
   }, [projectId, remessa, status, tipo]);
-
-  // Carrega o seletor de projetos
-  useEffect(() => {
-    async function fetchServerSelect() {
-      const selectComponent = await CreateServerSelectComponentProjectsResume({
-        color: tema, onSelectChange: setProjectId,
-      });
-      setServerSelect(selectComponent);
-    }
-    fetchServerSelect();
-  }, [tema]);
-
-  // Carrega o seletor de remessas quando o projeto muda
-  useEffect(() => {
-    if (!projectId) {
-      setServerSelectRemessa(null);
-      return;
-    }
-
-    async function fetchServerSelectRemessas() {
-      const selectComponent = await CreateServerSelectComponentRemessa({
-        onSelectChange: setRemessa,
-        projectId, color: tema
-      });
-      setServerSelectRemessa(selectComponent);
-    }
-    fetchServerSelectRemessas();
-  }, [projectId, tema]);
 
   const theme = () => {
     setTema(tema ? false : true);
@@ -108,22 +76,10 @@ export default function ConsultaStatusGrades() {
           </select>
 
           {/* Seletor de Projeto */}
-          {serverSelect ?? (
-            <div className="flex flex-col justify-center items-start">
-              <p className={`flex lg:w-[310px] w-[80px] ${themeBG3} py-2 px-2 pl-3 text-[14px] border border-zinc-800 outline-none cursor-pointer h-[35px]`}>
-                SELECIONE O PROJETO
-              </p>
-            </div>
-          )}
+          <ProjectSelect onSelectChange={setProjectId} color={tema}/>
 
           {/* Seletor de Remessa */}
-          {serverSelectRemessa ?? (projectId && (
-            <div className="flex flex-col justify-center items-start">
-              <p className={`flex w-[310px] py-2 px-2 ${themeBG3} text-[14px] border border-zinc-800 outline-none cursor-pointer h-[35px]`}>
-                AGUARDE...
-              </p>
-            </div>
-          ))}
+          <RemessaSelect onSelectChange={setRemessa} projectId={projectId} color={tema}/>
 
           {/* Seletor de Tipo */}
           <select
@@ -151,15 +107,15 @@ export default function ConsultaStatusGrades() {
 
         {/* Exibição dos Resultados */}
         <div className="flex w-full flex-row items-center justify-between mt-[80px]">
-          <div className={`flex flex-col min-w-[350px] max-w-[350px]`}>
-            <div className={`fixed top-32 flex flex-col min-w-[480px] max-w-[480px] min-h-[86%] border-r-1 border-zinc-900 bg-zinc-500`}>
+          <div className={`flex flex-col min-w-[25%] max-w-[25%]`}>
+            <div className={`fixed top-[7rem] flex flex-col min-w-[25%] max-w-[25%] min-h-[86%] border-r-1 border-zinc-900 bg-zinc-500`}>
               <p>alexandre</p>
             </div>
           </div>
-          <div>
+          <div className={`flex items-start justify-center w-full max-w-[75%]`}>
             {isLoading ? (
               <div className="flex items-center justify-center w-full h-[82vh]">
-                <IsLoading />
+                <IsLoading color={tema} />
               </div>
             ) : data?.length ? (
               <GradesFilterTable expedicaoData={data} staticColors={tema} />
