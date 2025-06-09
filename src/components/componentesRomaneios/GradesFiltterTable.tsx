@@ -23,6 +23,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
       textBlue: 'text-blue-700',
       nadie: '',
       colorText: 'text-slate-700',
+      colorBG: 'bg-gray-100 text-zinc-500',
     }
     : {
       bg: 'bg-[#181818]',
@@ -37,6 +38,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
       textBlue: 'text-blue-400',
       nadie: '',
       colorText: 'text-slate-400',
+      colorBG: 'bg-zinc-800 text-zinc-500',
     };
 
   return (
@@ -49,7 +51,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
 
         return (
           <div className={`flex flex-col w-full gap-x-2 border border-slate-600`} key={grade.id}>
-            <div className={`${theme.colorText} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
+            <div className={`${theme.colorText} ${theme.colorBG} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
               <div className={`flex flex-col w-1/3 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span>{grade.projectname}</span></h4>
                 <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>                

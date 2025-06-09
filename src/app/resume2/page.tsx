@@ -8,6 +8,14 @@ import { GradesRomaneio } from '../../../core';
 import GradesFilterTable from '@/components/componentesRomaneios/GradesFiltterTable';
 import ProjectSelect from '@/components/componentesRomaneios/preojectSelect';
 import RemessaSelect from '@/components/componentesRomaneios/RemessaSelect';
+import { Search } from 'react-feather';
+import MostradorPageResults from '@/components/ComponentesInterface/MostradorPageResults';
+import RomaneiosAll from '@/components/componentesDePrint/RomaneiosAll';
+import PageExcelNewfaltas from '@/components/componentesDePrint/PageExcelNewfaltas';
+import PageExcelNew from '@/components/componentesDePrint/PageExcelNew';
+import PageEntExcel from '@/components/componentesDePrint/PageEntExcel';
+import PageExcelRelatorio from '@/components/componentesDePrint/PageExcelRelatorio';
+import { filtrarGradesPorPrioridade, getResumo } from '../../../core/utils/tools';
 
 const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string, tipo: string): Promise<GradesRomaneio[] | null> => {
   try {
@@ -24,9 +32,11 @@ export default function ConsultaStatusGrades() {
   const [remessa, setRemessa] = useState<number | null>(null);
   const [status, setStatus] = useState<string>("EXPEDIDA");
   const [tipo, setTipo] = useState<string>("T");
-  const [data, setData] = useState<GradesRomaneio[] | null>(null);
+  const [data, setData] = useState<GradesRomaneio[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [tema, setTema] = useState<boolean>(true); 
+  const [tema, setTema] = useState<boolean>(true);
+  const [dataFiltered, setDataFiltered] = useState<GradesRomaneio[] | null>([]);
+  const [buscaEscola, setBuscaEscola] = useState<string>('');
 
   // Função para buscar as grades com os filtros
   const loaderFilter = async () => {
@@ -34,7 +44,7 @@ export default function ConsultaStatusGrades() {
 
     setIsLoading(true);
     const res = await fetcherGradesPStatus(projectId, remessa, status, tipo);
-    setData(res);
+    setData(res!);
     setIsLoading(false);
   };
 
@@ -53,6 +63,13 @@ export default function ConsultaStatusGrades() {
   const colorFontAviso = tema ? 'text-zinc-950' : 'text-blue-500';
   const colorButons = tema ? 'bg-zinc-300 text-zinc-950 hover:bg-zinc-200' : 'bg-zinc-700 text-white hover:bg-zinc-600';
   const borderWhite = tema ? 'border-b-[3px] border-yellow-500' : '';
+  const colorInput = tema ? 'bg-[#F7F7F7] border-neutral-600 text-black placeholder:text-neutral-600' : 'bg-[#181818] border-neutral-600 text-white placeholder:text-neutral-400';
+  const colorLupa = tema ? '#000' : '#ccc';
+  const colorDivResuls = tema ? 'border-zinc-900 bg-zinc-500 bg-opacity-[0.2]' : 'border-zinc-900 bg-zinc-500 bg-opacity-[0.07]';
+
+  const gradesFiltradas = filtrarGradesPorPrioridade(data!, buscaEscola);
+
+  const filtered = getResumo(gradesFiltradas);
 
   return (
     <div className={`flex flex-col w-full items-start justify-center ${themeBG}`}>
@@ -76,10 +93,10 @@ export default function ConsultaStatusGrades() {
           </select>
 
           {/* Seletor de Projeto */}
-          <ProjectSelect onSelectChange={setProjectId} color={tema}/>
+          <ProjectSelect onSelectChange={setProjectId} color={tema} />
 
           {/* Seletor de Remessa */}
-          <RemessaSelect onSelectChange={setRemessa} projectId={projectId} color={tema}/>
+          <RemessaSelect onSelectChange={setRemessa} projectId={projectId} color={tema} />
 
           {/* Seletor de Tipo */}
           <select
@@ -108,17 +125,81 @@ export default function ConsultaStatusGrades() {
         {/* Exibição dos Resultados */}
         <div className="flex w-full flex-row items-center justify-between mt-[80px]">
           <div className={`flex flex-col min-w-[25%] max-w-[25%]`}>
-            <div className={`fixed top-[7rem] flex flex-col min-w-[25%] max-w-[25%] min-h-[86%] border-r-1 border-zinc-900 bg-zinc-500`}>
-              <p>alexandre</p>
+            <div className={`fixed top-[7.1rem]  h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
+              <div className={`flex w-full flex-col justify-start items-center`}>
+                <div className={`flex w-full flex-row justify-center items-center`}>
+                  <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
+                    <MostradorPageResults title={`PREVISTO`} valor={filtered.escolasAtendidas} tema={tema} />
+                    <MostradorPageResults title={`EXPEDIDOS`} valor={`3.455.632`} tema={tema} />
+                    <MostradorPageResults title={`À EXPEDIR`} valor={`3.455.632`} tema={tema} />
+                    <MostradorPageResults title={`ESCOLAS`} valor={`3.455.632`} tema={tema} />
+                    <MostradorPageResults title={`ESCOLAS ATENDIDAS`} valor={filtered.escolasAtendidas} tema={tema} />
+                    <MostradorPageResults title={`GRADES`} valor={filtered.grades} tema={tema} />
+                    <MostradorPageResults title={`VOLUMES`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />
+                  </div>
+                  <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
+                    <MostradorPageResults title={`P. C/ REPOSIÇÕES`} valor={`3.455.632`} tema={tema} />
+                    <MostradorPageResults title={`REPOSIÇÕES`} valor={``} tema={tema} />
+                    <MostradorPageResults title={``} valor={``} tema={tema} />
+                    <MostradorPageResults title={``} valor={``} tema={tema} />
+                    <MostradorPageResults title={`PORC. CONCLUÍDO`} valor={`3.455.632`} tema={tema} />
+                    <MostradorPageResults title={`PESO TOTAL`} valor={filtered.peso} tema={tema} />
+                    <MostradorPageResults title={`CUB. TOTAL`} valor={filtered.cubagem} tema={tema} />
+                  </div>
+                </div>
+                <div className={`flex w-full flex-row justify-center items-center gap-x-2 mt-4`}>
+                  <div className={``} title='GERAÇÃO DE ROMANEIS DE EMBARQUE/ENTREGA'>
+                    {data && (
+                      <RomaneiosAll romaneios={data} data-tip="Clique aqui para mais informações" />
+                    )}
+                  </div>
+                  <div title='RELATÓRIO EM EXCEL FALTAS EM TEMPO REAL'>
+                    {data && (
+                      <PageExcelNewfaltas expedicaoDataB={data} />
+                    )}
+                  </div>
+                  <div title='RELATÓRIO EM EXCEL EXPEDIDOS NO DIA'>
+                    {data && (
+                      <PageExcelNew expedicaoDataB={data} />
+                    )}
+                  </div>
+                  <div title='RELATÓRIO EM EXCEL POR ENTREGA'>
+                    {data && (
+                      <PageEntExcel expedicaoDataB={data} />
+                    )}
+                  </div>
+                  <div title='RELATÓRIO EM EXCEL POR GRADE'>
+                    {data && (
+                      <PageExcelRelatorio expedicaoData={data} />
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="relative flex w-[75%]">
+                {/* Ícone da lupa dentro do input */}
+                <Search
+                  color={colorLupa}
+                  size={21}
+                  className="absolute left-3 top-1/3 transform -translate-y-1/2 pointer-events-none"
+                  strokeWidth={1}
+                />
+                <input
+                  type="text"
+                  placeholder="Busca..."
+                  className={`w-full mb-4 p-2 pl-12 rounded border focus:outline-none ${colorInput}`}
+                  value={buscaEscola}
+                  onChange={(e) => setBuscaEscola(e.target.value.toLowerCase())}
+                />
+              </div>
             </div>
           </div>
-          <div className={`flex items-start justify-center w-full max-w-[75%]`}>
+          <div className={`flex flex-col items-start justify-center w-full max-w-[73%]`}>
             {isLoading ? (
               <div className="flex items-center justify-center w-full h-[82vh]">
                 <IsLoading color={tema} />
               </div>
             ) : data?.length ? (
-              <GradesFilterTable expedicaoData={data} staticColors={tema} />
+              <GradesFilterTable expedicaoData={gradesFiltradas} staticColors={tema} />
             ) : (
               <div className="flex items-center justify-center w-full h-[82vh]">
                 <p className={`text-lg ${colorFontAviso}`}>NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
