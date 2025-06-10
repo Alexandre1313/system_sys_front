@@ -65,7 +65,7 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
     volumes: convertMilharFormat(grades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
     gradesValidas: convertMilharFormat(gradesPedValid),
     gradesRepo: convertMilharFormat(gradesRepo),
-    peso: convertMilharFormatKG(grades.reduce((acc, g) => {const pesoGrade = g.tamanhosQuantidades.reduce( (sum, item) => sum + (item.peso ?? 0) * (item.quantidade ?? 0), 0); return acc + pesoGrade;}, 0)),
+    peso: convertMilharFormatKG(grades.reduce((acc, g) => g.peso + acc, 0)),
     cubagem: convertMilharFormatCUB(grades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
     escolasAtendidas: convertMilharFormat((Array.from(new Set(grades.map(grade => grade.escola)))).length),
 
