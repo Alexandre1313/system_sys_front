@@ -35,7 +35,7 @@ export default function ConsultaStatusGrades() {
   const [data, setData] = useState<GradesRomaneio[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [tema, setTema] = useState<boolean>(true);
-  const [dataFiltered, setDataFiltered] = useState<GradesRomaneio[] | null>([]);
+  const [dataFiltered, setDataFiltered] = useState<GradesRomaneio[]>([]);
   const [buscaEscola, setBuscaEscola] = useState<string>('');
 
   // Função para buscar as grades com os filtros
@@ -44,7 +44,7 @@ export default function ConsultaStatusGrades() {
 
     setIsLoading(true);
     const res = await fetcherGradesPStatus(projectId, remessa, status, tipo);
-    setData(res!);
+    setData(res || []);
     setIsLoading(false);
   };
 
@@ -65,11 +65,14 @@ export default function ConsultaStatusGrades() {
   const borderWhite = tema ? 'border-b-[3px] border-yellow-500' : '';
   const colorInput = tema ? 'bg-[#F7F7F7] border-neutral-600 text-black placeholder:text-neutral-600' : 'bg-[#181818] border-neutral-600 text-white placeholder:text-neutral-400';
   const colorLupa = tema ? '#000' : '#ccc';
-  const colorDivResuls = tema ? 'border-zinc-900 bg-zinc-500 bg-opacity-[0.2]' : 'border-zinc-900 bg-zinc-500 bg-opacity-[0.07]';
+  const colorDivResuls = tema ? 'border-zinc-900 bg-zinc-500 bg-opacity-[0.2]' : 'border-zinc-900 bg-zinc-500 bg-opacity-[0.07]'; 
 
-  const gradesFiltradas = filtrarGradesPorPrioridade(data!, buscaEscola);
+  useEffect(() => {
+    const gradesFiltradas = filtrarGradesPorPrioridade(data, buscaEscola);
+    setDataFiltered(gradesFiltradas);
+  }, [data, buscaEscola]);
 
-  const filtered = getResumo(gradesFiltradas);
+  const filtered = getResumo(dataFiltered);
 
   return (
     <div className={`flex flex-col w-full items-start justify-center ${themeBG}`}>
@@ -123,9 +126,9 @@ export default function ConsultaStatusGrades() {
         </div>
 
         {/* Exibição dos Resultados */}
-        <div className="flex w-full flex-row items-center justify-between mt-[80px]">
+        <div className="flex w-full flex-row items-center justify-between mt-[80px] pt-1">
           <div className={`flex flex-col min-w-[25%] max-w-[25%]`}>
-            <div className={`fixed top-[7.1rem]  h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
+            <div className={`fixed top-[7.1rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
               <div className={`flex w-full flex-col justify-start items-center`}>
                 <div className={`flex w-full flex-row justify-center items-center`}>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
@@ -134,12 +137,12 @@ export default function ConsultaStatusGrades() {
                     <MostradorPageResults title={`À EXPEDIR`} valor={`3.455.632`} tema={tema} />
                     <MostradorPageResults title={`ESCOLAS`} valor={`3.455.632`} tema={tema} />
                     <MostradorPageResults title={`ESCOLAS ATENDIDAS`} valor={filtered.escolasAtendidas} tema={tema} />
-                    <MostradorPageResults title={`GRADES`} valor={filtered.grades} tema={tema} />
+                    <MostradorPageResults title={`GRADES N`} valor={filtered.gradesValidas} tema={tema} />
                     <MostradorPageResults title={`VOLUMES`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />
                   </div>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
                     <MostradorPageResults title={`P. C/ REPOSIÇÕES`} valor={`3.455.632`} tema={tema} />
-                    <MostradorPageResults title={`REPOSIÇÕES`} valor={``} tema={tema} />
+                    <MostradorPageResults title={`GRADES R`} valor={filtered.gradesRepo} tema={tema} />
                     <MostradorPageResults title={``} valor={``} tema={tema} />
                     <MostradorPageResults title={``} valor={``} tema={tema} />
                     <MostradorPageResults title={`PORC. CONCLUÍDO`} valor={`3.455.632`} tema={tema} />
@@ -150,27 +153,27 @@ export default function ConsultaStatusGrades() {
                 <div className={`flex w-full flex-row justify-center items-center gap-x-2 mt-4`}>
                   <div className={``} title='GERAÇÃO DE ROMANEIS DE EMBARQUE/ENTREGA'>
                     {data && (
-                      <RomaneiosAll romaneios={data} data-tip="Clique aqui para mais informações" />
+                      <RomaneiosAll romaneios={dataFiltered} data-tip="Clique aqui para mais informações" />
                     )}
                   </div>
                   <div title='RELATÓRIO EM EXCEL FALTAS EM TEMPO REAL'>
                     {data && (
-                      <PageExcelNewfaltas expedicaoDataB={data} />
+                      <PageExcelNewfaltas expedicaoDataB={dataFiltered} />
                     )}
                   </div>
                   <div title='RELATÓRIO EM EXCEL EXPEDIDOS NO DIA'>
                     {data && (
-                      <PageExcelNew expedicaoDataB={data} />
+                      <PageExcelNew expedicaoDataB={dataFiltered} />
                     )}
                   </div>
                   <div title='RELATÓRIO EM EXCEL POR ENTREGA'>
                     {data && (
-                      <PageEntExcel expedicaoDataB={data} />
+                      <PageEntExcel expedicaoDataB={dataFiltered} />
                     )}
                   </div>
                   <div title='RELATÓRIO EM EXCEL POR GRADE'>
                     {data && (
-                      <PageExcelRelatorio expedicaoData={data} />
+                      <PageExcelRelatorio expedicaoData={dataFiltered} />
                     )}
                   </div>
                 </div>
@@ -199,7 +202,7 @@ export default function ConsultaStatusGrades() {
                 <IsLoading color={tema} />
               </div>
             ) : data?.length ? (
-              <GradesFilterTable expedicaoData={gradesFiltradas} staticColors={tema} />
+              <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} />
             ) : (
               <div className="flex items-center justify-center w-full h-[82vh]">
                 <p className={`text-lg ${colorFontAviso}`}>NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>

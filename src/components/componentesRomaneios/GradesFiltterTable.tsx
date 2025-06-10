@@ -46,7 +46,9 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
       {expedicaoData.map((grade) => {
         const totalQuantidade = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.quantidade, 0);
         const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.previsto, 0);
+        const totalPesoAfer = grade.tamanhosQuantidades.reduce((sum, i) => sum + (i.peso ?? 0) * (i.quantidade ?? 0), 0);
         const faltaExpedir = totalPrevisto - totalQuantidade;
+        
         const colorValue = faltaExpedir > 0 ? 'text-red-500' : 'text-green-500';
 
         return (
@@ -54,17 +56,17 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
             <div className={`${theme.colorText} ${theme.colorBG} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
               <div className={`flex flex-col w-1/3 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span>{grade.projectname}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>                
+                <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>
               </div>
               <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
                 <h4 className="text-md font-semibold uppercase">Empresa: <span>{grade.company}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Nº da escola: <span>{grade.numeroEscola}</span></h4>   
-                <h4 className="text-md font-semibold uppercase">Nº Join: <span>{grade.numberJoin}</span></h4>     
+                <h4 className="text-md font-semibold uppercase">Nº da escola: <span>{grade.numeroEscola}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Nº Join: <span>{grade.numberJoin}</span></h4>
               </div>
-               <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
+              <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
                 <h4 className="text-md font-semibold uppercase">Grade ID: <span>{grade.id}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Último Update: <span>{grade.update}</span></h4>     
-                <h4 className="text-md font-semibold uppercase">Qty de volumes: <span>{grade.caixas.length}</span></h4>  
+                <h4 className="text-md font-semibold uppercase">Último Update: <span>{grade.update}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Qty de volumes: <span>{grade.caixas.length}</span></h4>
               </div>
             </div>
             <table className={`w-full table-fixed border-collapse text-sm`}>
@@ -132,7 +134,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
                   <td className={`py-2 px-4 border ${theme.border}`}>{convertMilharFormat(totalQuantidade)}</td>
                   <td className={`py-2 px-4 border ${theme.border}`}></td>
                   <td className={`py-2 px-4 border ${theme.border}`}>
-                    {convertMilharFormatKG(grade.peso ?? 0)}
+                    {convertMilharFormatKG(totalPesoAfer ?? 0)}
                   </td>
                 </tr>
               </tbody>
