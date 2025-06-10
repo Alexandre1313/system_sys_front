@@ -46,6 +46,18 @@ function convertMilharFormat(value: number): string {
 function getResumo(grades: GradesRomaneio[] | null): Resumo {
   const gradesPedValid = grades?.filter(grade => !grade.tipo).length || 0;
   const gradesRepo = grades?.filter(grade => grade.tipo).length || 0;
+  const pedidosValidos = grades?.filter(grade => !grade.tipo) || [];
+  const reposicoesGrades = grades?.filter(grade => grade.tipo) || [];
+
+  const expedidosNormais = pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0);
+  const previstoNormais = pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0);
+
+  const expedidosRepo = reposicoesGrades.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0);
+  const previstoRepo = reposicoesGrades.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0);
+
+  const aExpedirNormais = previstoNormais - expedidosNormais;
+  const aExpedirRepos = previstoRepo - expedidosRepo;
+ 
 
   if (!grades || grades.length === 0) {
     return {
@@ -53,12 +65,17 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
       gradesValidas: convertMilharFormat(0),
       gradesRepo: convertMilharFormat(0),
       peso: convertMilharFormatKG(0),
-      cubagem: convertMilharFormatCUB(0),
-      reposicoes: convertMilharFormat(0),
-      escolasAtendidas: convertMilharFormat(0),
+      cubagem: convertMilharFormatCUB(0),     
       expedidos: convertMilharFormat(0),
-      despachados: convertMilharFormat(0),
-      prontas: convertMilharFormat(0),
+      aExpedir: convertMilharFormat(0),
+      previstoN: convertMilharFormat(0),
+
+      expRepo: convertMilharFormat(0),
+      prevRepo: convertMilharFormat(0),
+      aExpRepo: convertMilharFormat(0),
+
+
+      escolasAtendidas: convertMilharFormat(0),
     };
   }
   return {
@@ -68,13 +85,13 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
     peso: convertMilharFormatKG(grades.reduce((acc, g) => g.peso + acc, 0)),
     cubagem: convertMilharFormatCUB(grades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
     escolasAtendidas: convertMilharFormat((Array.from(new Set(grades.map(grade => grade.escola)))).length),
+    expedidos: convertMilharFormat(expedidosNormais),
+    previstoN: convertMilharFormat(previstoNormais),
+    aExpedir: convertMilharFormat(aExpedirNormais),
 
-    reposicoes: convertMilharFormat(grades.filter(g => g.tipo === 'R').length),
-    
-    
-    expedidos: convertMilharFormat(grades.filter(g => g.status === 'EXPEDIDA').length),
-    despachados: convertMilharFormat(grades.filter(g => g.status === 'DESPACHADA').length),
-    prontas: convertMilharFormat(grades.filter(g => g.status === 'PRONTA').length),
+    expRepo: convertMilharFormat(expedidosRepo),
+    prevRepo: convertMilharFormat(previstoRepo),       
+    aExpRepo: convertMilharFormat(aExpedirRepos),
   };
 }
 

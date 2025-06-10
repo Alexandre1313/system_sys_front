@@ -3,10 +3,12 @@ export default interface Resumo {
     gradesValidas: string;
     peso: string;
     cubagem: string;
-    reposicoes: string;
+    prevRepo: string;
     escolasAtendidas: string;
     expedidos: string;
-    despachados: string;
+    aExpedir: string;
     gradesRepo: string;
-    prontas: string;
+    expRepo: string;
+    previstoN: string;
+    aExpRepo: string;
 }

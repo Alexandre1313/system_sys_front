@@ -51,12 +51,15 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
         
         const colorValue = faltaExpedir > 0 ? 'text-red-500' : 'text-green-500';
 
+        const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500': grade.status === 'EXPEDIDA' ? 'text-emerald-500': 'text-slate-400';
+
         return (
           <div className={`flex flex-col w-full gap-x-2 border border-slate-600`} key={grade.id}>
             <div className={`${theme.colorText} ${theme.colorBG} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
               <div className={`flex flex-col w-1/3 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span>{grade.projectname}</span></h4>
                 <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>
+                <h4 className={`text-md font-semibold uppercase ${colorStatus}`}>Status: <span>{grade.status}</span></h4>
               </div>
               <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
                 <h4 className="text-md font-semibold uppercase">Empresa: <span>{grade.company}</span></h4>

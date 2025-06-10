@@ -34,7 +34,7 @@ export default function ConsultaStatusGrades() {
   const [tipo, setTipo] = useState<string>("T");
   const [data, setData] = useState<GradesRomaneio[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [tema, setTema] = useState<boolean>(true);
+  const [tema, setTema] = useState<boolean>(false);
   const [dataFiltered, setDataFiltered] = useState<GradesRomaneio[]>([]);
   const [buscaEscola, setBuscaEscola] = useState<string>('');
 
@@ -132,19 +132,21 @@ export default function ConsultaStatusGrades() {
               <div className={`flex w-full flex-col justify-start items-center`}>
                 <div className={`flex w-full flex-row justify-center items-center`}>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
-                    <MostradorPageResults title={`PREVISTO`} valor={filtered.escolasAtendidas} tema={tema} />
-                    <MostradorPageResults title={`EXPEDIDOS`} valor={`3.455.632`} tema={tema} />
-                    <MostradorPageResults title={`À EXPEDIR`} valor={`3.455.632`} tema={tema} />
-                    <MostradorPageResults title={`ESCOLAS`} valor={`3.455.632`} tema={tema} />
-                    <MostradorPageResults title={`ESCOLAS ATENDIDAS`} valor={filtered.escolasAtendidas} tema={tema} />
+                    <MostradorPageResults title={`PREVISTO N`} valor={filtered.previstoN} tema={tema} />
+                    <MostradorPageResults title={`EXPEDIDOS N`} valor={filtered.expedidos} tema={tema} />
+                    <MostradorPageResults title={`À EXPEDIR N`} valor={filtered.aExpedir} tema={tema} />
                     <MostradorPageResults title={`GRADES N`} valor={filtered.gradesValidas} tema={tema} />
+
+                    <MostradorPageResults title={`ESCOLAS ATENDIDAS`} valor={filtered.escolasAtendidas} tema={tema} />
+                    <MostradorPageResults title={``} valor={``} tema={tema} />
                     <MostradorPageResults title={`VOLUMES`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />
                   </div>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
-                    <MostradorPageResults title={`P. C/ REPOSIÇÕES`} valor={`3.455.632`} tema={tema} />
+                    <MostradorPageResults title={`PREVISTO R`} valor={filtered.prevRepo} tema={tema} />
+                    <MostradorPageResults title={`EXPEDIDOS R`} valor={filtered.expRepo} tema={tema} />
+                    <MostradorPageResults title={`À EXPEDIR R`} valor={filtered.aExpRepo} tema={tema} />
                     <MostradorPageResults title={`GRADES R`} valor={filtered.gradesRepo} tema={tema} />
-                    <MostradorPageResults title={``} valor={``} tema={tema} />
-                    <MostradorPageResults title={``} valor={``} tema={tema} />
+
                     <MostradorPageResults title={`PORC. CONCLUÍDO`} valor={`3.455.632`} tema={tema} />
                     <MostradorPageResults title={`PESO TOTAL`} valor={filtered.peso} tema={tema} />
                     <MostradorPageResults title={`CUB. TOTAL`} valor={filtered.cubagem} tema={tema} />
