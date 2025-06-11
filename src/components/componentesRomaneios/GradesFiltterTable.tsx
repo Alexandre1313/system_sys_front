@@ -24,12 +24,14 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
       nadie: '',
       colorText: 'text-slate-700',
       colorBG: 'bg-gray-100 text-zinc-500',
+      colorDivResuls: 'border-zinc-900 bg-[#E3E3E4] bg-opacity-[1]',
+      
     }
     : {
       bg: 'bg-[#181818]',
       text: 'text-zinc-300',
       border: 'border-zinc-700',
-      header: 'bg-zinc-800 text-zinc-200',
+      header: 'bg-zinc-800 text-zinc-400',
       zebra: 'bg-zinc-700 bg-opacity-30',
       highlight: 'bg-zinc-400 bg-opacity-[0.07]',
       textCyan: 'text-cyan-400',
@@ -37,12 +39,13 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
       textGreen: 'text-green-400',
       textBlue: 'text-blue-400',
       nadie: '',
-      colorText: 'text-slate-400',
+      colorText: 'text-slate-500',
       colorBG: 'bg-zinc-800 text-zinc-500',
+      colorDivResuls: 'border-zinc-900 bg-[#1E1E1F] bg-opacity-[1]',
     };
 
   return (
-    <div className={`flex flex-col gap-y-4 w-full px-6 py-4 ${theme.bg} ${theme.text}`}>
+    <div className={`flex flex-col gap-y-6 w-full px-2 py-4 ${theme.bg} ${theme.text}`}>
       {expedicaoData.map((grade) => {
         const totalQuantidade = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.quantidade, 0);
         const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.previsto, 0);
@@ -54,8 +57,8 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
         const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500': grade.status === 'EXPEDIDA' ? 'text-emerald-500': 'text-slate-400';
 
         return (
-          <div className={`flex flex-col w-full gap-x-2 border border-slate-600`} key={grade.id}>
-            <div className={`${theme.colorText} ${theme.colorBG} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
+          <div className={`flex flex-col w-full gap-x-2 border border-slate-800`} key={grade.id}>
+            <div className={`${theme.colorText} ${theme.colorDivResuls} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
               <div className={`flex flex-col w-1/3 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span>{grade.projectname}</span></h4>
                 <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>
