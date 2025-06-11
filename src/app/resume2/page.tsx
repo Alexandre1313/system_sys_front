@@ -134,20 +134,20 @@ export default function ConsultaStatusGrades() {
                 <div className={`flex w-full flex-row justify-center items-center`}>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
                     <MostradorPageResults title={`PREVISTO N`} valor={filtered.previstoN} tema={tema} valorColor={`text-cyan-500`}/>
-                    <MostradorPageResults title={`EXPEDIDOS N`} valor={filtered.expedidos} tema={tema} />
-                    <MostradorPageResults title={`À EXPEDIR N`} valor={filtered.aExpedir} tema={tema} />
+                    <MostradorPageResults title={`EXPEDIDOS N`} valor={filtered.expedidos} tema={tema} valorColor={`text-emerald-500`}/>
+                    <MostradorPageResults title={`À EXPEDIR N`} valor={filtered.aExpedir} tema={tema} valorColor={`text-orange-600`}/>
                     <MostradorPageResults title={`GRADES N`} valor={filtered.gradesValidas} tema={tema} />
-                    <MostradorPageResults title={`ESC. ATENDIDAS N`} valor={filtered.escolasAtendidasN} tema={tema} />
+                    <MostradorPageResults title={`ESC. ATENDIDAS N`} valor={filtered.escolasAtendidasN} tema={tema} valorColor={`text-purple-600`}/>
                     <MostradorPageResults title={`CUB. TOTAL N`} valor={filtered.cubagemN} tema={tema} />
                     <MostradorPageResults title={`PESO TOTAL N`} valor={filtered.pesoN} tema={tema} />
                     <MostradorPageResults title={`VOLUMES N`} valor={filtered.volumesN} tema={tema} valorColor={`text-red-500`}/>
                   </div>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
                     <MostradorPageResults title={`PREVISTO R`} valor={filtered.prevRepo} tema={tema} valorColor={`text-cyan-500`}/>
-                    <MostradorPageResults title={`EXPEDIDOS R`} valor={filtered.expRepo} tema={tema} />
-                    <MostradorPageResults title={`À EXPEDIR R`} valor={filtered.aExpRepo} tema={tema} />
+                    <MostradorPageResults title={`EXPEDIDOS R`} valor={filtered.expRepo} tema={tema} valorColor={`text-emerald-500`}/>
+                    <MostradorPageResults title={`À EXPEDIR R`} valor={filtered.aExpRepo} tema={tema} valorColor={`text-orange-600`}/>
                     <MostradorPageResults title={`GRADES R`} valor={filtered.gradesRepo} tema={tema} />
-                    <MostradorPageResults title={`ESC. ATENDIDAS R`} valor={filtered.escolasAtendidasR} tema={tema} />
+                    <MostradorPageResults title={`ESC. ATENDIDAS R`} valor={filtered.escolasAtendidasR} tema={tema} valorColor={`text-purple-600`}/>
                     <MostradorPageResults title={`CUB. TOTAL R`} valor={filtered.cubagemR} tema={tema} />
                     <MostradorPageResults title={`PESO TOTAL R`} valor={filtered.pesoR} tema={tema} />
                     <MostradorPageResults title={`VOLUMES R`} valor={filtered.volumesR} tema={tema} valorColor={`text-red-500`}/>
@@ -200,13 +200,13 @@ export default function ConsultaStatusGrades() {
             </div>
           </div>
           <div className={`flex flex-col items-start justify-center w-full max-w-[73%]`}>
-            <div className={`fixed top-[7rem] min-h-[70px] flex flex-row items-center justify-between w-full ${colorDivResuls}`}>
+            <div className={`fixed top-[6.9rem] min-h-[70px] flex flex-row items-center justify-between w-full ${colorDivResuls}`}>
               <div className={`flex flex-row items-center justify-start w-auto`}>
                 <MostradorPageResults2 title={`PREVISTO  T`} valor={filtered.previstoT} tema={tema} valorColor={`text-cyan-500`}/>
-                <MostradorPageResults2 title={`EXPEDIDOS T`} valor={filtered.expedidosT} tema={tema} />
-                <MostradorPageResults2 title={`À EXPEDIR T`} valor={filtered.aExpedirT} tema={tema} />
+                <MostradorPageResults2 title={`EXPEDIDOS T`} valor={filtered.expedidosT} tema={tema} valorColor={`text-emerald-500`}/>
+                <MostradorPageResults2 title={`À EXPEDIR T`} valor={filtered.aExpedirT} tema={tema} valorColor={`text-orange-600`}/>
                 <MostradorPageResults2 title={`GRADES T`} valor={filtered.gradesT} tema={tema} />
-                <MostradorPageResults2 title={`ESC. ATENDIDAS T`} valor={filtered.escolasAtendidasT} tema={tema} />
+                <MostradorPageResults2 title={`ESC. ATENDIDAS T`} valor={filtered.escolasAtendidasT} tema={tema} valorColor={`text-purple-600`}/>
                 <MostradorPageResults2 title={`CUB. TOTAL T`} valor={filtered.cubagemT} tema={tema} />
                 <MostradorPageResults2 title={`PESO TOTAL T`} valor={filtered.pesoT} tema={tema} />
                 <MostradorPageResults2 title={`VOLUMES T`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />

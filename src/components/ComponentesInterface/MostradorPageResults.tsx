@@ -15,7 +15,7 @@ export default function MostradorPageResults({ tema, title, valor, valorColor }:
         title: 'text-[18px] text-slate-400',
         value: 'text-[18px]',
         valueColor: valorColor ? valorColor : 'text-slate-400',
-        divGeral: 'border-slate-700 bg-gradient-to-r from-slate-800 to-transparent',
+        divGeral: 'border-slate-700',
     }
 
     return (

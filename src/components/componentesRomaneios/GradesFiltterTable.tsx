@@ -59,7 +59,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors }: Grade
               <div className={`flex flex-col w-1/3 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span>{grade.projectname}</span></h4>
                 <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>
-                <h4 className={`text-md font-semibold uppercase ${colorStatus}`}>Status: <span>{grade.status}</span></h4>
+                <h4 className={`text-md font-semibold uppercase ${colorStatus}`}>Status: <span>{grade.status}</span><span className={`text-red-600`}> {grade.tipo ? 'R': ''}</span></h4>
               </div>
               <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
                 <h4 className="text-md font-semibold uppercase">Empresa: <span>{grade.company}</span></h4>
