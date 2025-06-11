@@ -23,4 +23,7 @@ export default interface Resumo {
     expedidosT: string;
     aExpedirT: string;
     escolasAtendidasT: string,
+    escolasTotaisN: string;
+    escolasTotaisR: string;
+    escolasTotaisT: string;
 }

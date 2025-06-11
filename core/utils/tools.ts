@@ -85,6 +85,9 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
       expedidosT: convertMilharFormat(0),
       aExpedirT: convertMilharFormat(0),
       escolasAtendidasT: convertMilharFormat(0),
+      escolasTotaisN: convertMilharFormat(0),
+      escolasTotaisR: convertMilharFormat(0),
+      escolasTotaisT: convertMilharFormat(0),
     };
   }
   return {
@@ -99,14 +102,14 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
     cubagemN: convertMilharFormatCUB(pedidosValidos.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
     pesoT: convertMilharFormatKG(grades.reduce((acc, g) => g.peso + acc, 0)),
     cubagemT: convertMilharFormatCUB(grades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
-    escolasAtendidasN: convertMilharFormat(
+    escolasTotaisN: convertMilharFormat(
       Array.from(new Set(
         grades
           .filter(grade => grade.tipo === null)
           .map(grade => grade.escola)
       )).length
     ),
-    escolasAtendidasR: convertMilharFormat(
+    escolasTotaisR: convertMilharFormat(
       Array.from(new Set(
         grades
           .filter(grade =>
@@ -116,7 +119,38 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
           .map(grade => grade.escola)
       )).length
     ),
-    escolasAtendidasT: convertMilharFormat(Array.from(new Set(grades.map(grade => grade.escola))).length),
+    escolasAtendidasN: convertMilharFormat(
+      Array.from(new Set(
+        grades
+          .filter(grade =>
+            grade.tipo === null &&
+            ['DESPACHADA', 'EXPEDIDA'].includes(grade.status)
+          )
+          .map(grade => grade.escola)
+      )).length
+    ),
+    escolasAtendidasR: convertMilharFormat(
+      Array.from(new Set(
+        grades
+          .filter(grade =>
+            grade.tipo &&
+            grade.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'reposicao' &&
+            grade.status &&
+            ['DESPACHADA', 'EXPEDIDA'].includes(
+              grade.status.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+            )
+          )
+          .map(grade => grade.escola)
+      )).length
+    ),
+    escolasAtendidasT: convertMilharFormat(
+      Array.from(new Set(
+        grades
+          .filter(grade => ['DESPACHADA', 'EXPEDIDA'].includes(grade.status))
+          .map(grade => grade.escola)
+      )).length
+    ),
+    escolasTotaisT: convertMilharFormat(Array.from(new Set(grades.map(grade => grade.escola))).length),
     expedidos: convertMilharFormat(expedidosNormais),
     previstoN: convertMilharFormat(previstoNormais),
     aExpedir: convertMilharFormat(aExpedirNormais),
