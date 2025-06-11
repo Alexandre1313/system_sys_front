@@ -16,6 +16,7 @@ import PageExcelNew from '@/components/componentesDePrint/PageExcelNew';
 import PageEntExcel from '@/components/componentesDePrint/PageEntExcel';
 import PageExcelRelatorio from '@/components/componentesDePrint/PageExcelRelatorio';
 import { filtrarGradesPorPrioridade, getResumo } from '../../../core/utils/tools';
+import MostradorPageResults2 from '@/components/ComponentesInterface/MostradorPageResults2';
 
 const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string, tipo: string): Promise<GradesRomaneio[] | null> => {
   try {
@@ -65,8 +66,8 @@ export default function ConsultaStatusGrades() {
   const borderWhite = tema ? 'border-b-[3px] border-yellow-500' : '';
   const colorInput = tema ? 'bg-[#F7F7F7] border-neutral-600 text-black placeholder:text-neutral-600' : 'bg-[#181818] border-neutral-600 text-white placeholder:text-neutral-400';
   const colorLupa = tema ? '#000' : '#ccc';
-  const colorDivResuls = tema ? 'border-zinc-900 bg-zinc-500 bg-opacity-[0.2]' : 'border-zinc-900 bg-zinc-500 bg-opacity-[0.07]'; 
-
+  const colorDivResuls = tema ? 'border-zinc-900 bg-[#E3E3E4] bg-opacity-[1]' : 'border-zinc-900 bg-[#1E1E1F] bg-opacity-[1]';
+ 
   useEffect(() => {
     const gradesFiltradas = filtrarGradesPorPrioridade(data, buscaEscola);
     setDataFiltered(gradesFiltradas);
@@ -128,28 +129,28 @@ export default function ConsultaStatusGrades() {
         {/* Exibição dos Resultados */}
         <div className="flex w-full flex-row items-center justify-between mt-[80px] pt-1">
           <div className={`flex flex-col min-w-[25%] max-w-[25%]`}>
-            <div className={`fixed top-[7.1rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
+            <div className={`fixed top-[6.1rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
               <div className={`flex w-full flex-col justify-start items-center`}>
                 <div className={`flex w-full flex-row justify-center items-center`}>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
-                    <MostradorPageResults title={`PREVISTO N`} valor={filtered.previstoN} tema={tema} />
+                    <MostradorPageResults title={`PREVISTO N`} valor={filtered.previstoN} tema={tema} valorColor={`text-cyan-500`}/>
                     <MostradorPageResults title={`EXPEDIDOS N`} valor={filtered.expedidos} tema={tema} />
                     <MostradorPageResults title={`À EXPEDIR N`} valor={filtered.aExpedir} tema={tema} />
                     <MostradorPageResults title={`GRADES N`} valor={filtered.gradesValidas} tema={tema} />
-
-                    <MostradorPageResults title={`ESCOLAS ATENDIDAS`} valor={filtered.escolasAtendidas} tema={tema} />
-                    <MostradorPageResults title={``} valor={``} tema={tema} />
-                    <MostradorPageResults title={`VOLUMES`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />
+                    <MostradorPageResults title={`ESC. ATENDIDAS N`} valor={filtered.escolasAtendidasN} tema={tema} />
+                    <MostradorPageResults title={`CUB. TOTAL N`} valor={filtered.cubagemN} tema={tema} />
+                    <MostradorPageResults title={`PESO TOTAL N`} valor={filtered.pesoN} tema={tema} />
+                    <MostradorPageResults title={`VOLUMES N`} valor={filtered.volumesN} tema={tema} valorColor={`text-red-500`}/>
                   </div>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
-                    <MostradorPageResults title={`PREVISTO R`} valor={filtered.prevRepo} tema={tema} />
+                    <MostradorPageResults title={`PREVISTO R`} valor={filtered.prevRepo} tema={tema} valorColor={`text-cyan-500`}/>
                     <MostradorPageResults title={`EXPEDIDOS R`} valor={filtered.expRepo} tema={tema} />
                     <MostradorPageResults title={`À EXPEDIR R`} valor={filtered.aExpRepo} tema={tema} />
                     <MostradorPageResults title={`GRADES R`} valor={filtered.gradesRepo} tema={tema} />
-
-                    <MostradorPageResults title={`PORC. CONCLUÍDO`} valor={`3.455.632`} tema={tema} />
-                    <MostradorPageResults title={`PESO TOTAL`} valor={filtered.peso} tema={tema} />
-                    <MostradorPageResults title={`CUB. TOTAL`} valor={filtered.cubagem} tema={tema} />
+                    <MostradorPageResults title={`ESC. ATENDIDAS R`} valor={filtered.escolasAtendidasR} tema={tema} />
+                    <MostradorPageResults title={`CUB. TOTAL R`} valor={filtered.cubagemR} tema={tema} />
+                    <MostradorPageResults title={`PESO TOTAL R`} valor={filtered.pesoR} tema={tema} />
+                    <MostradorPageResults title={`VOLUMES R`} valor={filtered.volumesR} tema={tema} valorColor={`text-red-500`}/>
                   </div>
                 </div>
                 <div className={`flex w-full flex-row justify-center items-center gap-x-2 mt-4`}>
@@ -199,17 +200,34 @@ export default function ConsultaStatusGrades() {
             </div>
           </div>
           <div className={`flex flex-col items-start justify-center w-full max-w-[73%]`}>
-            {isLoading ? (
-              <div className="flex items-center justify-center w-full h-[82vh]">
-                <IsLoading color={tema} />
+            <div className={`fixed top-[7rem] min-h-[70px] flex flex-row items-center justify-between w-full ${colorDivResuls}`}>
+              <div className={`flex flex-row items-center justify-start w-auto`}>
+                <MostradorPageResults2 title={`PREVISTO  T`} valor={filtered.previstoT} tema={tema} valorColor={`text-cyan-500`}/>
+                <MostradorPageResults2 title={`EXPEDIDOS T`} valor={filtered.expedidosT} tema={tema} />
+                <MostradorPageResults2 title={`À EXPEDIR T`} valor={filtered.aExpedirT} tema={tema} />
+                <MostradorPageResults2 title={`GRADES T`} valor={filtered.gradesT} tema={tema} />
+                <MostradorPageResults2 title={`ESC. ATENDIDAS T`} valor={filtered.escolasAtendidasT} tema={tema} />
+                <MostradorPageResults2 title={`CUB. TOTAL T`} valor={filtered.cubagemT} tema={tema} />
+                <MostradorPageResults2 title={`PESO TOTAL T`} valor={filtered.pesoT} tema={tema} />
+                <MostradorPageResults2 title={`VOLUMES T`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />
               </div>
-            ) : data?.length ? (
-              <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} />
-            ) : (
-              <div className="flex items-center justify-center w-full h-[82vh]">
-                <p className={`text-lg ${colorFontAviso}`}>NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
+              <div className={`flex flex-row items-center justify-start w-auto`}>
+
               </div>
-            )}
+            </div>
+            <div className={`flex pt-[4rem] flex-col items-start justify-center w-full`}>
+              {isLoading ? (
+                <div className="flex items-center justify-center w-full h-[82vh]">
+                  <IsLoading color={tema} />
+                </div>
+              ) : data?.length ? (
+                <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} />
+              ) : (
+                <div className="flex items-center justify-center w-full h-[82vh]">
+                  <p className={`text-lg ${colorFontAviso}`}>NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

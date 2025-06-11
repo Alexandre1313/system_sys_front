@@ -1,14 +1,26 @@
 export default interface Resumo {
     volumes: string;
+    volumesR: string;
+    volumesN: string;
     gradesValidas: string;
-    peso: string;
-    cubagem: string;
+    pesoR: string;
+    cubagemR: string;
+    pesoN: string;
+    cubagemN: string;
+    pesoT: string;
+    cubagemT: string;
     prevRepo: string;
-    escolasAtendidas: string;
+    escolasAtendidasN: string;
+    escolasAtendidasR: string;
     expedidos: string;
     aExpedir: string;
     gradesRepo: string;
     expRepo: string;
     previstoN: string;
     aExpRepo: string;
+    previstoT: string;
+    gradesT: string;
+    expedidosT: string;
+    aExpedirT: string;
+    escolasAtendidasT: string,
 }

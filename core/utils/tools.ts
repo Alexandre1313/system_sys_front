@@ -57,41 +57,76 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
 
   const aExpedirNormais = previstoNormais - expedidosNormais;
   const aExpedirRepos = previstoRepo - expedidosRepo;
- 
+
 
   if (!grades || grades.length === 0) {
     return {
       volumes: convertMilharFormat(0),
+      volumesR: convertMilharFormat(0),
+      volumesN: convertMilharFormat(0),
       gradesValidas: convertMilharFormat(0),
       gradesRepo: convertMilharFormat(0),
-      peso: convertMilharFormatKG(0),
-      cubagem: convertMilharFormatCUB(0),     
+      pesoR: convertMilharFormatKG(0),
+      cubagemR: convertMilharFormatCUB(0),
+      pesoN: convertMilharFormatKG(0),
+      cubagemN: convertMilharFormatCUB(0),
+      pesoT: convertMilharFormatKG(0),
+      cubagemT: convertMilharFormatCUB(0),
       expedidos: convertMilharFormat(0),
       aExpedir: convertMilharFormat(0),
       previstoN: convertMilharFormat(0),
-
       expRepo: convertMilharFormat(0),
       prevRepo: convertMilharFormat(0),
       aExpRepo: convertMilharFormat(0),
-
-
-      escolasAtendidas: convertMilharFormat(0),
+      escolasAtendidasN: convertMilharFormat(0),
+      escolasAtendidasR: convertMilharFormat(0),
+      previstoT: convertMilharFormat(0),
+      gradesT: convertMilharFormat(0),
+      expedidosT: convertMilharFormat(0),
+      aExpedirT: convertMilharFormat(0),
+      escolasAtendidasT: convertMilharFormat(0),
     };
   }
   return {
     volumes: convertMilharFormat(grades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
+    volumesR: convertMilharFormat(reposicoesGrades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
+    volumesN: convertMilharFormat(pedidosValidos.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
     gradesValidas: convertMilharFormat(gradesPedValid),
     gradesRepo: convertMilharFormat(gradesRepo),
-    peso: convertMilharFormatKG(grades.reduce((acc, g) => g.peso + acc, 0)),
-    cubagem: convertMilharFormatCUB(grades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
-    escolasAtendidas: convertMilharFormat((Array.from(new Set(grades.map(grade => grade.escola)))).length),
+    pesoR: convertMilharFormatKG(reposicoesGrades.reduce((acc, g) => g.peso + acc, 0)),
+    cubagemR: convertMilharFormatCUB(reposicoesGrades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
+    pesoN: convertMilharFormatKG(pedidosValidos.reduce((acc, g) => g.peso + acc, 0)),
+    cubagemN: convertMilharFormatCUB(pedidosValidos.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
+    pesoT: convertMilharFormatKG(grades.reduce((acc, g) => g.peso + acc, 0)),
+    cubagemT: convertMilharFormatCUB(grades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
+    escolasAtendidasN: convertMilharFormat(
+      Array.from(new Set(
+        grades
+          .filter(grade => grade.tipo === null)
+          .map(grade => grade.escola)
+      )).length
+    ),
+    escolasAtendidasR: convertMilharFormat(
+      Array.from(new Set(
+        grades
+          .filter(grade =>
+            grade.tipo &&
+            grade.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'reposicao'
+          )
+          .map(grade => grade.escola)
+      )).length
+    ),
+    escolasAtendidasT: convertMilharFormat(Array.from(new Set(grades.map(grade => grade.escola))).length),
     expedidos: convertMilharFormat(expedidosNormais),
     previstoN: convertMilharFormat(previstoNormais),
     aExpedir: convertMilharFormat(aExpedirNormais),
-
     expRepo: convertMilharFormat(expedidosRepo),
-    prevRepo: convertMilharFormat(previstoRepo),       
+    prevRepo: convertMilharFormat(previstoRepo),
     aExpRepo: convertMilharFormat(aExpedirRepos),
+    previstoT: convertMilharFormat(previstoNormais + previstoRepo),
+    gradesT: convertMilharFormat(grades.length),
+    expedidosT: convertMilharFormat(expedidosNormais + expedidosRepo),
+    aExpedirT: convertMilharFormat(aExpedirNormais + aExpedirRepos),
   };
 }
 
@@ -197,5 +232,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
   return filtradas;
 }
 
-export { concat, convertSPTime, convertMilharFormatKG, convertMilharFormatCUB,
-         convertMilharFormat, getResumo, sizeOrders, filtrarGradesPorPrioridade, ip, port };
+export {
+  concat, convertSPTime, convertMilharFormatKG, convertMilharFormatCUB,
+  convertMilharFormat, getResumo, sizeOrders, filtrarGradesPorPrioridade, ip, port
+};
