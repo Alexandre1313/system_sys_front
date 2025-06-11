@@ -136,13 +136,7 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
             grade.tipo &&
             grade.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'reposicao' &&
             grade.status &&
-            ['DESPACHADA', 'EXPEDIDA'].includes(
-              grade.status.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-            )
-          )
-          .map(grade => grade.escola)
-      )).length
-    ),
+            ['DESPACHADA', 'EXPEDIDA'].includes(grade.status)).map(grade => grade.escola))).length),
     escolasAtendidasT: convertMilharFormat(
       Array.from(new Set(
         grades
