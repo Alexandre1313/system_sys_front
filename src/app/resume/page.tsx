@@ -5,7 +5,7 @@ import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponen
 import { CreateServerSelectComponentRemessa } from '@/components/componentesRomaneios/createServerSelectComponentRemessa';
 import GradesFilter from '@/components/componentesRomaneios/GradesFiltter';
 import { getFilterGrades } from '@/hooks_api/api';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { GradesRomaneio } from '../../../core';
 import { CreateServerSelectComponentProjectsResume } from '@/components/componentesRomaneios/createServerSelectComponentProjects.Resume';
 
@@ -30,20 +30,19 @@ export default function ConsultaStatusGrades() {
   const [serverSelect, setServerSelect] = useState<JSX.Element | null>(null);
   const [serverSelectRemessa, setServerSelectRemessa] = useState<JSX.Element | null>(null);
 
-  // Função para buscar as grades com os filtros
-  const loaderFilter = async () => {
+  // Função para buscar as grades com os filtros 
+  const loaderFilter = useCallback(async () => {
     if (!projectId || !remessa || !status || !tipo) return;
-    
+
     setIsLoading(true);
     const res = await fetcherGradesPStatus(projectId, remessa, status, tipo);
-    setData(res);
+    setData(res || []);
     setIsLoading(false);
-  };
+  }, [projectId, remessa, status, tipo]);
 
-  // Atualiza as grades automaticamente quando os filtros mudam
   useEffect(() => {
     loaderFilter();
-  }, [projectId, remessa, status, tipo]);
+  }, [loaderFilter]);
 
   // Carrega o seletor de projetos
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function ConsultaStatusGrades() {
       return;
     }
 
-  async function fetchServerSelectRemessas() {
+    async function fetchServerSelectRemessas() {
       const selectComponent = await CreateServerSelectComponentRemessa({
         onSelectChange: setRemessa,
         projectId,
@@ -77,7 +76,7 @@ export default function ConsultaStatusGrades() {
     <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
       <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
       <div className="flex flex-col items-center justify-start min-h-[101vh] pt-7 gap-y-5 w-full">
-        <div className="flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed bg-[#1F1F1F] gap-x-5 z-[15]">         
+        <div className="flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed bg-[#1F1F1F] gap-x-5 z-[15]">
 
           {/* Seletor de Status */}
           <select
@@ -110,9 +109,9 @@ export default function ConsultaStatusGrades() {
                 AGUARDE...
               </p>
             </div>
-          ))} 
+          ))}
 
-            {/* Seletor de Tipo */}
+          {/* Seletor de Tipo */}
           <select
             id="select-tipo"
             title="Selecione o tipo"
@@ -121,9 +120,9 @@ export default function ConsultaStatusGrades() {
             onChange={(e) => setTipo(e.target.value)}
           >
             <option value="T">TODAS</option>
-            <option value="N">PEDIDO NORMAL</option>  
-            <option value="R">REPOSIÇÃO</option>                 
-          </select>         
+            <option value="N">PEDIDO NORMAL</option>
+            <option value="R">REPOSIÇÃO</option>
+          </select>
 
           {/* Botão de Busca */}
           <button onClick={loaderFilter} className="px-6 py-1 min-w-[250px] h-[34px] bg-zinc-700 text-white rounded-md hover:bg-zinc-600">
@@ -138,7 +137,7 @@ export default function ConsultaStatusGrades() {
               <IsLoading />
             </div>
           ) : data?.length ? (
-            <GradesFilter stat={status} expedicaoData={data} setDesp={setStatus}/>
+            <GradesFilter stat={status} expedicaoData={data} setDesp={setStatus} />
           ) : (
             <div className="flex items-center justify-center w-full h-[82vh]">
               <p className="text-lg text-blue-500">NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
