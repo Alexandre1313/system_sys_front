@@ -288,7 +288,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <p className={`text-[13px] px-3 -mt-[8px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
                                         <strong className="text-slate-400 text-[20px] font-normal"> {genero}</strong>
                                     </p>
-                                    <p className={`text-[13px] px-3 pb-2 -mt-[8px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
+                                    <p className={`text-[13px] px-3 pb-2 -mt-[9px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
                                         TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
                                     </p>
                                     <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
