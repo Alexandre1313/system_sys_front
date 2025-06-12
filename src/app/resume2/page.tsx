@@ -209,7 +209,7 @@ export default function ConsultaStatusGrades() {
                   <IsLoading color={tema} />
                 </div>
               ) : data?.length ? (
-                <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} />
+                <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} status={status} />
               ) : (
                 <div className="flex items-center justify-center w-full h-[82vh]">
                   <p className={`text-lg ${colorFontAviso}`}>NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>

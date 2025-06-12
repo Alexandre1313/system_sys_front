@@ -41,6 +41,7 @@ const urlAjustarGrade = `http://${ip}:${port}/grades/ajustar/`;
 const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
 const urlAlterStatus = `http://${ip}:${port}/grades/alterdespachadas`;
 const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
+const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
 
 async function alterarPDespachadas(ids: number[]): Promise<number[] | null> {
     try {
@@ -93,6 +94,15 @@ async function get(): Promise<Projeto[]> {
     const response = await fetch(urlProjetos);
     if (!response.ok) {
         throw new Error(`Erro ao buscar projetos: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getCaixasPorGrade(id: string): Promise<Caixa[]> {
+    const response = await fetch(`${urlCaixasPorGrade}${id}`);
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar caixas: ${response.statusText}`);
     }
     const data = await response.json();
     return data;
@@ -367,7 +377,7 @@ async function getFilterGrades(projectId: string, remessa: string, status: strin
 
 export {
     finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
-    getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos,
+    getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getCaixasPorGrade,
     getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
     siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas, getGrafico
 };
