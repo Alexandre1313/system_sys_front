@@ -15,6 +15,7 @@ import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
+import ItemsGradeLinkTextHor from "./ItemsGradeLinkTextHor";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -338,8 +339,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
                                     bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} width={`min-w-[55px] max-w-[55px]`}
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
-                                <ItemsGradeInputTextHor value={String(props.grade.id)}
-                                    labelName={`GRADE ID :`} />
+                                <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`}/>
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
                                     labelName={`ESCOLA Nº :`} />
                                 <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
