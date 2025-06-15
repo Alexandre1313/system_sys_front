@@ -26,4 +26,5 @@ export default interface Resumo {
     escolasTotaisN: string;
     escolasTotaisR: string;
     escolasTotaisT: string;
+    percErr: string;
 }

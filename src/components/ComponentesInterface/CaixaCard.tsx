@@ -78,7 +78,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
       <div
         ref={contentRef}
         style={{ maxHeight: contentHeight }}
-        className="overflow-hidden transition-all duration-500 ease-in-out"
+        className="overflow-hidden transition-all duration-700 ease-in-out"
       >
         <table className={`w-full border-collapse border-t ${borderColor} table-fixed text-sm`}>
           <thead>

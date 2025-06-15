@@ -43,6 +43,13 @@ function convertMilharFormat(value: number): string {
   })}`
 }
 
+function converPercentualFormat(value: number): string {
+  return `${value.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  })}%`
+}
+
 function getResumo(grades: GradesRomaneio[] | null): Resumo {
   const gradesPedValid = grades?.filter(grade => !grade.tipo).length || 0;
   const gradesRepo = grades?.filter(grade => grade.tipo).length || 0;
@@ -57,6 +64,8 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
 
   const aExpedirNormais = previstoNormais - expedidosNormais;
   const aExpedirRepos = previstoRepo - expedidosRepo;
+
+  const percErr = (previstoRepo / previstoNormais) * 100;
 
 
   if (!grades || grades.length === 0) {
@@ -88,6 +97,7 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
       escolasTotaisN: convertMilharFormat(0),
       escolasTotaisR: convertMilharFormat(0),
       escolasTotaisT: convertMilharFormat(0),
+      percErr: converPercentualFormat(0),
     };
   }
   return {
@@ -155,6 +165,7 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
     gradesT: convertMilharFormat(grades.length),
     expedidosT: convertMilharFormat(expedidosNormais + expedidosRepo),
     aExpedirT: convertMilharFormat(aExpedirNormais + aExpedirRepos),
+    percErr: converPercentualFormat(percErr),
   };
 }
 
