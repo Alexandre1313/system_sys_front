@@ -4,9 +4,10 @@ import Caixa from '../../../core/interfaces/Caixa';
 export interface EtiquetaNewProps {
     etiquetas: Caixa[];
     classNew: string;
+    len?: number;
 }
 
-const EtiquetasNew = ({ etiquetas, classNew }: EtiquetaNewProps) => {
+const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
     function concatString(nj: string, ne: string, nae: string): string {
         let description = '';
         if (nj) {
@@ -203,7 +204,7 @@ const EtiquetasNew = ({ etiquetas, classNew }: EtiquetaNewProps) => {
 
             // Número da caixa no final da etiqueta
             const caixaNumberText = `${String(caixaNumber).padStart(2, '0')} /`; // Número da caixa
-            const totalLabelsText = ` ${String(etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
+            const totalLabelsText = ` ${String(len ? len: etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
 
             // Calcular a largura do texto
             const textWidth = font.widthOfTextAtSize(`Caixa: ${caixaNumberText}`, 13);

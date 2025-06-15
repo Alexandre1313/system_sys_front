@@ -5,14 +5,16 @@ import { ChevronDown } from 'react-feather';
 import { Caixa } from '../../../core';
 import CaixaItem from '../../../core/interfaces/CaixaItem';
 import { convertSPTime } from '../../../core/utils/tools';
+import EtiquetasNew from '../componentesDePrint/EtiquetasNew';
 
 interface CaixaCardProps {
   caixa: Caixa;
   tema: boolean;
+  len: number;
 }
 
-const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
+  const [isOpen, setIsOpen] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState('0px');
 
@@ -26,10 +28,15 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema }) => {
     }
   }, [isOpen]);
 
+  const printEti = (etiquetas: Caixa[], classnew: string) => {
+    return (<EtiquetasNew etiquetas={etiquetas} classNew={classnew} len={len}/>)
+  }
+
   const bgHeader = tema ? 'bg-zinc-200 text-zinc-800' : 'bg-[#000] text-zinc-300';
   const bgBody = tema ? 'bg-white text-zinc-800' : 'bg-zinc-900 text-zinc-400';
   const borderColor = tema ? 'border-zinc-300' : 'border-zinc-700';
   const bgAlt = tema ? 'bg-zinc-100 text-zinc-800' : 'bg-zinc-800 text-zinc-300';
+  const buttonClass = tema ? '': 'hover:text-blue-500 flex justify-center items-center w-[100%] text-[11px] p-2';
 
   return (
     <div className={`w-full border ${borderColor} rounded-md shadow-md`}>
@@ -42,21 +49,21 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema }) => {
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[35%]`}>UNIDADE ESCOLAR</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[20%]`}>EXPEDIDOR</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>TOTAL ITENS</th>
-            <th className={`px-4 py-2 text-center w-[5%]`}></th>
+            <th className={`px-0 py-0 text-center w-[5%] min-h-full`}> {printEti([caixa], buttonClass)}</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            className={`${bgBody} cursor-pointer hover:bg-opacity-30`}
+            className={`${bgBody} cursor-pointer hover:bg-opacity-30 hover:bg-gray-500`}
             onClick={toggleOpen}
           >
             <td className={`px-4 py-2 border-t border-r ${borderColor} text-2xl text-cyan-700 font-semibold`}>
               {caixa.caixaNumber}
             </td>
             <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.projeto}</td>
-            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.escolaCaixa}</td>
+            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.escolaCaixa} (${caixa.escolaNumber})`}</td>
             <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.usuario}</td>
-            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.qtyCaixa}</td>
+            <td className={`text-yellow-500 px-4 py-2 border-t border-r ${borderColor}`}>{caixa.qtyCaixa}</td>
             <td className={`px-4 py-2 border-t text-center`}>
               <ChevronDown
                 size={18}
@@ -90,7 +97,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema }) => {
               >
                 <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{item.itemName}</td>
                 <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{item.itemTam}</td>
-                <td className={`px-4 py-2 border-t ${borderColor}`}>{item.itemQty} un</td>
+                <td className={`flex justify-start items-center px-4 py-2 border-t border-r ${borderColor}`}><span className={`flex pr-3 items-center justify-end text-emerald-500 text-[17px] w-[85%]`}>{item.itemQty}</span> un</td>
                 <td className={`px-4 py-2 border-t ${borderColor}`}>{convertSPTime(String(item.updatedAt))}</td>
               </tr>
             ))}
