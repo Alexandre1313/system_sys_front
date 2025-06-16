@@ -198,7 +198,9 @@ export default function ConsultaStatusGrades() {
                 <MostradorPageResults2 title={`CUB. TOTAL T`} valor={filtered.cubagemT} tema={tema} />
                 <MostradorPageResults2 title={`PESO TOTAL T`} valor={filtered.pesoT} tema={tema} />
                 <MostradorPageResults2 title={`VOLUMES T`} valor={filtered.volumes} tema={tema} valorColor={`text-red-500`} />
-                <MostradorPageResults2 title={`PERC. ERROS T`} valor={filtered.percErr} tema={tema} valorColor={`text-yellow-500`} />
+                {tipo === 'T' && (
+                  <MostradorPageResults2 title={`PERC. ERROS T`} valor={filtered.percErr} tema={tema} valorColor={`text-yellow-500`} />
+                )}
               </div>
               <div className={`flex flex-row items-center justify-start w-auto`}>
 
