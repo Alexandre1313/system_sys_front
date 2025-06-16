@@ -50,23 +50,19 @@ function converPercentualFormat(value: number): string {
   })}%`
 }
 
-function getResumo(grades: GradesRomaneio[] | null): Resumo {
+function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   const gradesPedValid = grades?.filter(grade => !grade.tipo).length || 0;
   const gradesRepo = grades?.filter(grade => grade.tipo).length || 0;
   const pedidosValidos = grades?.filter(grade => !grade.tipo) || [];
   const reposicoesGrades = grades?.filter(grade => grade.tipo) || [];
-
   const expedidosNormais = pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0);
   const previstoNormais = pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0);
-
   const expedidosRepo = reposicoesGrades.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0);
   const previstoRepo = reposicoesGrades.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0);
-
   const aExpedirNormais = previstoNormais - expedidosNormais;
   const aExpedirRepos = previstoRepo - expedidosRepo;
-
   const percErr = (previstoRepo / previstoNormais) * 100;
-
+  const idExpeds = status === 'EXPEDIDA' ? grades.map((g) => g.id): [];
 
   if (!grades || grades.length === 0) {
     return {
@@ -98,9 +94,10 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
       escolasTotaisR: convertMilharFormat(0),
       escolasTotaisT: convertMilharFormat(0),
       percErr: converPercentualFormat(0),
+      ids: idExpeds,
     };
   }
-  return {
+  return {    
     volumes: convertMilharFormat(grades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
     volumesR: convertMilharFormat(reposicoesGrades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
     volumesN: convertMilharFormat(pedidosValidos.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
@@ -166,6 +163,7 @@ function getResumo(grades: GradesRomaneio[] | null): Resumo {
     expedidosT: convertMilharFormat(expedidosNormais + expedidosRepo),
     aExpedirT: convertMilharFormat(aExpedirNormais + aExpedirRepos),
     percErr: converPercentualFormat(percErr),
+    ids: idExpeds,
   };
 }
 

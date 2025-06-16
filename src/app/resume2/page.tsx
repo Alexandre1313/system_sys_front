@@ -2,7 +2,7 @@
 
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
-import { getFilterGrades } from '@/hooks_api/api';
+import { alterarPDespachadas, getFilterGrades } from '@/hooks_api/api';
 import { useCallback, useEffect, useState } from 'react';
 import { GradesRomaneio } from '../../../core';
 import GradesFilterTable from '@/components/componentesRomaneios/GradesFiltterTable';
@@ -17,6 +17,8 @@ import PageExcelRelatorio from '@/components/componentesDePrint/PageExcelRelator
 import { filtrarGradesPorPrioridade, getResumo } from '../../../core/utils/tools';
 import MostradorPageResults2 from '@/components/ComponentesInterface/MostradorPageResults2';
 import BuscaEscolaInput from '@/components/ComponentesInterface/BuscaEscolaInput';
+import { motion } from 'framer-motion';
+import { AlertTriangle } from 'react-feather';
 
 const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string, tipo: string): Promise<GradesRomaneio[] | null> => {
   try {
@@ -24,6 +26,16 @@ const fetcherGradesPStatus = async (projectId: number, remessa: number, status: 
     return resp;
   } catch (error) {
     console.error("Erro ao buscar grades:", error);
+    return null;
+  }
+};
+
+const fetcherAlterStatus = async (ids: number[]): Promise<number[] | null> => {
+  try {
+    const resp = await alterarPDespachadas(ids);
+    return resp;
+  } catch (error) {
+    console.error("Erro ao atualizar status das grades:", error);
     return null;
   }
 };
@@ -38,6 +50,8 @@ export default function ConsultaStatusGrades() {
   const [tema, setTema] = useState<boolean>(false);
   const [dataFiltered, setDataFiltered] = useState<GradesRomaneio[]>([]);
   const [buscaEscola, setBuscaEscola] = useState<string>('');
+  const [modalStatus, setModalStatus] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
 
   // Função para buscar as grades com os filtros
   const loaderFilter = useCallback(async () => {
@@ -58,6 +72,14 @@ export default function ConsultaStatusGrades() {
     setTema(tema ? false : true);
   }
 
+  const modalAjustStatus = () => {
+    setModalStatus(modalStatus ? false : true);
+  }
+
+  const fecharModalAjustStatus = () => {
+    setModalStatus(modalStatus ? false : true);
+  }
+
   const themeBG = tema ? 'bg-[#FFFFFF]' : 'bg-[#181818]';
   const themeBG2 = tema ? 'bg-[#FFFFFF]' : 'bg-[#1F1F1F]';
   const themeBG3 = tema ? 'bg-[#f7f7f7] text-zinc-950' : 'bg-[#181818] text-zinc-400';
@@ -67,13 +89,36 @@ export default function ConsultaStatusGrades() {
   //const colorInput = tema ? 'bg-[#F7F7F7] border-neutral-600 text-black placeholder:text-neutral-600' : 'bg-[#181818] border-neutral-600 text-white placeholder:text-neutral-400';
   //const colorLupa = tema ? '#000' : '#ccc';
   const colorDivResuls = tema ? 'border-zinc-900 bg-[#E3E3E4] bg-opacity-[1]' : 'border-zinc-900 bg-[#1E1E1F] bg-opacity-[1]';
-
+  const buttonBaseClassTheme = "rounded px-4 py-2 cursor-pointer transition-colors duration-300 fixed bottom-5 left-1/2 transform -translate-x-1/2 min-w-[400px]";
+  const buttonBaseClassTheme2 = "rounded px-4 py-2 cursor-pointer transition-colors duration-300 fixed bottom-24 left-1/2 transform -translate-x-1/2 min-w-[400px]";
+  const buttonClassTheme = `${buttonBaseClassTheme} bg-gray-700 text-gray-200 hover:bg-gray-600`;
+  const buttonClassTheme2 = `${buttonBaseClassTheme2} bg-red-500 text-white hover:bg-red-600`;
   const aplicarBusca = () => {
     const resultado = filtrarGradesPorPrioridade(data, buscaEscola);
     setDataFiltered(resultado);
   };
 
-  const filtered = getResumo(dataFiltered);
+  const ajustarStatus = async (ids: number[]) => {
+    const resp = await fetcherAlterStatus(ids);
+    if (resp) {      
+      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);
+      const timeout = setTimeout(() => {
+        setStatus("DESPACHADA");
+        setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
+        setModalStatus((prev) => prev ? false : true);       
+        clearTimeout(timeout);
+      }, 1000);
+      return
+    }
+    setMessage(`ERRO AO MUDAR STATUS DAS GRADES`);
+    const timeout = setTimeout(() => {
+      setMessage(`TENTE NOVAMENTE`);
+      clearTimeout(timeout);
+    }, 1000);
+    return
+  }
+
+  const filtered = getResumo(status, dataFiltered);
 
   return (
     <div className={`flex flex-col w-full items-start justify-center ${themeBG}`}>
@@ -179,6 +224,9 @@ export default function ConsultaStatusGrades() {
                       <PageExcelRelatorio expedicaoData={dataFiltered} />
                     )}
                   </div>
+                  <button onClick={modalAjustStatus} className="flex ml-3 items-center justify-center text-[14px] px-3 py-1 min-w-[50px] h-[31px] bg-red-700 text-white rounded-md hover:bg-red-600">
+                    ME
+                  </button>
                 </div>
               </div>
               <div className="relative flex w-[100%] justify-center items-center">
@@ -222,6 +270,54 @@ export default function ConsultaStatusGrades() {
           </div>
         </div>
       </div>
+
+      {filtered.ids.length > 0 && modalStatus && (
+        <div className={`fixed inset-0 z-50 bg-[#181818] bg-opacity-80 min-h-[105vh]
+                lg:min-h-[100vh] flex flex-col pt-10
+                justify-center items-center p-4`}>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.7 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="bg-white p-8 rounded-md shadow-md min-w-[30%] min-h-[40%]
+                        flex flex-col items-center justify-center max-w-[800px]"
+          >
+            <div>
+              <AlertTriangle size={90} color={`rgba(255, 0, 0, 1)`} />
+            </div>
+            <div className={`flex flex-col text-black w-full items-center justify-center`}>
+              <h2 className={`text-[50px] font-bold`}>{`MUDANÇA DE STATUS`}</h2>
+              <h2 className={`text-[30px] font-bold`}>{message}</h2>
+              <div className={`flex items-center justify-center flex-wrap`}>
+                <span className={`text-[25px] font-bold mr-2`}>
+                  {`GRADES IDs AFETADOS:`}
+                </span>
+                {filtered.ids.map((id, index) => (
+                  <span key={index} className={`text-[25px] text-red-700 font-bold mr-2`}>
+                    {id}
+                  </span>
+                ))}
+              </div>
+              <span className={`text-[17px] font-bold`}>DESEJA MESMO ALTERAR O STATUS DAS GRADES?</span>
+              <span className={`text-[17px] font-bold`}>A OPERAÇÃO NÃO PODERÁ SER REVERTIDA</span>
+            </div>
+          </motion.div>
+          <button
+            onClick={() => ajustarStatus(filtered.ids)}
+            className={`${buttonClassTheme} hover:bg-green-600`}
+          >
+            {"AJUSTAR"}
+          </button>
+          <button
+            onClick={fecharModalAjustStatus}
+            className={buttonClassTheme2}
+          >
+            {"CANCELAR"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
