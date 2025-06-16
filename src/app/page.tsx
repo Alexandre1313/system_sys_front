@@ -149,14 +149,14 @@ export default function Home() {
                 Run Projects →
               </a>
             </Link>
-            <Link href={'/resume'} legacyBehavior>
+            <Link href={'/resume2'} legacyBehavior>
               <a
                 className="flex button items-center lg:text-[13px] text-[8px] gap-2 hover:underline hover:underline-offset-4"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                Run Resumes →
+                Run Resumes 2 →
               </a>
             </Link>
           </div>
