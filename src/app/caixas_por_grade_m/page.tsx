@@ -39,17 +39,20 @@ export default function PaginaCaixasManual() {
     }, []);
 
     useEffect(() => {
-        if (!modalStatus) return;
 
         inputRef.current?.focus();
-
+        
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Enter') {
-                botaoBuscarRef.current?.click();
-            } else if (event.key === 'ArrowRight') {
-                botaoCancelarRef.current?.click();
-            } else if (event.key === 'ArrowLeft') {
-                botaoNovaPesquisaRef.current?.click();
+            if (modalStatus) {
+                if (event.key === 'Enter') {
+                    botaoBuscarRef.current?.click();
+                } else if (event.key === 'ArrowRight') {
+                    botaoCancelarRef.current?.click();
+                }
+            }
+
+            if (event.key === 'ArrowLeft' && botaoNovaPesquisaRef.current) {
+                botaoNovaPesquisaRef.current.click();
             }
         };
 
