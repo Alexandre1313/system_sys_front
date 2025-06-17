@@ -17,6 +17,7 @@ const fachBox = async (id: string): Promise<Caixa[]> => {
 export default function PaginaCaixasManual() {
     const botaoBuscarRef = useRef<HTMLButtonElement | null>(null);
     const botaoCancelarRef = useRef<HTMLButtonElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [tema, setTema] = useState<boolean>(false);
     const [caixas, setCaixas] = useState<Caixa[]>([]);
@@ -38,6 +39,8 @@ export default function PaginaCaixasManual() {
 
     useEffect(() => {
         if (!modalStatus) return;
+
+        inputRef.current?.focus();
 
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
@@ -153,6 +156,7 @@ export default function PaginaCaixasManual() {
                         </motion.div>
                         <h2 className="text-[30px] font-bold text-slate-300 mb-8">{message}</h2>
                         <input
+                            ref={inputRef}
                             type="text"
                             value={idparapesquisa}
                             onChange={(e) => setIdparapesquisa(e.target.value)}
