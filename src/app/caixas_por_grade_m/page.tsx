@@ -17,6 +17,7 @@ const fachBox = async (id: string): Promise<Caixa[]> => {
 export default function PaginaCaixasManual() {
     const botaoBuscarRef = useRef<HTMLButtonElement | null>(null);
     const botaoCancelarRef = useRef<HTMLButtonElement | null>(null);
+    const botaoNovaPesquisaRef = useRef<HTMLButtonElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [tema, setTema] = useState<boolean>(false);
@@ -47,6 +48,8 @@ export default function PaginaCaixasManual() {
                 botaoBuscarRef.current?.click();
             } else if (event.key === 'ArrowRight') {
                 botaoCancelarRef.current?.click();
+            } else if (event.key === 'ArrowLeft') {
+                botaoNovaPesquisaRef.current?.click();
             }
         };
 
@@ -105,6 +108,7 @@ export default function PaginaCaixasManual() {
 
                 {/* Botão para nova pesquisa */}
                 <button
+                    ref={botaoNovaPesquisaRef}
                     onClick={resetPesquisa}
                     className={`px-6 py-1 rounded-md ${colorButons}`}
                 >
