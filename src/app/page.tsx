@@ -106,13 +106,14 @@ export default function Home() {
                 GRÁFICO...
               </a>
             </Link>
-            <Link href={'/'} legacyBehavior>
+            <Link href={'/caixas_por_grade_m'} legacyBehavior>
               <a
                 className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-[9px] lg:text-[13px] h-7 lg:h-8 px-3 lg:px-5 lg:min-w-40 min-w-[130px]"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
+                ETIQUETAS
               </a>
             </Link>
           </div>

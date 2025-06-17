@@ -45,7 +45,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
         <thead>
           <tr className={`${bgHeader} text-[16px]`}>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>CAIXA Nº</th>
-            <th className={`px-4 py-2 text-left border-r ${borderColor} w-[20%]`}>PROJETO</th>
+            <th className={`px-4 py-2 text-left border-r ${borderColor} w-[20%]`}>PROJETO / GRADE ID</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[35%]`}>UNIDADE ESCOLAR</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[20%]`}>EXPEDIDOR</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>TOTAL ITENS</th>
@@ -60,7 +60,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
             <td className={`px-4 py-2 border-t border-r ${borderColor} text-2xl text-cyan-700 font-semibold`}>
               {caixa.caixaNumber}
             </td>
-            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.projeto}</td>
+            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.projeto} - GRADE ID ${caixa.gradeId}`}</td>
             <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.escolaCaixa} (${caixa.escolaNumber})`}</td>
             <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.usuario}</td>
             <td className={`text-yellow-500 px-4 py-2 border-t border-r ${borderColor}`}>{caixa.qtyCaixa}</td>
