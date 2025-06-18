@@ -270,6 +270,6 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
 }
 
 export {
-  concat, convertSPTime, convertMilharFormatKG, convertMilharFormatCUB,
+  concat, convertSPTime, convertMilharFormatKG, convertMilharFormatCUB, converPercentualFormat,
   convertMilharFormat, getResumo, sizeOrders, filtrarGradesPorPrioridade, ip, port
 };

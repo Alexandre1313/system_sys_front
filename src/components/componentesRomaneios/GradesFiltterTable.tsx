@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { GradesRomaneio } from '../../../core';
-import { convertMilharFormat, convertMilharFormatKG } from '../../../core/utils/tools';
+import { converPercentualFormat, convertMilharFormat, convertMilharFormatKG } from '../../../core/utils/tools';
 
 interface GradeFilterTableProps {
   expedicaoData: GradesRomaneio[];
@@ -53,37 +53,39 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
         const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.previsto, 0);
         const totalPesoAfer = grade.tamanhosQuantidades.reduce((sum, i) => sum + (i.peso ?? 0) * (i.quantidade ?? 0), 0);
         const faltaExpedir = totalPrevisto - totalQuantidade;
+        const percentualConcluido = converPercentualFormat((totalQuantidade / totalPrevisto) * 100);
 
         const colorValue = faltaExpedir > 0 ? 'text-red-500' : 'text-green-500';
 
-        const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500' : grade.status === 'EXPEDIDA' ? 'text-emerald-500' : 'text-slate-400';
+        const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500 font-normal pl-2' : grade.status === 'EXPEDIDA' ? 'text-emerald-500 font-normal pl-2' : 'text-slate-400 font-normal pl-2';
 
         return (
           <div className={`flex flex-col w-full gap-x-2 border border-slate-800`} key={grade.id}>
             <div className={`${theme.colorText} ${theme.colorDivResuls} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
               <div className={`flex flex-col w-1/3 gap-x-1`}>
-                <h4 className="text-md font-semibold uppercase">Projeto: <span>{grade.projectname}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Unidade escolar: <span>{grade.escola}</span></h4>
-                <h4 className={`text-md font-semibold uppercase ${colorStatus}`}>Status: <span>{grade.status}</span><span className={`text-red-600`}> {grade.tipo ? 'R' : ''}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Projeto: <span className={`text-cyan-500 font-light pl-2`}>{grade.projectname}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Unidade escolar: <span className={`text-cyan-500 font-light pl-2`}>{grade.escola}</span></h4>
+                <h4 className={`text-md font-semibold uppercase`}>Status: <span className={`${colorStatus}`}>{grade.status}</span><span className={`text-red-600 pl-2 font-light`}> {grade.tipo ? 'R' : ''}</span></h4>
               </div>
               <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
-                <h4 className="text-md font-semibold uppercase">Empresa: <span>{grade.company}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Empresa: <span className={`text-cyan-500 font-light pl-2`}>{grade.company}</span></h4>
                 {status === 'PRONTA' && (
                   <Link href={`/expedition/${grade.escolaId}`} target="_blank">
-                    <h4 className="text-md font-semibold uppercase cursor-pointer">Nº da escola: <span>{grade.numeroEscola}</span></h4>
+                    <h4 className="text-md font-semibold uppercase cursor-pointer">Nº da escola: <span className={`text-cyan-500 font-light pl-2`}>{grade.numeroEscola}</span></h4>
                   </Link>
                 )}
                 {status !== 'PRONTA' && (
-                  <h4 className="text-md font-semibold uppercase">Nº da escola: <span>{grade.numeroEscola}</span></h4>
+                  <h4 className="text-md font-semibold uppercase">Nº da escola: <span className={`text-cyan-500 font-light pl-2`}>{grade.numeroEscola}</span></h4>
                 )}
-                <h4 className="text-md font-semibold uppercase">Nº Join: <span>{grade.numberJoin}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Nº Join: <span className={`text-cyan-500 font-light pl-2`}>{grade.numberJoin}</span></h4>
               </div>
               <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
-                <h4 className="text-md font-semibold uppercase">Grade ID: <span>{grade.id}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Último Update: <span>{grade.update}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Grade ID: <span className={`text-cyan-500 font-light pl-2`}>{grade.id}</span></h4>
+                <h4 className="text-md font-semibold uppercase">Último Update: <span className={`text-cyan-500 font-light pl-2`}>{grade.update}</span></h4>
                 <Link href={`/caixas_por_grade/${grade.id}`} target="_blank">
-                  <h4 className="text-md font-semibold uppercase">Qty de volumes: <span>{grade.caixas.length}</span></h4>
+                  <h4 className="text-md font-semibold uppercase">Qty de volumes: <span className={`text-red-500 font-light pl-2`}>{grade.caixas.length}</span></h4>
                 </Link>
+                <h4 className="text-md font-semibold uppercase">Concluído: <span className={`text-yellow-500 font-light pl-2`}>{percentualConcluido}</span></h4>
               </div>
             </div>
             <table className={`w-full table-fixed border-collapse text-sm`}>
