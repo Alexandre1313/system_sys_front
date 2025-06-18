@@ -73,7 +73,7 @@ export default function ConsultaStatusGrades() {
   }
 
   const modalAjustStatus = () => {
-    if (status === 'EXPEDIDA') {
+    if (status === 'EXPEDIDA' && dataFiltered.length > 0) {
       setModalStatus(modalStatus ? false : true);
     }
   }
@@ -95,6 +95,7 @@ export default function ConsultaStatusGrades() {
   const buttonBaseClassTheme2 = "rounded px-4 py-2 cursor-pointer transition-colors duration-300 fixed bottom-24 left-1/2 transform -translate-x-1/2 min-w-[400px]";
   const buttonClassTheme = `${buttonBaseClassTheme} bg-gray-700 text-gray-200 hover:bg-gray-600`;
   const buttonClassTheme2 = `${buttonBaseClassTheme2} bg-red-500 text-white hover:bg-red-600`;
+
   const aplicarBusca = () => {
     const resultado = filtrarGradesPorPrioridade(data, buscaEscola);
     setDataFiltered(resultado);
@@ -103,7 +104,7 @@ export default function ConsultaStatusGrades() {
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
     if (resp) {
-      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);
+      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);      
       const timeout = setTimeout(() => {
         setStatus("DESPACHADA");
         setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
