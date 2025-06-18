@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import CaixaCard from './CaixaCard'; // ou o caminho relativo correto
+import CaixaCard from './CaixaCard'; 
 import { Caixa } from '../../../core';
 
 interface ListaCaixasProps {

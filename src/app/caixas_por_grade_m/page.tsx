@@ -118,17 +118,17 @@ export default function PaginaCaixasManual() {
                     NOVA PESQUISA
                 </button>
                 {caixas.length > 0 && (
-                    <button
+                    <span
 
                         className={`px-6 py-1 rounded-md ${colorButons}`}
                     >
                         {printEti(caixas, '')}
-                    </button>
+                    </span>
                 )}
             </div>
 
             <div className="flex flex-col w-full justify-start items-center gap-y-1 pb-4">
-                <div className="flex justify-center items-center w-full px-32 min-h-[90vh] pt-10">
+                <div className="flex justify-center items-center w-full px-5 min-h-[90vh] pt-10">
                     {loading ? (
                         <IsLoading color={tema} />
                     ) : caixas.length === 0 && !modalStatus ? (
