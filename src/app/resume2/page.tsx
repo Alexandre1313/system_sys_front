@@ -73,7 +73,9 @@ export default function ConsultaStatusGrades() {
   }
 
   const modalAjustStatus = () => {
-    setModalStatus(modalStatus ? false : true);
+    if (status === 'EXPEDIDA') {
+      setModalStatus(modalStatus ? false : true);
+    }
   }
 
   const fecharModalAjustStatus = () => {
@@ -100,12 +102,12 @@ export default function ConsultaStatusGrades() {
 
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
-    if (resp) {      
+    if (resp) {
       setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);
       const timeout = setTimeout(() => {
         setStatus("DESPACHADA");
         setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
-        setModalStatus((prev) => prev ? false : true);       
+        setModalStatus((prev) => prev ? false : true);
         clearTimeout(timeout);
       }, 1000);
       return
