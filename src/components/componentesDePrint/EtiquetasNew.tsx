@@ -79,7 +79,7 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
             page.drawText(`${escolaNumber} - ${projeto}`, {
                 x: textX,
                 y: textY,
-                size: 15,
+                size: 14,
                 font: font,
                 color: rgb(0, 0, 0),
             });
