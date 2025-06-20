@@ -51,19 +51,6 @@ function converPercentualFormat(value: number): string {
 }
 
 function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
-  const gradesPedValid = grades?.filter(grade => !grade.tipo).length || 0;
-  const gradesRepo = grades?.filter(grade => grade.tipo).length || 0;
-  const pedidosValidos = grades?.filter(grade => !grade.tipo) || [];
-  const reposicoesGrades = grades?.filter(grade => grade.tipo) || [];
-  const expedidosNormais = pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0);
-  const previstoNormais = pedidosValidos.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0);
-  const expedidosRepo = reposicoesGrades.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.quantidade, 0), 0);
-  const previstoRepo = reposicoesGrades.reduce((sum, grade) => sum + grade.tamanhosQuantidades.reduce((acc, item) => acc + item.previsto, 0), 0);
-  const aExpedirNormais = previstoNormais - expedidosNormais;
-  const aExpedirRepos = previstoRepo - expedidosRepo;
-  const percErr = (previstoRepo / previstoNormais) * 100;
-  const idExpeds = status === 'EXPEDIDA' ? grades.map((g) => g.id): [];
-
   if (!grades || grades.length === 0) {
     return {
       volumes: convertMilharFormat(0),
@@ -94,76 +81,111 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
       escolasTotaisR: convertMilharFormat(0),
       escolasTotaisT: convertMilharFormat(0),
       percErr: converPercentualFormat(0),
-      ids: idExpeds,
+      ids: [],
     };
   }
-  return {    
-    volumes: convertMilharFormat(grades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
-    volumesR: convertMilharFormat(reposicoesGrades.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
-    volumesN: convertMilharFormat(pedidosValidos.reduce((acc, g) => acc + (g.caixas?.length || 0), 0)),
-    gradesValidas: convertMilharFormat(gradesPedValid),
+
+  let gradesValidas = 0, gradesRepo = 0;
+  let pesoN = 0, pesoR = 0;
+  let cubagemN = 0, cubagemR = 0;
+  let expedidosNormais = 0, expedidosRepo = 0;
+  let previstoNormais = 0, previstoRepo = 0;
+  let volumesN = 0, volumesR = 0;
+
+  const escolasTotais = new Set<string>();
+  const escolasTotaisN = new Set<string>();
+  const escolasTotaisR = new Set<string>();
+  const escolasAtendidasN = new Set<string>();
+  const escolasAtendidasR = new Set<string>();
+  const escolasAtendidasT = new Set<string>();
+  const ids: number[] = [];
+
+  for (const grade of grades) {
+    const isReposicao = !!grade.tipo;
+    const escola = grade.escola;
+
+    escolasTotais.add(escola);
+
+    if (isReposicao) {
+      gradesRepo++;
+      pesoR += grade.peso;
+      cubagemR += grade.cubagem || 0;
+      volumesR += grade.caixas?.length || 0;
+      escolasTotaisR.add(escola);
+
+      for (const item of grade.tamanhosQuantidades) {
+        expedidosRepo += item.quantidade;
+        previstoRepo += item.previsto;
+      }
+
+      if (['DESPACHADA', 'EXPEDIDA'].includes(grade.status)) {
+        escolasAtendidasR.add(escola);
+        escolasAtendidasT.add(escola);
+      }
+    } else {
+      gradesValidas++;
+      pesoN += grade.peso;
+      cubagemN += grade.cubagem || 0;
+      volumesN += grade.caixas?.length || 0;
+      escolasTotaisN.add(escola);
+
+      for (const item of grade.tamanhosQuantidades) {
+        expedidosNormais += item.quantidade;
+        previstoNormais += item.previsto;
+      }
+
+      if (['DESPACHADA', 'EXPEDIDA'].includes(grade.status)) {
+        escolasAtendidasN.add(escola);
+        escolasAtendidasT.add(escola);
+      }
+    }
+
+    if (['DESPACHADA', 'EXPEDIDA'].includes(grade.status)) {
+      escolasAtendidasT.add(escola);
+    }
+
+    if (status === 'EXPEDIDA') {
+      ids.push(grade.id);
+    }
+  }
+
+  const aExpedirNormais = previstoNormais - expedidosNormais;
+  const aExpedirRepos = previstoRepo - expedidosRepo;
+  const previstoT = previstoNormais + previstoRepo;
+  const expedidosT = expedidosNormais + expedidosRepo;
+  const aExpedirT = aExpedirNormais + aExpedirRepos;
+  const percErr = previstoNormais ? (previstoRepo / previstoNormais) * 100 : 0;
+  
+  return {
+    volumes: convertMilharFormat(volumesN + volumesR),
+    volumesR: convertMilharFormat(volumesR),
+    volumesN: convertMilharFormat(volumesN),
+    gradesValidas: convertMilharFormat(gradesValidas),
     gradesRepo: convertMilharFormat(gradesRepo),
-    pesoR: convertMilharFormatKG(reposicoesGrades.reduce((acc, g) => g.peso + acc, 0)),
-    cubagemR: convertMilharFormatCUB(reposicoesGrades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
-    pesoN: convertMilharFormatKG(pedidosValidos.reduce((acc, g) => g.peso + acc, 0)),
-    cubagemN: convertMilharFormatCUB(pedidosValidos.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
-    pesoT: convertMilharFormatKG(grades.reduce((acc, g) => g.peso + acc, 0)),
-    cubagemT: convertMilharFormatCUB(grades.reduce((acc, g) => acc + (g.cubagem || 0), 0)),
-    escolasTotaisN: convertMilharFormat(
-      Array.from(new Set(
-        grades
-          .filter(grade => grade.tipo === null)
-          .map(grade => grade.escola)
-      )).length
-    ),
-    escolasTotaisR: convertMilharFormat(
-      Array.from(new Set(
-        grades
-          .filter(grade =>
-            grade.tipo &&
-            grade.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'reposicao'
-          )
-          .map(grade => grade.escola)
-      )).length
-    ),
-    escolasAtendidasN: convertMilharFormat(
-      Array.from(new Set(
-        grades
-          .filter(grade =>
-            grade.tipo === null &&
-            ['DESPACHADA', 'EXPEDIDA'].includes(grade.status)
-          )
-          .map(grade => grade.escola)
-      )).length
-    ),
-    escolasAtendidasR: convertMilharFormat(
-      Array.from(new Set(
-        grades
-          .filter(grade =>
-            grade.tipo &&
-            grade.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'reposicao' &&
-            grade.status &&
-            ['DESPACHADA', 'EXPEDIDA'].includes(grade.status)).map(grade => grade.escola))).length),
-    escolasAtendidasT: convertMilharFormat(
-      Array.from(new Set(
-        grades
-          .filter(grade => ['DESPACHADA', 'EXPEDIDA'].includes(grade.status))
-          .map(grade => grade.escola)
-      )).length
-    ),
-    escolasTotaisT: convertMilharFormat(Array.from(new Set(grades.map(grade => grade.escola))).length),
+    pesoR: convertMilharFormatKG(pesoR),
+    cubagemR: convertMilharFormatCUB(cubagemR),
+    pesoN: convertMilharFormatKG(pesoN),
+    cubagemN: convertMilharFormatCUB(cubagemN),
+    pesoT: convertMilharFormatKG(pesoR + pesoN),
+    cubagemT: convertMilharFormatCUB(cubagemR + cubagemN),
     expedidos: convertMilharFormat(expedidosNormais),
-    previstoN: convertMilharFormat(previstoNormais),
     aExpedir: convertMilharFormat(aExpedirNormais),
+    previstoN: convertMilharFormat(previstoNormais),
     expRepo: convertMilharFormat(expedidosRepo),
     prevRepo: convertMilharFormat(previstoRepo),
     aExpRepo: convertMilharFormat(aExpedirRepos),
-    previstoT: convertMilharFormat(previstoNormais + previstoRepo),
+    previstoT: convertMilharFormat(previstoT),
     gradesT: convertMilharFormat(grades.length),
-    expedidosT: convertMilharFormat(expedidosNormais + expedidosRepo),
-    aExpedirT: convertMilharFormat(aExpedirNormais + aExpedirRepos),
+    expedidosT: convertMilharFormat(expedidosT),
+    aExpedirT: convertMilharFormat(aExpedirT),
+    escolasTotaisN: convertMilharFormat(escolasTotaisN.size),
+    escolasTotaisR: convertMilharFormat(escolasTotaisR.size),
+    escolasTotaisT: convertMilharFormat(escolasTotais.size),
+    escolasAtendidasN: convertMilharFormat(escolasAtendidasN.size),
+    escolasAtendidasR: convertMilharFormat(escolasAtendidasR.size),
+    escolasAtendidasT: convertMilharFormat(escolasAtendidasT.size),
     percErr: converPercentualFormat(percErr),
-    ids: idExpeds,
+    ids
   };
 }
 
