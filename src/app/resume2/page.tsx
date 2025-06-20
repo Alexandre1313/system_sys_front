@@ -83,7 +83,7 @@ export default function ConsultaStatusGrades() {
   }
 
   const themeBG = tema ? 'bg-[#FFFFFF]' : 'bg-[#181818]';
-  const themeBG2 = tema ? 'bg-[#FFFFFF]' : 'bg-[#1F1F1F]';
+  const themeBG2 = tema ? 'bg-[#FFFFFF]' : 'bg-[#181818]';
   const themeBG3 = tema ? 'bg-[#f7f7f7] text-zinc-950' : 'bg-[#181818] text-zinc-400';
   const colorFontAviso = tema ? 'text-zinc-950' : 'text-blue-500';
   const colorButons = tema ? 'bg-zinc-300 text-zinc-950 hover:bg-zinc-200' : 'bg-zinc-700 text-white hover:bg-zinc-600';
@@ -127,7 +127,7 @@ export default function ConsultaStatusGrades() {
     <div className={`flex flex-col w-full items-start justify-center ${themeBG}`}>
       <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
       <div className="flex flex-col items-center justify-start min-h-[101vh] pt-7 gap-y-5 w-full">
-        <div className={`flex w-full lg:p-[1.1rem] p-[0.7rem] lg:pt-8 pt-4 fixed ${themeBG2} gap-x-5 z-[15] ${borderWhite}`}>
+        <div className={`flex w-full lg:p-[0.8rem] p-[0.7rem] lg:pt-[2.1rem] pt-4 fixed ${themeBG2} gap-x-5 z-[15] ${borderWhite}`}>
 
           {/* Seletor de Status */}
           <select
@@ -177,7 +177,7 @@ export default function ConsultaStatusGrades() {
         {/* Exibição dos Resultados */}
         <div className="flex w-full flex-row items-center justify-between mt-[80px] pt-1">
           <div className={`flex flex-col min-w-[25%] max-w-[25%]`}>
-            <div className={`fixed top-[6.1rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
+            <div className={`fixed top-[6.4rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
               <div className={`flex w-full flex-col justify-start items-center`}>
                 <div className={`flex w-full flex-row justify-center items-center`}>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>

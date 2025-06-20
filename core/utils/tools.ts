@@ -219,85 +219,82 @@ const sizeOrders = (tamanhos: string[]): string[] => {
 function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
   const termoBusca = busca.trim().toLowerCase();
 
-  // 1. Filtrar por nome da escola
-  let filtradas = grades.filter((grade) =>
-    grade.escola.toLowerCase().includes(termoBusca)
-  );
+  const padroniza = (texto: string | number) => texto.toString().toLowerCase();
+  const isMatch = (campo: string) => campo.includes(termoBusca);
 
-  // 2. Se nada encontrado, filtrar por número da escola
-  if (filtradas.length === 0) {
-    filtradas = grades.filter((grade) =>
-      grade.numeroEscola.toString().includes(termoBusca)
-    );
+  let filtradas: GradesRomaneio[] = [];
+
+  // Pré-processa campos e busca no mesmo laço
+  for (const grade of grades) {
+    const escola = padroniza(grade.escola);
+    const numeroEscola = padroniza(grade.numeroEscola);
+    const update = padroniza(grade.update);
+    const itens = grade.tamanhosQuantidades.map(item => padroniza(item.item));
+
+    if (isMatch(escola)) {
+      filtradas.push(grade);
+      continue;
+    }
+
+    if (isMatch(numeroEscola)) {
+      filtradas.push(grade);
+      continue;
+    }
+
+    if (isMatch(update)) {
+      filtradas.push(grade);
+      continue;
+    }
+
+    if (itens.some(isMatch)) {
+      filtradas.push(grade);
+      continue;
+    }
   }
 
-  // 3. Se ainda nada, filtrar por data de update
-  if (filtradas.length === 0) {
-    filtradas = grades.filter((grade) =>
-      grade.update.toLowerCase().includes(termoBusca)
-    );
-  }
-
-  // 4. Se ainda nada, filtrar por nome do item
-  if (filtradas.length === 0) {
-    filtradas = grades.filter((grade) =>
-      grade.tamanhosQuantidades.some((item) =>
-        item.item.toLowerCase().includes(termoBusca)
-      )
-    );
-  }
-
-  // 5 - Busca combinada com melhoria
+  // Busca combinada com termos separados e tamanhos padrão
   if (filtradas.length === 0 && termoBusca.includes(' ')) {
     const termos = termoBusca.split(/\s+/);
+    const tamanhosPadrao = new Set([
+      "00", "01", "02", "04", "06", "08", "10", "12", "14", "16",
+      "6m", "pp 18-21", "p 22-25", "m 26-29", "g 30-33", "gg 34-37",
+      "xgg 38-41", "adulto 42-44", "pp", "p", "m", "g", "gg", "xg",
+      "xgg", "eg", "egg", "eg/lg", "exg", "g1", "g2", "g3"
+    ]);
 
-    const tamanhosPadrao = [
-      "00", "01", "02", "04", "06", "08", "10", "12", "14", "16", // Numéricos
-      "6m", // Meses
-      "pp 18-21", "p 22-25", "m 26-29", "g 30-33", "gg 34-37", "xgg 38-41", "adulto 42-44", // Faixas com medidas
-      "pp", "p", "m", "g", "gg", "xg", "xgg", // Letras
-      "eg", "egg", "eg/lg", "exg", // Extra grandes
-      "g1", "g2", "g3" // Plus size
-    ];
+    const termosTamanhos = termos.filter(t => tamanhosPadrao.has(t));
+    const termosTexto = termos.filter(t => !tamanhosPadrao.has(t));
 
-    const termosTamanhos = termos.filter(t => tamanhosPadrao.includes(t));
-    const termosTexto = termos.filter(t => !tamanhosPadrao.includes(t));
+    filtradas = grades
+      .map((grade) => {
+        const campos = [
+          padroniza(grade.escola),
+          padroniza(grade.numeroEscola),
+          padroniza(grade.update),
+          ...grade.tamanhosQuantidades.map(item => padroniza(item.item)),
+        ];
 
-    // Filtra grades com base nos termos combinados (nome, número, update, item)
-    filtradas = grades.filter((grade) => {
-      const campos = [
-        grade.escola.toLowerCase(),
-        grade.numeroEscola.toString(),
-        grade.update.toLowerCase(),
-        ...grade.tamanhosQuantidades.map(item => item.item.toLowerCase()),
-      ];
+        const atende = termosTexto.every((termo) =>
+          campos.some((campo) => campo.includes(termo))
+        );
 
-      return termosTexto.every((termo) =>
-        campos.some((campo) => campo.includes(termo))
-      );
-    });
+        if (!atende) return null;
 
-    // Agora filtra os itens dentro das grades encontradas
-    if (filtradas.length > 0) {
-      filtradas = filtradas
-        .map((grade) => {
-          const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
-            const itemNome = item.item.toLowerCase();
-            const itemTamanho = item.tamanho.toLowerCase();
+        const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
+          const nome = padroniza(item.item);
+          const tamanho = padroniza(item.tamanho);
 
-            const combinaTamanho = termosTamanhos.length === 0 || termosTamanhos.includes(itemTamanho);
-            const combinaItem = termosTexto.length === 0 || termosTexto.some((termo) => itemNome.includes(termo));
+          const matchTamanho = termosTamanhos.length === 0 || termosTamanhos.includes(tamanho);
+          const matchItem = termosTexto.length === 0 || termosTexto.some(t => nome.includes(t));
 
-            return combinaTamanho && combinaItem;
-          });
+          return matchTamanho && matchItem;
+        });
 
-          return {
-            ...grade,
-            tamanhosQuantidades: itensFiltrados,
-          };
-        })
-        .filter((grade) => grade.tamanhosQuantidades.length > 0);
-    }
+        if (itensFiltrados.length === 0) return null;
+
+        return { ...grade, tamanhosQuantidades: itensFiltrados };
+      })
+      .filter((grade): grade is GradesRomaneio => grade !== null);
   }
 
   return filtradas;
