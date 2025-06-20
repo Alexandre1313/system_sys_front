@@ -52,39 +52,43 @@ function converPercentualFormat(value: number): string {
 
 function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   if (!grades || grades.length === 0) {
+    const zero = () => convertMilharFormat(0);
+    const zeroKG = () => convertMilharFormatKG(0);
+    const zeroCUB = () => convertMilharFormatCUB(0);
     return {
-      volumes: convertMilharFormat(0),
-      volumesR: convertMilharFormat(0),
-      volumesN: convertMilharFormat(0),
-      gradesValidas: convertMilharFormat(0),
-      gradesRepo: convertMilharFormat(0),
-      pesoR: convertMilharFormatKG(0),
-      cubagemR: convertMilharFormatCUB(0),
-      pesoN: convertMilharFormatKG(0),
-      cubagemN: convertMilharFormatCUB(0),
-      pesoT: convertMilharFormatKG(0),
-      cubagemT: convertMilharFormatCUB(0),
-      expedidos: convertMilharFormat(0),
-      aExpedir: convertMilharFormat(0),
-      previstoN: convertMilharFormat(0),
-      expRepo: convertMilharFormat(0),
-      prevRepo: convertMilharFormat(0),
-      aExpRepo: convertMilharFormat(0),
-      escolasAtendidasN: convertMilharFormat(0),
-      escolasAtendidasR: convertMilharFormat(0),
-      previstoT: convertMilharFormat(0),
-      gradesT: convertMilharFormat(0),
-      expedidosT: convertMilharFormat(0),
-      aExpedirT: convertMilharFormat(0),
-      escolasAtendidasT: convertMilharFormat(0),
-      escolasTotaisN: convertMilharFormat(0),
-      escolasTotaisR: convertMilharFormat(0),
-      escolasTotaisT: convertMilharFormat(0),
+      volumes: zero(),
+      volumesR: zero(),
+      volumesN: zero(),
+      gradesValidas: zero(),
+      gradesRepo: zero(),
+      pesoR: zeroKG(),
+      cubagemR: zeroCUB(),
+      pesoN: zeroKG(),
+      cubagemN: zeroCUB(),
+      pesoT: zeroKG(),
+      cubagemT: zeroCUB(),
+      expedidos: zero(),
+      aExpedir: zero(),
+      previstoN: zero(),
+      expRepo: zero(),
+      prevRepo: zero(),
+      aExpRepo: zero(),
+      previstoT: zero(),
+      gradesT: zero(),
+      expedidosT: zero(),
+      aExpedirT: zero(),
+      escolasAtendidasN: zero(),
+      escolasAtendidasR: zero(),
+      escolasAtendidasT: zero(),
+      escolasTotaisN: zero(),
+      escolasTotaisR: zero(),
+      escolasTotaisT: zero(),
       percErr: converPercentualFormat(0),
       ids: [],
     };
   }
 
+  // Cache de valores
   let gradesValidas = 0, gradesRepo = 0;
   let pesoN = 0, pesoR = 0;
   let cubagemN = 0, cubagemR = 0;
@@ -100,11 +104,19 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   const escolasAtendidasT = new Set<string>();
   const ids: number[] = [];
 
-  for (const grade of grades) {
-    const isReposicao = !!grade.tipo;
-    const escola = grade.escola;
+  const statusExpedido = new Set(['DESPACHADA', 'EXPEDIDA']);
 
+  for (const grade of grades) {
+    const escola = grade.escola;
     escolasTotais.add(escola);
+
+    const tipo = grade.tipo;
+    const tipoNorm = tipo
+      ? tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+      : null;
+    const isReposicao = tipoNorm === 'reposicao';
+
+    const isExpedido = statusExpedido.has(grade.status);
 
     if (isReposicao) {
       gradesRepo++;
@@ -118,7 +130,7 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
         previstoRepo += item.previsto;
       }
 
-      if (['DESPACHADA', 'EXPEDIDA'].includes(grade.status)) {
+      if (isExpedido) {
         escolasAtendidasR.add(escola);
         escolasAtendidasT.add(escola);
       }
@@ -134,13 +146,13 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
         previstoNormais += item.previsto;
       }
 
-      if (['DESPACHADA', 'EXPEDIDA'].includes(grade.status)) {
+      if (isExpedido) {
         escolasAtendidasN.add(escola);
         escolasAtendidasT.add(escola);
       }
     }
 
-    if (['DESPACHADA', 'EXPEDIDA'].includes(grade.status)) {
+    if (isExpedido) {
       escolasAtendidasT.add(escola);
     }
 
@@ -155,7 +167,7 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   const expedidosT = expedidosNormais + expedidosRepo;
   const aExpedirT = aExpedirNormais + aExpedirRepos;
   const percErr = previstoNormais ? (previstoRepo / previstoNormais) * 100 : 0;
-  
+
   return {
     volumes: convertMilharFormat(volumesN + volumesR),
     volumesR: convertMilharFormat(volumesR),
