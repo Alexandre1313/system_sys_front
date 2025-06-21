@@ -172,7 +172,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             return tamanho?.includes(termoTamanho) && genero?.includes(termoGenero) || tamanho?.includes(termoTamanho) && nome?.includes(termoGenero);
         });
     }
-   
+
     if (itensFiltrados.length === 0) {
         itensFiltrados = props.grade.itensGrade.filter((itemGrade) => {
             const campos = [
@@ -280,18 +280,20 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)} // Passa o item ao clicar
                                     key={index}
                                     className={`bg-zinc-950 bg-opacity-15 p-3 m-4 rounded-md gap-y-2 shadow-lg flex-1 
-                                      min-w-[300px] flex flex-col items-start justify-center hover:shadow-green transition duration-200 
+                                      min-w-[300px] flex flex-col items-start justify-start hover:shadow-green transition duration-200 
                                       ease-in-out cursor-pointer min-h-[200px] border ${classBorderCard}`}
                                 >
-                                    <p className={`text-[13px] px-3 pt-2 font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
-                                        <strong className="text-slate-400 text-[20px] font-normal"> {item?.nome}</strong>
-                                    </p>
-                                    <p className={`text-[13px] px-3 -mt-[8px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
-                                        <strong className="text-slate-400 text-[20px] font-normal"> {genero}</strong>
-                                    </p>
-                                    <p className={`text-[13px] px-3 pb-2 -mt-[9px] font-semibold text-slate-500 tracking-[1px] ${classBgCard} w-full`}>
-                                        TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
-                                    </p>
+                                    <div className={`flex flex-col ${classBgCard} gap-y-2`}>
+                                        <p className={`text-[13px] px-3 pt-2 font-semibold text-slate-500 tracking-[1px] w-full`}>
+                                            <strong className="text-slate-400 text-[19px] font-normal"> {item?.nome}</strong>
+                                        </p>
+                                        <p className={`text-[13px] px-3 -mt-[7px] font-semibold text-slate-500 tracking-[1px] w-full`}>
+                                            <strong className="text-slate-400 text-[19px] font-normal"> {genero}</strong>
+                                        </p>
+                                        <p className={`text-[13px] px-3 pb-2 -mt-[7px] font-semibold text-slate-500 tracking-[1px] w-full`}>
+                                            TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
+                                        </p>
+                                    </div>
                                     <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
                                         QUANTIDADE PREVISTA:  <strong className="text-yellow-400 text-[20px] font-normal"> {quantidade}</strong>
                                     </p>
@@ -339,7 +341,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
                                     bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} width={`min-w-[55px] max-w-[55px]`}
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
-                                <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`}/>
+                                <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`} />
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
                                     labelName={`ESCOLA Nº :`} />
                                 <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
