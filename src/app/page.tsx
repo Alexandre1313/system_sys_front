@@ -32,7 +32,6 @@ export default function Home() {
               </code>
             </li>
           </ol>
-
           <div className="flex gap-2 lg:gap-4 items-center flex-row flex-wrap justify-center">
             <Link href={'/projetos'} legacyBehavior>
               <a
@@ -86,14 +85,14 @@ export default function Home() {
                 GRADES EXPED...
               </a>
             </Link>
-            <Link href={'/resume'} legacyBehavior>
+            <Link href={'/resume2'} legacyBehavior>
               <a
                 className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-[9px] lg:text-[13px] h-7 lg:h-8 px-3 lg:px-5 lg:min-w-40 min-w-[130px]"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                RESUMOS...
+                RESUMOS TWO...
               </a>
             </Link>
             <Link href={'/graf'} legacyBehavior>
@@ -113,7 +112,7 @@ export default function Home() {
                 target=""
                 rel="noopener noreferrer"
               >
-                ETIQUETAS
+                ET. U P/ GRADE
               </a>
             </Link>
           </div>
@@ -150,14 +149,14 @@ export default function Home() {
                 Run Projects →
               </a>
             </Link>
-            <Link href={'/resume2'} legacyBehavior>
+            <Link href={'/resume'} legacyBehavior>
               <a
                 className="flex button items-center lg:text-[13px] text-[8px] gap-2 hover:underline hover:underline-offset-4"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                Run Resumes 2 →
+                Run Resumes Old →
               </a>
             </Link>
           </div>

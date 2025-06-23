@@ -23,6 +23,13 @@ const atualizarQuantidadeCaixaNnn = (formData: any, nnn: number) => {
     formData.ESCOLA_GRADE.totalAExpedir -= nnn
 }
 
+/*const atualizarQuantidadeCaixaNnnInvert = (formData: any, nnn: number) => {
+    formData.ITEM_SELECIONADO.quantidadeExpedida -= nnn;
+    formData.ITEM_SELECIONADO.qtyPCaixa -= nnn;
+    formData.ESCOLA_GRADE.totalExpedido -= nnn;
+    formData.ESCOLA_GRADE.totalAExpedir += nnn;
+};*/
+
 const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
@@ -56,88 +63,132 @@ const processarCodigoDeBarras = (
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
     setModalOpen: (open: boolean) => void,
-    OpenModalGerarCaixa: () => void
+    OpenModalGerarCaixa: () => void 
 ) => {
-    // Verifica se o valor contém apenas números (0-9)
-    const isNumeric = /^[0-9]*$/.test(value);
+    // Aceita apenas caracteres válidos: números, + e -
+    if (!/^[0-9+\-]*$/.test(value)) return;    
 
-    // Se o valor não for numérico, mantém o campo com o valor digitado
-    if (!isNumeric) {
-        // Não alterar o estado para limpar o campo
-        return; // Sai da função, nada mais é executado
-    }
+    if (formData.CODDEBARRASLEITURA === value) return;
 
     const itemCodigo = formData.ITEM_SELECIONADO?.itemTamanho?.barcode?.codigo;
-    const quantidade = formData.ITEM_SELECIONADO?.quantidade;
-    const quantidadeExpedida = formData.ITEM_SELECIONADO?.quantidadeExpedida;
+    const quantidade = Number(formData.ITEM_SELECIONADO?.quantidade || 0);
+    const quantidadeExpedida = Number(formData.ITEM_SELECIONADO?.quantidadeExpedida || 0);
+    const quantidadeLidaAtual = Number(formData.QUANTIDADELIDA || 0);
+    const quantidadeNaCaixaAtual = Number(formData.QUANTIDADENACAIXAATUAL || 0);
 
-    // Atualiza o CODDEBARRASLEITURA com o valor digitado
     setFormData((prevData: any) => ({
         ...prevData,
-        CODDEBARRASLEITURA: value, // Sempre atualiza para o valor digitado
+        CODDEBARRASLEITURA: value,
     }));
 
-    if (value.length === 5 && value != '99999') {
+    // 1. Código de barras normal (5 dígitos)
+    if (value.length === 5 && value !== '99999') {
         if (value === itemCodigo) {
-            // Verifica se a quantidade lida não ultrapassa a quantidade permitida
-            if (Number(quantidade) !== Number(quantidadeExpedida)) {
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + 1), // Incrementa QUANTIDADELIDA
-                    QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) + 1),
+            if (quantidade !== quantidadeExpedida) {
+                const novoForm = {
+                    ...formData,
+                    QUANTIDADELIDA: String(quantidadeLidaAtual + 1),
+                    QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual + 1),
                     CODDEBARRASLEITURA: '',
-                }));
-                atualizarQuantidadeCaixa(formData)
+                };
+                setFormData(novoForm);
+                atualizarQuantidadeCaixa(novoForm);
                 if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                    OpenModalGerarCaixa()
+                    OpenModalGerarCaixa();
                 }
             } else {
-                // Se a quantidade exceder, exibe a mensagem no modal
-                setModalMessage('Quantidade já atendida para a grade em questão');
+                setModalMessage('Quantidade já atendida para o item de grade em questão');
                 setModalOpen(true);
                 setFormData((prevData: any) => ({
                     ...prevData,
                     CODDEBARRASLEITURA: '',
-                    // limpa o campo aqui
                 }));
             }
         } else {
-            // Se o código não corresponder, podemos exibir uma mensagem no modal
             setModalMessage('Código de barras não pertence ao item em questão, por favor verifique');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
                 CODDEBARRASLEITURA: '',
-                // limpa o campo aqui
             }));
         }
-    } else {
-        if (value.length === 8 && value.substring(0, 5) === '99999' && user?.id) {
-            let nnn = parseInt(value.substring(5));
-            if (Number(quantidade) !== Number(quantidadeExpedida)) {
-                if (nnn > (Number(quantidade) - Number(quantidadeExpedida))) {
-                    nnn = (Number(quantidade) - Number(quantidadeExpedida));
-                }
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) + nnn), // Incrementa QUANTIDADELIDA
-                    QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) + nnn),
-                    CODDEBARRASLEITURA: '',
-                }));
-                atualizarQuantidadeCaixaNnn(formData, nnn)
-                if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                    OpenModalGerarCaixa()
-                }
-            } else {
-                // Se a quantidade exceder, exibe a mensagem no modal
-                setModalMessage('Quantidade já atendida para a grade em questão');
-                setModalOpen(true);
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    CODDEBARRASLEITURA: '',
-                    // limpa o campo aqui
-                }));
+        return;
+    }
+
+    // 2. Entrada manual para adicionar quantidade (somente com 4 caracteres, ex: +005)
+    if (/^\+\d{3}$/.test(value) && value.length === 4 && user?.id) {
+        let nnn = parseInt(value.substring(1), 10);
+        if (quantidade !== quantidadeExpedida) {
+            if (nnn > (quantidade - quantidadeExpedida)) {
+                nnn = quantidade - quantidadeExpedida;
             }
+            const novoForm = {
+                ...formData,
+                QUANTIDADELIDA: String(quantidadeLidaAtual + nnn),
+                QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual + nnn),
+                CODDEBARRASLEITURA: '',
+            };
+            setFormData(novoForm);
+            atualizarQuantidadeCaixaNnn(novoForm, nnn);
+            if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
+                OpenModalGerarCaixa();
+            }
+        } else {
+            setModalMessage('Quantidade já atendida para o item de grade em questão');
+            setModalOpen(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                CODDEBARRASLEITURA: '',
+            }));
+        }
+        return;
+    }
+
+    // 3. Entrada manual para remover quantidade (somente com 4 caracteres, ex: -050)
+    /*if (/^\-\d{3}$/.test(value) && value.length === 4 && user?.id) {
+        const nnn = parseInt(value.substring(1), 10);
+        if (quantidadeLidaAtual === 0) {
+            setModalMessage('Nenhuma quantidade lida para remover');
+            setModalOpen(true);
+        } else {
+            const remover = Math.min(nnn, quantidadeLidaAtual, quantidadeNaCaixaAtual);
+            const novoForm = {
+                ...formData,
+                QUANTIDADELIDA: String(quantidadeLidaAtual - remover),
+                QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual - remover),
+                CODDEBARRASLEITURA: '',
+            };
+            setFormData(novoForm);
+            atualizarQuantidadeCaixaNnnInvert(novoForm, remover);
+        }
+        return;
+    }*/
+
+    // 4. Código especial 99999XYZ (expedição manual com código especial)
+    if (/^99999\d{3}$/.test(value) && value.length === 8 && user?.id) {
+        let nnn = parseInt(value.substring(5), 10);
+        if (quantidade !== quantidadeExpedida) {
+            if (nnn > (quantidade - quantidadeExpedida)) {
+                nnn = quantidade - quantidadeExpedida;
+            }
+            const novoForm = {
+                ...formData,
+                QUANTIDADELIDA: String(quantidadeLidaAtual + nnn),
+                QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual + nnn),
+                CODDEBARRASLEITURA: '',
+            };
+            setFormData(novoForm);
+            atualizarQuantidadeCaixaNnn(novoForm, nnn);
+            if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
+                OpenModalGerarCaixa();
+            }
+        } else {
+            setModalMessage('Quantidade já atendida para a grade em questão');
+            setModalOpen(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                CODDEBARRASLEITURA: '',
+            }));
         }
     }
 };

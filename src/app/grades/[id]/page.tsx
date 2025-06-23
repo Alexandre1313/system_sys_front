@@ -120,27 +120,11 @@ export default function Grades() {
   };
 
   const OpenModalGerarCaixa = () => {
-    // console 02
-    console.log(`item selecionado antes: ${JSON.stringify(formData.ITEM_SELECIONADO, null, 4)}`)
-
-    // console 03
-    console.log(`itens grade antes: ${JSON.stringify(formData.ESCOLA_GRADE?.grade?.itensGrade, null, 4)}`)
-
     const novaCaixa = criarCaixa(formData, user?.id);
-
-    // console 04
-    console.log(`item selecionado depois: ${JSON.stringify(formData.ITEM_SELECIONADO, null, 4)}`)
-
-    // console 05
-    console.log(`itens grade depois: ${JSON.stringify(formData.ESCOLA_GRADE?.grade?.itensGrade, null, 4)}`)
-
-    // console 06
-    console.log(`caixa depois: ${JSON.stringify(novaCaixa, null, 4)}`)
-
     if (novaCaixa) {
       setCaixa(novaCaixa);
       setModalGerarCaixaOpen(true);
-      setModalGerarCaixaMessage('Deseja encerrar a caixa ?');
+      setModalGerarCaixaMessage('Deseja mesmo encerrar a caixa ? Confira as quantidades.');
     } else {
       console.log("Nenhuma caixa foi criada.");
     }

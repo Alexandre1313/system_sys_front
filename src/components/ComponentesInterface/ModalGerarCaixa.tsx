@@ -63,7 +63,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           handleCaixaAtualChange()
           onClose()
           clearTimeout(timeout)
-        }, 300)
+        }, 200)
       }
     } catch (error) {
       console.error("Erro ao encerrar a caixa:", error);
@@ -112,7 +112,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             color={`rgba(234, 170, 0, 0.7)`}
           />
         </h2>
-        <p className="flex text-[16px] text-black uppercase font-semibold text-center">{msg}</p>
+        <p className="text-red-500 flex text-[18px] uppercase font-bold text-center">{msg}</p>
         <div className={`flex justify-center items-center w-full`}>
           <CaixaResume caixa={box} />
         </div>
