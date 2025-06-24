@@ -1,7 +1,7 @@
 'use client';
 
 import { Search } from 'react-feather';
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useRef } from 'react';
 
 interface BuscaEscolaInputProps {
   tema: boolean;
@@ -12,6 +12,7 @@ interface BuscaEscolaInputProps {
 
 const BuscaEscolaInput: React.FC<BuscaEscolaInputProps> = ({ tema, buscaEscola, setBuscaEscola, onBuscar }) => {
   const [localValue, setLocalValue] = useState(buscaEscola);
+  const botaoBuscarRef1 = useRef<HTMLButtonElement | null>(null);;
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -28,18 +29,31 @@ const BuscaEscolaInput: React.FC<BuscaEscolaInputProps> = ({ tema, buscaEscola, 
 
   const colorLupa = tema ? '#000' : '#ccc';
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {     
+        if (event.key === 'Enter') {
+          botaoBuscarRef1.current?.click();
+        }      
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [localValue]);
+
   return (
     <div className="relative flex w-[75%]">
       <button
         className="cursor-pointer"
         type="button"
         onClick={onBuscar}
+        ref={botaoBuscarRef1}
       >
-        <Search
+        <Search          
           color={colorLupa}
           size={21}
           className="rounded-full absolute left-3 top-1/3 transform -translate-y-1/2 pointer-events-auto hover:bg-emerald-700"
-          strokeWidth={1}
+          strokeWidth={1}         
         />
       </button>
       <input
