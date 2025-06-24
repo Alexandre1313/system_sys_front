@@ -20,6 +20,8 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
       zebra: 'bg-gray-50',
       highlight: 'bg-cyan-400 bg-opacity-[0.07]',
       textCyan: 'text-blue-700',
+      bgColorValueP: 'bg-red-500 bg-opacity-[0.1]',
+      bgColorValueE: 'bg-emerald-500 bg-opacity-[0.1]',
       textPurple: 'text-purple-700',
       textGreen: 'text-green-700',
       textBlue: 'text-blue-700',
@@ -37,6 +39,8 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
       zebra: 'bg-zinc-700 bg-opacity-30',
       highlight: 'bg-zinc-400 bg-opacity-[0.07]',
       textCyan: 'text-cyan-400',
+      bgColorValueP: 'bg-red-500 bg-opacity-[0.1]',
+      bgColorValueE: 'bg-emerald-500 bg-opacity-[0.1]',
       textPurple: 'text-purple-400',
       textGreen: 'text-green-400',
       textBlue: 'text-blue-400',
@@ -123,13 +127,13 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
                       <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.item}</td>
                       <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.genero}</td>
                       <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.tamanho}</td>
-                      <td className={`py-2 px-4 border ${theme.textCyan} ${theme.border}`}>
+                      <td className={`py-2 px-4 border ${theme.textCyan} ${theme.border} ${(item.previsto - item.quantidade > 0) ? theme.bgColorValueP: ''}`}>
                         {convertMilharFormat(item.previsto - item.quantidade)}
                       </td>
                       <td className={`py-2 px-4 border ${theme.textPurple} ${theme.border}`}>
                         {convertMilharFormat(item.previsto)}
                       </td>
-                      <td className={`py-2 px-4 border ${theme.textGreen} ${theme.border}`}>
+                      <td className={`py-2 px-4 border ${theme.textGreen} ${theme.border} ${(item.previsto === item.quantidade) ? theme.bgColorValueE: ''}`}>
                         {convertMilharFormat(item.quantidade)}
                       </td>
                       <td className={`py-2 px-4 border ${theme.textBlue} ${theme.border}`}>
