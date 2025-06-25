@@ -39,8 +39,8 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
       zebra: 'bg-zinc-700 bg-opacity-30',
       highlight: 'bg-zinc-400 bg-opacity-[0.07]',
       textCyan: 'text-cyan-400',
-      bgColorValueP: 'bg-red-500 bg-opacity-[0.1]',
-      bgColorValueE: 'bg-emerald-500 bg-opacity-[0.1]',
+      bgColorValueP: 'bg-gradient-to-r from-red-500/20 to-transparent',
+      bgColorValueE: 'bg-gradient-to-r from-emerald-500/20 to-transparent',
       textPurple: 'text-purple-400',
       textGreen: 'text-green-400',
       textBlue: 'text-blue-400',
@@ -130,7 +130,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
                       <td className={`py-2 px-4 border ${theme.textCyan} ${theme.border} ${(item.previsto - item.quantidade > 0) ? theme.bgColorValueP: ''}`}>
                         {convertMilharFormat(item.previsto - item.quantidade)}
                       </td>
-                      <td className={`py-2 px-4 border ${theme.textPurple} ${theme.border}`}>
+                      <td className={`py-2 px-4 border ${theme.textPurple} ${theme.border} bg-[#181818]`}>
                         {convertMilharFormat(item.previsto)}
                       </td>
                       <td className={`py-2 px-4 border ${theme.textGreen} ${theme.border} ${(item.previsto === item.quantidade) ? theme.bgColorValueE: ''}`}>
