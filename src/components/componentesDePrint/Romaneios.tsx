@@ -1,7 +1,7 @@
 import { PDFDocument, PDFFont, StandardFonts, rgb } from 'pdf-lib';
 import { Printer } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
-import { convertSPTime } from '../../../core/utils/tools';
+import { convertMilharFormatCUB, convertMilharFormatKG, convertSPTime } from '../../../core/utils/tools';
 
 export interface RomaneiosProps {
     romaneios: GradesRomaneio[];
@@ -256,7 +256,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
             // ROMANEIO DE DESPACHO - PESO/CUBAGEM
             drawText(
                 page,
-                `PESO: ${romaneio.peso ? `${romaneio.peso.toFixed(3).replace('.', ',')} Kg - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${romaneio.cubagem.toFixed(3).replace('.', ',')} m³` : '0,000 m³'}`,
+                `PESO: ${romaneio.peso ? `${convertMilharFormatKG(romaneio.peso)} - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${convertMilharFormatCUB(romaneio.cubagem)}` : '0,000 m³'}`,
                 margin,
                 currentY,
                 fontBold,

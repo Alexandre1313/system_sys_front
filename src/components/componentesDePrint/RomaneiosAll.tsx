@@ -3,7 +3,7 @@ import { Printer } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
-import { convertSPTime } from '../../../core/utils/tools';
+import { convertMilharFormatCUB, convertMilharFormatKG, convertSPTime } from '../../../core/utils/tools';
 
 export interface RomaneiosProps {
     romaneios: GradesRomaneio[];
@@ -245,7 +245,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             // ROMANEIO DE DESPACHO - PESO/CUBAGEM
             drawText(
                 page,
-                `PESO: ${romaneio.peso ? `${romaneio.peso.toFixed(3).replace('.', ',')} Kg - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${romaneio.cubagem.toFixed(3).replace('.', ',')} m³` : '0,000 m³'}`,
+                `PESO: ${romaneio.peso ? `${convertMilharFormatKG(romaneio.peso)} - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${convertMilharFormatCUB(romaneio.cubagem)}` : '0,000 m³'}`,
                 margin,
                 currentY,
                 fontBold,
@@ -431,7 +431,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
         return pdfBytes;
     };
 
-    if(romaneios.length === 0) return null
+    if (romaneios.length === 0) return null
 
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
@@ -682,7 +682,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
             // ROMANEIO DE DESPACHO - PESO/CUBAGEM
             drawText(
                 page,
-                `PESO: ${romaneio.peso ? `${romaneio.peso.toFixed(3).replace('.', ',')} Kg - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${romaneio.cubagem.toFixed(3).replace('.', ',')} m³` : '0,000 m³'}`,
+                `PESO: ${romaneio.peso ? `${convertMilharFormatKG(romaneio.peso)} - ` : '0,000 Kg - '}CUBAGEM: ${romaneio.cubagem ? `${convertMilharFormatCUB(romaneio.cubagem)}` : '0,000 m³'}`,
                 margin,
                 currentY,
                 fontBold,
