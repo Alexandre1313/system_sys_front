@@ -102,7 +102,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="bg-white p-8 rounded-md shadow-md min-w-[550px] min-h-[280px] gap-y-4 
+        className="bg-[#f7f7f7] p-8 rounded-md shadow-md min-w-[40%] min-h-[380px] gap-y-4 
       flex flex-col items-center justify-between"
       >
         <h2 className="text-3xl text-black font-semibold">
@@ -112,7 +112,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             color={`rgba(234, 170, 0, 0.7)`}
           />
         </h2>
-        <p className="text-red-500 flex text-[18px] uppercase font-bold text-center">{msg}</p>
+        <p className="text-red-500 flex text-[20px] uppercase font-bold text-center">{msg}</p>
         <div className={`flex justify-center items-center w-full`}>
           <CaixaResume caixa={box} />
         </div>
