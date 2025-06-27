@@ -27,6 +27,8 @@ export default function PaginaCaixasManual() {
     const [idparapesquisa, setIdparapesquisa] = useState<string>('');
     const [message, setMessage] = useState<string>('');
     const [hasMounted, setHasMounted] = useState(false);
+    const [totalGradeC, setTotalGradeC] = useState<number>(0);
+    const [totalGradeI, setTotalGradeI] = useState<number>(0);
 
     useEffect(() => {
         setHasMounted(true); // ← indica que o client montou
@@ -41,7 +43,7 @@ export default function PaginaCaixasManual() {
     useEffect(() => {
 
         inputRef.current?.focus();
-        
+
         const handleKeyDown = (event: KeyboardEvent) => {
             if (modalStatus) {
                 if (event.key === 'Enter') {
@@ -97,6 +99,11 @@ export default function PaginaCaixasManual() {
         return (<EtiquetasNew etiquetas={etiquetas} classNew={classnew} />)
     }
 
+    const setTotal = (num: number, num1: number) => {
+        setTotalGradeC(num);
+        setTotalGradeI(num1);
+    }
+
     const colorButons = tema ? 'bg-zinc-300 text-zinc-950 hover:bg-zinc-200' : 'bg-zinc-700 text-white hover:bg-zinc-600';
 
     return (
@@ -104,31 +111,39 @@ export default function PaginaCaixasManual() {
 
             <TitleComponentFixed stringOne="LISTAGEM DE CAIXAS DA GRADE DE ID " stringTwo={`${idparapesquisa}`} />
 
-            <div className={`flex w-full z-20 items-center justify-start gap-x-4 bg-[#202020] fixed top-[3.2rem] left-0 px-4 p-3 pt-4`}>
-                <button onClick={theme} className={`px-6 py-1 min-w-[50px] h-[34px] rounded-md ${colorButons}`}>
-                    {tema ? "E" : "C"}
-                </button>
+            <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[3.2rem] left-0 px-4 p-3 pt-4`}>
+                <div className={`flex flex-row gap-x-5`}>
+                    <button onClick={theme} className={`px-6 py-1 min-w-[50px] h-[34px] rounded-md ${colorButons}`}>
+                        {tema ? "E" : "C"}
+                    </button>
 
-                {/* Botão para nova pesquisa */}
-                <button
-                    ref={botaoNovaPesquisaRef}
-                    onClick={resetPesquisa}
-                    className={`px-6 py-1 rounded-md ${colorButons}`}
-                >
-                    NOVA PESQUISA
-                </button>
-                {caixas.length > 0 && (
-                    <span
-
+                    {/* Botão para nova pesquisa */}
+                    <button
+                        ref={botaoNovaPesquisaRef}
+                        onClick={resetPesquisa}
                         className={`px-6 py-1 rounded-md ${colorButons}`}
                     >
-                        {printEti(caixas, '')}
-                    </span>
-                )}
+                        NOVA PESQUISA
+                    </button>
+                    {caixas.length > 0 && (
+                        <span
+
+                            className={`px-6 py-1 rounded-md ${colorButons}`}
+                        >
+                            {printEti(caixas, '')}
+                        </span>
+                    )}
+                </div>
+                <div className={`flex flex-row items-center justify-center p-1 px-3 uppercase bg-black rounded-lg`}>
+                    <span className={`flex text-[20px] text-slate-300 items-center justify-end`}>Total da grade por caixa:</span>
+                    <span className={`pl-5 flex text-[25px] min-w-[110px] items-center justify-start text-yellow-500`}>{totalGradeC}</span>
+                    <span className={`flex text-[20px] text-slate-300 items-center justify-end`}>Total da grade por itens:</span>
+                    <span className={`pl-5 flex text-[25px] min-w-[110px] items-center justify-start text-emerald-500`}>{totalGradeI}</span>
+                </div>
             </div>
 
             <div className="flex flex-col w-full justify-start items-center gap-y-1 pb-4">
-                <div className="flex justify-center items-center w-full px-5 min-h-[90vh] pt-10">
+                <div className="flex justify-center items-center w-full px-5 min-h-[90vh] pt-14">
                     {loading ? (
                         <IsLoading color={tema} />
                     ) : caixas.length === 0 && !modalStatus ? (
@@ -136,7 +151,7 @@ export default function PaginaCaixasManual() {
                             Nenhuma caixa encontrada para a grade de id {idparapesquisa}.
                         </p>
                     ) : (
-                        <ListaCaixas caixas={caixas} tema={tema} />
+                        <ListaCaixas caixas={caixas} tema={tema} setTotalGrade={setTotal} />
                     )}
                 </div>
             </div>
