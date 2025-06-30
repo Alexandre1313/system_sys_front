@@ -19,7 +19,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         numTamanhos.sort((a, b) => parseInt(a) - parseInt(b));
 
         // Ordena tamanhos com letras conforme a ordem desejada
-        const ordem = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'EG', 'EX', 'EGG', 'EXG', 'XGG', 'G1', 'G2', 'G3', 'EG/LG'];
+        const ordem = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'EG', 'EX', 'EGG', 'EXG', 'XGG', 'EXGG', 'G1', 'G2', 'G3', 'EG/LG'];
         letraTamanhos.sort((a, b) => ordem.indexOf(a) - ordem.indexOf(b));
 
         return [...numTamanhos, ...letraTamanhos];
@@ -458,18 +458,15 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
             "==>",
             "==>", // Coluna vazia para "FATURADO POR"
             ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
-                // Filtrar chaves que contém o tamanho e somar os valores
-                //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
-                //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
+                const totalPerKey = sortedItemGenderSizes[key].reduce(
+                    (acc, size) => acc + (totalSizes[`${key}_${size}`] || 0),
+                    0
+                );
                 return [
-                    ...sortedItemGenderSizes[key].map((size) => Math.abs(totalSizes[`${key}_${size}`] || 0)), // Totais de cada tamanho
-                    "", // Total por item + gênero (somando os tamanhos)
+                    ...sortedItemGenderSizes[key].map((size) => Math.abs(totalSizes[`${key}_${size}`] || 0)),
+                    Math.abs(totalPerKey), // Aqui soma os tamanhos desse item + gênero
                 ];
             }),
-            // Soma total geral (somente itens que possuem tamanho devem ser considerados)
-            /*Object.keys(totalSizes)
-                .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
-                .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
             Math.abs(totalGeral),
             totalVolumes, // Total de volumes
             "",
@@ -725,18 +722,15 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
                 "==>",
                 "==>", // Coluna vazia para "FATURADO POR"
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => {
-                    // Filtrar chaves que contém o tamanho e somar os valores
-                    //const sizeKeys = Object.keys(totalSizes).filter((totalKey) => totalKey.startsWith(key));
-                    //const totalForKey = sizeKeys.reduce((acc, sizeKey) => acc + (totalSizes[sizeKey] || 0), 0);
+                    const totalPerKey = sortedItemGenderSizes[key].reduce(
+                        (acc, size) => acc + (totalSizes[`${key}_${size}`] || 0),
+                        0
+                    );
                     return [
-                        ...sortedItemGenderSizes[key].map((size) => Math.abs(totalSizes[`${key}_${size}`] || 0)), // Totais de cada tamanho
-                        "", // Total por item + gênero (somando os tamanhos)
+                        ...sortedItemGenderSizes[key].map((size) => Math.abs(totalSizes[`${key}_${size}`] || 0)),
+                        Math.abs(totalPerKey), // Aqui soma os tamanhos desse item + gênero
                     ];
                 }),
-                // Soma total geral (somente itens que possuem tamanho devem ser considerados)
-                /*Object.keys(totalSizes)
-                    .filter((key) => key.includes('_')) // Considera apenas chaves que possuem sufixo de tamanho
-                    .reduce((acc, key) => acc + (totalSizes[key] || 0), 0), // Soma somente os totais com tamanho*/
                 Math.abs(totalGeral),
                 totalVolumes, // Total de volumes
                 "",
