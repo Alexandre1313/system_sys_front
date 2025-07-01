@@ -16,6 +16,8 @@ export default function AjustarCaixa() {
   // Estado original da caixa (sem originalQty)
   const [caixa, setCaixa] = useState<CaixaAjuste | null>(null);
 
+  const [caixaStatusBoolean, setCaixaStatusBoolean] = useState<boolean>(true);
+
   // Estado separado para itens com originalQty, usado para controlar quantidades
   const [itensComOriginal, setItensComOriginal] = useState<ItemComOriginalQty[]>([]);
 
@@ -32,14 +34,17 @@ export default function AjustarCaixa() {
         }));
         setCaixa(caixaData);
         setItensComOriginal(itensComOriginalQty);
+        setCaixaStatusBoolean(caixaData.status === 'PRONTA' ? false : true)
       }
     };
 
     fetchData();
   }, [id]);
 
-  const handleChange = (index: number, rawValue: number) => {
+  const handleChange = (index: number, rawValue: number, status: string) => {
     if (!caixa) return;
+
+    if (status === 'DESPACHADA' || status === 'EXPEDIDA') return
 
     const newItens = [...itensComOriginal];
 
@@ -78,7 +83,7 @@ export default function AjustarCaixa() {
     const currentValue = itensComOriginal[index].itemQty;
 
     if (currentValue === undefined || currentValue === null) {
-      handleChange(index, 0);
+      handleChange(index, 0, caixa!.status);
       return;
     }
   };
@@ -94,9 +99,12 @@ export default function AjustarCaixa() {
     }));
 
     setCaixa({ ...caixa, itens: novosItens });
+    console.log(caixa.itens)
 
     alert('Quantidade atualizada com sucesso!');
   };
+
+  const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';
 
   const totalQuantidade = itensComOriginal.reduce((sum, item) => sum + item.itemQty, 0);
 
@@ -119,6 +127,7 @@ export default function AjustarCaixa() {
           <span className={`pr-3`}>{`Grade Id:`}</span>
           <span className={`pr-3`}>{`Nº Caixa:`}</span>
           <span className={`pr-3`}>{`Quant. na caixa:`}</span>
+          <span className={`pr-3`}>{`Status da caixa:`}</span>
         </div>
         <div className={`flex items-start justify-center flex-col w-[50%]`}>
           <span className={`pl-3`}>{caixa?.projeto}</span>
@@ -127,6 +136,7 @@ export default function AjustarCaixa() {
           <span className={`pl-3`}>{caixa?.gradeId}</span>
           <span className={`pl-3`}>{caixa?.caixaNumber}</span>
           <span className={`pl-3`}>{caixa?.qtyCaixa}</span>
+          <span className={`pl-3 ${colorStatus}`}>{caixa?.status}</span>
         </div>
       </div>
 
@@ -153,11 +163,12 @@ export default function AjustarCaixa() {
                 </td>
                 <td className="p-2 border border-gray-700">
                   <input
+                    disabled={caixaStatusBoolean}
                     type="number"
                     min={0}
                     value={item.itemQty}
                     onChange={(e) =>
-                      handleChange(idx, parseInt(e.target.value || '0', 10))
+                      handleChange(idx, parseInt(e.target.value || '0', 10), caixa!.status)
                     }
                     onBlur={() => handleInputBlur(idx)}
                     className="border border-[#8d8d8d] px-2 py-1 w-full bg-[#444444] h-[35px] text-emerald-500 rounded text-[20px]
@@ -181,6 +192,7 @@ export default function AjustarCaixa() {
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
         <button
           onClick={handleSave}
+          disabled={caixaStatusBoolean}
           className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 shadow-xl uppercase"
         >
           Salvar alterações
