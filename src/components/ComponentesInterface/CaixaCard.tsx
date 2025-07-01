@@ -6,6 +6,7 @@ import { Caixa } from '../../../core';
 import CaixaItem from '../../../core/interfaces/CaixaItem';
 import { convertSPTime } from '../../../core/utils/tools';
 import EtiquetasNew from '../componentesDePrint/EtiquetasNew';
+import Link from 'next/link';
 
 interface CaixaCardProps {
   caixa: Caixa;
@@ -29,14 +30,14 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
   }, [isOpen]);
 
   const printEti = (etiquetas: Caixa[], classnew: string) => {
-    return (<EtiquetasNew etiquetas={etiquetas} classNew={classnew} len={len}/>)
+    return (<EtiquetasNew etiquetas={etiquetas} classNew={classnew} len={len} />)
   }
 
   const bgHeader = tema ? 'bg-zinc-200 text-zinc-800' : 'bg-[#000] text-zinc-300';
   const bgBody = tema ? 'bg-white text-zinc-800' : 'bg-zinc-900 text-zinc-400';
   const borderColor = tema ? 'border-zinc-300' : 'border-zinc-700';
   const bgAlt = tema ? 'bg-zinc-100 text-zinc-800' : 'bg-zinc-800 text-zinc-300';
-  const buttonClass = tema ? '': 'hover:text-blue-500 flex justify-center items-center w-[100%] text-[11px] p-2';
+  const buttonClass = tema ? '' : 'hover:text-blue-500 flex justify-center items-center w-[100%] text-[11px] p-2';
 
   return (
     <div className={`w-full border ${borderColor} rounded-md shadow-md`}>
@@ -85,7 +86,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
             <tr className={`${bgAlt} text-[15px]`}>
               <th className={`px-4 py-2 text-left border-r ${borderColor} w-[60%]`}>Item</th>
               <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>Tamanho</th>
-              <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>Quantidade</th>
+              <th className={`px-4 py-2 text-right border-r ${borderColor} w-[10%]`}>Quantidade</th>
               <th className={`px-4 py-2 text-left w-[20%]`}>DATA DE EMBALAGEM</th>
             </tr>
           </thead>
@@ -101,6 +102,20 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
                 <td className={`px-4 py-2 border-t ${borderColor}`}>{convertSPTime(String(item.updatedAt))}</td>
               </tr>
             ))}
+            <tr>
+              <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
+              <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
+              <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
+              <td className={`border-t text-center ${borderColor}`}>
+                <Link
+                  href={`/ajustar_caixa/${caixa.id}`}
+                  target="_AJUSTE"
+                  className="bg-slate-700 hover:bg-slate-600 text-white inline-block px-4 py-2 w-full"
+                >
+                  AJUSTAR CAIXA
+                </Link>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

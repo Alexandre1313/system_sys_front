@@ -44,7 +44,7 @@ export default function PaginaCaixas() {
     return (
         <div className={`flex w-full ${tema ? 'bg-[#FFFFFF]' : 'bg-[#181818]'} flex-col min-h-[101vh] pt-[80px]`}>
             <TitleComponentFixed stringOne="LISTAGEM DE CAIXAS DA GRADE DE ID " stringTwo={`${id}`} />
-            <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[3.2rem] left-0 px-4 p-3 pt-4`}>
+            <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[2.8rem] left-0 px-4 p-3 pt-4`}>
                 <div className={`flex flex-row items-center justify-center p-1 px-3 uppercase bg-black rounded-lg`}>
                     <span className={`flex text-[20px] text-slate-300 items-center justify-end`}>Total da grade por caixa:</span>
                     <span className={`pl-5 flex text-[25px] min-w-[110px] items-center justify-start text-yellow-500`}>{totalGradeC}</span>

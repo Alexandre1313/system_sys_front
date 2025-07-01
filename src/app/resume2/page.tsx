@@ -177,7 +177,7 @@ export default function ConsultaStatusGrades() {
         {/* Exibição dos Resultados */}
         <div className="flex w-full flex-row items-center justify-between mt-[80px] pt-1">
           <div className={`flex flex-col min-w-[25%] max-w-[25%]`}>
-            <div className={`fixed top-[6.4rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
+            <div className={`fixed top-[6rem] mt-3 h-[calc(100vh-7.1rem)] flex flex-col justify-between items-center min-w-[27%] max-w-[27%] border-r-1 ${colorDivResuls}`}>
               <div className={`flex w-full flex-col justify-start items-center`}>
                 <div className={`flex w-full flex-row justify-center items-center`}>
                   <div className={`flex flex-col justify-start items-center p-1 w-[50%] gap-y-1`}>
@@ -239,7 +239,7 @@ export default function ConsultaStatusGrades() {
             </div>
           </div>
           <div className={`flex flex-col items-start justify-center w-full max-w-[73%]`}>
-            <div className={`fixed top-[6.9rem] min-h-[70px] flex flex-row items-center justify-between w-full border-b ${colorDivResuls}`}>
+            <div className={`fixed top-[6.7rem] min-h-[70px] flex flex-row items-center justify-between w-full border-b ${colorDivResuls}`}>
               <div className={`flex flex-row items-center justify-start w-auto`}>
                 <MostradorPageResults2 title={`PREVISTO  T`} valor={filtered.previstoT} tema={tema} valorColor={`text-cyan-500`} />
                 <MostradorPageResults2 title={`EXPEDIDOS T`} valor={filtered.expedidosT} tema={tema} valorColor={`text-emerald-500`} />

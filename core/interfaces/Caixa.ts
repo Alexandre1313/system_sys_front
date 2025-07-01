@@ -1,7 +1,6 @@
 import CaixaItem from "./CaixaItem";
 import GradeItem from "./GradeItem";
 import TipoEmbalagem from "./TipoEmbalagem";
-import Usuarios from "./Usuarios";
 
 export default interface Caixa {
     id?: number;

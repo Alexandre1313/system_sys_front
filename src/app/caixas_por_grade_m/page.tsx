@@ -111,7 +111,7 @@ export default function PaginaCaixasManual() {
 
             <TitleComponentFixed stringOne="LISTAGEM DE CAIXAS DA GRADE DE ID " stringTwo={`${idparapesquisa}`} />
 
-            <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[3.2rem] left-0 px-4 p-3 pt-4`}>
+            <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[2.8rem] left-0 px-4 p-3 pt-4`}>
                 <div className={`flex flex-row gap-x-5`}>
                     <button onClick={theme} className={`px-6 py-1 min-w-[50px] h-[34px] rounded-md ${colorButons}`}>
                         {tema ? "E" : "C"}

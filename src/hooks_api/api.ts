@@ -14,6 +14,7 @@ import {
     QtyEmbDay, StockGenerate,
     Usuarios
 } from "../../core";
+import CaixaAjuste from "../../core/interfaces/CaixaAjuste";
 import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos/projetosall`;
@@ -42,6 +43,16 @@ const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
 const urlAlterStatus = `http://${ip}:${port}/grades/alterdespachadas`;
 const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
 const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
+const urlGetCaixaAjust = `http://${ip}:${port}/caixas/getcaixaajust/`
+
+async function getCaixaParaAjuste(id: string): Promise<CaixaAjuste | null> {
+    const response = await fetch(`${urlGetCaixaAjust}${id}`);
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados da caixa solicitada: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+}
 
 async function alterarPDespachadas(ids: number[]): Promise<number[] | null> {
     try {
@@ -379,5 +390,6 @@ export {
     finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
     getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getCaixasPorGrade,
     getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
-    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas, getGrafico
+    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas, getGrafico,
+    getCaixaParaAjuste,
 };
