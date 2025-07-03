@@ -1,5 +1,6 @@
 import {
     Caixa,
+    CaixaAjuste,
     Embalagem,
     EntryInput,
     Escola,
@@ -14,7 +15,7 @@ import {
     QtyEmbDay, StockGenerate,
     Usuarios
 } from "../../core";
-import CaixaAjuste from "../../core/interfaces/CaixaAjuste";
+
 import { ip, port } from "../../core/utils/tools";
 
 const urlProjetos = `http://${ip}:${port}/projetos/projetosall`;

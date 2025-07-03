@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getCaixaParaAjuste } from '@/hooks_api/api';
-import CaixaAjuste from '../../../../core/interfaces/CaixaAjuste';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import { CaixaAjuste } from '../../../../core';
 
 type ItemComOriginalQty = CaixaAjuste['itens'][number] & {
   originalQty: number;
