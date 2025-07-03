@@ -115,7 +115,11 @@ export default function AjustarCaixa() {
     const newBox = await fechBoxAjust(novaCaixa);
 
     if (newBox) {
-      setCaixa(newBox);
+      setItensComOriginal(newBox.itens.map(item => ({
+        ...item,
+        originalQty: item.itemQty,
+      })));
+      setCaixa({ ...newBox });
     }
     console.log(novaCaixa.itens);
   };
