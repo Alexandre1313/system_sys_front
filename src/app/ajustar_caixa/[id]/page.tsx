@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getCaixaParaAjuste } from '@/hooks_api/api';
+import { getCaixaParaAjuste, modificarCaixa } from '@/hooks_api/api';
 import CaixaAjuste from '../../../../core/interfaces/CaixaAjuste';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
@@ -10,6 +10,11 @@ import IsLoading from '@/components/ComponentesInterface/IsLoading';
 type ItemComOriginalQty = CaixaAjuste['itens'][number] & {
   originalQty: number;
 };
+
+const fechBoxAjust = async (box: CaixaAjuste): Promise<CaixaAjuste | null> => {
+  const boxData = await modificarCaixa(box);
+  return boxData;
+}
 
 export default function AjustarCaixa() {
   const { id } = useParams();
@@ -100,19 +105,19 @@ export default function AjustarCaixa() {
 
   const handleSave = async () => {
     if (!caixa) return;
-
-    // Atualiza o estado caixa original com os itens alterados
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const novosItens = itensComOriginal.map(({ originalQty, ...item }) => ({
       ...item,
     }));
 
     const novaCaixa = { ...caixa, itens: novosItens };
-    setCaixa(novaCaixa);
-    console.log(novaCaixa.itens);
 
-    alert('Quantidade atualizada com sucesso!');
+    const newBox = await fechBoxAjust(novaCaixa);
+
+    if (newBox) {
+      setCaixa(newBox);
+    }
+    console.log(novaCaixa.itens);
   };
 
   const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';

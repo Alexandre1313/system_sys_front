@@ -43,7 +43,27 @@ const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
 const urlAlterStatus = `http://${ip}:${port}/grades/alterdespachadas`;
 const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
 const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
-const urlGetCaixaAjust = `http://${ip}:${port}/caixas/getcaixaajust/`
+const urlGetCaixaAjust = `http://${ip}:${port}/caixas/getcaixaajust/`;
+const urlModificarItensDaCaixa = `http://${ip}:${port}/caixas/updatedbox`;
+
+async function modificarCaixa(caixa: CaixaAjuste): Promise<CaixaAjuste | null> {
+    try {
+        const response = await fetch(urlModificarItensDaCaixa, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(caixa),
+        });
+        if (!response.ok) {
+            throw new Error(`Erro ao modificar os itens da caixa: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erro ao modificar itens da caixa: ${error}`);
+    }
+}
 
 async function getCaixaParaAjuste(id: string): Promise<CaixaAjuste | null> {
     const response = await fetch(`${urlGetCaixaAjust}${id}`);
@@ -391,5 +411,5 @@ export {
     getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getCaixasPorGrade,
     getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
     siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas, getGrafico,
-    getCaixaParaAjuste,
+    getCaixaParaAjuste, modificarCaixa,
 };
