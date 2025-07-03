@@ -103,7 +103,7 @@ export default function AjustarCaixa() {
     }
   };
 
-  const handleSave = async () => {
+  /*const handleSave = async () => {
     if (!caixa) return;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const novosItens = itensComOriginal.map(({ originalQty, ...item }) => ({
@@ -122,7 +122,7 @@ export default function AjustarCaixa() {
       setCaixa({ ...newBox });
     }
     console.log(novaCaixa.itens);
-  };
+  };*/
 
   const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';
 
@@ -216,7 +216,7 @@ export default function AjustarCaixa() {
           {/* Botão fixo */}
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
             <button
-              onClick={handleSave}
+              onClick={() => ''}
               disabled={caixaStatusBoolean}
               className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 shadow-xl uppercase"
             >
