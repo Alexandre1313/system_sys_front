@@ -59,7 +59,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
         const faltaExpedir = totalPrevisto - totalQuantidade;
         const percentualConcluido = converPercentualFormat((totalQuantidade / totalPrevisto) * 100);
 
-        const colorValue = faltaExpedir > 0 ? 'text-red-500' : 'text-green-500';
+        const colorValue = faltaExpedir > 0 ? 'text-white font-extralight text-[16px]' : 'text-white font-extralight text-[16px]';
 
         const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500 font-normal pl-2' : grade.status === 'EXPEDIDA' ? 'text-emerald-500 font-normal pl-2' : 'text-slate-400 font-normal pl-2';
 
@@ -154,15 +154,11 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
                   <td className={`py-2 px-4 border ${theme.border}`}></td>
                   <td className={`py-2 px-4 border ${theme.border}`}>TOTAIS</td>
                   <td className={`py-2 px-4 border ${theme.border}`} colSpan={1}>{`==>`}</td>
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>
-                    {convertMilharFormat(faltaExpedir)}
-                  </td>
-                  <td className={`py-2 px-4 border ${theme.border}`}>{convertMilharFormat(totalPrevisto)}</td>
-                  <td className={`py-2 px-4 border ${theme.border}`}>{convertMilharFormat(totalQuantidade)}</td>
-                  <td className={`py-2 px-4 border ${theme.border}`}></td>
-                  <td className={`py-2 px-4 border ${theme.border}`}>
-                    {convertMilharFormatKG(totalPesoAfer ?? 0)}
-                  </td>
+                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(faltaExpedir)}</td>
+                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(totalPrevisto)}</td>
+                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(totalQuantidade)}</td>
+                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}></td>
+                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormatKG(totalPesoAfer ?? 0)}</td>
                 </tr>
               </tbody>
             </table>
