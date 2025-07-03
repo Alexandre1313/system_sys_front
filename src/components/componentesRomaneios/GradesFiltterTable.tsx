@@ -59,7 +59,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
         const faltaExpedir = totalPrevisto - totalQuantidade;
         const percentualConcluido = converPercentualFormat((totalQuantidade / totalPrevisto) * 100);
 
-        const colorValue = faltaExpedir > 0 ? 'text-white font-extralight text-[16px]' : 'text-white font-extralight text-[16px]';
+        const colorValue = faltaExpedir > 0 ? 'text-white font-extralight text-[16px] bg-zinc-600 bg-opacity-50' : 'text-white font-extralight text-[16px] bg-zinc-600 bg-opacity-50';
 
         const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500 font-normal pl-2' : grade.status === 'EXPEDIDA' ? 'text-emerald-500 font-normal pl-2' : 'text-slate-400 font-normal pl-2';
 
