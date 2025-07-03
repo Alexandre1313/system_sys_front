@@ -124,6 +124,8 @@ export default function AjustarCaixa() {
     console.log(novaCaixa.itens);
   };*/
 
+  const cursor = caixaStatusBoolean ? 'cursor-not-allowed': '';
+
   const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';
 
   const totalQuantidade = itensComOriginal.reduce((sum, item) => sum + item.itemQty, 0);
@@ -218,7 +220,7 @@ export default function AjustarCaixa() {
             <button
               onClick={() => ''}
               disabled={caixaStatusBoolean}
-              className="bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 shadow-xl uppercase"
+              className={`"bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 shadow-xl uppercase ${cursor}`}
             >
               Salvar alterações
             </button>
