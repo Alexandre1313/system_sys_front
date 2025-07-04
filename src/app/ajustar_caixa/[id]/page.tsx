@@ -2,19 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getCaixaParaAjuste } from '@/hooks_api/api';
+import { getCaixaParaAjuste, modificarCaixa } from '@/hooks_api/api';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import { CaixaAjuste } from '../../../../core';
+import { motion } from 'framer-motion';
+import { AlertTriangle } from 'react-feather';
 
 type ItemComOriginalQty = CaixaAjuste['itens'][number] & {
   originalQty: number;
 };
 
-/*const fechBoxAjust = async (box: CaixaAjuste): Promise<CaixaAjuste | null> => {
+const fechBoxAjust = async (box: CaixaAjuste): Promise<CaixaAjuste | null> => {
   const boxData = await modificarCaixa(box);
   return boxData;
-}*/
+}
 
 export default function AjustarCaixa() {
   const { id } = useParams();
@@ -24,6 +26,10 @@ export default function AjustarCaixa() {
 
   const [caixaStatusBoolean, setCaixaStatusBoolean] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const [msg, setMsg] = useState<string>(`DESEJA MESMO ALTERAR AS QUANTIDADES DA CAIXA DE ID ${id} ?`);
+  const [msg1, setMsg1] = useState<string>('A OPERAÇÃO NÃO PODERÁ SER REVERTIDA');
 
   // Estado separado para itens com originalQty, usado para controlar quantidades
   const [itensComOriginal, setItensComOriginal] = useState<ItemComOriginalQty[]>([]);
@@ -103,28 +109,71 @@ export default function AjustarCaixa() {
     }
   };
 
-  /*const handleSave = async () => {
-    if (!caixa) return;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const novosItens = itensComOriginal.map(({ originalQty, ...item }) => ({
-      ...item,
-    }));
+  const handleSaveStepOne = async () => {
+    setOpenModal(openModal ? false : true);
+  };
 
-    const novaCaixa = { ...caixa, itens: novosItens };
+  const handleSaveStepTwo = async () => {
+    if (!caixa) {
+      setMsg('NÃO HÁ UMA CAIXA VÁLIDA PARA ALTERAÇÃO!');
+      setMsg1('REVEJA E TENTE NOVAMENTE');
 
-    const newBox = await fechBoxAjust(novaCaixa);
+      const time = setTimeout(() => {
+        setMsg(`DESEJA MESMO ALTERAR AS QUANTIDADES DA CAIXA DE ID ${id} ?`);
+        setMsg1('A OPERAÇÃO NÃO PODERÁ SER REVERTIDA');
+        setOpenModal(!openModal);
+        clearTimeout(time);
+      }, 1500);
 
-    if (newBox) {
-      setItensComOriginal(newBox.itens.map(item => ({
-        ...item,
-        originalQty: item.itemQty,
-      })));
-      setCaixa({ ...newBox });
+      return;
     }
-    console.log(novaCaixa.itens);
-  };*/
 
-  const cursor = caixaStatusBoolean ? 'cursor-not-allowed': '';
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const novosItens = itensComOriginal.map(({ originalQty, ...item }) => ({
+        ...item,
+      }));
+
+      const novaCaixa = { ...caixa, itens: novosItens };
+
+      const newBox = await fechBoxAjust(novaCaixa);
+
+      if (newBox) {
+        const refreshedBox = await getCaixaParaAjuste(String(newBox.id));
+
+        if (refreshedBox) {
+          setItensComOriginal(
+            refreshedBox.itens.map(item => ({
+              ...item,
+              originalQty: item.itemQty,
+            }))
+          );
+
+          setCaixa({ ...refreshedBox });
+          setCaixaStatusBoolean(refreshedBox.status === 'PRONTA' ? false : true);
+
+          setMsg('CAIXA ALTERADA COM SUCESSO!');
+          setMsg1('CONFIRA AS QUANTIDADES');
+        } else {
+          setMsg('ERRO AO ATUALIZAR A CAIXA!');
+          setMsg1('NÃO FOI POSSÍVEL CARREGAR A CAIXA ATUALIZADA');
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao salvar a caixa:', error);
+      setMsg('OCORREU UM ERRO DURANTE A ATUALIZAÇÃO!');
+      setMsg1('TENTE NOVAMENTE MAIS TARDE');
+    } finally {
+      const timeOut = setTimeout(() => {
+        setMsg(`DESEJA MESMO ALTERAR AS QUANTIDADES DA CAIXA DE ID ${id} ?`);
+        setMsg1('A OPERAÇÃO NÃO PODERÁ SER REVERTIDA');
+        setOpenModal(!openModal);
+        clearTimeout(timeOut);
+      }, 1500);
+    }
+  };
+
+  const cursor = caixaStatusBoolean ? 'cursor-not-allowed' : '';
 
   const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';
 
@@ -218,9 +267,9 @@ export default function AjustarCaixa() {
           {/* Botão fixo */}
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
             <button
-              onClick={() => ''}
+              onClick={handleSaveStepOne}
               disabled={caixaStatusBoolean}
-              className={`"bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 shadow-xl uppercase ${cursor}`}
+              className={`"bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 bg-slate-600 shadow-xl uppercase ${cursor}`}
             >
               Salvar alterações
             </button>
@@ -229,6 +278,46 @@ export default function AjustarCaixa() {
       ) : (
         <div className="flex items-center justify-center w-full h-[82vh]">
           <p className="text-lg text-zinc-400">NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>
+        </div>
+      )
+      }
+      {openModal && (
+        <div className={`fixed inset-0 z-50 bg-[#181818] bg-opacity-80 min-h-[105vh]
+                lg:min-h-[100vh] flex flex-col pt-10
+                justify-center items-center p-4`}>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.7 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="bg-white p-8 rounded-md shadow-md min-w-[30%] min-h-[300px]
+                        flex flex-col items-center justify-center max-w-[800px]"
+          >
+            <div>
+              <AlertTriangle size={65} color={`rgba(255, 0, 0, 1)`} />
+            </div>
+            <div className={`flex flex-col text-black w-full items-center justify-center pt-6`}>
+              <h2 className={`text-[35px] font-bold`}>{`ALTERAÇÃO DE CAIXA`}</h2>
+              <span className={`text-[17px] font-bold`}>{msg}</span>
+              <span className={`text-[17px] font-bold`}>{msg1}</span>
+              <div className={`flex flex-row pt-8 gap-x-6`}>
+                <button
+                  onClick={handleSaveStepTwo}
+                  className={`px-4 py-2 bg-green-500 text-white rounded-md min-w-[200px] hover:bg-green-400 cursor-pointer`}
+                >
+                  {"AJUSTAR"}
+                </button>
+                <button
+                  onClick={handleSaveStepOne}
+                  className={`px-4 py-2 bg-red-500 text-white rounded-md min-w-[200px] hover:bg-red-400 cursor-pointer`}
+                >
+                  {"CANCELAR"}
+                </button>
+              </div>
+
+            </div>
+          </motion.div>
         </div>
       )}
     </>
