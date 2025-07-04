@@ -50,7 +50,7 @@ const EtiquetasLbl = ({ etiquetas }: EtiquetasLblProps) => {
 
             // Itens da caixa
             caixaItem.forEach((item) => {
-                const itemText = `${item.itemName} - ${item.itemGenero} - Tamanho: ${item.itemTam}`;
+                const itemText = `${item.itemName} - ${item.itemGenero} - ${`TAM: ${item.itemTam}`}`;
                 const itemLines = splitTextByCharLimit(itemText, 39);
                 itemLines.forEach((line) => {
                     lblContent += `^FO50,${yPosition}\n`;

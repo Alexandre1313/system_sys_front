@@ -23,7 +23,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
     const gerarPDF = async () => {
         const pdfDoc = await PDFDocument.create();
         const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-        const font2 = await pdfDoc.embedFont(StandardFonts.Helvetica);        
+        const font2 = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
         // Configurações da etiqueta
         const pageWidth = 215;  // Largura da etiqueta
@@ -119,14 +119,29 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                     });
                 }
 
-                // Renderiza o item com quebra de linha a cada 39 caracteres, sem quebrar palavras
-                const itemText = `${item.itemName} - ${item.itemGenero} - TAM: ${item.itemTam}`;
-                const itemLines = splitTextByCharLimit(itemText, 52);
+                // Monta o texto sem o TAM
+                const itemBase = `${item.itemName} - ${item.itemGenero}`;
+                const tamText = `TAM: ${item.itemTam}`;
+
+                // Quebra o texto base (sem TAM)
+                const itemLines = splitTextByCharLimit(itemBase, 52);
+
+                // Verifica se cabe adicionar o TAM na última linha
+                const lastLine = itemLines[itemLines.length - 1];
+                if ((lastLine.length + tamText.length + 3) <= 52) {
+                    // Adiciona o TAM na mesma linha, com " - "
+                    itemLines[itemLines.length - 1] += ` - ${tamText}`;
+                } else {
+                    // TAM não cabe, adiciona em nova linha
+                    itemLines.push(tamText);
+                }
+
+                // Renderiza tudo
                 itemLines.forEach((line) => {
                     page.drawText(line, {
                         x: textX,
                         y: textY,
-                        size: 7,
+                        size: 6,
                         font: font,
                         color: rgb(0, 0, 0),
                     });
@@ -137,7 +152,7 @@ const EtiquetasRom = ({ etiquetas }: EtiquetasRomProps) => {
                 page.drawText(`Quantidade: ${item.itemQty} ${item.itemQty > 1 ? 'unidades' : 'unidade'}`, {
                     x: textX,
                     y: textY,
-                    size: 7,
+                    size: 6,
                     font: font,
                     color: rgb(0, 0, 0),
                 });

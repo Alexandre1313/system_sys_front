@@ -120,14 +120,29 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
                     });
                 }
 
-                // Renderiza o item com quebra de linha a cada 39 caracteres, sem quebrar palavras
-                const itemText = `${item.itemName} - ${item.itemGenero} - TAM: ${item.itemTam}`;
-                const itemLines = splitTextByCharLimit(itemText, 52);
+                // Monta o texto sem o TAM
+                const itemBase = `${item.itemName} - ${item.itemGenero}`;
+                const tamText = `TAM: ${item.itemTam}`;
+
+                // Quebra o texto base (sem TAM)
+                const itemLines = splitTextByCharLimit(itemBase, 52);
+
+                // Verifica se cabe adicionar o TAM na última linha
+                const lastLine = itemLines[itemLines.length - 1];
+                if ((lastLine.length + tamText.length + 3) <= 52) {
+                    // Adiciona o TAM na mesma linha, com " - "
+                    itemLines[itemLines.length - 1] += ` - ${tamText}`;
+                } else {
+                    // TAM não cabe, adiciona em nova linha
+                    itemLines.push(tamText);
+                }
+
+                // Renderiza tudo
                 itemLines.forEach((line) => {
                     page.drawText(line, {
                         x: textX,
                         y: textY,
-                        size: 7,
+                        size: 6,
                         font: font,
                         color: rgb(0, 0, 0),
                     });
@@ -138,7 +153,7 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
                 page.drawText(`Quantidade: ${item.itemQty} ${item.itemQty > 1 ? 'unidades' : 'unidade'}`, {
                     x: textX,
                     y: textY,
-                    size: 7,
+                    size: 6,
                     font: font,
                     color: rgb(0, 0, 0),
                 });
@@ -204,7 +219,7 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
 
             // Número da caixa no final da etiqueta
             const caixaNumberText = `${String(caixaNumber).padStart(2, '0')} /`; // Número da caixa
-            const totalLabelsText = ` ${String(len ? len: etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
+            const totalLabelsText = ` ${String(len ? len : etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
 
             // Calcular a largura do texto
             const textWidth = font.widthOfTextAtSize(`Caixa: ${caixaNumberText}`, 13);
