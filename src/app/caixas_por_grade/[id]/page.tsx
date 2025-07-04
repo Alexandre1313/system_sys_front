@@ -31,7 +31,7 @@ export default function PaginaCaixas() {
                 if (box.length > 0 && box[0].escolaCaixa) {
                     document.title = `${box[0].escolaCaixa} - CAIXAS POR GRADE`;
                 }
-
+                
                 setCaixas(box);
                 setLoading(false);
             }
