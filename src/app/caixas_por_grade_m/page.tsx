@@ -76,6 +76,9 @@ export default function PaginaCaixasManual() {
         try {
             const box = await fachBox(idparapesquisa);
             setCaixas(box);
+            if (box.length > 0 && box[0].escolaCaixa) {
+                document.title = `${box[0].escolaCaixa} - CAIXAS POR GRADE`;
+            }
             setModalStatus(false); // Fechar modal após sucesso
         } catch (error) {
             setMessage('');
