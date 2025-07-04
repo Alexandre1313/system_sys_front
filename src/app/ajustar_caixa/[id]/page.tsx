@@ -177,7 +177,9 @@ export default function AjustarCaixa() {
     }
   };
 
-  const cursor = caixaStatusBoolean ? 'cursor-not-allowed' : '';
+  const houveAlteracao = itensComOriginal.some(item => item.itemQty !== item.originalQty);
+
+  const cursor = caixaStatusBoolean || !houveAlteracao ? 'cursor-not-allowed' : '';
 
   const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';
 
@@ -249,7 +251,9 @@ export default function AjustarCaixa() {
                           handleChange(idx, parseInt(e.target.value || '0', 10), caixa.status)
                         }
                         onBlur={() => handleInputBlur(idx)}
-                        className="border border-[#8d8d8d] px-2 py-1 w-full bg-[#444444] h-[35px] text-emerald-500 rounded text-[17px] font-normal outline-2 focus:outline focus:outline-emerald-500"
+                        className={`border px-2 py-1 w-full h-[35px] rounded text-[17px] font-normal 
+                                    ${item.itemQty !== item.originalQty ? 'border-cyan-400 text-cyan-400' : 'border-[#8d8d8d] text-emerald-500'} 
+                                   bg-[#444444] outline-2 focus:outline focus:outline-emerald-500`}
                       />
                     </td>
                     <td className="p-2 border border-gray-700 pl-24 text-zinc-400">{item.updatedAt}</td>
@@ -272,7 +276,7 @@ export default function AjustarCaixa() {
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
             <button
               onClick={handleSaveStepOne}
-              disabled={caixaStatusBoolean}
+              disabled={caixaStatusBoolean || !houveAlteracao}
               className={`"bg-slate-600 text-white px-6 py-3 rounded-lg hover:bg-slate-500 bg-slate-600 shadow-xl uppercase ${cursor}`}
             >
               Salvar alterações
