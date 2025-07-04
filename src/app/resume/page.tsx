@@ -2,12 +2,12 @@
 
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import { CreateServerSelectComponentProjectsResume } from '@/components/componentesRomaneios/createServerSelectComponentProjects.Resume';
 import { CreateServerSelectComponentRemessa } from '@/components/componentesRomaneios/createServerSelectComponentRemessa';
 import GradesFilter from '@/components/componentesRomaneios/GradesFiltter';
 import { getFilterGrades } from '@/hooks_api/api';
 import { useCallback, useEffect, useState } from 'react';
 import { GradesRomaneio } from '../../../core';
-import { CreateServerSelectComponentProjectsResume } from '@/components/componentesRomaneios/createServerSelectComponentProjects.Resume';
 
 const fetcherGradesPStatus = async (projectId: number, remessa: number, status: string, tipo: string): Promise<GradesRomaneio[] | null> => {
   try {

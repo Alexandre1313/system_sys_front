@@ -1,14 +1,14 @@
 'use client';
 
+import EtiquetasNew from '@/components/componentesDePrint/EtiquetasNew';
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import ListaCaixas from '@/components/ComponentesInterface/ListaCaixas';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
-import { useState, useEffect, useRef } from 'react';
 import { getCaixasPorGrade } from '@/hooks_api/api';
-import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import { Search } from 'react-feather';
 import { Caixa } from '../../../core';
-import EtiquetasNew from '@/components/componentesDePrint/EtiquetasNew';
 
 const fachBox = async (id: string): Promise<Caixa[]> => {
     return await getCaixasPorGrade(id);
@@ -77,7 +77,7 @@ export default function PaginaCaixasManual() {
             const box = await fachBox(idparapesquisa);
             setCaixas(box);
             if (box.length > 0 && box[0].escolaCaixa) {
-                document.title = `${box[0].escolaCaixa} - CAIXAS POR GRADE`;
+                document.title = `${box[0].escolaCaixa} - CAIXAS POR GRADE MANUAL`;
             }
             setModalStatus(false); // Fechar modal após sucesso
         } catch (error) {

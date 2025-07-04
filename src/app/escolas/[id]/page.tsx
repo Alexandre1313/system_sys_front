@@ -6,10 +6,10 @@ import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponen
 import { getProjetosComEscolas } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Search } from 'react-feather';
 import useSWR from 'swr';
 import { Projeto } from '../../../../core';
-import { useState } from 'react';
-import { Search } from 'react-feather';
 
 // Definindo o fetcher
 const fetcher = async (id: number): Promise<Projeto> => {
@@ -32,6 +32,12 @@ export default function Escolas() {
         revalidateOnFocus: false, // Revalida ao focar na aba
     }
     );
+
+    useEffect(() => {
+        if (projeto && projeto.nome) {
+            document.title = `${projeto.nome} - ESCOLAS`;
+        }
+    }, [projeto]);
 
     // Se a chave não é válida (ou seja, não existe ID), não tenta buscar dados
     if (id === undefined) {
@@ -62,11 +68,11 @@ export default function Escolas() {
     }
 
     // Ordenando as escolas alfabeticamente pelo nome
-    let escolasFiltradas = projeto.escolas.filter((escola) => 
+    let escolasFiltradas = projeto.escolas.filter((escola) =>
         escola.nome.toLowerCase().includes(busca)
     );
 
-    if(escolasFiltradas.length === 0){
+    if (escolasFiltradas.length === 0) {
         escolasFiltradas = projeto.escolas.filter((escola) =>
             escola.numeroEscola.toString().includes(busca)
         )
@@ -181,8 +187,8 @@ export default function Escolas() {
                                 </motion.div>
                             ))}
                         </div>
-                         {/* Quarta parte das escolas */}
-                         <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
+                        {/* Quarta parte das escolas */}
+                        <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-1 border-l border-neutral-700">
                             {quartaParte.map((escola) => (
                                 <motion.div
                                     key={escola.id}

@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { getCaixaParaAjuste, modificarCaixa } from '@/hooks_api/api';
-import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
-import { CaixaAjuste } from '../../../../core';
+import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import { getCaixaParaAjuste, modificarCaixa } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { AlertTriangle } from 'react-feather';
+import { CaixaAjuste } from '../../../../core';
 
 type ItemComOriginalQty = CaixaAjuste['itens'][number] & {
   originalQty: number;

@@ -1,12 +1,12 @@
 'use client';
 
+import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import ListaCaixas from '@/components/ComponentesInterface/ListaCaixas';
 import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
-import { useState, useEffect } from 'react';
-import { Caixa } from '../../../../core';
-import { useParams } from 'next/navigation';
 import { getCaixasPorGrade } from '@/hooks_api/api';
-import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Caixa } from '../../../../core';
 
 const fachBox = async (id: string): Promise<Caixa[]> => {
     const caixas = await getCaixasPorGrade(id);

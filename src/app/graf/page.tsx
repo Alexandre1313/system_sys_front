@@ -1,6 +1,6 @@
 'use client'
 
-import Grafico from "@/components/ComponentesInterface/Grafico"
+import Grafico from "@/components/ComponentesInterface/Grafico";
 import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
 
 export default function Graf() {
