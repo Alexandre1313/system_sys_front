@@ -8,6 +8,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AlertTriangle } from 'react-feather';
 import { CaixaAjuste } from '../../../../core';
+import { padStart } from 'pdf-lib';
 
 type ItemComOriginalQty = CaixaAjuste['itens'][number] & {
   originalQty: number;
@@ -48,6 +49,9 @@ export default function AjustarCaixa() {
           setCaixa(caixaData);
           setItensComOriginal(itensComOriginalQty);
           setCaixaStatusBoolean(caixaData.status === 'PRONTA' ? false : true);
+          if (caixaData && caixaData.caixaNumber) {
+            document.title = `CAIXA Nº ${padStart(caixaData.caixaNumber, 2, '0')}`;
+          }
         } else {
           setCaixa(null);
         }
