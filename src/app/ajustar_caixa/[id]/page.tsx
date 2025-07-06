@@ -127,7 +127,7 @@ export default function AjustarCaixa() {
         setMsg1('A OPERAÇÃO NÃO PODERÁ SER REVERTIDA');
         setOpenModal(!openModal);
         clearTimeout(time);
-      }, 1500);
+      }, 1100);
 
       return;
     }
@@ -143,7 +143,7 @@ export default function AjustarCaixa() {
       const newBox = await fechBoxAjust(novaCaixa);
 
       if (newBox) {
-        const refreshedBox = await getCaixaParaAjuste(String(newBox.id));
+        const refreshedBox = newBox;
 
         if (refreshedBox) {
           setItensComOriginal(
@@ -173,7 +173,7 @@ export default function AjustarCaixa() {
         setMsg1('A OPERAÇÃO NÃO PODERÁ SER REVERTIDA');
         setOpenModal(!openModal);
         clearTimeout(timeOut);
-      }, 1500);
+      }, 1000);
     }
   };
 
@@ -252,7 +252,7 @@ export default function AjustarCaixa() {
                         }
                         onBlur={() => handleInputBlur(idx)}
                         className={`border px-2 py-1 w-full h-[35px] rounded text-[17px] font-normal 
-                                    ${item.itemQty !== item.originalQty ? 'border-cyan-400 text-cyan-400' : 'border-[#8d8d8d] text-emerald-500'} 
+                                    ${item.itemQty !== item.originalQty ? 'border-yellow-400 text-yellow-400' : 'border-[#8d8d8d] text-emerald-500'} 
                                    bg-[#444444] outline-2 focus:outline focus:outline-emerald-500`}
                       />
                     </td>
@@ -299,7 +299,7 @@ export default function AjustarCaixa() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-white p-8 rounded-md shadow-md min-w-[30%] min-h-[300px]
+            className="bg-white p-8 rounded-md shadow-md min-w-[35%] min-h-[300px]
                         flex flex-col items-center justify-center max-w-[800px]"
           >
             <div>
