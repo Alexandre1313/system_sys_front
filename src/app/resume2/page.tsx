@@ -104,7 +104,7 @@ export default function ConsultaStatusGrades() {
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
     if (resp) {
-      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);      
+      setMessage(`GRADES ALTERADAS COM OS SEGUINTES IDs:`);
       const timeout = setTimeout(() => {
         setStatus("DESPACHADA");
         setMessage(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
@@ -284,27 +284,27 @@ export default function ConsultaStatusGrades() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-white p-8 rounded-md shadow-md min-w-[30%] min-h-[40%]
+            className="bg-white p-8 rounded-md shadow-md min-w-[30%] min-h-[30%]
                         flex flex-col items-center justify-center max-w-[800px]"
           >
             <div>
-              <AlertTriangle size={90} color={`rgba(255, 0, 0, 1)`} />
+              <AlertTriangle size={60} color={`rgba(255, 0, 0, 1)`} />
             </div>
             <div className={`flex flex-col text-black w-full items-center justify-center`}>
-              <h2 className={`text-[50px] font-bold`}>{`MUDANÇA DE STATUS`}</h2>
-              <h2 className={`text-[30px] font-bold`}>{message}</h2>
+              <h2 className={`text-[35px] font-bold`}>{`MUDANÇA DE STATUS`}</h2>
+              <h2 className={`text-[20px] font-bold`}>{message}</h2>
+              <span className={`text-[16px] font-bold mr-2`}>
+                {`GRADES IDs AFETADOS:`}
+              </span>
               <div className={`flex items-center justify-center flex-wrap`}>
-                <span className={`text-[25px] font-bold mr-2`}>
-                  {`GRADES IDs AFETADOS:`}
-                </span>
                 {filtered.ids.map((id, index) => (
                   <span key={index} className={`text-[25px] text-red-700 font-bold mr-2`}>
                     {id}
                   </span>
                 ))}
               </div>
-              <span className={`text-[17px] font-bold`}>DESEJA MESMO ALTERAR O STATUS DAS GRADES?</span>
-              <span className={`text-[17px] font-bold`}>A OPERAÇÃO NÃO PODERÁ SER REVERTIDA</span>
+              <span className={`text-[15px] font-bold`}>DESEJA MESMO ALTERAR O STATUS DAS GRADES?</span>
+              <span className={`text-[15px] font-bold`}>A OPERAÇÃO NÃO PODERÁ SER REVERTIDA</span>
             </div>
           </motion.div>
           <button
