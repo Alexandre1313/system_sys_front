@@ -52,6 +52,7 @@ export default function ConsultaStatusGrades() {
   const [buscaEscola, setBuscaEscola] = useState<string>('');
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const [message, setMessage] = useState<string>(`GERE OS RELATÓRIOS ANTES DA ALTERAÇÃO`);
+  const [selectedGrades, setSelectedGrades] = useState<number[]>([]);
 
   // Função para buscar as grades com os filtros
   const loaderFilter = useCallback(async () => {
@@ -61,6 +62,7 @@ export default function ConsultaStatusGrades() {
     const res = await fetcherGradesPStatus(projectId, remessa, status, tipo);
     setData(res || []);
     setDataFiltered(res || []);
+    setSelectedGrades(res ? res.map(g => g.id) : []); // <-- seleciona tudo ao carregar
     setIsLoading(false);
   }, [projectId, remessa, status, tipo]);
 
@@ -120,6 +122,26 @@ export default function ConsultaStatusGrades() {
     }, 1000);
     return
   }
+
+  // Atualização do handleSelect para remover ao desmarcar e adicionar ao marcar
+  const handleSelect = (id: number) => {
+    setSelectedGrades((prevSelected) => {
+      const isSelected = prevSelected.includes(id);
+
+      if (isSelected) {
+        // Desmarcou: remove do selected e do dataFiltered
+        setDataFiltered((prevFiltered) => prevFiltered.filter(g => g.id !== id));
+        return prevSelected.filter(item => item !== id);
+      } else {
+        // Marcou: adiciona ao selected e ao dataFiltered
+        const gradeToAdd = data.find(g => g.id === id);
+        if (gradeToAdd) {
+          setDataFiltered((prevFiltered) => [...prevFiltered, gradeToAdd]);
+        }
+        return [...prevSelected, id];
+      }
+    });
+  };
 
   const filtered = getResumo(status, dataFiltered);
 
@@ -263,7 +285,7 @@ export default function ConsultaStatusGrades() {
                   <IsLoading color={tema} />
                 </div>
               ) : data?.length ? (
-                <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} status={status} />
+                <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} status={status} selectedGrades={selectedGrades} handleSelect={handleSelect} />
               ) : (
                 <div className="flex items-center justify-center w-full h-[82vh]">
                   <p className={`text-lg ${colorFontAviso}`}>NÃO HÁ DADOS PARA OS PARÂMETROS PESQUISADOS.</p>

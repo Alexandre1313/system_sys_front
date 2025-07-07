@@ -8,9 +8,11 @@ interface GradeFilterTableProps {
   expedicaoData: GradesRomaneio[];
   staticColors: boolean; // true = tema claro, false = tema escuro
   status: string;
+  selectedGrades: number[];
+  handleSelect: (id: number) => void;
 }
 
-export default function GradesFilterTable({ expedicaoData, staticColors, status }: GradeFilterTableProps) {
+export default function GradesFilterTable({ expedicaoData, staticColors, status, selectedGrades, handleSelect }: GradeFilterTableProps) {
   const theme = staticColors
     ? {
       bg: 'bg-white',
@@ -58,6 +60,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
         const totalPesoAfer = grade.tamanhosQuantidades.reduce((sum, i) => sum + (i.peso ?? 0) * (i.quantidade ?? 0), 0);
         const faltaExpedir = totalPrevisto - totalQuantidade;
         const percentualConcluido = converPercentualFormat((totalQuantidade / totalPrevisto) * 100);
+        const isSelected = selectedGrades.includes(grade.id); // <- aqui!
 
         const colorValue = faltaExpedir > 0 ? 'text-white font-extralight text-[16px] bg-zinc-600 bg-opacity-50' : 'text-white font-extralight text-[16px] bg-zinc-600 bg-opacity-50';
 
@@ -66,12 +69,40 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
         return (
           <div className={`flex flex-col w-full gap-x-2 border border-slate-800`} key={grade.id}>
             <div className={`${theme.colorText} ${theme.colorDivResuls} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
-              <div className={`flex flex-col w-1/3 gap-x-1`}>
+
+
+              <div className="w-[20px] flex-shrink-0 flex items-start justify-start mr-4 cursor-pointer">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="peer sr-only"
+                    checked={isSelected}
+                    onChange={() => handleSelect(grade.id)}
+                  />
+                  <div className="w-6 h-6 border-2 border-green-500 bg-transparent rounded-sm flex items-center justify-center">
+                    <svg
+                      className="w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 111.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </label>
+              </div>
+
+
+              <div className={`flex flex-col flex-1 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span className={`text-cyan-500 font-light pl-2`}>{grade.projectname}</span></h4>
                 <h4 className="text-md font-semibold uppercase">Unidade escolar: <span className={`text-cyan-500 font-light pl-2`}>{grade.escola}</span></h4>
                 <h4 className={`text-md font-semibold uppercase`}>Status: <span className={`${colorStatus}`}>{grade.status}</span><span className={`text-red-600 pl-2 font-light`}> {grade.tipo ? 'R' : ''}</span></h4>
               </div>
-              <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
+              <div className={`flex flex-col flex-1 gap-x-1 border-l border-slate-600 pl-3`}>
                 <h4 className="text-md font-semibold uppercase">Empresa: <span className={`text-cyan-500 font-light pl-2`}>{grade.company}</span></h4>
                 {status === 'PRONTA' && (
                   <Link href={`/expedition/${grade.escolaId}`} target="_blank">
@@ -83,7 +114,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status 
                 )}
                 <h4 className="text-md font-semibold uppercase">Nº Join: <span className={`text-cyan-500 font-light pl-2`}>{grade.numberJoin}</span></h4>
               </div>
-              <div className={`flex flex-col w-1/3 gap-x-1 border-l border-slate-600 pl-3`}>
+              <div className={`flex flex-col flex-1 gap-x-1 border-l border-slate-600 pl-3`}>
                 <h4 className="text-md font-semibold uppercase">Grade ID: <span className={`text-cyan-500 font-light pl-2`}>{grade.id}</span></h4>
                 <h4 className="text-md font-semibold uppercase">Último Update: <span className={`text-cyan-500 font-light pl-2`}>{grade.update}</span></h4>
                 <Link href={`/caixas_por_grade/${grade.id}`} target="_blank">
