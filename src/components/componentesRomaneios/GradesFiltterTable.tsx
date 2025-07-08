@@ -72,7 +72,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
           <div className={`flex flex-col w-full gap-x-2 border border-slate-800`} key={grade.id}>
             <div className={`${theme.colorText} ${theme.colorDivResuls} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
 
-              {status === 'EXPEDIDA' || status === 'PRONTA' && (
+              {(status === 'EXPEDIDA' || status === 'PRONTA') && (
                 <div className="flex items-center justify-center w-[24px] h-[24px] mr-4">
                   <label className="relative cursor-pointer z-[0]">
                     <input
