@@ -35,7 +35,7 @@ export default function RemessaSelect({
         <div className="flex flex-col justify-center items-start">
             <select
                 id="select-remessas"
-                title="Selecione a remessa preferida"
+                title="Selecione a remessa"
                 className={`flex w-[310px] py-2 px-3 text-[14px] no-arrow ${newColor}
                     outline-none cursor-pointer h-[35px] border border-zinc-800`}
                 onChange={(event) => {

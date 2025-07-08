@@ -121,7 +121,7 @@ export default function ConsultaStatusGrades() {
       clearTimeout(timeout);
     }, 1000);
     return
-  } 
+  }
 
   // Atualização do handleSelect para remover ao desmarcar e adicionar ao marcar
   const handleSelect = (id: number) => {
@@ -162,8 +162,8 @@ export default function ConsultaStatusGrades() {
             <option value="EXPEDIDA">EXPEDIDAS</option>
             <option value="DESPACHADA">DESPACHADAS</option>
             <option value="PRONTA">PRONTAS</option>
-            <option value="IMPRESSA">IMPRESSAS</option>
             <option value="TODAS">TODAS</option>
+            <option value="IMPRESSA">-----</option>
           </select>
 
           {/* Seletor de Projeto */}
