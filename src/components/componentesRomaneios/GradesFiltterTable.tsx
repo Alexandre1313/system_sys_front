@@ -66,38 +66,40 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
 
         const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500 font-normal pl-2' : grade.status === 'EXPEDIDA' ? 'text-emerald-500 font-normal pl-2' : 'text-slate-400 font-normal pl-2';
 
-        const colorChecked = grade.status === 'EXPEDIDA' ? 'border-green-500': grade.status === 'DESPACHADA' ? 'border-blue-500': 'border-slate-500';
+        const colorChecked = grade.status === 'EXPEDIDA' ? 'border-green-500' : grade.status === 'DESPACHADA' ? 'border-blue-500' : 'border-slate-500';
 
         return (
           <div className={`flex flex-col w-full gap-x-2 border border-slate-800`} key={grade.id}>
             <div className={`${theme.colorText} ${theme.colorDivResuls} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
 
-
-              <div className="w-[20px] flex-shrink-0 flex items-start justify-start mr-4 cursor-pointer">
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="peer sr-only"
-                    checked={isSelected}
-                    onChange={() => handleSelect(grade.id)}
-                  />
-                  <div className={`w-6 h-6 border-2 ${colorChecked} bg-transparent rounded-sm flex items-center justify-center`}>
-                    <svg
-                      className="w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+              {status === 'EXPEDIDAS' || status === 'PRONTA' && (
+                <div className="flex items-center justify-center w-[24px] h-[24px] mr-4">
+                  <label className="relative cursor-pointer z-[0]">
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => handleSelect(grade.id)}
+                      className="sr-only peer"
+                    />
+                    <div
+                      className={`w-6 h-6 rounded-sm border-2 ${colorChecked} flex items-center justify-center`}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 111.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </label>
-              </div>
-
+                      <svg
+                        className="w-4 h-4 text-green-400 opacity-1 peer-checked:opacity-100 transition-opacity duration-200"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 111.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </label>
+                </div>
+              )}
 
               <div className={`flex flex-col flex-1 gap-x-1`}>
                 <h4 className="text-md font-semibold uppercase">Projeto: <span className={`text-cyan-500 font-light pl-2`}>{grade.projectname}</span></h4>

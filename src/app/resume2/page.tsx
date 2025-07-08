@@ -123,6 +123,10 @@ export default function ConsultaStatusGrades() {
     return
   }
 
+  console.log(data)
+  console.log(dataFiltered)
+  console.log(selectedGrades)
+
   // Atualização do handleSelect para remover ao desmarcar e adicionar ao marcar
   const handleSelect = (id: number) => {
     setSelectedGrades((prevSelected) => {
