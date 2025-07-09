@@ -27,6 +27,10 @@ export default async function StockRender({ id }: StockRenderProps) {
     0
   );
 
+  const contraprova = Math.abs(totalGeralEstoque) + Math.abs(totalGeralEntradas);
+
+  const styleContraprova = contraprova === totalGeralSaidas ? 'text-green-400': '';
+
   return (
     <div className="p-6 flex flex-col w-full gap-y-10">
       <h1 className="text-3xl font-bold text-center mb-6 text-zinc-500">{stockRender.nome}</h1>
@@ -43,7 +47,7 @@ export default async function StockRender({ id }: StockRenderProps) {
         </thead>
         <tbody>
           <tr className="font-bold bg-zinc-800 text-zinc-200">
-            <td className="px-4 py-2 border font-extralight text-yellow-400 tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{Math.abs(totalGeralEstoque + totalGeralEntradas)}</td>
+            <td className={`px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]`}>{contraprova}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEstoque}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEntradas}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralSaidas}</td>
