@@ -35,7 +35,7 @@ export default async function StockRender({ id }: StockRenderProps) {
       <table className="sticky top-28 min-w-full border-collapse border border-zinc-700 mb-8">
         <thead>
           <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Total Geral</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Contraprova</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Estoque</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Entradas</th>
             <th className="px-4 py-2 text-left w-[25%]">Saídas</th>
@@ -43,7 +43,7 @@ export default async function StockRender({ id }: StockRenderProps) {
         </thead>
         <tbody>
           <tr className="font-bold bg-zinc-800 text-zinc-200">
-            <td className="px-4 py-2 border border-zinc-700 w-[25%]">Totais</td>
+            <td className="px-4 py-2 border font-extralight text-yellow-400 tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{Math.abs(totalGeralEstoque + totalGeralEntradas)}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEstoque}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEntradas}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralSaidas}</td>
