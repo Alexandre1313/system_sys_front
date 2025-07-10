@@ -213,22 +213,25 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </table>
                 </div>
                 <div className={`flex flex-col`}>
-                    <div className={`flex items-center justify-start gap-x-5`}>
+                    <div className={`flex flex-col items-center justify-center gap-y-1`}>
                         {props.grade.tipo && (
-                            <h2 className="text-[14px] font-normal text-white mb-2 mt-2">
+                            <h2 className="text-[14px] font-normal text-white mt-2 -mb-2">
                                 {props.grade.tipo}
                             </h2>
                         )}
-                        <h2 className="text-[14px] font-normal text-blue-400 mb-2 mt-2">
+                        <h2 className="text-[14px] font-normal text-blue-400 mt-2 mb-0">
                             {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
                         </h2>
                     </div>
                     {uniqueItems.map((it, index) => {
                         return (
-                            <div key={index} className={`flex`}>
-                                <strong className="ml-0 font-normal text-[16px] text-slate-400">{it.nome}</strong>
-                                <strong className={`ml-2 mr-2 font-normal text-[14px]`}>-</strong>
-                                <strong className="ml-0 font-normal text-[16px] text-slate-400">{it.genero}</strong>
+                            <div key={index} className={`flex w-full gap-x-3`}>
+                                <div className={`flex items-center justify-end w-1/2`}>
+                                    <strong className="ml-0 font-normal text-[16px] text-slate-400">{it.nome}</strong>
+                                </div>
+                                <div className={`flex items-center justify-start w-1/2`}>
+                                    <strong className="ml-0 font-normal text-[16px] text-slate-600">{it.genero}</strong>
+                                </div>
                             </div>)
                     })}
                 </div>
