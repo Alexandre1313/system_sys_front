@@ -198,16 +198,16 @@ export default function GradeComponent(props: GradeComponentProps) {
                             <tr className="text-zinc-400 font-extralight tracking-[1px]">
                                 <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">GRADE ID</th>
                                 <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">PREVISTO</th>
-                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">À EXPEDIR</th>
                                 <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">EXPEDIDO</th>
+                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">À EXPEDIR</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr className="">
                                 <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-zinc-500 font-extralight tracking-[1px]">{props.grade.id}</td>
                                 <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-yellow-400 font-extralight tracking-[1px]">{convertMilharFormat(totalGrade || 0)}</td>
-                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-blue-400 font-extralight tracking-[1px]">{convertMilharFormat(total - totalExpedido)}</td>
                                 <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-green-400 font-extralight tracking-[1px]">{convertMilharFormat(totalExpedido)}</td>
+                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-blue-400 font-extralight tracking-[1px]">{convertMilharFormat(total - totalExpedido)}</td>
                             </tr>
                         </tbody>
                     </table>
