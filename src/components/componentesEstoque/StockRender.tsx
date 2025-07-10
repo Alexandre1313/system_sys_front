@@ -27,19 +27,19 @@ export default async function StockRender({ id }: StockRenderProps) {
     0
   );
 
-  const contraprova = Math.abs(totalGeralEstoque) + Math.abs(totalGeralEntradas);
+  const contraprova = (totalGeralEntradas - totalGeralSaidas) === totalGeralEstoque;
 
-  const styleContraprova = contraprova === totalGeralSaidas ? 'text-green-400': '';
+  const styleContraprova = contraprova ? 'text-green-400': 'text-red-500';
 
   return (
     <div className="p-6 flex flex-col w-full gap-y-10">
-      <h1 className="text-3xl font-bold text-center mb-6 text-zinc-500">{stockRender.nome}</h1>
+      <h1 className="text-xl font-bold text-center mb-4 text-zinc-500">{`MOVIMENTAÇÕES DO PROJETO ${stockRender.nome}`}</h1>
 
       {/* Tabela de somatório geral */}
-      <table className="sticky top-28 min-w-full border-collapse border border-zinc-700 mb-8">
+      <table className="sticky top-28 min-w-full border-collapse border border-zinc-700 mb-2">
         <thead>
           <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Contraprova</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Consistência</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Estoque</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Entradas</th>
             <th className="px-4 py-2 text-left w-[25%]">Saídas</th>
@@ -47,7 +47,7 @@ export default async function StockRender({ id }: StockRenderProps) {
         </thead>
         <tbody>
           <tr className="font-bold bg-zinc-800 text-zinc-200">
-            <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[20px] border-zinc-700 w-[25%]`}>{contraprova}</td>
+            <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[17px] border-zinc-700 w-[25%]`}>{contraprova ? 'MOV. CONSISTENTES': 'MOV. NÃO CONSISTENTES'}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEstoque}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEntradas}</td>
             <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralSaidas}</td>
