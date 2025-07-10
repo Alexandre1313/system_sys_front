@@ -659,7 +659,7 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
                 "", // Coluna vazia inicial
                 "UNIDADE ESCOLAR", // Coluna "ESCOLA"
                 "FATURADO POR", // Coluna "FATURADO POR"
-                "TÉRMINO EM",
+                "CONCLUSÃO",
                 ...Object.keys(sortedItemGenderSizes).flatMap((key) => [
                     ...sortedItemGenderSizes[key].map((size) => `TAM ${size}`), // Tamanhos por item + gênero
                     `TOTAL ${key.toUpperCase()}`, // Total por item + gênero
@@ -936,10 +936,13 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         const data = new Date();
         const dataSp = convertSPTime(String(data));
 
+        const nameV = expedicaoDataRepo[0].projectname || expedicaoData[0].projectname;
+
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
             new Blob([buffer]),
-            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx` : `RELATORIO_EXPEDICAO_REPOSICAO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`
+            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${nameV}_${dataSp}.xlsx` : expedicaoData.length === 0 ? 
+            `RELATORIO_REPOSICAO_${nameV}_${dataSp}.xlsx`: `RELATORIO_EXPEDICAO_REPOSICAO_${nameV}_${dataSp}.xlsx`
         );
     }
 
