@@ -16,6 +16,7 @@ import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
 import ItemsGradeLinkTextHor from "./ItemsGradeLinkTextHor";
+import { convertMilharFormat } from "../../../core/utils/tools";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -77,10 +78,10 @@ export default function GradeComponent(props: GradeComponentProps) {
         ).values()
     );
 
-    let borderColor = total === totalExpedido ? 'border-green-500' : 'border-gray-500';
+    let borderColor = total === totalExpedido ? 'border-emerald-950 bg-emerald-950' : 'border-zinc-800 bg-zinc-800';
 
     if (props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" && total > totalExpedido) {
-        borderColor = 'border-red-500';
+        borderColor = 'border-red-900 bg-red-900';
     }
 
     const abrirTela = () => {
@@ -93,7 +94,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const oneExpedida = props.grade.status === "EXPEDIDA" || props.grade.status === "DESPACHADA";
     const desativado = oneExpedida;
 
-    const statusClass = desativado ? "pointer-events-none opacity-50" : "";
+    const statusClass = desativado ? "pointer-events-none opacity-50 hidden" : "";
 
     const fecharTela = () => {
         setMostrarTela(false);
@@ -190,23 +191,31 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Card com informações */}
-            <div className={`flex flex-col m-2 p-3  border-[3px] rounded-md gap-y-0 ${borderColor}`}>
-                <h2 className="text-[13px] font-normal text-gray-400">
-                    TOTAL DE ITENS NA GRADE:
-                    <strong className="ml-2 font-semi-bold text-[17px] text-orange-600">{totalGrade}</strong>
-                </h2>
-                <h2 className="text-[13px] font-normal text-gray-400">
-                    TOTAL DE ITENS À EXPEDIR:
-                    <strong className="ml-2 font-semi-bold text-[17px] text-yellow-400">{total - totalExpedido}</strong>
-                </h2>
-                <h2 className="text-[13px] font-normal text-gray-400">
-                    TOTAL DE ITENS JÁ EXPEDIDO:
-                    <strong className="ml-2 font-semi-bold text-[17px] text-green-400">{totalExpedido}</strong>
-                </h2>
+            <div className={`flex flex-col m-2 p-2  border-[3px] rounded-md gap-y-0 shadow-lg ${borderColor}`}>
+                <div className="overflow-hidden">
+                    <table className="w-full table-fixed border-collapse">
+                        <thead className="">
+                            <tr className="text-zinc-400 font-extralight tracking-[1px]">
+                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">GRADE ID</th>
+                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">PREVISTO</th>
+                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">À EXPEDIR</th>
+                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">EXPEDIDO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="">
+                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-zinc-500 font-extralight tracking-[1px]">{props.grade.id}</td>
+                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-yellow-400 font-extralight tracking-[1px]">{convertMilharFormat(totalGrade || 0)}</td>
+                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-blue-400 font-extralight tracking-[1px]">{convertMilharFormat(total - totalExpedido)}</td>
+                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-green-400 font-extralight tracking-[1px]">{convertMilharFormat(totalExpedido)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div className={`flex flex-col`}>
                     <div className={`flex items-center justify-start gap-x-5`}>
                         {props.grade.tipo && (
-                            <h2 className="text-[14px] font-normal text-red-600 mb-2 mt-2">
+                            <h2 className="text-[14px] font-normal text-white mb-2 mt-2">
                                 {props.grade.tipo}
                             </h2>
                         )}
@@ -217,9 +226,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {uniqueItems.map((it, index) => {
                         return (
                             <div key={index} className={`flex`}>
-                                <strong className="ml-0 font-normal text-[16px] text-slate-500">{it.nome}</strong>
+                                <strong className="ml-0 font-normal text-[16px] text-slate-400">{it.nome}</strong>
                                 <strong className={`ml-2 mr-2 font-normal text-[14px]`}>-</strong>
-                                <strong className="ml-0 font-normal text-[16px] text-slate-500">{it.genero}</strong>
+                                <strong className="ml-0 font-normal text-[16px] text-slate-400">{it.genero}</strong>
                             </div>)
                     })}
                 </div>
