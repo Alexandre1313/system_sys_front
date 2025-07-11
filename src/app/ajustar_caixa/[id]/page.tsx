@@ -5,10 +5,10 @@ import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponen
 import { getCaixaParaAjuste, modificarCaixa } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
+import { padStart } from 'pdf-lib';
 import { useEffect, useState } from 'react';
 import { AlertTriangle } from 'react-feather';
 import { CaixaAjuste } from '../../../../core';
-import { padStart } from 'pdf-lib';
 
 type ItemComOriginalQty = CaixaAjuste['itens'][number] & {
   originalQty: number;

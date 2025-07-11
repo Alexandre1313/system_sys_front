@@ -3,6 +3,7 @@ import { ChevronsRight, Search } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
+import { convertMilharFormat } from "../../../core/utils/tools";
 import BotaoArrowLeft from "../ComponentesInterface/BotaoArrowLeft";
 import BotaoArrowLeftSmall from "../ComponentesInterface/BotaoArrowLehtSmall";
 import BotaoBox from "../ComponentesInterface/BotaoBox";
@@ -14,9 +15,8 @@ import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
-import ItemsGradeTextArea from "./ItemsGradeTextArea";
 import ItemsGradeLinkTextHor from "./ItemsGradeLinkTextHor";
-import { convertMilharFormat } from "../../../core/utils/tools";
+import ItemsGradeTextArea from "./ItemsGradeTextArea";
 
 export interface GradeComponentProps {
     grade: Grade;

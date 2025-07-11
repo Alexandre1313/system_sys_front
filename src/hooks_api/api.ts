@@ -407,10 +407,4 @@ async function getFilterGrades(projectId: string, remessa: string, status: strin
     return data;
 }
 
-export {
-    finalizarGrades, get, getDatesGrades, getEmb, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman,
-    getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getCaixasPorGrade,
-    getProjectsSimp, getProjetosComEscolas, gradeItemModify, inserirCaixa, inserirEmb,
-    siginn, stockGenerate, getGrade, ajust, getRemessasGrades, getFilterGrades, alterarPDespachadas, getGrafico,
-    getCaixaParaAjuste, modificarCaixa,
-};
+export { ajust, alterarPDespachadas, finalizarGrades, get, getCaixaParaAjuste, getCaixasPorGrade, getDatesGrades, getEmb, getFilterGrades, getGrade, getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman, getGrafico, getProdEmbDay, getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp, getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb, modificarCaixa, siginn, stockGenerate };
