@@ -192,7 +192,7 @@ export default function AjustarCaixa() {
           <IsLoading />
         </div>
       ) : caixa ? (
-        <div className="flex flex-col min-h-screen bg-[#181818] p-4">
+        <div className="flex flex-col min-h-screen bg-[#181818] p-4 pb-20">
           {/* Cabeçalho fixo */}
           <TitleComponentFixed
             stringOne="AJUSTANDO CAIXA"
