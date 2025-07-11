@@ -936,7 +936,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         const data = new Date();
         const dataSp = convertSPTime(String(data));
 
-        const nameV = expedicaoDataRepo[0].projectname || expedicaoData[0].projectname;
+        const nameV = expedicaoDataRepo[0]?.projectname || expedicaoData[0]?.projectname;
+        console.log(nameV)
 
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
