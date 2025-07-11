@@ -9,7 +9,7 @@ import { convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG } fr
 import PageEntExcel from '../componentesDePrint/PageEntExcel';
 import PageExcelNew from '../componentesDePrint/PageExcelNew';
 import PageExcelNewfaltas from '../componentesDePrint/PageExcelNewfaltas';
-import PageExcelRelatorio from '../componentesDePrint/PageExcelRelatorio';
+import PageExcelRelatorioPedido from '../componentesDePrint/PageExcelRelatorioPedido';
 import RomaneiosAll from '../componentesDePrint/RomaneiosAll';
 
 interface GradeFilterProps {
@@ -462,7 +462,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
             </div>
             <div title='RELATÓRIO EM EXCEL POR GRADE'>
               {expedicaoData && (
-                <PageExcelRelatorio expedicaoData={expedicaoData} />
+                <PageExcelRelatorioPedido expedicaoDataB={expedicaoData} />
               )}
             </div>
             <button onClick={abrirModalAjustStatus} className="flex items-center justify-center text-[16px] px-6 py-1 min-w-[250px] h-[34px] bg-red-700 text-white rounded-md hover:bg-red-600">

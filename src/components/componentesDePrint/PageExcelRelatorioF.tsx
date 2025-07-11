@@ -1,14 +1,14 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { GradesRomaneio } from "../../../core";
 import { FileMinus } from "react-feather";
+import { GradesRomaneio } from "../../../core";
 import { convertSPTime } from '../../../core/utils/tools';
 
-export interface PageExcelRelatorioProps {
+export interface PageExcelRelatorioFProps {
     expedicaoData: GradesRomaneio[];
 }
 
-export default function PageExcelRelatorio({ expedicaoData }: PageExcelRelatorioProps) {
+export default function PageExcelRelatorioF({ expedicaoData }: PageExcelRelatorioFProps) {
     const generateExcel = async () => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet("Relatório");

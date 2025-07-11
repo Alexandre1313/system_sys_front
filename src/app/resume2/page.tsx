@@ -3,7 +3,7 @@
 import PageEntExcel from '@/components/componentesDePrint/PageEntExcel';
 import PageExcelNew from '@/components/componentesDePrint/PageExcelNew';
 import PageExcelNewfaltas from '@/components/componentesDePrint/PageExcelNewfaltas';
-import PageExcelRelatorio from '@/components/componentesDePrint/PageExcelRelatorio';
+import PageExcelRelatorioPedido from '@/components/componentesDePrint/PageExcelRelatorioPedido';
 import RomaneiosAll from '@/components/componentesDePrint/RomaneiosAll';
 import BuscaEscolaInput from '@/components/ComponentesInterface/BuscaEscolaInput';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
@@ -246,7 +246,7 @@ export default function ConsultaStatusGrades() {
                   </div>
                   <div title='RELATÓRIO EM EXCEL POR GRADE'>
                     {data && (
-                      <PageExcelRelatorio expedicaoData={dataFiltered} />
+                      <PageExcelRelatorioPedido expedicaoDataB={dataFiltered} />
                     )}
                   </div>
                   <button onClick={modalAjustStatus} className="flex ml-3 items-center justify-center text-[14px] px-3 py-1 min-w-[50px] h-[31px] bg-red-700 text-white rounded-md hover:bg-red-600">
