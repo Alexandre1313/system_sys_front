@@ -2,14 +2,45 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { Grade, GradesRomaneio, Resumo } from '../interfaces';
 
+/**
+ * Endereço IP do servidor local.
+ */
 const ip = "192.168.1.169";
+
+/**
+ * Porta utilizada pelo servidor.
+ */
 const port = "4997";
+
+/**
+ * Ordem customizada de tamanhos para uso em ordenação.
+ * Inclui tamanhos padrão (PP, P, M...) e variações específicas (EG, EX, G1...).
+ */
 const sizes = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'EG', 'EX', 'EGG', 'EXG', 'XGG', 'EXGG', 'G1', 'G2', 'G3', 'EG/LG'];
 
+/**
+ * Normaliza uma string removendo acentos e espaços em branco nas extremidades.
+ *
+ * @param {string | undefined | null} value - A string a ser normalizada.
+ * @returns {string | undefined} A string normalizada, ou undefined se o valor for null ou undefined.
+ *
+ * @example
+ * normalize(" João ") // retorna "Joao"
+ * normalize(null) // retorna undefined
+ */
 function normalize(value: string | undefined | null) {
   return value?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 }
 
+/**
+ * Converte uma string de data para o horário de São Paulo e formata como 'dd/MM/yyyy HH:mm:ss'.
+ *
+ * @param {string} dateString - A string da data a ser convertida (ex: '2025-07-14T15:00:00Z').
+ * @returns {string} A data formatada no fuso horário de São Paulo.
+ *
+ * @example
+ * convertSPTime('2025-07-14T15:00:00Z'); // '14/07/2025 12:00:00' (dependendo do horário de verão)
+ */
 function convertSPTime(dateString: string): string {
   const timeZone = 'America/Sao_Paulo';
   let date = new Date(dateString);
@@ -21,11 +52,30 @@ function convertSPTime(dateString: string): string {
   return format(zonedDate, 'dd/MM/yyyy HH:mm:ss');
 }
 
+/**
+ * Remove todos os espaços em branco de uma string e normaliza removendo acentos.
+ *
+ * @param {string} s - A string de entrada.
+ * @returns {string} A string sem espaços e sem acentuação.
+ *
+ * @example
+ * concat(' João da Silva ') // 'JoaoDaSilva'
+ */
 function concat(s: string): string {
   // Remove espaços em branco e normaliza a string para remover acentos
   return s.replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+/**
+ * Formata um valor de peso com separador de milhar no padrão brasileiro,
+ * exibindo exatamente 3 casas decimais, seguido da unidade "Kg".
+ *
+ * @param {number} peso - O valor do peso a ser formatado.
+ * @returns {string} Uma string formatada no padrão "pt-BR" com unidade de medida (ex: "1.234,567 Kg").
+ *
+ * @example
+ * convertMilharFormatKG(1234.567); // "1.234,567 Kg"
+ */
 function convertMilharFormatKG(peso: number): string {
   return `${peso.toLocaleString('pt-BR', {
     minimumFractionDigits: 3,
@@ -33,6 +83,16 @@ function convertMilharFormatKG(peso: number): string {
   })} Kg`
 }
 
+/**
+ * Formata um valor de cubagem (volume) com separador de milhar no padrão brasileiro
+ * e exatamente 3 casas decimais, seguido da unidade "m³".
+ *
+ * @param {number} cubagem - O valor de cubagem a ser formatado.
+ * @returns {string} Uma string formatada no padrão "pt-BR" com unidade de medida (ex: "1.234,567 m³").
+ *
+ * @example
+ * convertMilharFormatCUB(1234.567); // "1.234,567 m³"
+ */
 function convertMilharFormatCUB(cubagem: number): string {
   return `${cubagem.toLocaleString('pt-BR', {
     minimumFractionDigits: 3,
@@ -40,6 +100,15 @@ function convertMilharFormatCUB(cubagem: number): string {
   })} m³`
 }
 
+/**
+ * Formata um número no padrão brasileiro, com separador de milhar e sem casas decimais.
+ *
+ * @param {number} value - O número a ser formatado.
+ * @returns {string} Uma string com o número formatado no padrão "pt-BR" (ex: "1.000").
+ *
+ * @example
+ * convertMilharFormat(12345); // "12.345"
+ */
 function convertMilharFormat(value: number): string {
   return `${value.toLocaleString('pt-BR', {
     minimumFractionDigits: 0,
@@ -47,6 +116,15 @@ function convertMilharFormat(value: number): string {
   })}`
 }
 
+/**
+ * Converte um número em uma string percentual formatada no padrão brasileiro.
+ *
+ * @param {number} value - O valor numérico a ser convertido (por exemplo: 25.5).
+ * @returns {string} Uma string formatada como percentual (por exemplo: "25,50%").
+ *
+ * @example
+ * converPercentualFormat(12.345); // "12,35%"
+ */
 function converPercentualFormat(value: number): string {
   return `${value.toLocaleString('pt-BR', {
     minimumFractionDigits: 2,
@@ -54,6 +132,17 @@ function converPercentualFormat(value: number): string {
   })}%`
 }
 
+/**
+ * Gera um resumo estatístico a partir de uma lista de grades de romaneio.
+ * 
+ * Retorna dados como volumes, pesos, cubagem, totais expedidos, previstos,
+ * escolas atendidas e percentuais de erro. Separa também dados de reposição e normais.
+ * 
+ * @param {string} status - Status do romaneio utilizado para capturar os IDs relevantes.
+ * @param {GradesRomaneio[]} grades - Lista de grades a serem processadas.
+ * 
+ * @returns {Resumo} Objeto contendo todos os totais calculados e formatados.
+ */
 function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   if (!grades || grades.length === 0) {
     const zero = () => convertMilharFormat(0);
@@ -205,7 +294,19 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   };
 }
 
-// Função para ordenar tamanhos
+/**
+ * Ordena um array de tamanhos, separando tamanhos numéricos dos tamanhos com letras.
+ * 
+ * Tamanhos numéricos são ordenados em ordem crescente.
+ * Tamanhos com letras são ordenados com base em uma ordem predefinida (`sizes`).
+ * 
+ * @param {string[]} tamanhos - Um array contendo tamanhos em formato de string (ex: ['P', 'M', 'G', '38', '40']).
+ * @returns {string[]} Um novo array com os tamanhos ordenados.
+ * 
+ * @example
+ * sizeOrders(['38', 'M', 'P', '40']);
+ * // Retorna: ['38', '40', 'P', 'M']
+ */
 const sizeOrders = (tamanhos: string[]): string[] => {
   const numTamanhos = tamanhos.filter(tamanho => /^[0-9]+$/.test(tamanho)); // Filtra tamanhos numéricos
   const letraTamanhos = tamanhos.filter(tamanho => !/^[0-9]+$/.test(tamanho)); // Filtra tamanhos com letras
@@ -220,6 +321,16 @@ const sizeOrders = (tamanhos: string[]): string[] => {
   return [...numTamanhos, ...letraTamanhos];
 };
 
+/**
+ * Função para filtrar grades com base em critérios como data, número da escola, nome da escola, nome do item e tamanho.
+ *
+ * @param {Grade[]} grades - Um array de objetos do tipo Grade.
+ * @param {string} busca - Termo de busca a ser aplicado nos campos relevantes.
+ * @returns {Grade[]} Um array filtrado de grades que correspondem aos critérios de busca.
+ *
+ * @example
+ * filtrarGradesPorPrioridade(grades, 'escola 01');
+ */
 function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
   const termoBusca = busca.trim().toLowerCase();
 
@@ -304,6 +415,16 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
   return filtradas;
 }
 
+/**
+ * Função que retorna a cor do texto e o estado de desativação para a tela de escolas,
+ * com base nas propriedades das grades recebidas.
+ *
+ * @param {Grade[]} grades - Um array de objetos do tipo Grade.
+ * @returns {{ statusClass: string, desactiv: boolean }} Objeto contendo a cor do texto e o estado de desativação.
+ *
+ * @example
+ * analyzerStatus(grades); // Retorna: { statusClass: 'text-red-500', desactiv: true }
+ */
 function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: string } {
   const STATUS = {
     EXPEDIDA: 'EXPEDIDA',
@@ -317,18 +438,18 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
     cyan: 'text-cyan-500',
     red: 'text-red-500',
     slate: 'text-slate-200',
-  };  
+  };
 
   let desactiv = false;
   let statusClass = COLORS.slate;
 
-  if (grades.length === 0) {  
+  if (grades.length === 0) {
     return { desactiv: true, statusClass: COLORS.slate };
   }
 
   const todasDespachadas = grades.every(g => g.status === STATUS.DESPACHADA);
 
-  const todasExpedidasOuDespachadas = grades.every( g => g.status === STATUS.EXPEDIDA || g.status === STATUS.DESPACHADA);
+  const todasExpedidasOuDespachadas = grades.every(g => g.status === STATUS.EXPEDIDA || g.status === STATUS.DESPACHADA);
 
   const todasProntasNaoIniciadas = grades.every(g => g.status === STATUS.PRONTA && !g.iniciada);
 
@@ -360,6 +481,11 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
   return { desactiv, statusClass };
 }
 
+/**
+ * Módulo de utilitários para manipulação de dados, formatação e configurações de rede.
+ * Exporta funções para normalização, formatação de números, ordenação, análise de status,
+ * e constantes de configuração como IP e porta.
+ */
 export {
   ip, port,
   concat, converPercentualFormat,
