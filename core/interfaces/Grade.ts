@@ -13,6 +13,7 @@ export default interface Grade {
     tipo?: string;
     itensGrade?: GradeItem[]; // Relacionamento com os itens dessa grade
     gradeCaixas: Caixa[];
+    iniciada?: boolean;
     finalizada?: boolean; // Se a grade foi finalizada ou não
     status?: Status;
     createdAt?: Date;

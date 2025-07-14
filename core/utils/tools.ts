@@ -1,10 +1,14 @@
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import { GradesRomaneio, Resumo } from '../interfaces';
+import { Grade, GradesRomaneio, Resumo } from '../interfaces';
 
 const ip = "192.168.1.169";
 const port = "4997";
 const sizes = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'EG', 'EX', 'EGG', 'EXG', 'XGG', 'EXGG', 'G1', 'G2', 'G3', 'EG/LG'];
+
+function normalize(value: string | undefined | null) {
+  return value?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+}
 
 function convertSPTime(dateString: string): string {
   const timeZone = 'America/Sao_Paulo';
@@ -300,8 +304,65 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
   return filtradas;
 }
 
+function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: string } {
+  const STATUS = {
+    EXPEDIDA: 'EXPEDIDA',
+    DESPACHADA: 'DESPACHADA',
+    REPOSICAO: 'REPOSICAO',
+    PRONTA: 'PRONTA',
+  };
+
+  const COLORS = {
+    emerald: 'text-emerald-500',
+    cyan: 'text-cyan-500',
+    red: 'text-red-500',
+    slate: 'text-slate-200',
+  };  
+
+  let desactiv = false;
+  let statusClass = COLORS.slate;
+
+  if (grades.length === 0) {  
+    return { desactiv: true, statusClass: COLORS.slate };
+  }
+
+  const todasDespachadas = grades.every(g => g.status === STATUS.DESPACHADA);
+
+  const todasExpedidasOuDespachadas = grades.every( g => g.status === STATUS.EXPEDIDA || g.status === STATUS.DESPACHADA);
+
+  const todasProntasNaoIniciadas = grades.every(g => g.status === STATUS.PRONTA && !g.iniciada);
+
+  const umaProntaNaoIniciada = grades.some(g => g.status === STATUS.PRONTA && !g.iniciada);
+
+  const umaProntaIniciada = grades.some(g => g.status === STATUS.PRONTA && g.iniciada);
+
+  const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA);
+
+  if (repo) {
+    statusClass = COLORS.red;
+  } else if (todasDespachadas) {
+    statusClass = COLORS.emerald;
+    desactiv = false;
+  } else if (todasExpedidasOuDespachadas) {
+    statusClass = COLORS.emerald;
+    desactiv = false;
+  } else if (todasProntasNaoIniciadas) {
+    statusClass = COLORS.slate;
+    desactiv = false;
+  } else if (umaProntaNaoIniciada) {
+    statusClass = COLORS.slate;
+    desactiv = false;
+  } else if (umaProntaIniciada) {
+    statusClass = COLORS.cyan;
+    desactiv = false;
+  }
+
+  return { desactiv, statusClass };
+}
+
 export {
+  ip, port,
   concat, converPercentualFormat,
   convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG, convertSPTime,
-  filtrarGradesPorPrioridade, getResumo, ip, port, sizeOrders
+  filtrarGradesPorPrioridade, getResumo, sizeOrders, analyzerStatus, normalize
 };
