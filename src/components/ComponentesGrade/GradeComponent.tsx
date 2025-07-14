@@ -237,15 +237,20 @@ export default function GradeComponent(props: GradeComponentProps) {
                 </div>
                 {/* Botão que abre o modal */}
                 <div className={`flex items-center justify-center gap-x-3 w-full`}>
-                    {print()}
-                    <button
-                        type="button"
-                        onClick={abrirTela}
-                        className={`flex items-center justify-center mt-3 px-3 py-1 bg-blue-500
+                    <div className={`flex justify-end w-1/2 items-center`}>
+                        {print()}
+                    </div>
+                    <div className={`flex justify-between w-1/2 items-center`}>
+                        <button
+                            type="button"
+                            onClick={abrirTela}
+                            className={`flex items-center justify-center mt-3 px-3 py-1 bg-blue-500
                             ${statusClass} hover:bg-green-500 hover:bg-opacity-10 bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]`}
-                    >
-                        ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
-                    </button>
+                        >
+                            ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+                        </button>
+                        <span className={`flex justify-end items-center w-full text-[16px] mt-3`}>{`VOL: ${props.grade.gradeCaixas.length}`}</span>
+                    </div>
                 </div>
             </div>
 
