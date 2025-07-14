@@ -80,6 +80,8 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     let borderColor = total === totalExpedido ? 'border-emerald-950 bg-emerald-950' : 'border-zinc-800 bg-zinc-800';
 
+    const labelVolum = props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA';
+
     if (props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" && total > totalExpedido) {
         borderColor = 'border-red-900 bg-red-900';
     }
@@ -219,6 +221,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 {props.grade.tipo}
                             </h2>
                         )}
+                        <span className={`text-[14px] font-normal text-white mt-2 -mb-2`}>{`${labelVolum ? 'VOL. CONSOLIDADOS': 'VOL. PARCIAIS'}: ${props.grade.gradeCaixas.length}`}</span>
                         <h2 className="text-[14px] font-normal text-blue-400 mt-2 mb-0">
                             {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
                         </h2>
@@ -237,20 +240,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                 </div>
                 {/* Botão que abre o modal */}
                 <div className={`flex items-center justify-center gap-x-3 w-full`}>
-                    <div className={`flex justify-end w-1/2 items-center`}>
-                        {print()}
-                    </div>
-                    <div className={`flex justify-between w-1/2 items-center`}>
-                        <button
-                            type="button"
-                            onClick={abrirTela}
-                            className={`flex items-center justify-center mt-3 px-3 py-1 bg-blue-500
+                    {print()}
+                    <button
+                        type="button"
+                        onClick={abrirTela}
+                        className={`flex items-center justify-center mt-3 px-3 py-1 bg-blue-500
                             ${statusClass} hover:bg-green-500 hover:bg-opacity-10 bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]`}
-                        >
-                            ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
-                        </button>
-                        <span className={`flex justify-end items-center w-full text-[16px] mt-3`}>{`VOL: ${props.grade.gradeCaixas.length}`}</span>
-                    </div>
+                    >
+                        ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+                    </button>
                 </div>
             </div>
 
