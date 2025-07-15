@@ -229,22 +229,22 @@ export default function ConsultaStatusGrades() {
                       <RomaneiosAll romaneios={dataFiltered} data-tip="Clique aqui para mais informações" />
                     )}
                   </div>
-                  <div title='RELATÓRIO EM EXCEL FALTAS EM TEMPO REAL'>
+                  <div title='RELATÓRIO EM EXCEL FALTAS (ITENS À EXPEDIR)'>
                     {data && (
                       <PageExcelNewfaltas expedicaoDataB={dataFiltered} />
                     )}
                   </div>
-                  <div title='RELATÓRIO EM EXCEL EXPEDIDOS NO DIA'>
+                  <div title='RELATÓRIO EM EXCEL EXPEDIDOS (PARA EMBARQUE)'>
                     {data && (
                       <PageExcelNew expedicaoDataB={dataFiltered} />
                     )}
                   </div>
-                  <div title='RELATÓRIO EM EXCEL POR ENTREGA'>
+                  <div title='RELATÓRIO EM EXCEL POR ENTREGA (POR DATA DE SAÍDA)'>
                     {data && (
                       <PageEntExcel expedicaoDataB={dataFiltered} />
                     )}
                   </div>
-                  <div title='RELATÓRIO EM EXCEL POR GRADE'>
+                  <div title='RELATÓRIO EM EXCEL PEDIDO TOTAL'>
                     {data && (
                       <PageExcelRelatorioPedido expedicaoDataB={dataFiltered} />
                     )}
