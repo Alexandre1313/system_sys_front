@@ -761,15 +761,16 @@ export default function PageExcelRelatorioPedido({ expedicaoDataB }: PageExcelRe
                 { width: 2 }, // Total volumes
             ];
         }
-
-        // Salvando o arquivo Excel
         const data = new Date();
         const dataSp = convertSPTime(String(data));
+
+        const nameV = expedicaoDataRepo[0]?.projectname || expedicaoData[0]?.projectname;
 
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
             new Blob([buffer]),
-            `RELATORIO_PEDIDO_TOTAL_DO_PROJETO_${expedicaoData[0]?.projectname}_${dataSp}.xlsx`
+            expedicaoDataRepo.length === 0 ? `RELATORIO_PEDIDO_GERAL_DO_PROJETO_${nameV}_${dataSp}.xlsx` : expedicaoData.length === 0 ?
+                `RELATORIO_REPOSICOES_GERADAS_NO_PROJETO_${nameV}_${dataSp}.xlsx` : `RELATORIO_EXPEDICAO_REPOSICAO_DO_PROJETO_${nameV}_${dataSp}.xlsx`
         );
     }
 
