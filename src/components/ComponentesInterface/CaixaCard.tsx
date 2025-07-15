@@ -84,7 +84,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
         <table className={`w-full border-collapse border-t ${borderColor} table-fixed text-sm`}>
           <thead>
             <tr className={`${bgAlt} text-[15px]`}>
-              <th className={`px-4 py-2 text-left border-r ${borderColor} w-[60%]`}>Item</th>
+              <th className={`px-4 py-2 text-right border-r ${borderColor} w-[60%]`}>Item</th>
               <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>Tamanho</th>
               <th className={`px-4 py-2 text-right border-r ${borderColor} w-[10%]`}>Quantidade</th>
               <th className={`px-4 py-2 text-left w-[20%]`}>Data da embalagem</th>
