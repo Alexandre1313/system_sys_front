@@ -438,6 +438,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
     cyan: 'text-cyan-500',
     red: 'text-red-500',
     slate: 'text-slate-200',
+    orange: 'text-orange-400',
   };
 
   let desactiv = false;
@@ -457,10 +458,15 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
 
   const umaProntaIniciada = grades.some(g => g.status === STATUS.PRONTA && g.iniciada);
 
-  const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA);
+  const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && !g.iniciada);
+
+  const repoInit = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && g.iniciada);
 
   if (repo) {
     statusClass = COLORS.red;
+  } else if (repoInit) {
+    statusClass = COLORS.orange;
+    desactiv = false;
   } else if (todasDespachadas) {
     statusClass = COLORS.emerald;
     desactiv = false;
