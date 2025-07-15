@@ -249,7 +249,7 @@ export default function ConsultaStatusGrades() {
                       <PageExcelRelatorioPedido expedicaoDataB={dataFiltered} />
                     )}
                   </div>
-                  <button onClick={modalAjustStatus} className="flex ml-3 items-center justify-center text-[14px] px-3 py-1 min-w-[50px] h-[31px] bg-red-700 text-white rounded-md hover:bg-red-600">
+                  <button onClick={modalAjustStatus} title='MUDANÇA DE STATUS (EXPEDIDA PARA DESPACHADA)' className="flex ml-3 items-center justify-center text-[14px] px-3 py-1 min-w-[50px] h-[31px] bg-red-700 text-white rounded-md hover:bg-red-600">
                     ME
                   </button>
                 </div>
