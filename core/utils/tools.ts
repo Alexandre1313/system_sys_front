@@ -345,6 +345,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
     const numeroEscola = padroniza(grade.numeroEscola);
     const update = padroniza(grade.update);
     const itens = grade.tamanhosQuantidades.map(item => padroniza(item.item));
+    const generos = grade.tamanhosQuantidades.map(item => padroniza(item.genero));
 
     if (isMatch(escola)) {
       filtradas.push(grade);
@@ -362,6 +363,11 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
     }
 
     if (itens.some(isMatch)) {
+      filtradas.push(grade);
+      continue;
+    }
+
+    if (generos.some(isMatch)) {
       filtradas.push(grade);
       continue;
     }
@@ -387,6 +393,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
           padroniza(grade.numeroEscola),
           padroniza(grade.update),
           ...grade.tamanhosQuantidades.map(item => padroniza(item.item)),
+          ...grade.tamanhosQuantidades.map(item => padroniza(item.genero)),
         ];
 
         const atende = termosTexto.every((termo) =>
@@ -398,11 +405,14 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
         const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
           const nome = padroniza(item.item);
           const tamanho = padroniza(item.tamanho);
+          const genero = padroniza(item.genero ?? '');
 
           const matchTamanho = termosTamanhos.length === 0 || termosTamanhos.includes(tamanho);
           const matchItem = termosTexto.length === 0 || termosTexto.some(t => nome.includes(t));
+          const matchGenero = termosTexto.length === 0 || termosTexto.some(t => genero.includes(t));
 
-          return matchTamanho && matchItem;
+          // O item deve bater com o tamanho E (item OU gênero)
+          return matchTamanho && (matchItem || matchGenero);
         });
 
         if (itensFiltrados.length === 0) return null;
@@ -493,8 +503,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
  * e constantes de configuração como IP e porta.
  */
 export {
-  ip, port,
-  concat, converPercentualFormat,
+  analyzerStatus, concat, converPercentualFormat,
   convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG, convertSPTime,
-  filtrarGradesPorPrioridade, getResumo, sizeOrders, analyzerStatus, normalize
+  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, sizeOrders
 };

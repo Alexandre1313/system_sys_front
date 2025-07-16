@@ -23,7 +23,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
       highlight: 'bg-cyan-400 bg-opacity-[0.07]',
       textCyan: 'text-black',
       bgColorValueP: 'bg-gradient-to-r from-red-500/20 to-transparent',
-      bgColorValueE: 'bg-gradient-to-r from-emerald-500/20 to-transparent',
+      bgColorValueE: 'bg-gradient-to-l from-emerald-500/20 to-transparent',
       textPurple: 'text-purple-700',
       textGreen: 'text-black',
       textBlue: 'text-blue-700',
@@ -42,7 +42,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
       highlight: 'bg-zinc-400 bg-opacity-[0.07]',
       textCyan: 'text-white',
       bgColorValueP: 'bg-gradient-to-r from-red-500/20 to-transparent',
-      bgColorValueE: 'bg-gradient-to-r from-emerald-500/20 to-transparent',
+      bgColorValueE: 'bg-gradient-to-l from-emerald-500/20 to-transparent',
       textPurple: 'text-purple-400',
       textGreen: 'text-white',
       textBlue: 'text-blue-400',
@@ -130,21 +130,21 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
             <table className={`w-full table-fixed border-collapse text-sm`}>
               <thead className={`${theme.header} text-[15px]`}>
                 <tr>
-                  {['Item', 'Gênero', 'Tam', 'À Expedir', 'Previsto', 'Expedido', 'Peso Unitário', 'Peso Total'].map((title, index) => {
+                  {['Item', 'Gênero', 'Tam', 'Previsto', 'Expedido', 'À Expedir', 'Peso Unitário', 'Peso Total'].map((title, index) => {
                     const widthClasses = [
-                      'w-[24%]', // Item
-                      'w-[12%]', // Gênero
-                      'w-[6%]', // Tamanho
-                      'w-[12%]', // À Expedir
-                      'w-[9%]', // Previsto
-                      'w-[9%]', // Expedido
-                      'w-[14%]', // Peso Unitário
-                      'w-[14%]', // Peso Total
+                      'w-[24%] text-left', // Item
+                      'w-[12%] text-left', // Gênero
+                      'w-[6%] text-left', // Tamanho                    
+                      'w-[9%] text-left', // Previsto
+                      'w-[9%] text-right', // Expedido
+                      'w-[12%] text-left', // À Expedir
+                      'w-[14%] text-left', // Peso Unitário
+                      'w-[14%] text-left', // Peso Total
                     ];
                     return (
                       <th
                         key={title}
-                        className={`py-2 px-4 text-left border ${theme.border} ${widthClasses[index]}`}
+                        className={`py-2 px-4 border ${theme.border} ${widthClasses[index]}`}
                       >
                         {title}
                       </th>
@@ -161,18 +161,18 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                     <tr key={index} className={`${theme.border} border ${zebra} ${highlight}`}>
                       <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.item}</td>
                       <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.genero}</td>
-                      <td className={`py-2 px-4 uppercase border ${theme.border} ${theme.header}`}>{item.tamanho}</td>
-                      <td className={`py-2 px-4 border  ${theme.textCyan} ${theme.border} ${(item.previsto - item.quantidade > 0) ? theme.bgColorValueP : ''}`}>
-                        <span className={`${(item.previsto - item.quantidade > 0) ? 'text-red-500' : ''}`}>
-                          {convertMilharFormat(item.previsto - item.quantidade)}
-                        </span>
-                      </td>
+                      <td className={`py-2 px-4 uppercase border ${theme.border} ${theme.header}`}>{item.tamanho}</td>                     
                       <td className={`py-2 px-4 border ${theme.textPurple} ${theme.border}`}>
                         {convertMilharFormat(item.previsto)}
                       </td>
-                      <td className={`py-2 px-4 border ${theme.textGreen} ${theme.border} ${(item.previsto === item.quantidade) ? theme.bgColorValueE : ''}`}>
+                      <td className={`py-2 px-4 border text-right ${theme.textGreen} ${theme.border} ${(item.previsto === item.quantidade) ? theme.bgColorValueE : ''}`}>
                         <span className={`${(item.previsto === item.quantidade) ? 'text-emerald-500' : ''}`}>
                           {convertMilharFormat(item.quantidade)}
+                        </span>
+                      </td>
+                       <td className={`py-2 px-4 border  ${theme.textCyan} ${theme.border} ${(item.previsto - item.quantidade > 0) ? theme.bgColorValueP : ''}`}>
+                        <span className={`${(item.previsto - item.quantidade > 0) ? 'text-red-500' : ''}`}>
+                          {convertMilharFormat(item.previsto - item.quantidade)}
                         </span>
                       </td>
                       <td className={`py-2 px-4 border ${theme.textBlue} ${theme.border}`}>
@@ -188,10 +188,10 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                 <tr className={`font-bold ${theme.header}`}>
                   <td className={`py-2 px-4 border ${theme.border}`}></td>
                   <td className={`py-2 px-4 border ${theme.border}`}>TOTAIS</td>
-                  <td className={`py-2 px-4 border ${theme.border}`} colSpan={1}>{`==>`}</td>
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(faltaExpedir)}</td>
+                  <td className={`py-2 px-4 border ${theme.border}`} colSpan={1}>{`==>`}</td>                 
                   <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(totalPrevisto)}</td>
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(totalQuantidade)}</td>
+                  <td className={`py-2 px-4 border text-right ${theme.border} ${colorValue}`}>{convertMilharFormat(totalQuantidade)}</td>
+                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(faltaExpedir)}</td>
                   <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}></td>
                   <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormatKG(totalPesoAfer ?? 0)}</td>
                 </tr>
