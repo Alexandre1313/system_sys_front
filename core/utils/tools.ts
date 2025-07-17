@@ -331,98 +331,80 @@ const sizeOrders = (tamanhos: string[]): string[] => {
  * @example
  * filtrarGradesPorPrioridade(grades, 'escola 01');
  */
-function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string) {
+function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): GradesRomaneio[] {
   const termoBusca = busca.trim().toLowerCase();
+  if (!termoBusca) return [];
 
-  const padroniza = (texto: string | number) => texto.toString().toLowerCase();
-  const isMatch = (campo: string) => campo.includes(termoBusca);
+  const padroniza = (valor: string | number | undefined | null): string =>
+    (valor ?? '').toString().toLowerCase();
 
-  let filtradas: GradesRomaneio[] = [];
+  const tamanhosPadrao = new Set([
+    "00", "01", "02", "04", "06", "08", "10", "12", "14", "16",
+    "6m", "pp 18-21", "p 22-25", "m 26-29", "g 30-33", "gg 34-37",
+    "xgg 38-41", "adulto 42-44", "pp", "p", "m", "g", "gg", "xg",
+    "xgg", "eg", "egg", "eg/lg", "exg", "g1", "g2", "g3"
+  ]);
 
-  // Pré-processa campos e busca no mesmo laço
-  for (const grade of grades) {
-    const escola = padroniza(grade.escola);
-    const numeroEscola = padroniza(grade.numeroEscola);
-    const update = padroniza(grade.update);
-    const itens = grade.tamanhosQuantidades.map(item => padroniza(item.item));
-    const generos = grade.tamanhosQuantidades.map(item => padroniza(item.genero));
+  const matchCampo = (valor: string) => valor.includes(termoBusca);
 
-    if (isMatch(escola)) {
-      filtradas.push(grade);
-      continue;
-    }
+  // Pré-filtro direto: busca simples
+  let filtradas = grades.filter((grade) => {
+    const campos = [
+      padroniza(grade.escola),
+      padroniza(grade.numeroEscola),
+      padroniza(grade.update),
+      ...grade.tamanhosQuantidades.flatMap(item => [
+        padroniza(item.item),
+        padroniza(item.genero)
+      ])
+    ];
 
-    if (isMatch(numeroEscola)) {
-      filtradas.push(grade);
-      continue;
-    }
+    return campos.some(matchCampo);
+  });
 
-    if (isMatch(update)) {
-      filtradas.push(grade);
-      continue;
-    }
+  // Se encontrou no pré-filtro, retorna direto
+  if (filtradas.length > 0 || !termoBusca.includes(' ')) return filtradas;
 
-    if (itens.some(isMatch)) {
-      filtradas.push(grade);
-      continue;
-    }
+  // Filtro mais elaborado (busca composta)
+  const termos = termoBusca.split(/\s+/);
+  const termosTamanhos = termos.filter(t => tamanhosPadrao.has(t));
+  const termosTexto = termos.filter(t => !tamanhosPadrao.has(t));
 
-    if (generos.some(isMatch)) {
-      filtradas.push(grade);
-      continue;
-    }
-  }
+  return grades
+    .map((grade) => {
+      const camposGerais = [
+        padroniza(grade.escola),
+        padroniza(grade.numeroEscola),
+        padroniza(grade.update),
+        ...grade.tamanhosQuantidades.flatMap(item => [
+          padroniza(item.item),
+          padroniza(item.genero)
+        ])
+      ];
 
-  // Busca combinada com termos separados e tamanhos padrão
-  if (filtradas.length === 0 && termoBusca.includes(' ')) {
-    const termos = termoBusca.split(/\s+/);
-    const tamanhosPadrao = new Set([
-      "00", "01", "02", "04", "06", "08", "10", "12", "14", "16",
-      "6m", "pp 18-21", "p 22-25", "m 26-29", "g 30-33", "gg 34-37",
-      "xgg 38-41", "adulto 42-44", "pp", "p", "m", "g", "gg", "xg",
-      "xgg", "eg", "egg", "eg/lg", "exg", "g1", "g2", "g3"
-    ]);
+      const contemTodosTextos = termosTexto.every(termo =>
+        camposGerais.some(campo => campo.includes(termo))
+      );
 
-    const termosTamanhos = termos.filter(t => tamanhosPadrao.has(t));
-    const termosTexto = termos.filter(t => !tamanhosPadrao.has(t));
+      if (!contemTodosTextos) return null;
 
-    filtradas = grades
-      .map((grade) => {
-        const campos = [
-          padroniza(grade.escola),
-          padroniza(grade.numeroEscola),
-          padroniza(grade.update),
-          ...grade.tamanhosQuantidades.map(item => padroniza(item.item)),
-          ...grade.tamanhosQuantidades.map(item => padroniza(item.genero)),
-        ];
+      const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
+        const nome = padroniza(item.item);
+        const tamanho = padroniza(item.tamanho);
+        const genero = padroniza(item.genero);
 
-        const atende = termosTexto.every((termo) =>
-          campos.some((campo) => campo.includes(termo))
-        );
+        const matchTamanho = termosTamanhos.length === 0 || termosTamanhos.includes(tamanho);
+        const matchItemGenero = termosTexto.length === 0 ||
+          termosTexto.some(t => nome.includes(t) || genero.includes(t));
 
-        if (!atende) return null;
+        return matchTamanho && matchItemGenero;
+      });
 
-        const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
-          const nome = padroniza(item.item);
-          const tamanho = padroniza(item.tamanho);
-          const genero = padroniza(item.genero ?? '');
+      if (itensFiltrados.length === 0) return null;
 
-          const matchTamanho = termosTamanhos.length === 0 || termosTamanhos.includes(tamanho);
-          const matchItem = termosTexto.length === 0 || termosTexto.some(t => nome.includes(t));
-          const matchGenero = termosTexto.length === 0 || termosTexto.some(t => genero.includes(t));
-
-          // O item deve bater com o tamanho E (item OU gênero)
-          return matchTamanho && (matchItem || matchGenero);
-        });
-
-        if (itensFiltrados.length === 0) return null;
-
-        return { ...grade, tamanhosQuantidades: itensFiltrados };
-      })
-      .filter((grade): grade is GradesRomaneio => grade !== null);
-  }
-
-  return filtradas;
+      return { ...grade, tamanhosQuantidades: itensFiltrados };
+    })
+    .filter((grade): grade is GradesRomaneio => grade !== null);
 }
 
 /**
