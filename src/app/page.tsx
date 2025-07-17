@@ -5,7 +5,7 @@ export default function Home() {
     <div
       className="min-h-screen"
       style={{
-        backgroundImage: "linear-gradient(180deg, rgba(24, 24, 24, 0.97) 59%, rgba(52, 102, 75, 0.97) 100%), url('/IMG_RN1.png')",
+        backgroundImage: "url('/background.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
