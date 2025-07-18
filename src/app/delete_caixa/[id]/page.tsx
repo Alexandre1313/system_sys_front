@@ -282,7 +282,7 @@ export default function DeleteCaixa() {
               <AlertTriangle size={65} color={`rgba(255, 0, 0, 1)`} />
             </div>
             <div className={`flex flex-col text-black w-full items-center justify-center pt-6`}>
-              <h2 className={`text-[35px] font-bold`}>{`ALTERAÇÃO DE CAIXA`}</h2>
+              <h2 className={`text-[35px] font-bold`}>{`ALTERAÇÃO / EXCLUSÃO DE CAIXA`}</h2>
               <span className={`text-[17px] font-bold`}>{msg}</span>
               <span className={`text-[17px] font-bold`}>{msg1}</span>
               <div className={`flex flex-row pt-8 gap-x-6`}>

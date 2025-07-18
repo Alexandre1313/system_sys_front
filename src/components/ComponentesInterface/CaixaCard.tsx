@@ -111,7 +111,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
                   target="_EXCLUSAO_AJUSTE"
                   className="bg-orange-900 hover:bg-orange-600 text-white inline-block px-4 py-2 w-full"
                 >
-                  E/ A CAIXA
+                  E / A CAIXA
                 </Link>
               </td>
               <td className={`border-t text-center ${borderColor}`}>
