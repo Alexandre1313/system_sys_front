@@ -109,7 +109,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
                 <Link
                   href={`/delete_caixa/${caixa.id}`}
                   target="_EXCLUSAO_AJUSTE"
-                  className="bg-orange-900 hover:bg-orange-600 text-white inline-block px-4 py-2 w-full"
+                  className="bg-orange-900 hover:bg-orange-600 text-white inline-block px-4 py-2 w-full pointer-events-none"
                 >
                   E / A CAIXA
                 </Link>
