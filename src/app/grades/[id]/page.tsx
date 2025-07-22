@@ -15,6 +15,7 @@ import useSWR from 'swr';
 import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
 import Caixa from '../../../../core/interfaces/Caixa';
 import { criarCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert } from '../../../../core/utils/regraas_de_negocio';
+import { useRouter } from 'next/navigation';
 
 const fetcher = async (id: number) => {
   console.log('Fetching data for id:', id);
@@ -24,6 +25,8 @@ const fetcher = async (id: number) => {
 
 export default function Grades() {
   const { id } = useParams();
+
+  const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -35,6 +38,29 @@ export default function Grades() {
   const [modalGerarCaixaOpen, setModalGerarCaixaOpen] = useState<boolean>(false);
   const [isPend, setIsPend] = useState<boolean | null>(null);
   const [caixa, setCaixa] = useState<Caixa | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const channel = new BroadcastChannel("grades-tabs");
+
+    // Avisar outras abas que esta URL está sendo aberta
+    channel.postMessage({ type: "open", id });
+
+    // Ouvir mensagens de outras abas
+    channel.onmessage = (event) => {
+      const { type, id: incomingId } = event.data;
+
+      // Se outra aba tentar abrir a mesma grade, esta aba fecha
+      if (type === "open" && incomingId === id) {
+        // window.close() só funciona se for aberto por window.open
+        // então redirecionamos para uma tela neutra
+        router.push("/"); // ou para outra página segura, como dashboard
+      }
+    };
+
+    return () => channel.close();
+  }, [id, router]);
 
   useEffect(() => {
     try {
@@ -266,7 +292,7 @@ export default function Grades() {
   return (
     <div className="flex flex-col p-2 lg:p-1">
       <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-1 rounded-md">
-        <TitleComponentFixed stringOne={`${escola?.nome} - `} twoPoints={`${escola?.numeroEscola} - `} stringTwo={escola?.projeto?.nome}/>
+        <TitleComponentFixed stringOne={`${escola?.nome} - `} twoPoints={`${escola?.numeroEscola} - `} stringTwo={escola?.projeto?.nome} />
         <div className="flex flex-col lg:flex-row justify-between lg:min-h-[95vh] p-2 lg:p-7 rounded-md lg:pt-12 w-full pt-7">
           <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
             {primeiraParte.map((grade) => (
