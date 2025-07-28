@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
+import Image from 'next/image';
 
 interface ModalGerarCaixaProps {
   box: Caixa | null;
@@ -102,17 +103,18 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="bg-[#f7f7f7] p-8 rounded-md shadow-md min-w-[40%] min-h-[380px] gap-y-4 
+        className="bg-[#f7f7f7] p-4 rounded-md shadow-md min-w-[40%] min-h-[380px] gap-y-4 
       flex flex-col items-center justify-between"
       >
         <h2 className="text-3xl text-black font-semibold">
           <Loader
             className={isLoading ? 'animate-rotate' : ''}
-            size={60}
+            size={40}
             color={`rgba(234, 170, 0, 0.7)`}
           />
         </h2>
-        <p className="text-red-500 flex text-[20px] uppercase font-bold text-center">{msg}</p>
+        <Image src={`/fiveicon72x72BoxOne.png`} alt={`caixa imagem`} height={70} width={70} loading="eager"/>
+        <p className="text-red-500 flex text-[17px] uppercase font-bold text-center">{msg}</p>
         <div className={`flex justify-center items-center w-full`}>
           <CaixaResume caixa={box} />
         </div>
