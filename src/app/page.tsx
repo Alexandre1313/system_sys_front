@@ -6,7 +6,7 @@ export default function Home() {
     <div
       className="min-h-screen"
       style={{
-        backgroundImage: "url('/background.png')",
+        //backgroundImage: "url('/bg3.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
