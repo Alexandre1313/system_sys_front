@@ -23,7 +23,7 @@ export default function Home() {
             </strong>
             XPED
             <strong className={`text-orange-600 flex lg:-mt-32 -mt-16 lg:text-[120px] text-[60px] animate-jump`}>
-              <Image src={`/iconBoxTwo4.png`} height={100} width={180} alt={`image box`} loading="eager"/>
+              <Image src={`/box2lines.png`} height={100} width={180} alt={`image box`} loading="eager"/>
             </strong>
           </h1>
           <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
