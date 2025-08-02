@@ -45,9 +45,9 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
       <table className={`w-full border-collapse border ${borderColor} table-fixed text-md`}>
         <thead>
           <tr className={`${bgHeader} text-[16px]`}>
-            <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>CAIXA Nº</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[20%]`}>PROJETO / GRADE ID</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[35%]`}>UNIDADE ESCOLAR</th>
+            <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>CAIXA Nº</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[20%]`}>EXPEDIDOR</th>
             <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>TOTAL ITENS</th>
             <th className={`px-0 py-0 text-center w-[5%] min-h-full`}> {printEti([caixa], buttonClass)}</th>
@@ -58,11 +58,11 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
             className={`${bgBody} cursor-pointer hover:bg-opacity-30 hover:bg-gray-500`}
             onClick={toggleOpen}
           >
+            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.projeto} - GRADE ID ${caixa.gradeId}`}</td>
+            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.escolaCaixa} (${caixa.escolaNumber})`}</td>
             <td className={`px-4 py-2 border-t border-r ${borderColor} text-2xl text-cyan-700 font-semibold`}>
               {caixa.caixaNumber}
             </td>
-            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.projeto} - GRADE ID ${caixa.gradeId}`}</td>
-            <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{`${caixa.escolaCaixa} (${caixa.escolaNumber})`}</td>
             <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{caixa.usuario}</td>
             <td className={`text-yellow-500 px-4 py-2 border-t border-r ${borderColor}`}>{caixa.qtyCaixa}</td>
             <td className={`px-4 py-2 border-t text-center`}>
@@ -74,7 +74,6 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
           </tr>
         </tbody>
       </table>
-
       {/* Conteúdo com animação de expansão */}
       <div
         ref={contentRef}
