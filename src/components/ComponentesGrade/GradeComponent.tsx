@@ -358,9 +358,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`} />
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
-                                    labelName={`ESCOLA Nº :`} />
+                                    labelName={`ESCOLA Nº :`} color={`text-zinc-400`}/>
                                 <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
-                                    labelName={`VOLUMES :`} />
+                                    labelName={`VOLUMES :`} color={`text-red-600`}/>
                             </div>
                             <div className="lg:flex lg:gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
@@ -389,25 +389,26 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
                                         formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true} bgBackGround={`bg-black`}
+                                        isReadOnly={true} bgBackGround={``}
                                         valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
                                         height={`h-[80px]`} txtSize={`text-[56px]`} maxWhidth={`max-w-[300px]`}
-                                        colorBorder={`border-yellow-500`} />
+                                        colorBorder={``} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         isReadOnly={true}
-                                        valueColor={`text-white`} labelColor={`text-whitw`}
-                                        bgBackGround={`bg-black`} txtSize={`text-[56px]`}
+                                        valueColor={`text-white`} labelColor={`text-white`}
+                                        bgBackGround={``} txtSize={`text-[56px]`}
                                         maxWhidth={`max-w-[300px]`}
                                         height={`h-[80px]`}
-                                        colorBorder={`border-white`} />
+                                        colorBorder={``} />
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
                                         formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true} />
+                                        isReadOnly={true} 
+                                        valueColor={`text-zinc-400`}/>
                                     <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         txtSize={`text-[23px]`}
