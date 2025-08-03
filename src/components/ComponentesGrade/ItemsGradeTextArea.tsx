@@ -11,7 +11,7 @@ export interface ItemsGradeInputTextProps {
 export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {    
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
-            <label htmlFor={`${concat(props.labelName)}-input`} className="text-left text-[15px] text-zinc-400 tracking-[2px]">
+            <label htmlFor={`${concat(props.labelName)}-input`} className="text-left text-[15px] text-zinc-500 tracking-[2px]">
                 {props.labelName}
             </label>
             <textarea 

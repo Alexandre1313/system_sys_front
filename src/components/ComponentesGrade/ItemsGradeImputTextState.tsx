@@ -33,7 +33,7 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
             <label
                 htmlFor={`${labelName}-input`}
                 className={`flex ${props.labelposition ? props.labelposition: 'justify-end'} w-full text-[15px]
-                ${props.labelColor ? props.labelColor: 'text-zinc-400'} tracking-[2px]`}
+                ${props.labelColor ? props.labelColor: 'text-zinc-500'} tracking-[2px]`}
             >
                 {props.labelName}
             </label>
