@@ -344,7 +344,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <TitleComponentFixed stringOne={`EXPEDINDO ITEM`} twoPoints={`:`}
                         stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
                     {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
-                    <div className="p-24 pt-5 rounded-md flex flex-col justify-start w-full border border-transparent min-h-full">
+                    <div className="p-24 pt-5 rounded-md flex flex-col items-center justify-start w-full border border-transparent min-h-full gap-y-6">
                         <div className="flex lg:flex-row flex-col justify-between w-full bg-[#252525] p-4 pb-6 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
                             <div className="flex gap-x-9">
                                 <BotaoArrowLeftSmall stringButtton={""} bgColor={"bg-red-700"}
@@ -368,8 +368,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                             </div>
                         </div>
-                        <div className={"flex flex-row justify-center items-stretch px-4"}>
-                            <div className={"pt-16 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
+                        <div className={"flex bg-[#252525] flex-row justify-center items-stretch max-w-[1600px] rounded-lg p-8 mt-8 shadow-[0px_20px_40px_rgba(0,0,0,0.3)]"}>
+                            <div className={"pt-0 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
                                 <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
                                     labelName={`ITEM`} />
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
@@ -379,7 +379,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                     labelName={`CÓDIGO DE BARRAS`} />
                             </div>
-                            <div className={"pt-16 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
+                            <div className={"pt-0 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                         labelName={`TOTAL DO ITEM À EXPEDIR`} />

@@ -5,7 +5,11 @@ import "./globals.css";
 
 const font = Poppins({
   subsets: ["latin"],
-  weight: ["400", "700"] 
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+  preload: true,
+  fallback: ["sans-serif"],
 });
 
 // Arquivo de layout ou página
