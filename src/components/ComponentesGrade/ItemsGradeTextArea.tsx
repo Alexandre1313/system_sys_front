@@ -5,6 +5,7 @@ export interface ItemsGradeInputTextProps {
     itemSelecionado?: GradeItem
     labelName: string
     value: string | undefined
+    color?: string
 }
 
 export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {    
@@ -14,7 +15,8 @@ export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {
                 {props.labelName}
             </label>
             <textarea 
-                className="p-2 w-full text-left text-[27px] bg-transparent rounded-md outline-none border border-gray-700 text-cyan-500 resize-none min-w-[374px] overflow-hidden"
+                className={`p-2 w-full text-left text-[27px] bg-transparent rounded-md outline-none pointer-events-none
+                            border border-gray-700 ${props.color ? props.color: 'text-cyan-500'} resize-none min-w-[374px] overflow-hidden`}
                 name={`${concat(props.labelName)}`}
                 id={`${concat(props.labelName)}-input`}
                 value={props.value}

@@ -6,6 +6,7 @@ export interface ItemsGradeLinkTextHorProps {
     labelName: string;
     value: string;
     baseUrl: string;
+    color?: string
 }
 
 export default function ItemsGradeLinkTextHor(props: ItemsGradeLinkTextHorProps) {
@@ -25,9 +26,9 @@ export default function ItemsGradeLinkTextHor(props: ItemsGradeLinkTextHorProps)
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center p-1 text-left text-[26px] 
-          text-indigo-500 bg-transparent rounded-md h-auto min-w-[150px] 
-          hover:underline focus:outline-none"
+                className={`flex items-center p-1 text-left text-[26px] 
+                            ${props.color ? props.color: 'text-indigo-500'} bg-transparent rounded-md h-auto min-w-[150px] 
+                            hover:underline focus:outline-none cursor-pointer`}
                 style={{ fontFamily: 'inherit', textDecoration: 'none' }}
             >
                 {props.value}

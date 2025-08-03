@@ -371,18 +371,18 @@ export default function GradeComponent(props: GradeComponentProps) {
                         <div className={"flex bg-[#252525] flex-row justify-center items-stretch max-w-[1600px] rounded-lg p-8 mt-8 shadow-[0px_20px_40px_rgba(0,0,0,0.3)]"}>
                             <div className={"pt-0 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
                                 <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
-                                    labelName={`ITEM`} />
+                                    labelName={`ITEM`} color={`text-zinc-400`}/>
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                    labelName={`GÊNERO`} />
+                                    labelName={`GÊNERO`} color={`text-zinc-400`}/>
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                    labelName={`TAMANHO`} />
+                                    labelName={`TAMANHO`} color={`text-zinc-400`}/>
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                    labelName={`CÓDIGO DE BARRAS`} />
+                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`}/>
                             </div>
                             <div className={"pt-0 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                        labelName={`TOTAL DO ITEM À EXPEDIR`} />
+                                        labelName={`TOTAL DO ITEM À EXPEDIR`} color={`text-zinc-400`}/>
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                         labelName={`TOTAL DO ITEM JÁ EXPEDIDO`} />
                                 </div>

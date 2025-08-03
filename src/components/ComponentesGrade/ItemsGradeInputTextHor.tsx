@@ -5,6 +5,7 @@ export interface ItemsGradeInputTextHorProps {
     itemSelecionado?: GradeItem
     labelName: string
     value: string | undefined
+    color?: string
 }
 
 export default function ItemsGradeInputTextHor(props: ItemsGradeInputTextHorProps) {
@@ -15,8 +16,8 @@ export default function ItemsGradeInputTextHor(props: ItemsGradeInputTextHorProp
             text-zinc-500 tracking-[2px]">
                 {props.labelName}
             </label>
-            <input className="flex p-1 text-left text-[26px] bg-trans rounded-md  
-            outline-none text-indigo-500 h-auto max-w-[150px]"
+            <input className={`flex p-1 text-left text-[26px] bg-trans rounded-md ${props.color ? props.color: 'text-indigo-500'} 
+                               outline-none h-auto max-w-[150px] pointer-events-none`}
                 type="text"
                 name={`${concat(props.labelName)}`}
                 id={`${concat(props.labelName)}-input`}
