@@ -221,7 +221,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 {props.grade.tipo}
                             </h2>
                         )}
-                        <span className={`text-[14px] font-normal text-white mt-2 -mb-2`}>{`${labelVolum ? 'VOL. CONSOLIDADOS': 'VOL. PARCIAIS'}: ${props.grade.gradeCaixas.length}`}</span>
+                        <span className={`text-[14px] font-normal text-white mt-2 -mb-2`}>{`${labelVolum ? 'VOL. CONSOLIDADOS' : 'VOL. PARCIAIS'}: ${props.grade.gradeCaixas.length}`}</span>
                         <h2 className="text-[14px] font-normal text-blue-400 mt-2 mb-0">
                             {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
                         </h2>
@@ -276,7 +276,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-wrap justify-center w-full max-w-[1400px] p-8 mt-16">
+                    <div className="flex flex-wrap justify-center w-full max-w-[1600px] p-8 mt-16">
                         {itensFiltrados.map((itemGrade, index) => {
                             const item = itemGrade?.itemTamanho?.item;
                             const genero = item?.genero;
@@ -288,42 +288,67 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-800' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-800';
                             const classBgCard = quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
                                 quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
-
+                            const classBgCardBarc = 'bg-gradient-to-r from-[#252525] to-transparent';
                             const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
                                 <div
                                     onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)} // Passa o item ao clicar
                                     key={index}
                                     className={`bg-zinc-950 bg-opacity-15 p-3 m-4 rounded-md gap-y-2 shadow-lg flex-1 
-                                      min-w-[300px] flex flex-col items-start justify-start hover:shadow-green transition duration-200 
+                                      min-w-[330px] max-w-[330px] flex flex-col items-start justify-start hover:shadow-green transition duration-200 
                                       ease-in-out cursor-pointer min-h-[200px] border ${classBorderCard}`}
                                 >
                                     <div className={`flex flex-col ${classBgCard} gap-y-2`}>
                                         <p className={`text-[13px] px-3 pt-2 font-semibold text-slate-500 tracking-[1px] w-full`}>
-                                            <strong className="text-slate-400 text-[19px] font-normal"> {item?.nome}</strong>
+                                            <strong className="text-slate-400 text-[19px] font-normal">{item?.nome}</strong>
                                         </p>
                                         <p className={`text-[13px] px-3 -mt-[7px] font-semibold text-slate-500 tracking-[1px] w-full`}>
-                                            <strong className="text-slate-400 text-[19px] font-normal"> {genero}</strong>
+                                            <strong className="text-slate-400 text-[19px] font-normal">{genero}</strong>
                                         </p>
                                         <p className={`text-[13px] px-3 pb-2 -mt-[7px] font-semibold text-slate-500 tracking-[1px] w-full`}>
                                             TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
                                         </p>
                                     </div>
-                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE PREVISTA:  <strong className="text-yellow-400 text-[20px] font-normal"> {quantidade}</strong>
-                                    </p>
-                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE EXPEDIDA:  <strong className="text-green-400 text-[20px] font-normal"> {quantidadeExpedida}</strong>
-                                    </p>
-                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
-                                        QUANTIDADE Á EXPEDIR:  <strong className="text-blue-400 text-[20px] font-normal"> {quantidade - quantidadeExpedida}</strong>
-                                    </p>
-                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
-                                        ESTOQUE:  <strong className={`${colorEstoque} text-[20px] font-normal`}> {estoque}</strong>
-                                    </p>
-                                    <p className="text-[13px] px-3 font-semibold text-slate-500 tracking-[1px]">
-                                        BARCODE:  <strong className="text-slate-400 text-[20px] font-normal"> {barcode}</strong>
-                                    </p>
+                                    <table className="w-full table-fixed border-collapse">
+                                        <thead>
+                                            <tr className="text-slate-500 font-extralight tracking-[1px]">
+                                                <th className="w-1/2 px-4 py-2 text-center align-middle border-zinc-700 text-sm">PREVISTO</th>
+                                                <th className="w-1/2 px-4 py-2 text-center align-middle border-zinc-700 text-sm">EXPEDIDO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className="px-4 py-2 text-center align-middle border border-zinc-800 text-xl text-yellow-400 font-extralight tracking-[1px]">
+                                                    {convertMilharFormat(quantidade)}
+                                                </td>
+                                                <td className={`px-4 py-2 text-center align-middle border border-zinc-800
+                                                     text-xl text-green-400 font-extralight tracking-[1px] ${classBgCardBarc}`}>
+                                                    {convertMilharFormat(quantidadeExpedida)}
+                                                </td>
+                                            </tr>
+
+                                            <tr className="text-slate-500 font-extralight tracking-[1px]">
+                                                <th className="px-4 py-2 text-center align-middle border-zinc-700 text-sm">ESTOQUE</th>
+                                                <th className="px-4 py-2 text-center align-middle border-zinc-700 text-sm">À EXPEDIR</th>
+                                            </tr>
+                                            <tr>
+                                                <td className={`p4 py-2 text-center align-middle border border-zinc-800 text-xl font-extralight tracking-[1px] 
+                                                     ${colorEstoque}`}>
+                                                    {convertMilharFormat(estoque!)}
+                                                </td>
+                                                <td className={`px-4 py-2 text-center align-middle border border-zinc-800 text-xl
+                                                     text-blue-400 font-extralight tracking-[1px] ${classBgCardBarc}`}>
+                                                    {convertMilharFormat(quantidade - quantidadeExpedida)}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colSpan={2} className={`px-4 py-2 text-center align-middle border border-zinc-800
+                                                    text-xl text-slate-500 font-extralight tracking-[1px] ${classBgCardBarc}`}>
+                                                    BARCODE: {barcode}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             );
                         })}
@@ -358,9 +383,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
                                 <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`} />
                                 <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
-                                    labelName={`ESCOLA Nº :`} color={`text-zinc-400`}/>
+                                    labelName={`ESCOLA Nº :`} color={`text-zinc-400`} />
                                 <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
-                                    labelName={`VOLUMES :`} color={`text-red-600`}/>
+                                    labelName={`VOLUMES :`} color={`text-red-600`} />
                             </div>
                             <div className="lg:flex lg:gap-x-9">
                                 <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
@@ -371,18 +396,18 @@ export default function GradeComponent(props: GradeComponentProps) {
                         <div className={"flex bg-[#252525] flex-row justify-center items-stretch max-w-[1600px] rounded-lg p-8 mt-8 shadow-[0px_20px_40px_rgba(0,0,0,0.3)]"}>
                             <div className={"pt-0 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
                                 <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
-                                    labelName={`ITEM`} color={`text-zinc-400`}/>
+                                    labelName={`ITEM`} color={`text-zinc-400`} />
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                    labelName={`GÊNERO`} color={`text-zinc-400`}/>
+                                    labelName={`GÊNERO`} color={`text-zinc-400`} />
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                    labelName={`TAMANHO`} color={`text-zinc-400`}/>
+                                    labelName={`TAMANHO`} color={`text-zinc-400`} />
                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`}/>
+                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
                             </div>
                             <div className={"pt-0 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                        labelName={`TOTAL DO ITEM À EXPEDIR`} color={`text-zinc-400`}/>
+                                        labelName={`TOTAL DO ITEM À EXPEDIR`} color={`text-zinc-400`} />
                                     <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                         labelName={`TOTAL DO ITEM JÁ EXPEDIDO`} />
                                 </div>
@@ -407,8 +432,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <div className="flex flex-row justify-start items-center gap-x-5">
                                     <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
                                         formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true} 
-                                        valueColor={`text-zinc-400`}/>
+                                        isReadOnly={true}
+                                        valueColor={`text-zinc-400`} />
                                     <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                         formData={props.formData} setFormData={props.setFormData}
                                         txtSize={`text-[23px]`}

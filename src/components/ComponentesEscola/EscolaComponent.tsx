@@ -11,7 +11,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
 
     return (
         <Link
-            className={`flex w-auto h-auto hover:underline hover:bg-opacity-20 p-1 rounded transition duration-300 ${objectStatus.statusClass} ${objectStatus.desactiv ? "pointer-events-none opacity-40 cursor-not-allowed" : ""}`}
+            className={`flex w-auto h-auto hover:bg-opacity-20 p-1 rounded transition duration-300 ${objectStatus.statusClass} ${objectStatus.desactiv ? "pointer-events-none opacity-40 cursor-not-allowed" : ""}`}
             href={objectStatus.desactiv ? "#" : `/grades/${escola.id}`}
             target={'_GRADES'}
         >
@@ -22,7 +22,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                     </span>
                 </div>
                 <div className="flex items-center justify-start">
-                    <span className={`text-[14px] font-light lg:text-[14px] ${objectStatus.statusClass}`}>
+                    <span className={`text-[14px] font-light lg:text-[14px] ${objectStatus.statusClass} hover:underline`}>
                         {escola.nome}
                     </span>
                 </div>
