@@ -300,7 +300,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                       min-w-[330px] max-w-[330px] flex flex-col items-start justify-start hover:shadow-green transition duration-200 
                                       ease-in-out cursor-pointer min-h-[200px] border ${classBorderCard}`}
                                 >
-                                    <div className={`flex flex-col ${classBgCard} gap-y-2`}>
+                                    <div className={`flex flex-col ${classBgCard} gap-y-2 w-full`}>
                                         <p className={`text-[13px] px-3 pt-2 font-semibold text-slate-500 tracking-[1px] w-full`}>
                                             <strong className="text-slate-400 text-[19px] font-normal">{item?.nome}</strong>
                                         </p>
