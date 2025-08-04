@@ -287,8 +287,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                             const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
                             const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-800' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-800';
                             const classBgCard = quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
-                                quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
+                                  quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
                             const classBgCardBarc = 'bg-gradient-to-r from-[#252525] to-transparent';
+                            const classBgCardAExpd = `${quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#252525] to-transparent text-zinc-400': 'bg-gradient-to-r from-blue-400/20 to-transparent text-blue-400'}`;
+                            const classBgCardExped = `${quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent text-green-400 ': 'bg-gradient-to-r from-[#252525] to-transparent text-slate-400'}`;
                             const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                             return (
                                 <div
@@ -322,7 +324,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     {convertMilharFormat(quantidade)}
                                                 </td>
                                                 <td className={`px-4 py-2 text-center align-middle border border-zinc-800
-                                                     text-xl text-green-400 font-extralight tracking-[1px] ${classBgCardBarc}`}>
+                                                     text-xl font-extralight tracking-[1px] ${classBgCardExped}`}>
                                                     {convertMilharFormat(quantidadeExpedida)}
                                                 </td>
                                             </tr>
@@ -337,7 +339,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     {convertMilharFormat(estoque!)}
                                                 </td>
                                                 <td className={`px-4 py-2 text-center align-middle border border-zinc-800 text-xl
-                                                     text-blue-400 font-extralight tracking-[1px] ${classBgCardBarc}`}>
+                                                    font-extralight tracking-[1px] ${classBgCardAExpd}`}>
                                                     {convertMilharFormat(quantidade - quantidadeExpedida)}
                                                 </td>
                                             </tr>
