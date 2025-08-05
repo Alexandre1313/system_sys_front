@@ -441,17 +441,11 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
   }
 
   const todasDespachadas = grades.every(g => g.status === STATUS.DESPACHADA);
-
   const todasExpedidasOuDespachadas = grades.every(g => g.status === STATUS.EXPEDIDA || g.status === STATUS.DESPACHADA);
-
   const todasProntasNaoIniciadas = grades.every(g => g.status === STATUS.PRONTA && !g.iniciada);
-
   const umaProntaNaoIniciada = grades.some(g => g.status === STATUS.PRONTA && !g.iniciada);
-
   const umaProntaIniciada = grades.some(g => g.status === STATUS.PRONTA && g.iniciada);
-
   const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && !g.iniciada);
-
   const repoInit = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && g.iniciada);
 
   if (repo) {
