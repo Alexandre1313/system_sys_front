@@ -132,12 +132,12 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                 <tr>
                   {['Item', 'Gênero', 'Tam', 'Previsto', 'Expedido', 'À Expedir', 'Peso Unitário', 'Peso Total'].map((title, index) => {
                     const widthClasses = [
-                      'w-[24%] text-left', // Item
-                      'w-[12%] text-left', // Gênero
+                      'w-[27%] text-left', // Item
+                      'w-[9%] text-left', // Gênero
                       'w-[6%] text-left', // Tamanho                    
                       'w-[9%] text-left', // Previsto
                       'w-[9%] text-right', // Expedido
-                      'w-[12%] text-left', // À Expedir
+                      'w-[9%] text-left', // À Expedir
                       'w-[14%] text-left', // Peso Unitário
                       'w-[14%] text-left', // Peso Total
                     ];
