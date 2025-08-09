@@ -83,7 +83,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
         <table className={`w-full border-collapse border-t ${borderColor} table-fixed text-sm`}>
           <thead>
             <tr className={`${bgAlt} text-[15px]`}>
-              <th className={`px-4 py-2 text-right border-r ${borderColor} w-[60%]`}>Item</th>
+              <th className={`px-4 py-2 text-right border-r ${borderColor} w-[60%]`}>Item / Gênero</th>
               <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>Tamanho</th>
               <th className={`px-4 py-2 text-right border-r ${borderColor} w-[10%]`}>Quantidade</th>
               <th className={`px-4 py-2 text-left w-[20%]`}>Data da embalagem</th>
@@ -95,7 +95,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
                 key={`${item.id}-${index}`}
                 className={`${index % 2 === 0 ? bgBody : bgAlt} hover:bg-emerald-800 hover:bg-opacity-10`}
               >
-                <td className={`px-4 py-2 border-t border-r text-right ${borderColor}`}>{item.itemName}</td>
+                <td className={`px-4 py-2 border-t border-r text-right ${borderColor}`}>{`${item.itemName} - ${item.itemGenero}`}</td>
                 <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{item.itemTam}</td>
                 <td className={`flex justify-start items-center px-4 py-2 border-t border-r ${borderColor}`}><span className={`flex pr-3 items-center justify-end text-emerald-500 text-[17px] w-[85%]`}>{item.itemQty}</span> un</td>
                 <td className={`px-4 py-2 border-t ${borderColor}`}>{convertSPTime(String(item.updatedAt))}</td>

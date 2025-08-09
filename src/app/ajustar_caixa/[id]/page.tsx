@@ -227,7 +227,7 @@ export default function AjustarCaixa() {
             <table className="w-full border border-gray-700 text-sm uppercase">
               <thead>
                 <tr className="bg-zinc-700 text-zinc-300 text-left">
-                  <th className="p-2 border border-gray-600 w-[38%]">Item</th>
+                  <th className="p-2 border border-gray-600 text-right w-[38%]">Item / Gênero</th>
                   <th className="p-2 border border-gray-600 text-right w-[12%]"></th>
                   <th className="p-2 border border-gray-600 w-[12%]">Quantidade</th>
                   <th className="p-2 border border-gray-600 w-[38%] pl-24">Última atualização</th>
@@ -236,7 +236,7 @@ export default function AjustarCaixa() {
               <tbody>
                 {itensComOriginal.map((item, idx) => (
                   <tr key={item.id} className="border-t border-gray-800 text-sm">
-                    <td className="p-2 border border-gray-700">{item.itemName}</td>
+                    <td className="p-2 border border-gray-700 text-right">{`${item.itemName} - ${item.itemGenero}`}</td>
                     <td className="p-2 border border-gray-700 text-right font-normal text-zinc-400 text-[17px] bg-gradient-to-l from-zinc-300/15 to-transparent">
                       <span>TAM: </span>
                       <span className="text-cyan-500">{item.itemTam}</span>
