@@ -42,6 +42,8 @@ const fetcherItems = async (projectId: number): Promise<ProjectItems> => {
 };
 
 export default function EntradasEmbalagem() {
+  const [expandedNome, setExpandedNome] = useState<string | null>(null);
+
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [selectedItem, setSelectedItem] = useState<ProjectItems['itensProject'][0] | null>(null);
   const [selectedEmbalagem, setSelectedEmbalagem] = useState<Embalagem | null | undefined>(null);
@@ -117,6 +119,18 @@ export default function EntradasEmbalagem() {
       refreshInterval: 120 * 1000,
     }
   );
+
+  const groupedByNomeGenero = projectItems?.itensProject?.reduce((acc, item) => {
+    const nome = (item.nome ?? 'Sem Nome').trim().toUpperCase();
+    const genero = (item.genero ?? 'Sem Gênero').trim().toUpperCase();
+    const key = `${nome} - ${genero}`;
+
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(item);
+    return acc;
+  }, {} as Record<string, typeof projectItems.itensProject>) ?? {};
 
   const handleProjectChange = (projectId: number) => {
     setSelectedProjectId(projectId);
@@ -210,6 +224,11 @@ export default function EntradasEmbalagem() {
     formData.QUANTIDADECONTABILIZADA = '0';
   }
 
+  // Função para abrir/fechar grupo
+  const toggleNome = (nome: string) => {
+    setExpandedNome(prev => (prev === nome ? null : nome));
+  };
+
   if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
 
   if (errorProjetos || errorItems || errorEmbalagens || errorSumsTotal) {
@@ -224,7 +243,7 @@ export default function EntradasEmbalagem() {
 
   return (
     <div className="flex min-w-screen min-h-screen justify-start items-start px-3 py-3 gap-x-3">
-      <TitleComponentFixed stringOne={`EMBALAGENS`} twoPoints={``} stringTwo={``} />
+      <TitleComponentFixed stringOne={`EMBALAGENS`} twoPoints={`-`} stringTwo={`${projectItems?.nome}`} />
       <div className="sticky top-14 flex flex-col max-w-[400px] min-w-[400px] bg-[#1F1F1F] 
         rounded-md p-5 justify-between items-start min-h-[92.7vh] gap-y-5">
         <div className="flex flex-col w-full justify-start items-start gap-y-5">
@@ -242,12 +261,34 @@ export default function EntradasEmbalagem() {
           </button>
         </div>
       </div>
-      <div className="flex pt-12 flex-col border-0 gap-y-0 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
+      <div className="flex pt-12 flex-col border-0 gap-y-3 border-zinc-700 flex-1 rounded-md p-0 justify-start items-start min-h-[95.7vh]">
         {(projectItems && projectItems.itensProject && projectItems.itensProject.length > 0) ? (
-          projectItems.itensProject.map((item, index) => (
-            <ItemsProjects key={item.id} item={item} index={index}
-              onClick={() => handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)}
-              itemTamanhoId={item.id} embalagemId={selectedEmbalagem?.id} />
+          Object.entries(groupedByNomeGenero).map(([nome, itens]) => (
+            <div key={nome} className="w-full rounded-md">
+              <button
+                onClick={() => toggleNome(nome)}
+                className="w-full flex justify-between items-center px-2 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-500 font-semibold rounded-t"
+              >
+                <span>{nome}</span>
+                <span>{expandedNome === nome ? '▲' : '▼'}</span>
+              </button>
+              {expandedNome === nome && (
+                <div className="flex flex-col w-full">
+                  {itens.map((item, index) => (
+                    <ItemsProjects
+                      key={item.id}
+                      item={item}
+                      index={index}
+                      onClick={() =>
+                        handleItemClick(item, selectedEmbalagem?.id, item.id, projectItems)
+                      }
+                      itemTamanhoId={item.id}
+                      embalagemId={selectedEmbalagem?.id}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           ))
         ) : (projectItems && projectItems.itensProject && projectItems.itensProject.length === 0) ? (
           <div className={`flex justify-center items-center h-full flex-1 w-full flex-col`}>
