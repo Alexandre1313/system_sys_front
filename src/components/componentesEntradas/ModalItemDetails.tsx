@@ -5,6 +5,7 @@ import BotaoArrowLeft from '../ComponentesInterface/BotaoArrowLeft';
 import BotaoEstoqueContabilizacion from '../ComponentesInterface/BotaoEstoqueContabilizacion';
 import ItemsEntryImputText from './ItemsEntryImputText';
 import ItemsEntryImputTextState from './ItemsEntryImputTextState';
+import ItemsEntryImputTextStateBlock from './ItemsEntryImputTextStateBlock';
 
 interface ModalItemDetailsProps {
     isOpen: boolean;
@@ -42,7 +43,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                 <div className={`flex w-[60%] p-2 flex-col min-h-[75vh] justify-between`}>
                     <div className={`flex flex-col justify-center items-center gap-y-8`}>
                         <div className={`flex items-center justify-start w-full gap-x-5 border-b pb-2 border-zinc-700`}>
-                            <span className={`text-xl text-zinc-400`}>
+                            <span className={`text-xl text-zinc-500`}>
                                 {'EMBALADOR:'}
                             </span>
                             <span className={`text-xl ${embNotSelect}`}>
@@ -52,45 +53,45 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                         <div className={`flex flex-col items-center justify-start w-full gap-y-3 border-b pb-2 border-zinc-700`}>
                             <div className={`flex flex-col items-start justify-start w-full gap-y-2`}>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
+                                    <span className={`text-lg text-zinc-500`}>
                                         {'PROJETO:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {formData.PROJETO}
                                     </span>
                                 </div>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
+                                    <span className={`text-lg text-zinc-500`}>
                                         {'ITEM:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {item.nome}
                                     </span>
                                 </div>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
+                                    <span className={`text-lg text-zinc-500`}>
                                         {'GÊNERO:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {item.genero}
                                     </span>
                                 </div>
                             </div>
                             <div className={`flex flex-col items-start justify-start w-full gap-y-2`}>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
+                                    <span className={`text-lg text-zinc-500`}>
                                         {'TAMANHO:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {item.tamanho}
                                     </span>
                                 </div>
                                 {item.composicao && (
                                     <div className={`flex items-start justify-center w-auto h-auto gap-x-3`}>
-                                        <span className={`text-lg text-zinc-400`}>
+                                        <span className={`text-lg text-zinc-500`}>
                                             {'COMPOSIÇÃO:'}
                                         </span>
-                                        <div className={`text-[15px] text-zinc-300 text-justify pl-2 pr-4 text-lg border-l border-zinc-700`}>
+                                        <div className={`text-[15px] text-zinc-400 text-justify pl-2 pr-4 text-lg border-l border-zinc-700`}>
                                             <ul>
                                                 {item.composicao
                                                     .split(',')  // Dividir pela vírgula
@@ -112,15 +113,15 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                     </div>
                                 )}
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
+                                    <span className={`text-lg text-zinc-500`}>
                                         {'CÒDIGO DE BARRAS:'}
                                     </span>
-                                    <span className={`text-lg text-cyan-500`}>
+                                    <span className={`text-lg text-zinc-400`}>
                                         {item.barcode}
                                     </span>
                                 </div>
                                 <div className={`flex items-center justify-center w-auto h-auto gap-x-3`}>
-                                    <span className={`text-lg text-zinc-400`}>
+                                    <span className={`text-lg text-zinc-500`}>
                                         {'ESTOQUE:'}
                                     </span>
                                     <span className={`text-lg text-yellow-500`}>
@@ -144,7 +145,7 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                 value={String(qtyTotalDiaItem)} />
                         </div>
                         <div className={`flex flex-col w-full gap-y-5`}>
-                            <ItemsEntryImputTextState labelName={'QUANTIDADE CONTABILIZADA'}
+                            <ItemsEntryImputTextStateBlock labelName={'QUANTIDADE CONTABILIZADA'}
                                 formData={formData} setFormData={setFormData}
                                 isReadOnly={true} />
                             <ItemsEntryImputTextState labelName={'LEITURA DO CÓD DE BARRAS'}
