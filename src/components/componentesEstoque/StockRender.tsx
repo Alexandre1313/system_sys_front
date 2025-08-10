@@ -18,18 +18,26 @@ export default async function StockRender({ id }: StockRenderProps) {
     (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.estoque, 0),
     0
   );
-  const totalGeralEntradas = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.entradas, 0),
+  const totalGeralEntradasKit = stockRender.itens.reduce(
+    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.entradasKit, 0),
     0
   );
-  const totalGeralSaidas = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.saidas, 0),
+  const totalGeralEntradasAv = stockRender.itens.reduce(
+    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.entradasAv, 0),
+    0
+  );
+  const totalGeralSaidasKit = stockRender.itens.reduce(
+    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.saidasKit, 0),
+    0
+  );
+  const totalGeralSaidasAv = stockRender.itens.reduce(
+    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.saidasAv, 0),
     0
   );
 
-  const contraprova = (totalGeralEntradas - totalGeralSaidas) === totalGeralEstoque;
+  const contraprova = ((totalGeralEntradasKit + totalGeralEntradasAv) - (totalGeralSaidasKit + totalGeralSaidasAv)) === totalGeralEstoque;
 
-  const styleContraprova = contraprova ? 'text-green-400': 'text-red-500';
+  const styleContraprova = contraprova ? 'text-green-400' : 'text-red-500';
 
   return (
     <div className="p-6 flex flex-col w-full gap-y-10">
@@ -39,18 +47,22 @@ export default async function StockRender({ id }: StockRenderProps) {
       <table className="sticky top-28 min-w-full border-collapse border border-zinc-700 mb-2">
         <thead>
           <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Consistência</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Estoque</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Entradas</th>
-            <th className="px-4 py-2 text-left w-[25%]">Saídas</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[15%]">Consistência</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Estoque</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Kits</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Avulsas</th>
+            <th className="px-4 py-2 text-left w-[17%]">Saídas Kits</th>
+            <th className="px-4 py-2 text-left w-[17%]">Saídas Avulsas</th>
           </tr>
         </thead>
         <tbody>
           <tr className="font-bold bg-zinc-800 text-zinc-200">
-            <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[17px] border-zinc-700 w-[25%]`}>{contraprova ? 'MOV. CONSISTENTES': 'MOV. NÃO CONSISTENTES'}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEstoque}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralEntradas}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[25%]">{totalGeralSaidas}</td>
+            <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[17px] border-zinc-700 w-[15%]`}>{contraprova ? 'OK' : 'NOT OK'}</td>
+            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEstoque}</td>
+            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEntradasKit}</td>
+            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEntradasAv}</td>
+            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralSaidasKit}</td>
+            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralSaidasAv}</td>
           </tr>
         </tbody>
       </table>
@@ -58,8 +70,10 @@ export default async function StockRender({ id }: StockRenderProps) {
       {/* Renderização de tabelas individuais */}
       {stockRender.itens.map((item, index) => {
         const totalEstoque = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.estoque, 0);
-        const totalEntradas = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.entradas, 0);
-        const totalSaidas = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.saidas, 0);
+        const totalEntradasKit = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.entradasKit, 0);
+        const totalEntradasAv = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.entradasAv, 0);
+        const totalSaidasKit = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.saidasKit, 0);
+        const totalSaidasAv = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.saidasAv, 0);
 
         return (
           <div key={index} className="mb-8 flex flex-col mt-[-20px]">
@@ -69,10 +83,12 @@ export default async function StockRender({ id }: StockRenderProps) {
             <table className="min-w-full border-collapse border border-zinc-700">
               <thead>
                 <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
-                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Tamanho</th>
-                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Estoque</th>
-                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[25%]">Entradas</th>
-                  <th className="px-4 py-2 text-left w-[25%]">Saídas</th>
+                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[15%]">Tamanho</th>
+                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Estoque</th>
+                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Kits</th>
+                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Avulsas</th>
+                  <th className="px-4 py-2 text-left w-[17%]">Saídas Kits</th>
+                  <th className="px-4 py-2 text-left w-[17%]">Saídas Avulsas</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,21 +99,25 @@ export default async function StockRender({ id }: StockRenderProps) {
                       tamanho.estoque < 0
                         ? 'text-red-500 font-semibold hover:bg-green-600 hover:bg-opacity-10'
                         : tamanho.estoque === 0
-                        ? 'text-zinc-400 font-semibold hover:bg-green-600 hover:bg-opacity-10'
-                        : 'text-green-500 font-semibold hover:bg-green-600 hover:bg-opacity-10'
+                          ? 'text-zinc-400 font-semibold hover:bg-green-600 hover:bg-opacity-10'
+                          : 'text-green-500 font-semibold hover:bg-green-600 hover:bg-opacity-10'
                     }
                   >
-                    <td className="text-zinc-400 px-4 py-2 border border-zinc-700 w-[25%]">{tamanho.tamanho}</td>
-                    <td className="px-4 py-2 border border-zinc-700 w-[25%]">{tamanho.estoque}</td>
-                    <td className="text-blue-500 px-4 py-2 border border-zinc-700 w-[25%]">{tamanho.entradas}</td>
-                    <td className="text-yellow-600 px-4 py-2 border border-zinc-700 w-[25%]">{tamanho.saidas}</td>
+                    <td className="text-zinc-400 px-4 py-2 border border-zinc-700 w-[15%]">{tamanho.tamanho}</td>
+                    <td className="px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.estoque}</td>
+                    <td className="text-blue-500 px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.entradasKit}</td>
+                    <td className="text-blue-500 px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.entradasAv}</td>
+                    <td className="text-yellow-600 px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.saidasKit}</td>
+                    <td className="text-yellow-600 px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.saidasAv}</td>
                   </tr>
                 ))}
                 <tr className="font-bold bg-zinc-800 text-zinc-200">
-                  <td className="px-4 py-2 border border-zinc-700 w-[25%]">Total</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[25%]">{totalEstoque}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[25%]">{totalEntradas}</td>
-                  <td className="px-4 py-2 border border-zinc-700 w-[25%]">{totalSaidas}</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[15%]">Total</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[17%]">{totalEstoque}</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[17%]">{totalEntradasKit}</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[17%]">{totalEntradasAv}</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[17%]">{totalSaidasKit}</td>
+                  <td className="px-4 py-2 border border-zinc-700 w-[17%]">{totalSaidasAv}</td>
                 </tr>
               </tbody>
             </table>
