@@ -267,10 +267,11 @@ export default function EntradasEmbalagem() {
             <div key={nome} className="w-full rounded-md">
               <button
                 onClick={() => toggleNome(nome)}
-                className="w-full flex justify-between items-center px-2 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-500 font-semibold rounded-t"
+                className={`w-full flex justify-between items-center px-2 py-3 bg-[#1f1f1f]
+                ${expandedNome === nome ? 'bg-zinc-700' : ''} hover:bg-zinc-700 text-zinc-500 font-semibold rounded-t`}
               >
-                <span>{nome}</span>
-                <span>{expandedNome === nome ? '▲' : '▼'}</span>
+                <span className={`${expandedNome === nome ? 'text-green-600' : ''}`}>{nome}</span>
+                <span className={`${expandedNome === nome ? 'text-green-600' : ''}`}>{expandedNome === nome ? '▲' : '▼'}</span>
               </button>
               {expandedNome === nome && (
                 <div className="flex flex-col w-full">
