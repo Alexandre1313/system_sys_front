@@ -103,7 +103,7 @@ export default async function StockRender({ id }: StockRenderProps) {
                           : 'text-green-500 font-semibold hover:bg-green-600 hover:bg-opacity-10'
                     }
                   >
-                    <td className="text-zinc-400 px-4 py-2 border border-zinc-700 w-[15%]">{tamanho.tamanho}</td>
+                    <td className="text-zinc-400 bg-[#1F1F1F] px-4 py-2 border border-zinc-700 w-[15%]">{tamanho.tamanho}</td>
                     <td className="px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.estoque}</td>
                     <td className="text-blue-500 px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.entradasKit}</td>
                     <td className="text-blue-500 px-4 py-2 border border-zinc-700 w-[17%]">{tamanho.entradasAv}</td>
