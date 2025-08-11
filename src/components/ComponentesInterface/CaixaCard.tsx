@@ -117,7 +117,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
                 <Link
                   href={`/ajustar_caixa/${caixa.id}`}
                   target="_AJUSTE"
-                  className="bg-slate-700 hover:bg-slate-600 text-white inline-block px-4 py-2 w-full"
+                  className="bg-slate-700 hover:bg-slate-600 text-white inline-block px-4 py-2 w-full pointer-events-none"
                 >
                   AJUSTAR CAIXA
                 </Link>
