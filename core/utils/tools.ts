@@ -10,7 +10,7 @@ const ip = "192.168.1.169";
 /**
  * Porta utilizada pelo servidor.
  */
-const port = "4997";
+const port = process.env.NODE_ENV === 'production' ? '4997' : '4999';
 
 /**
  * Ordem customizada de tamanhos para uso em ordenação.
