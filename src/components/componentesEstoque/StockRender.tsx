@@ -51,7 +51,7 @@ export default async function StockRender({ id }: StockRenderProps) {
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Estoque</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Kits</th>
             <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Avulsas</th>
-            <th className="px-4 py-2 text-left w-[17%]">Saídas Kits</th>
+            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Saídas Kits</th>
             <th className="px-4 py-2 text-left w-[17%]">Saídas Avulsas</th>
           </tr>
         </thead>
@@ -87,7 +87,7 @@ export default async function StockRender({ id }: StockRenderProps) {
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Estoque</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Kits</th>
                   <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Avulsas</th>
-                  <th className="px-4 py-2 text-left w-[17%]">Saídas Kits</th>
+                  <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Saídas Kits</th>
                   <th className="px-4 py-2 text-left w-[17%]">Saídas Avulsas</th>
                 </tr>
               </thead>
