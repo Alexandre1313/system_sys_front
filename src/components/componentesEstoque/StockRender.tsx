@@ -15,23 +15,23 @@ export default async function StockRender({ id }: StockRenderProps) {
 
   // Calcula os somatórios gerais
   const totalGeralEstoque = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.estoque, 0),
+    (sum, item) => sum + item.tamanhos.filter(t => !t.iskit).reduce((subSum, tamanho) => subSum + tamanho.estoque, 0),
     0
   );
   const totalGeralEntradasKit = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.entradasKit, 0),
+    (sum, item) => sum + item.tamanhos.filter(t => !t.iskit).reduce((subSum, tamanho) => subSum + tamanho.entradasKit, 0),
     0
   );
   const totalGeralEntradasAv = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.entradasAv, 0),
+    (sum, item) => sum + item.tamanhos.filter(t => !t.iskit).reduce((subSum, tamanho) => subSum + tamanho.entradasAv, 0),
     0
   );
   const totalGeralSaidasKit = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.saidasKit, 0),
+    (sum, item) => sum + item.tamanhos.filter(t => !t.iskit).reduce((subSum, tamanho) => subSum + tamanho.saidasKit, 0),
     0
   );
   const totalGeralSaidasAv = stockRender.itens.reduce(
-    (sum, item) => sum + item.tamanhos.reduce((subSum, tamanho) => subSum + tamanho.saidasAv, 0),
+    (sum, item) => sum + item.tamanhos.filter(t => !t.iskit).reduce((subSum, tamanho) => subSum + tamanho.saidasAv, 0),
     0
   );
 
