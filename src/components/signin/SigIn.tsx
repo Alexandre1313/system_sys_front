@@ -58,15 +58,15 @@ export default function SigIn() {
             <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-4">
                 <div className={`flex flex-col`}>
                     <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-1">
-                        <h1 className={`flex text-[50px] font-semi-bold text-emerald-600`}>
-                            <strong className={`flex text-[120px] font-normal text-emerald-600 -mt-20 pr-8`}>
+                        <h1 className={`flex lg:text-[50px] text-[25px] font-semi-bold text-emerald-600`}>
+                            <strong className={`flex lg:text-[120px] text-[55px] font-normal text-emerald-600 lg:-mt-20 lg:pr-8 pr-4`}>
                                 SYS
                             </strong>
-                            <strong className={`flex text-[120px] font-semi-bold text-blue-600 -mt-[4.8rem]`}>
+                            <strong className={`flex lg:text-[120px] text-[55px] font-semi-bold text-blue-600 lg:-mt-[4.8rem]`}>
                                 E
                             </strong>
                             XPED
-                            <strong className={`text-orange-600 flex -mt-32 text-[120px]`}>
+                            <strong className={`text-orange-600 flex lg:-mt-32 lg:text-[120px] text-[55px]`}>
                                 .
                             </strong>
                         </h1>
@@ -74,13 +74,13 @@ export default function SigIn() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="w-full justify-center flex flex-col items-center
-                    p-4 rounded-lg gap-8">
+                    lg:p-4 rounded-lg lg:gap-8 gap-y-2">
                         <input
                             type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-300 font-normal text-[20px] outline-none`}
+                            className={`rounded-md p-2 w-full lg:min-h-[40px] text-zinc-800 bg-gray-300 font-normal lg:text-[20px] outline-none`}
                             required
                             autoComplete='current-email'
                         />
@@ -89,12 +89,12 @@ export default function SigIn() {
                             placeholder="Senha"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-300 font-normal text-[20px] outline-none`}
+                            className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-300 font-normal lg:text-[20px] outline-none`}
                             required
                             autoComplete='current-password'
                         />
                         <div className={`flex flex-col w-full gap-y-14 items-center justify-center`}>
-                            <div className={`flex gap-x-5 h-[20px] w-[80%]`}>
+                            <div className={`flex lg:flex-row flex-col lg:gap-x-5 gap-y-2 h-[20px] w-[80%]`}>
                                 <button type="submit"
                                     className={`w-[50%] p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
                                 font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>

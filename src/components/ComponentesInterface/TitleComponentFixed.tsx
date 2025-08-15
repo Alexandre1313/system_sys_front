@@ -27,27 +27,27 @@ export default function TitleComponentFixed(props: TitleComponentFixedProps) {
     }
 
     return (
-        <div className={`fixed top-0 left-0 w-full flex border-b border-y-neutral-600  
+        <div className={`lg:fixed top-0 left-0 w-full flex lg:flex-row flex-col border-b border-y-neutral-600  
                     z-20 py-2 px-4 bg-[#182e23] justify-center items-center`}>
-            <div className={`flex w-[7%] justify-start items-center`}>
+            <div className={`lg:flex w-[7%] justify-start items-center hidden`}>
                 <Link href={'/'}>
-                    <ChevronsLeft className="animate-bounceXL" size={25} color={'#fff'} strokeWidth={2} />
+                    <ChevronsLeft className="animate-bounceXL" size={20} color={'#fff'} strokeWidth={2} />
                 </Link>
             </div>
-            <div className={`flex w-[86%] justify-center items-center gap-x-5`}>
+            <div className={`flex lg:flex-row flex-col w-[86%] justify-center items-center gap-x-5`}>
                 <div className='text-{#f7f7f7} text-[12px] lg:text-lg'>
                     <span className={`text-slate-200 text-[12px] lg:text-lg`}>{props.stringOne}</span>
                     <span className={`text-slate-200 text-[12px] lg:text-lg`}> {props.twoPoints} </span>
                     <span className={`text-slate-200 text-[12px] lg:text-lg`}>{props.stringTwo}</span>
                 </div>
                 {user && (
-                    <div className='flex text-{#f7f7f7} border-l pl-5 border-zinc-600 text-[12px] lg:text-lg gap-x-3 justify-start'>
+                    <div className='flex text-{#f7f7f7} lg:border-l lg:pl-5 border-zinc-600 text-[12px] lg:text-lg gap-x-3 justify-start'>
                         <UserCheck strokeWidth={1} color={`#00ffbf`} />
                         <span className={`text-slate-400 text-[12px] lg:text-lg`}>{user.nome}</span>
                     </div>
                 )}
                 {!user && (
-                    <div className='flex text-{#FF073A} border-l pl-5 border-zinc-600 text-[12px] lg:text-lg gap-x-3 justify-start'>
+                    <div className='flex text-{#FF073A} lg:border-l lg:pl-5 border-zinc-600 text-[12px] lg:text-lg gap-x-3 justify-start'>
                         <User strokeWidth={1} color={`#00ffbf`} />
                         <span className={`text-slate-400 text-[12px] lg:text-lg`}>{'NÃO IDENTIFICADO'}</span>
                     </div>

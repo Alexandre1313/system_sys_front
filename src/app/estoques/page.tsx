@@ -40,11 +40,11 @@ export default function Estoques() {
   return (
     <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
       <TitleComponentFixed stringOne={`MOVIMENTAÇÕES DO ESTOQUE`}/>
-      <div className="flex flex-col items-center justify-start min-h-[95vh] pt-7 gap-y-5 w-full">
-        <div className={`flex w-full p-[1.1rem] pt-8 fixed bg-[#1F1F1F]`}>
+      <div className="flex flex-col items-center justify-start min-h-[95vh] lg:pt-7 lg:gap-y-5 w-full">
+        <div className={`flex w-full lg:p-[1.1rem] lg:pt-8 p-2 lg:fixed bg-[#1F1F1F]`}>
           {serverSelect || (
-            <div className="flex flex-col justify-center items-start">
-              <p className="flex w-[310px] bg-[#181818] py-2 px-2 pl-3 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
+            <div className="flex flex-col justify-center lg:items-start items-center w-full">
+              <p className="flex lg:w-[310px] w-full bg-[#181818] py-2 px-2 pl-3 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
                 SELECIONE O PROJETO
               </p>
             </div>
