@@ -46,26 +46,6 @@ const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
 const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
 const urlGetCaixaAjust = `http://${ip}:${port}/caixas/getcaixaajust/`;
 const urlModificarItensDaCaixa = `http://${ip}:${port}/caixas/updatedbox`;
-const urlModificarOrExcludBox = `http://${ip}:${port}/caixas/updatedboxorexclud`;
-
-async function modificarCaixaOuExcluir(caixa: CaixaAjuste): Promise<CaixaAjuste | null> {
-    try {
-        const response = await fetch(urlModificarOrExcludBox, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(caixa),
-        });
-        if (!response.ok) {
-            throw new Error(`Erro ao modificar os itens da caixa ou exclui-la: ${response.statusText}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw new Error(`Erro ao modificar itens da caixa ou exclui-la: ${error}`);
-    }
-}
 
 async function modificarCaixa(caixa: CaixaAjuste): Promise<CaixaAjuste | null> {
     try {
@@ -432,4 +412,4 @@ export {ajust, alterarPDespachadas, finalizarGrades, get, getCaixaParaAjuste,
         getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman, getGrafico, getProdEmbDay,
         getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp,
         getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb,
-        modificarCaixa, siginn, stockGenerate, modificarCaixaOuExcluir, };
+        modificarCaixa, siginn, stockGenerate};

@@ -105,19 +105,12 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
               <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
               <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
               <td className={`border-t text-center ${borderColor}`}>
-                <Link
-                  href={`/delete_caixa/${caixa.id}`}
-                  target="_EXCLUSAO_AJUSTE"
-                  className="bg-orange-900 hover:bg-orange-600 text-white inline-block px-4 py-2 w-full pointer-events-none"
-                >
-                  E / A CAIXA
-                </Link>
               </td>
               <td className={`border-t text-center ${borderColor}`}>
                 <Link
                   href={`/ajustar_caixa/${caixa.id}`}
                   target="_AJUSTE"
-                  className="bg-slate-700 hover:bg-slate-600 text-white inline-block px-4 py-2 w-full pointer-events-none"
+                  className="bg-slate-700 hover:bg-slate-600 text-white inline-block px-4 py-2 w-full"
                 >
                   AJUSTAR CAIXA
                 </Link>

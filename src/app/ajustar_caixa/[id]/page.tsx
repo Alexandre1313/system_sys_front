@@ -65,7 +65,7 @@ export default function AjustarCaixa() {
     fetchData();
   }, [id]);
 
-  const handleChange = (index: number, rawValue: number, status: string) => {
+  /*const handleChange = (index: number, rawValue: number, status: string) => {
     if (!caixa) return;
 
     const statusBloqueados = ['DESPACHADA', 'EXPEDIDA'];
@@ -98,6 +98,35 @@ export default function AjustarCaixa() {
       // Impede o update para zero se for o único com qtd >= 1
       return;
     }
+
+    newItens[index].itemQty = safeValue;
+    setItensComOriginal(newItens);
+  };*/
+
+  /**
+ * Lida com a mudança de quantidade de um item na lista,
+ * removendo as validações que impedem que todos os itens fiquem zerados.
+ *
+ * @param {number} index - O índice do item na lista.
+ * @param {number} rawValue - O valor bruto digitado pelo usuário.
+ * @param {string} status - O status da caixa.
+ */
+  const handleChange = (index: number, rawValue: number, status: string) => {
+    if (!caixa) return;
+
+    const statusBloqueados = ['DESPACHADA', 'EXPEDIDA'];
+    if (statusBloqueados.includes(status)) return;
+
+    const newItens = [...itensComOriginal];
+
+    // Se valor inválido ou NaN, seta 0 temporariamente
+    const value = isNaN(rawValue) ? 0 : rawValue;
+
+    // Limita valor máximo ao original
+    const safeValue = Math.min(value, newItens[index].originalQty);
+
+    // A única validação que resta é a de status da caixa.
+    // Agora, a quantidade de um item pode ser 0, mesmo se for o último item.
 
     newItens[index].itemQty = safeValue;
     setItensComOriginal(newItens);
