@@ -473,6 +473,27 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
   return { desactiv, statusClass };
 }
 
+function formatarTituloRanking(titulo?: string | null): string {
+  if (!titulo || typeof titulo !== "string") return "";
+
+  const [prefixo, data] = titulo.split(" - ");
+
+  if (prefixo !== "Ranking" || !/^\d{4}-\d{2}$/.test(data)) {
+    return "";
+  }
+
+  const [ano, mes] = data.split("-");
+  const nomesMeses = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+
+  const indiceMes = parseInt(mes, 10) - 1;
+  if (indiceMes < 0 || indiceMes > 11) return "";
+
+  return `Total expedidos / despachados em  ${nomesMeses[indiceMes]} de ${ano}`;
+}
+
 /**
  * Módulo de utilitários para manipulação de dados, formatação e configurações de rede.
  * Exporta funções para normalização, formatação de números, ordenação, análise de status,
@@ -481,5 +502,5 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
 export {
   analyzerStatus, concat, converPercentualFormat,
   convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG, convertSPTime,
-  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, sizeOrders
+  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, sizeOrders, formatarTituloRanking
 };

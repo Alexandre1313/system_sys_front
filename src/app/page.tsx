@@ -130,14 +130,14 @@ export default function Home() {
                 Run Packages →
               </a>
             </Link>
-            <Link href={'/romaneios_despacho'} legacyBehavior>
+            <Link href={'/rankingusers'} legacyBehavior>
               <a
                 className="flex items-center lg:text-[13px] text-[8px] gap-2 hover:underline hover:underline-offset-4"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                Run Shipping Manifests →
+                Run Ranking Users →
               </a>
             </Link>
             <Link href={'/projetos'} legacyBehavior>

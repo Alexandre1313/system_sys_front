@@ -46,6 +46,23 @@ const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
 const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
 const urlGetCaixaAjust = `http://${ip}:${port}/caixas/getcaixaajust/`;
 const urlModificarItensDaCaixa = `http://${ip}:${port}/caixas/updatedbox`;
+const urlConsultarRanking = `http://${ip}:${port}/usuarios/ranking/`;
+
+async function getRanking(month: string): Promise<{
+    rankingPorMes: Record<string, any[]>;
+    rankingGeral: any[];
+}> {
+    try {
+        const response = await fetch(`${urlConsultarRanking}${month}`);
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar ranking dos usuários: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erro ao buscar ranking dos usuários: ${error}`);
+    }
+}
 
 async function modificarCaixa(caixa: CaixaAjuste): Promise<CaixaAjuste | null> {
     try {
@@ -407,9 +424,11 @@ async function getFilterGrades(projectId: string, remessa: string, status: strin
     return data;
 }
 
-export {ajust, alterarPDespachadas, finalizarGrades, get, getCaixaParaAjuste,
-        getCaixasPorGrade, getDatesGrades, getEmb, getFilterGrades, getGrade,
-        getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman, getGrafico, getProdEmbDay,
-        getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp,
-        getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb,
-        modificarCaixa, siginn, stockGenerate};
+export {
+    ajust, alterarPDespachadas, finalizarGrades, get, getCaixaParaAjuste,
+    getCaixasPorGrade, getDatesGrades, getEmb, getFilterGrades, getGrade,
+    getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman, getGrafico, getProdEmbDay,
+    getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp,
+    getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb,
+    modificarCaixa, siginn, stockGenerate, getRanking
+};
