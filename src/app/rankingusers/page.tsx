@@ -7,7 +7,7 @@ import { ptBR } from "date-fns/locale";
 import { format, startOfMonth } from "date-fns";
 import { useEffect, useState } from "react";
 import { getRanking } from "@/hooks_api/api";
-import { convertMilharFormat, formatarTituloRanking } from "../../../core/utils/tools";
+import { converPercentualFormat, convertMilharFormat, formatarTituloRanking } from "../../../core/utils/tools";
 
 registerLocale("pt-BR", ptBR);
 
@@ -45,6 +45,7 @@ export default function Ranking() {
     }, [mesFormatado]);
 
     const [primeiroMes, ranking] = Object.entries(rankingData?.rankingPorMes || [])[0] || [];
+    console.log(ranking)
 
     return (
         <div className="flex flex-col lg:flex-row w-full items-start justify-between bg-[#181818] px-4 pb-10">
@@ -76,29 +77,41 @@ export default function Ranking() {
                 <h2 className="text-zinc-400 uppercase text-lg">Quantidades expedidas (em peças)</h2>
                 <div className="w-full mt-12 text-zinc-300 max-w-7xl">
 
-                    {primeiroMes && ranking && (
-                        <div key={primeiroMes} className="mt-10">
+                    {primeiroMes && ranking && ranking.length > 0 && (
+                        <div key={primeiroMes} className="">
                             <h2 className="text-lg text-zinc-500 font-semibold mb-2">
                                 {`Expedidas hoje`}
                             </h2>
-                            <table className="w-full border border-zinc-700">
+                            <table className="w-full border border-zinc-700 bg-zinc-800">
                                 <thead className="bg-zinc-800 text-zinc-400">
                                     <tr>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[25%]">Peças Mês</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[6%]">#</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[33%]">Nome</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Peças Mês</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Hoje</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Ontem</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Diferença</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[16%]">- / +</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {ranking.map((item, idx) => (
                                         <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                            <td className="p-2 text-orange-400 w-[15%]">{`${item.rank_mes}º`}</td>
-                                            <td className="p-2 w-[60%]">{item.nome}</td>
-                                            <td className="p-2 w-[25%]">{convertMilharFormat(item.total_pecas_expedidas)}</td>
+                                            <td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>
+                                            <td className="p-2">{item.nome}</td>
+                                            <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas)}</td>
+                                            <td className="p-2">{`${convertMilharFormat(item.pecas_hoje)}`}</td>
+                                            <td className="p-2">{convertMilharFormat(item.pecas_ontem)}</td>
+                                            <td className="p-2">{convertMilharFormat(item.diferenca_dia)}</td>
+                                            <td className="p-2">{`${converPercentualFormat(item.variacao_percentual_dia)}`}</td>
                                         </tr>
                                     ))}
                                     <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                        <td />
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td className="p-2 text-zinc-400 text-right">total:</td>
                                         <td className="p-2 text-zinc-400 bg-zinc-600 bg-opacity-30">
                                             {convertMilharFormat(
@@ -116,7 +129,7 @@ export default function Ranking() {
                 </div>
 
                 {/* RANKING POR MÊS */}
-                <div className="w-full mt-10 max-w-7xl text-zinc-300">
+                <div className="w-full max-w-7xl text-zinc-300">
                     {mesFormatado === "T" ? (
                         Object.entries(rankingData?.rankingPorMes || {}).map(([mes, ranking]) => (
                             <div key={mes} className="mt-10">
@@ -135,7 +148,7 @@ export default function Ranking() {
                                     <tbody>
                                         {ranking.map((item, idx) => (
                                             <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                                <td className="p-2 text-orange-400 w-[15%]">{`${item.rank_mes}º`}</td>
+                                                <td className="p-2 text-yellow-400 w-[15%]">{`${item.rank_mes}º`}</td>
                                                 <td className="p-2 w-[60%]">{item.nome}</td>
                                                 <td className="p-2 w-[25%]">{convertMilharFormat(item.total_pecas_expedidas)}</td>
                                             </tr>
@@ -173,7 +186,7 @@ export default function Ranking() {
                                     <tbody>
                                         {rankingData.rankingPorMes[mesFormatado].map((item, idx) => (
                                             <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                                <td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>
+                                                <td className="p-2 text-yellow-400">{`${item.rank_mes}º`}</td>
                                                 <td className="p-2">{item.nome}</td>
                                                 <td className="p-2">{item.total_pecas_expedidas.toLocaleString()}</td>
                                             </tr>
@@ -196,11 +209,11 @@ export default function Ranking() {
                     )}
                 </div>
 
-                <div className="w-full mt-12 text-zinc-300 max-w-7xl">
-                    <h2 className="text-lg text-zinc-500 font-extralight mb-2 uppercase">
+                <div className="w-full mt-10 text-zinc-300 max-w-7xl">
+                    <h2 className="text-lg text-zinc-400 font-extralight mb-2 uppercase">
                         Ranking Geral
                     </h2>
-                    <table className="w-full border border-zinc-700">
+                    <table className="w-full border border-zinc-700 bg-zinc-800">
                         <thead className="bg-zinc-800 text-zinc-400">
                             <tr>
                                 <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
@@ -211,7 +224,7 @@ export default function Ranking() {
                         <tbody>
                             {rankingData?.rankingGeral.map((item, idx) => (
                                 <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                    <td className="p-2 text-zinc-400">{`${idx + 1}º`}</td>
+                                    <td className="p-2 text-yellow-400">{`${idx + 1}º`}</td>
                                     <td className="p-2">{item.nome}</td>
                                     <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas_geral)}</td>
                                 </tr>
