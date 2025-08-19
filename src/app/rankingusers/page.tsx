@@ -44,6 +44,8 @@ export default function Ranking() {
         buscarRanking();
     }, [mesFormatado]);
 
+    const [primeiroMes, ranking] = Object.entries(rankingData?.rankingPorMes || [])[0] || [];
+
     return (
         <div className="flex flex-col lg:flex-row w-full items-start justify-between bg-[#181818] px-4 pb-10">
             <TitleComponentFixed stringOne={`RANKING EXPEDIDORES`} />
@@ -70,41 +72,47 @@ export default function Ranking() {
             </div>
 
             {/* RENDERIZAÇÃO DO RANKING GERAL */}
-            <div className={`w-full items-center flex justify-start flex-col uppercase pt-16 min-h-[101vh]`}>
-                <h2 className="text-zinc-400 uppercase text-lg">Quantidades expedidas (em peças avulsas)</h2>
-                <div className="w-full mt-8 text-zinc-300 max-w-7xl">
-                    <h2 className="text-lg text-zinc-500 font-extralight mb-2 uppercase">
-                        Ranking Geral
-                    </h2>
-                    <table className="w-full border border-zinc-700 bg-zinc-600 bg-opacity-30">
-                        <thead className="bg-zinc-800 text-zinc-400">
-                            <tr>
-                                <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
-                                <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
-                                <th className="p-2 text-left w-[25%]">Peças Expedidas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rankingData?.rankingGeral.map((item, idx) => (
-                                <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                    <td className="p-2 text-yellow-400">{`${idx + 1}º`}</td>
-                                    <td className="p-2">{item.nome}</td>
-                                    <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas_geral)}</td>
-                                </tr>
-                            ))}
-                            <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                <td className="p-2">{``}</td>
-                                <td className="p-2 text-zinc-400 text-right">{`total geral:`}</td>
-                                <td className="p-2 text-green-500 bg-green-500 bg-opacity-10">{convertMilharFormat(
-                                    rankingData?.rankingGeral?.reduce(
-                                        (acc, item) => acc + (item.total_pecas_expedidas_geral || 0),
-                                        0 // Valor inicial obrigatório
-                                    ) || 0
-                                )
-                                }</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div className={`w-full items-center flex justify-start flex-col uppercase mt-16`}>
+                <h2 className="text-zinc-400 uppercase text-lg">Quantidades expedidas (em peças)</h2>
+                <div className="w-full mt-12 text-zinc-300 max-w-7xl">
+
+                    {primeiroMes && ranking && (
+                        <div key={primeiroMes} className="mt-10">
+                            <h2 className="text-lg text-zinc-500 font-semibold mb-2">
+                                {`Expedidas hoje`}
+                            </h2>
+                            <table className="w-full border border-zinc-700">
+                                <thead className="bg-zinc-800 text-zinc-400">
+                                    <tr>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[25%]">Peças Mês</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {ranking.map((item, idx) => (
+                                        <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
+                                            <td className="p-2 text-orange-400 w-[15%]">{`${item.rank_mes}º`}</td>
+                                            <td className="p-2 w-[60%]">{item.nome}</td>
+                                            <td className="p-2 w-[25%]">{convertMilharFormat(item.total_pecas_expedidas)}</td>
+                                        </tr>
+                                    ))}
+                                    <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                        <td />
+                                        <td className="p-2 text-zinc-400 text-right">total:</td>
+                                        <td className="p-2 text-zinc-400 bg-zinc-600 bg-opacity-30">
+                                            {convertMilharFormat(
+                                                ranking.reduce(
+                                                    (acc, item) => acc + (item.total_pecas_expedidas || 0),
+                                                    0
+                                                )
+                                            )}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </div>
 
                 {/* RANKING POR MÊS */}
@@ -127,7 +135,7 @@ export default function Ranking() {
                                     <tbody>
                                         {ranking.map((item, idx) => (
                                             <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                                <td className="p-2 text-yellow-400 w-[15%]">{`${item.rank_mes}º`}</td>
+                                                <td className="p-2 text-orange-400 w-[15%]">{`${item.rank_mes}º`}</td>
                                                 <td className="p-2 w-[60%]">{item.nome}</td>
                                                 <td className="p-2 w-[25%]">{convertMilharFormat(item.total_pecas_expedidas)}</td>
                                             </tr>
@@ -165,7 +173,7 @@ export default function Ranking() {
                                     <tbody>
                                         {rankingData.rankingPorMes[mesFormatado].map((item, idx) => (
                                             <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                                <td className="p-2 text-yellow-400">{`${item.rank_mes}º`}</td>
+                                                <td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>
                                                 <td className="p-2">{item.nome}</td>
                                                 <td className="p-2">{item.total_pecas_expedidas.toLocaleString()}</td>
                                             </tr>
@@ -175,7 +183,10 @@ export default function Ranking() {
                                             <td className="p-2 text-zinc-400 text-right">{`total:`}</td>
                                             <td className="p-2 text-zinc-400 bg-zinc-600 bg-opacity-30">{convertMilharFormat(
                                                 rankingData.rankingPorMes[mesFormatado].reduce(
-                                                    (acc, item) => acc + (item.total_pecas_expedidas || 0), 0) || 0)
+                                                    (acc, item) => acc + (item.total_pecas_expedidas || 0),
+                                                    0
+                                                ) || 0
+                                            )
                                             }</td>
                                         </tr>
                                     </tbody>
@@ -184,6 +195,42 @@ export default function Ranking() {
                         )
                     )}
                 </div>
+
+                <div className="w-full mt-12 text-zinc-300 max-w-7xl">
+                    <h2 className="text-lg text-zinc-500 font-extralight mb-2 uppercase">
+                        Ranking Geral
+                    </h2>
+                    <table className="w-full border border-zinc-700">
+                        <thead className="bg-zinc-800 text-zinc-400">
+                            <tr>
+                                <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
+                                <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
+                                <th className="p-2 text-left w-[25%]">Peças Expedidas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rankingData?.rankingGeral.map((item, idx) => (
+                                <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                    <td className="p-2 text-zinc-400">{`${idx + 1}º`}</td>
+                                    <td className="p-2">{item.nome}</td>
+                                    <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas_geral)}</td>
+                                </tr>
+                            ))}
+                            <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                <td className="p-2">{``}</td>
+                                <td className="p-2 text-zinc-400 text-right">{`total geral:`}</td>
+                                <td className="p-2 text-green-500 bg-green-500 bg-opacity-10">{convertMilharFormat(
+                                    rankingData?.rankingGeral?.reduce(
+                                        (acc, item) => acc + (item.total_pecas_expedidas_geral || 0),
+                                        0 // Valor inicial obrigatório
+                                    ) || 0
+                                )
+                                }</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     );
