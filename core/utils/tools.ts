@@ -491,7 +491,7 @@ function formatarTituloRanking(titulo?: string | null): string {
   const indiceMes = parseInt(mes, 10) - 1;
   if (indiceMes < 0 || indiceMes > 11) return "";
 
-  return `Total expedidos / despachados em  ${nomesMeses[indiceMes]} de ${ano}`;
+  return `${nomesMeses[indiceMes]} de ${ano}`;
 }
 
 /**

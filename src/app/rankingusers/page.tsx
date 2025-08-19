@@ -49,7 +49,6 @@ export default function Ranking() {
             <TitleComponentFixed stringOne={`RANKING EXPEDIDORES`} />
             <div className={`flex flex-col`}>
                 <div className="mt-16 fixed top-0 items-start justify-start left-16 mb-6 flex gap-4 w-full flex-col lg:min-w-[15%] lg:max-w-[15%]">
-                    <h2 className="text-zinc-400 uppercase text-lg">Quantidades expedidas (em peças)</h2>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date: Date | null) => setSelectedDate(date)}
@@ -71,12 +70,13 @@ export default function Ranking() {
             </div>
 
             {/* RENDERIZAÇÃO DO RANKING GERAL */}
-            <div className={`w-full items-center flex justify-start flex-col uppercase`}>
-                <div className="w-full mt-16 text-zinc-300 max-w-7xl">
+            <div className={`w-full items-center flex justify-start flex-col uppercase pt-16 min-h-[101vh]`}>
+                <h2 className="text-zinc-400 uppercase text-lg">Quantidades expedidas (em peças avulsas)</h2>
+                <div className="w-full mt-8 text-zinc-300 max-w-7xl">
                     <h2 className="text-lg text-zinc-500 font-extralight mb-2 uppercase">
                         Ranking Geral
                     </h2>
-                    <table className="w-full border border-zinc-700">
+                    <table className="w-full border border-zinc-700 bg-zinc-600 bg-opacity-30">
                         <thead className="bg-zinc-800 text-zinc-400">
                             <tr>
                                 <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
@@ -87,7 +87,7 @@ export default function Ranking() {
                         <tbody>
                             {rankingData?.rankingGeral.map((item, idx) => (
                                 <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                    <td className="p-2 text-zinc-400">{`${idx + 1}º`}</td>
+                                    <td className="p-2 text-yellow-400">{`${idx + 1}º`}</td>
                                     <td className="p-2">{item.nome}</td>
                                     <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas_geral)}</td>
                                 </tr>
@@ -127,7 +127,7 @@ export default function Ranking() {
                                     <tbody>
                                         {ranking.map((item, idx) => (
                                             <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                                <td className="p-2 text-orange-400 w-[15%]">{`${item.rank_mes}º`}</td>
+                                                <td className="p-2 text-yellow-400 w-[15%]">{`${item.rank_mes}º`}</td>
                                                 <td className="p-2 w-[60%]">{item.nome}</td>
                                                 <td className="p-2 w-[25%]">{convertMilharFormat(item.total_pecas_expedidas)}</td>
                                             </tr>
@@ -165,7 +165,7 @@ export default function Ranking() {
                                     <tbody>
                                         {rankingData.rankingPorMes[mesFormatado].map((item, idx) => (
                                             <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
-                                                <td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>
+                                                <td className="p-2 text-yellow-400">{`${item.rank_mes}º`}</td>
                                                 <td className="p-2">{item.nome}</td>
                                                 <td className="p-2">{item.total_pecas_expedidas.toLocaleString()}</td>
                                             </tr>
@@ -175,10 +175,7 @@ export default function Ranking() {
                                             <td className="p-2 text-zinc-400 text-right">{`total:`}</td>
                                             <td className="p-2 text-zinc-400 bg-zinc-600 bg-opacity-30">{convertMilharFormat(
                                                 rankingData.rankingPorMes[mesFormatado].reduce(
-                                                    (acc, item) => acc + (item.total_pecas_expedidas || 0),
-                                                    0 
-                                                ) || 0
-                                            )
+                                                    (acc, item) => acc + (item.total_pecas_expedidas || 0), 0) || 0)
                                             }</td>
                                         </tr>
                                     </tbody>
