@@ -76,14 +76,14 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex gap-2 lg:gap-4  items-center flex-row flex-wrap justify-center">
-            <Link href={'/consulta_grades'} legacyBehavior>
+            <Link href={'/rankingusers'} legacyBehavior>
               <a
                 className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-[9px] lg:text-[13px] h-7 lg:h-8 px-3 lg:px-5 lg:min-w-40 min-w-[130px]"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                GRADES EXPED...
+                RANKING...
               </a>
             </Link>
             <Link href={'/resume2'} legacyBehavior>
@@ -130,14 +130,14 @@ export default function Home() {
                 Run Packages →
               </a>
             </Link>
-            <Link href={'/rankingusers'} legacyBehavior>
+            <Link href={'/consulta_grades'} legacyBehavior>
               <a
                 className="flex items-center lg:text-[13px] text-[8px] gap-2 hover:underline hover:underline-offset-4"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                Run Ranking Users →
+                Run query grids →
               </a>
             </Link>
             <Link href={'/projetos'} legacyBehavior>

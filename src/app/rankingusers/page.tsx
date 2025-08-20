@@ -45,13 +45,19 @@ export default function Ranking() {
     }, [mesFormatado]);
 
     const [primeiroMes, ranking] = Object.entries(rankingData?.rankingPorMes || [])[0] || [];
-    console.log(ranking)
 
     return (
         <div className="flex flex-col lg:flex-row w-full items-start justify-between bg-[#181818] px-4 pb-10">
             <TitleComponentFixed stringOne={`RANKING EXPEDIDORES`} />
             <div className={`flex flex-col`}>
                 <div className="mt-16 fixed top-0 items-start justify-start left-16 mb-6 flex gap-4 w-full flex-col lg:min-w-[15%] lg:max-w-[15%]">
+                    <button
+                        onClick={() => setSelectedDate(null)}
+                        className="text-sm px-2 py-1 text-zinc-400 rounded
+                         hover:bg-zinc-600 hover:text-black transition"
+                    >
+                        Mostrar todos os meses
+                    </button>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date: Date | null) => setSelectedDate(date)}
@@ -61,14 +67,6 @@ export default function Ranking() {
                         className="bg-[#181818] flex text-zinc-100 border outline-none cursor-pointer border-zinc-700 px-3 py-1 rounded h-[35px] w-full"
                         placeholderText="Selecione o mês"
                     />
-
-                    <button
-                        onClick={() => setSelectedDate(null)}
-                        className="text-sm px-2 py-1 text-zinc-400 rounded
-                         hover:bg-zinc-600 hover:text-black transition"
-                    >
-                        Mostrar todos os meses
-                    </button>
                 </div>
             </div>
 
@@ -87,26 +85,29 @@ export default function Ranking() {
                                     <tr>
                                         <th className="p-2 text-left border-r border-zinc-700 w-[6%]">#</th>
                                         <th className="p-2 text-left border-r border-zinc-700 w-[33%]">Nome</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Peças Mês</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Hoje</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Ontem</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[12%]">Diferença</th>
+                                        {/*<th className="p-2 text-left border-r border-zinc-700 w-[12%]">Peças Mês</th>*/}
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[15%]">Hoje</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[15%]">Ontem</th>
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[15%]">Diferença</th>
                                         <th className="p-2 text-left border-r border-zinc-700 w-[16%]">- / +</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {ranking.map((item, idx) => (
-                                        <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800">
+                                        <tr key={idx} className={`border-t border-zinc-700 ${item.diferenca_dia > 0 ? 'bg-green-500 text-green-500 bg-opacity-10' :
+                                            item.diferenca_dia === 0 ? 'bg-zinc-700 text-zinc-500 bg-opacity-10' : 'bg-red-500 text-red-500 bg-opacity-10'}`}>
                                             <td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>
                                             <td className="p-2">{item.nome}</td>
-                                            <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas)}</td>
+                                            {/*<td className="p-2">{convertMilharFormat(item.total_pecas_expedidas)}</td>*/}
                                             <td className="p-2">{`${convertMilharFormat(item.pecas_hoje)}`}</td>
                                             <td className="p-2">{convertMilharFormat(item.pecas_ontem)}</td>
-                                            <td className="p-2">{convertMilharFormat(item.diferenca_dia)}</td>
+                                            <td className="p-2">
+                                                {convertMilharFormat(item.diferenca_dia)}
+                                            </td>
                                             <td className="p-2">{`${converPercentualFormat(item.variacao_percentual_dia)}`}</td>
                                         </tr>
                                     ))}
-                                    <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                    {/*<tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -121,7 +122,7 @@ export default function Ranking() {
                                                 )
                                             )}
                                         </td>
-                                    </tr>
+                                    </tr>*/}
                                 </tbody>
                             </table>
                         </div>
@@ -209,40 +210,42 @@ export default function Ranking() {
                     )}
                 </div>
 
-                <div className="w-full mt-10 text-zinc-300 max-w-7xl">
-                    <h2 className="text-lg text-zinc-400 font-extralight mb-2 uppercase">
-                        Ranking Geral
-                    </h2>
-                    <table className="w-full border border-zinc-700 bg-zinc-800">
-                        <thead className="bg-zinc-800 text-zinc-400">
-                            <tr>
-                                <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
-                                <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
-                                <th className="p-2 text-left w-[25%]">Peças Expedidas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rankingData?.rankingGeral.map((item, idx) => (
-                                <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                    <td className="p-2 text-yellow-400">{`${idx + 1}º`}</td>
-                                    <td className="p-2">{item.nome}</td>
-                                    <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas_geral)}</td>
+                {!selectedDate && (
+                    <div className="w-full mt-10 text-zinc-300 max-w-7xl">
+                        <h2 className="text-lg text-zinc-400 font-extralight mb-2 uppercase">
+                            Ranking Geral
+                        </h2>
+                        <table className="w-full border border-zinc-700 bg-zinc-800">
+                            <thead className="bg-zinc-800 text-zinc-400">
+                                <tr>
+                                    <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
+                                    <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
+                                    <th className="p-2 text-left w-[25%]">Peças Expedidas</th>
                                 </tr>
-                            ))}
-                            <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
-                                <td className="p-2">{``}</td>
-                                <td className="p-2 text-zinc-400 text-right">{`total geral:`}</td>
-                                <td className="p-2 text-green-500 bg-green-500 bg-opacity-10">{convertMilharFormat(
-                                    rankingData?.rankingGeral?.reduce(
-                                        (acc, item) => acc + (item.total_pecas_expedidas_geral || 0),
-                                        0 // Valor inicial obrigatório
-                                    ) || 0
-                                )
-                                }</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {rankingData?.rankingGeral.map((item, idx) => (
+                                    <tr key={idx} className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                        <td className="p-2 text-zinc-400">{`${idx + 1}º`}</td>
+                                        <td className="p-2">{item.nome}</td>
+                                        <td className="p-2">{convertMilharFormat(item.total_pecas_expedidas_geral)}</td>
+                                    </tr>
+                                ))}
+                                <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                    <td className="p-2">{``}</td>
+                                    <td className="p-2 text-zinc-400 text-right">{`total geral:`}</td>
+                                    <td className="p-2 text-green-500 bg-green-500 bg-opacity-10">{convertMilharFormat(
+                                        rankingData?.rankingGeral?.reduce(
+                                            (acc, item) => acc + (item.total_pecas_expedidas_geral || 0),
+                                            0 // Valor inicial obrigatório
+                                        ) || 0
+                                    )
+                                    }</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
             </div>
         </div>
