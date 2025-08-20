@@ -83,8 +83,8 @@ export default function Ranking() {
                             <table className="w-full border border-zinc-700 bg-zinc-800">
                                 <thead className="bg-zinc-800 text-zinc-400">
                                     <tr>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[6%]">#</th>
-                                        <th className="p-2 text-left border-r border-zinc-700 w-[33%]">Nome</th>
+                                        {/*<th className="p-2 text-left border-r border-zinc-700 w-[6%]">#</th>*/}
+                                        <th className="p-2 text-left border-r border-zinc-700 w-[39%]">Expedidor</th>
                                         {/*<th className="p-2 text-left border-r border-zinc-700 w-[12%]">Peças Mês</th>*/}
                                         <th className="p-2 text-left border-r border-zinc-700 w-[15%]">Hoje</th>
                                         <th className="p-2 text-left border-r border-zinc-700 w-[15%]">Ontem</th>
@@ -96,7 +96,7 @@ export default function Ranking() {
                                     {ranking.map((item, idx) => (
                                         <tr key={idx} className={`border-t border-zinc-700 ${item.diferenca_dia > 0 ? 'bg-green-500 text-green-500 bg-opacity-10' :
                                             item.diferenca_dia === 0 ? 'bg-zinc-700 text-zinc-500 bg-opacity-10' : 'bg-red-500 text-red-500 bg-opacity-10'}`}>
-                                            <td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>
+                                            {/*<td className="p-2 text-orange-400">{`${item.rank_mes}º`}</td>*/}
                                             <td className="p-2">{item.nome}</td>
                                             {/*<td className="p-2">{convertMilharFormat(item.total_pecas_expedidas)}</td>*/}
                                             <td className="p-2">{`${convertMilharFormat(item.pecas_hoje)}`}</td>
@@ -141,7 +141,7 @@ export default function Ranking() {
                                     <thead className="bg-zinc-800 text-zinc-400">
                                         <tr>
                                             <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
-                                            <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
+                                            <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Expedidor</th>
                                             <th className="p-2 text-left border-r border-zinc-700 w-[25%]">Peças Mês</th>
 
                                         </tr>
@@ -180,7 +180,7 @@ export default function Ranking() {
                                     <thead className="bg-zinc-800 text-zinc-400">
                                         <tr>
                                             <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
-                                            <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
+                                            <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Expedidor</th>
                                             <th className="p-2 text-left border-r border-zinc-700 w-[25%]">Peças Mês</th>
                                         </tr>
                                     </thead>
@@ -219,7 +219,7 @@ export default function Ranking() {
                             <thead className="bg-zinc-800 text-zinc-400">
                                 <tr>
                                     <th className="p-2 text-left border-r border-zinc-700 w-[15%]">#</th>
-                                    <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Nome</th>
+                                    <th className="p-2 text-left border-r border-zinc-700 w-[60%]">Expedidor</th>
                                     <th className="p-2 text-left w-[25%]">Peças Expedidas</th>
                                 </tr>
                             </thead>
