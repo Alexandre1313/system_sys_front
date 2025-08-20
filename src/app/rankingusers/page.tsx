@@ -11,10 +11,7 @@ import { converPercentualFormat, convertMilharFormat, formatarTituloRanking } fr
 
 registerLocale("pt-BR", ptBR);
 
-const fetcher = async (month: string): Promise<{
-    rankingPorMes: Record<string, any[]>;
-    rankingGeral: any[];
-}> => {
+const fetcher = async (month: string): Promise<{ rankingPorMes: Record<string, any[]>; rankingGeral: any[]; }> => {
     const ranking = await getRanking(month);
     return ranking;
 };
@@ -40,7 +37,6 @@ export default function Ranking() {
                 }
             }
         };
-
         buscarRanking();
     }, [mesFormatado]);
 
@@ -69,12 +65,10 @@ export default function Ranking() {
                     />
                 </div>
             </div>
-
             {/* RENDERIZAÇÃO DO RANKING GERAL */}
             <div className={`w-full items-center flex justify-start flex-col uppercase mt-16`}>
                 <h2 className="text-zinc-400 uppercase text-lg">Quantidades expedidas (em peças)</h2>
                 <div className="w-full mt-12 text-zinc-300 max-w-7xl">
-
                     {primeiroMes && ranking && ranking.length > 0 && (
                         <div key={primeiroMes} className="">
                             <h2 className="text-lg text-zinc-500 font-semibold mb-2">
@@ -128,7 +122,6 @@ export default function Ranking() {
                         </div>
                     )}
                 </div>
-
                 {/* RANKING POR MÊS */}
                 <div className="w-full max-w-7xl text-zinc-300">
                     {mesFormatado === "T" ? (
@@ -209,7 +202,6 @@ export default function Ranking() {
                         )
                     )}
                 </div>
-
                 {!selectedDate && (
                     <div className="w-full mt-10 text-zinc-300 max-w-7xl">
                         <h2 className="text-lg text-zinc-400 font-extralight mb-2 uppercase">
@@ -242,11 +234,21 @@ export default function Ranking() {
                                     )
                                     }</td>
                                 </tr>
+                                <tr className="border-t border-zinc-700 hover:bg-zinc-800 text-[18px]">
+                                    <td className="p-2">{``}</td>
+                                    <td className="p-2 text-zinc-400 text-right">{`Média mensal:`}</td>
+                                    <td className="p-2 text-yellow-500 bg-yellow-500 bg-opacity-10">{convertMilharFormat(
+                                        (rankingData?.rankingGeral?.reduce(
+                                            (acc, item) => acc + (item.total_pecas_expedidas_geral || 0),
+                                            0 // Valor inicial obrigatório
+                                        ) || 0) / Object.entries(rankingData?.rankingPorMes || {}).length
+                                    )
+                                    }</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 )}
-
             </div>
         </div>
     );
