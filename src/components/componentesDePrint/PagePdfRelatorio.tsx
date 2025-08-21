@@ -152,7 +152,7 @@ export default function PagePdfRelatorio({ expedicaoData }: PagePdfRelatoriProps
 
         // Salvar e baixar PDF
         const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const blob = new Blob([pdfBytes.slice().buffer], { type: 'application/pdf' });
         saveAs(blob, 'relatorio_expedicao.pdf');
     };
     return (

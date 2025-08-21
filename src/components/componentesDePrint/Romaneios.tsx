@@ -445,7 +445,7 @@ const Romaneios = ({ romaneios }: RomaneiosProps) => {
 
         // Salvar e gerar o PDF em bytes
         const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const blob = new Blob([pdfBytes.slice().buffer], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
 
         // Criar um link temporário para iniciar o download

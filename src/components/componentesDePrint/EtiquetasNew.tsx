@@ -254,7 +254,7 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
 
         // Salva e exibe o PDF
         const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const blob = new Blob([pdfBytes.slice().buffer], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         window.open(url, '_blank');
     };

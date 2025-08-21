@@ -17,7 +17,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
 
         const pageWidth = 842; // A4 em paisagem
         const pageHeight = 595;
-        const margin = 40;
+        const margin = 30;
         const lineHeight = 13;
 
         const footerHeight = margin; // Garantindo a mesma margem entre o rodapé e a borda inferior
@@ -877,7 +877,7 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
 
         // Salvar e exibir o PDF
         const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const blob = new Blob([pdfBytes.slice().buffer], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         window.open(url, '_blank');
     };
