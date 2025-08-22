@@ -15,7 +15,7 @@ interface CaixaCardProps {
 }
 
 const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState('0px');
 
