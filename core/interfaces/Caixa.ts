@@ -1,4 +1,5 @@
 import CaixaItem from "./CaixaItem";
+import Grade from "./Grade";
 import GradeItem from "./GradeItem";
 import TipoEmbalagem from "./TipoEmbalagem";
 
@@ -19,4 +20,5 @@ export default interface Caixa {
     itensGrade: GradeItem[];
     createdAt?: Date;
     updatedAt?: Date;
+    grade?: Grade;
 }

@@ -6,8 +6,8 @@ import { Caixa } from '../../../core';
 
 interface ListaCaixasProps {
   caixas: Caixa[];
-  tema: boolean;
-  setTotalGrade?: (n: number, n1: number) => void;
+  tema: boolean;  
+  setTotalGrade?: (n: number, n1: number) => void;  
 }
 
 const ListaCaixas = ({ caixas, tema, setTotalGrade }: ListaCaixasProps) => {

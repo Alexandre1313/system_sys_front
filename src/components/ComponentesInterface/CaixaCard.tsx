@@ -33,6 +33,31 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
     return (<EtiquetasNew etiquetas={etiquetas} classNew={classnew} len={len} />)
   }
 
+  const view = (status: string, ua: string, ca: string) => {
+    const objView = {
+      bg: 'bg-zinc-500 bg-opacity-20',
+      text: `${convertSPTime(ca)}`,
+      title: `Grade criada em`,
+    }
+
+    if (status === 'DESPACHADA') {
+      objView['bg'] = 'bg-green-500 bg-opacity-20';
+      objView['text'] = `${convertSPTime(ua)}`;
+      objView['title'] = 'Data de saída';
+      return objView;
+    }
+
+    if (status === 'EXPEDIDA') {
+      objView['bg'] = 'bg-yellow-500 bg-opacity-20';
+      objView['text'] = `Pronta para envio`;
+      objView['title'] = 'Situação';
+      return objView;
+    }
+    return objView;
+  }
+
+  const sit = view(String(caixa.grade?.status), String(caixa.grade?.updatedAt), String(caixa.grade?.createdAt));
+
   const bgHeader = tema ? 'bg-zinc-200 text-zinc-800' : 'bg-[#000] text-zinc-300';
   const bgBody = tema ? 'bg-white text-zinc-800' : 'bg-zinc-900 text-zinc-400';
   const borderColor = tema ? 'border-zinc-300' : 'border-zinc-700';
@@ -86,7 +111,8 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
               <th className={`px-4 py-2 text-right border-r ${borderColor} w-[60%]`}>Item / Gênero</th>
               <th className={`px-4 py-2 text-left border-r ${borderColor} w-[10%]`}>Tamanho</th>
               <th className={`px-4 py-2 text-right border-r ${borderColor} w-[10%]`}>Quantidade</th>
-              <th className={`px-4 py-2 text-left w-[20%]`}>Data da embalagem</th>
+              <th className={`px-4 py-2 text-left w-[10%] ${borderColor} border-r`}>Data da embalagem</th>
+              <th className={`px-4 py-2 text-left w-[10%]`}>{sit.title}</th>
             </tr>
           </thead>
           <tbody>
@@ -98,14 +124,15 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, tema, len }) => {
                 <td className={`px-4 py-2 border-t border-r text-right ${borderColor}`}>{`${item.itemName} - ${item.itemGenero}`}</td>
                 <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{item.itemTam}</td>
                 <td className={`flex justify-start items-center px-4 py-2 border-t border-r ${borderColor}`}><span className={`flex pr-3 items-center justify-end text-emerald-500 text-[17px] w-[85%]`}>{item.itemQty}</span> un</td>
-                <td className={`px-4 py-2 border-t ${borderColor}`}>{convertSPTime(String(item.updatedAt))}</td>
+                <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{convertSPTime(String(item.updatedAt))}</td>
+                <td className={`px-4 py-2 border-t ${borderColor} ${sit.bg}`}>{sit.text}</td>
               </tr>
             ))}
             <tr>
-              <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
-              <td className={`px-4 py-2 border-t border-r ${borderColor}`}>{``}</td>
-              <td className={`border-t text-center ${borderColor}`}>
-              </td>
+              <td className={`px-4 py-2 border-t ${borderColor}`}>{``}</td>
+              <td className={`px-4 py-2 border-t ${borderColor}`}>{``}</td>
+              <td className={`border-t text-center ${borderColor}`}></td>
+              <td className={`border-t text-center border-r ${borderColor}`}></td>
               <td className={`border-t text-center ${borderColor}`}>
                 <Link
                   href={`/ajustar_caixa/${caixa.id}`}
