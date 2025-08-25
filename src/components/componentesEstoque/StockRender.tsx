@@ -1,6 +1,8 @@
 import React from 'react';
 import { ProjetoStockItems } from '../../../core';
 import { getProjectsItemsSaldos } from '@/hooks_api/api';
+import { convertMilharFormat } from '../../../core/utils/tools';
+import TitleComponentFixed from '../ComponentesInterface/TitleComponentFixed';
 
 interface StockRenderProps {
   id: string;
@@ -40,33 +42,57 @@ export default async function StockRender({ id }: StockRenderProps) {
   const styleContraprova = contraprova ? 'text-green-400' : 'text-red-500';
 
   return (
-    <div className="p-6 flex flex-col w-full gap-y-10">
-      <h1 className="text-xl font-bold text-center mb-4 text-zinc-500">{`MOVIMENTAÇÕES DO PROJETO ${stockRender.nome}`}</h1>
+    <div className="p-6 pt-4 flex flex-col w-full gap-y-10">
+       <TitleComponentFixed stringOne={`MOVIMENTAÇÕES DO ESTOQUE`} twoPoints={`-`} stringTwo={stockRender.nome}/>
+      {/*<h1 className="text-xl font-bold text-center mb-4 text-zinc-500">{`MOVIMENTAÇÕES DO PROJETO ${stockRender.nome}`}</h1>*/}
 
       {/* Tabela de somatório geral */}
-      <table className="sticky top-28 min-w-full border-collapse border border-zinc-700 mb-2">
-        <thead>
-          <tr className="bg-[#1f1f1f] text-zinc-500 border-b border-zinc-700">
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[15%]">Consistência</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Estoque</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Kits</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Avulsas</th>
-            <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Saídas Kits</th>
-            <th className="px-4 py-2 text-left w-[17%]">Saídas Avulsas</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="font-bold bg-zinc-800 text-zinc-200">
-            <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[17px] border-zinc-700 w-[15%]`}>{contraprova ? 'OK' : 'NOT OK'}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEstoque}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEntradasKit}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEntradasAv}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralSaidasKit}</td>
-            <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralSaidasAv}</td>
-          </tr>
-        </tbody>
-      </table>
-
+      <div className={`sticky top-28 min-w-full border border-zinc-700 mb-2 bg-[#181818]`}>
+        <table className="min-w-full border-collapse border border-zinc-700 bg-green-500 bg-opacity-10">
+          <thead>
+            <tr className="text-zinc-500 border-b border-zinc-700">
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[15%]"></th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]"></th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]"></th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]"></th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas - totais</th>
+              <th className="px-4 py-2 text-left w-[17%]">Saídas - Totais</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="font-bold text-zinc-200">
+              <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[17px] border-zinc-700 w-[15%]`}>{''}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]"></td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]"></td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]"></td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] text-blue-500 border-zinc-700 w-[17%]">{convertMilharFormat(totalGeralEntradasAv + totalGeralEntradasKit)}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] text-yellow-600 border-zinc-700 w-[17%]">{convertMilharFormat(totalGeralSaidasAv + totalGeralSaidasKit)}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table className={`min-w-full border-collapse border border-zinc-700 bg-green-500 bg-opacity-10`}>
+          <thead>
+            <tr className=" text-zinc-500 border-b border-zinc-700">
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[15%]">Consistência</th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Estoque</th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Kits</th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Entradas Avulsas</th>
+              <th className="px-4 py-2 text-left border-r border-zinc-700 w-[17%]">Saídas Kits</th>
+              <th className="px-4 py-2 text-left w-[17%]">Saídas Avulsas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="font-bold text-zinc-200">
+              <td className={`px-4 py-2 border font-extralight ${styleContraprova} tracking-[1px] text-[17px] border-zinc-700 w-[15%]`}>{contraprova ? 'OK' : 'NOT OK'}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEstoque}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEntradasKit}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralEntradasAv}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralSaidasKit}</td>
+              <td className="px-4 py-2 border font-extralight tracking-[1px] text-[20px] border-zinc-700 w-[17%]">{totalGeralSaidasAv}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       {/* Renderização de tabelas individuais */}
       {stockRender.itens.map((item, index) => {
         const totalEstoque = item.tamanhos.reduce((sum, tamanho) => sum + tamanho.estoque, 0);

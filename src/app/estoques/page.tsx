@@ -1,7 +1,6 @@
 'use client';
 
 import StockRender from "@/components/componentesEstoque/StockRender";
-import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
 import { CreateServerSelectComponentProjects } from "@/components/componentesRomaneios/createServerSelectComponentProjects";
 import { useEffect, useState } from "react";
 
@@ -38,8 +37,7 @@ export default function Estoques() {
   }, [projectId]);
 
   return (
-    <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
-      <TitleComponentFixed stringOne={`MOVIMENTAÇÕES DO ESTOQUE`}/>
+    <div className="flex flex-col w-full items-start justify-center bg-[#181818]">     
       <div className="flex flex-col items-center justify-start min-h-[95vh] lg:pt-7 lg:gap-y-5 w-full">
         <div className={`flex w-full lg:p-[1.1rem] lg:pt-8 p-2 lg:fixed bg-[#1F1F1F]`}>
           {serverSelect || (
