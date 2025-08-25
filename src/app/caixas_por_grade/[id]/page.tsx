@@ -48,7 +48,7 @@ export default function PaginaCaixas() {
 
     return (
         <div className={`flex w-full ${tema ? 'bg-[#FFFFFF]' : 'bg-[#181818]'} flex-col min-h-[101vh] pt-[80px]`}>
-            <TitleComponentFixed stringOne="LISTAGEM DE CAIXAS DA GRADE DE ID " stringTwo={`${id}`} />
+            <TitleComponentFixed stringOne="LISTAGEM DE CAIXAS DA GRADE ID " stringTwo={`${id}`} />
             <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[2.8rem] left-0 px-4 p-3 pt-4`}>
                 <div className={`flex flex-row items-center justify-center p-1 px-3 uppercase bg-black rounded-lg`}>
                     <span className={`flex text-[20px] text-slate-300 items-center justify-end`}>Total da grade por caixa:</span>
@@ -70,7 +70,7 @@ export default function PaginaCaixas() {
                     ) : caixas.length === 0 ? (
                         <div className="flex flex-row flex-wrap gap-y-1 gap-x-5 items-center justify-center min-h-[80vh] w-full">
                             <p className={`text-center text-lg py-10 ${tema ? 'text-zinc-600' : 'text-zinc-400'}`}>
-                                {`Nenhuma caixa encontrada para a grade de id ${id}.`}
+                                {`Nenhuma caixa encontrada para a grade id ${id}.`}
                             </p>
                         </div>
                     ) : (
