@@ -140,14 +140,14 @@ export default function Home() {
                 Run query grids →
               </a>
             </Link>
-            <Link href={'/projetos'} legacyBehavior>
+            <Link href={'/resumepp'} legacyBehavior>
               <a
                 className="flex button items-center lg:text-[13px] text-[8px] gap-2 hover:underline hover:underline-offset-4"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                Run Projects →
+                Run Resumes PP →
               </a>
             </Link>
             <Link href={'/resume'} legacyBehavior>

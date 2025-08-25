@@ -41,6 +41,7 @@ const urlEBI = `http://${ip}:${port}/escolas/escolagradesByItems/`;
 const urlObterGrade = `http://${ip}:${port}/grades/`;
 const urlAjustarGrade = `http://${ip}:${port}/grades/ajustar/`;
 const urlFilterStatus = `http://${ip}:${port}/projetos/resumeexped/`;
+const urlFilterStatusPP = `http://${ip}:${port}/projetos/resumeexpedpp/`;
 const urlAlterStatus = `http://${ip}:${port}/grades/alterdespachadas`;
 const urlGrafics = `http://${ip}:${port}/projetos/grafs`;
 const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
@@ -424,11 +425,21 @@ async function getFilterGrades(projectId: string, remessa: string, status: strin
     return data;
 }
 
+async function getFilterGradesPP(projectId: string, remessa: string, status: string, tipo: string): Promise<GradesRomaneio[] | null> {
+    const response = await fetch(`${urlFilterStatusPP}${projectId}/${remessa}/${status}/${tipo}`)
+    if (!response.ok) {
+        console.log(`Erro ao buscar dados: ${response.statusText}`)
+        return null
+    }
+    const data = await response.json();
+    return data;
+}
+
 export {
     ajust, alterarPDespachadas, finalizarGrades, get, getCaixaParaAjuste,
     getCaixasPorGrade, getDatesGrades, getEmb, getFilterGrades, getGrade,
     getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman, getGrafico, getProdEmbDay,
     getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp,
     getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb,
-    modificarCaixa, siginn, stockGenerate, getRanking
+    modificarCaixa, siginn, stockGenerate, getRanking, getFilterGradesPP
 };
