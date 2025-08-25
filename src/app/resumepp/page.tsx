@@ -147,7 +147,7 @@ export default function ConsultaStatusGradesPP() {
 
   return (
     <div className={`flex flex-col w-full items-start justify-center ${themeBG}`}>
-      <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA" />
+      <TitleComponentFixed stringOne="RELATÓRIOS DE SAÍDA P/ PEÇAS" />
       <div className="flex flex-col items-center justify-start min-h-[101vh] pt-7 gap-y-5 w-full">
         <div className={`flex w-full lg:p-[0.8rem] p-[0.7rem] lg:pt-[2.1rem] pt-4 fixed ${themeBG2} gap-x-5 z-[15] ${borderWhite}`}>
 
