@@ -263,7 +263,7 @@ export default function ConsultaStatusGradesPP() {
           <div className={`flex flex-col items-start justify-center w-full max-w-[73%]`}>
             <div className={`fixed top-[6.7rem] min-h-[70px] flex flex-row items-center justify-between w-full border-b ${colorDivResuls}`}>
               <div className={`flex flex-row items-center justify-start w-auto`}>
-                <MostradorPageResults2 title={`PREVISTO  T`} valor={filtered.previstoT} tema={tema} valorColor={`text-cyan-500`} />
+                <MostradorPageResults2 title={`PREVISTO  T`} valor={filtered.previstoT} tema={tema} valorColor={`text-cyan-500`}/>
                 <MostradorPageResults2 title={`EXPEDIDOS T`} valor={filtered.expedidosT} tema={tema} valorColor={`text-emerald-500`} />
                 <MostradorPageResults2 title={`À EXPEDIR T`} valor={filtered.aExpedirT} tema={tema} valorColor={`text-orange-500`} />
                 <MostradorPageResults2 title={`GRADES T`} valor={filtered.gradesT} tema={tema} />

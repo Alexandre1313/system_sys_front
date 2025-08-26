@@ -54,14 +54,14 @@ export default function Home() {
                 EMBALAGEM...
               </a>
             </Link>
-            <Link href={'/romaneios_despacho'} legacyBehavior>
+            <Link href={'/graf'} legacyBehavior>
               <a
                 className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-[9px] lg:text-[13px] h-7 lg:h-8 px-3 lg:px-5 lg:min-w-40 min-w-[130px]"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                DESPACHO...
+                GRÁFICO...
               </a>
             </Link>
             <Link href={'/estoques'} legacyBehavior>
@@ -93,17 +93,17 @@ export default function Home() {
                 target=""
                 rel="noopener noreferrer"
               >
-                RESUMOS TWO...
+                RESUMOS PK...
               </a>
             </Link>
-            <Link href={'/graf'} legacyBehavior>
+            <Link href={'/resumepp'} legacyBehavior>
               <a
                 className="rounded-md border border-solid border-white/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#1a1a1a] dark:hover:bg-[#1a1a1a] hover:border-transparent text-[9px] lg:text-[13px] h-7 lg:h-8 px-3 lg:px-5 lg:min-w-40 min-w-[130px]"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                GRÁFICO...
+                RESUMOS PP...
               </a>
             </Link>
             <Link href={'/caixas_por_grade_m'} legacyBehavior>
@@ -113,7 +113,7 @@ export default function Home() {
                 target=""
                 rel="noopener noreferrer"
               >
-                ET. U P/ GRADE
+                ET. P/ GRADE...
               </a>
             </Link>
           </div>
@@ -140,14 +140,14 @@ export default function Home() {
                 Run query grids →
               </a>
             </Link>
-            <Link href={'/resumepp'} legacyBehavior>
+            <Link href={'/romaneios_despacho'} legacyBehavior>
               <a
                 className="flex button items-center lg:text-[13px] text-[8px] gap-2 hover:underline hover:underline-offset-4"
                 href=""
                 target=""
                 rel="noopener noreferrer"
               >
-                Run Resumes PP →
+                Run Rom. Dispach →
               </a>
             </Link>
             <Link href={'/resume'} legacyBehavior>
