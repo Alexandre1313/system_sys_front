@@ -4,7 +4,7 @@ import { ExpedicaoResumoPDGrouped } from '../interfaces';
 
 pdfMake.vfs = pdfFonts.vfs;
 
-function formatDateTime(date: Date) {
+function formatDateTime(date: Date): string {
   const pad = (n: number) => n.toString().padStart(2, '0');
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }
@@ -13,6 +13,7 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
   const now = new Date();
   const formattedDateTime = formatDateTime(now);
 
+  // Cabeçalho da tabela SEM coluna Status
   const headers = [
     { text: 'Data', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
     { text: 'Item', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
@@ -25,11 +26,11 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
   const body: any[] = [];
 
   resumo.forEach(grupo => {
-    // Linha com PROJETO e DATA E HORA DE GERAÇÃO
+    // Cabeçalho do projeto e data/hora de geração
     body.push([
       {
         text: `PROJETO: ${grupo.projectname}`,
-        colSpan: 3,
+        colSpan: 4,
         bold: true,
         fontSize: 9,
         fillColor: '#dddddd',
@@ -37,9 +38,10 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
       },
       null,
       null,
+      null,
       {
         text: `DATA E HORA DE GERAÇÃO: ${formattedDateTime}`,
-        colSpan: 3,
+        colSpan: 2,
         fontSize: 7,
         italics: true,
         alignment: 'right',
@@ -47,17 +49,54 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
         margin: [0, 2, 0, 2]
       },
       null,
-      null,
     ]);
 
-    // Cabeçalho do grupo (colunas)
+    // Adiciona o cabeçalho da tabela (sem status)
     body.push(headers);
 
     grupo.groupedItems.forEach(dataGroup => {
-      dataGroup.items.forEach(item => {
-        const isTotal = item.item === 'Total' || item.item === 'Total Geral';
+      // Procura linha de status no grupo de itens
+      const statusRow = dataGroup.items.find(i => i.item?.startsWith('STATUS:'));
+      const isStatusHeader = !!statusRow;
 
-        if (isTotal) {
+      if (isStatusHeader) {
+        // Linha em branco antes do status
+        body.push([
+          { text: '', colSpan: 6, margin: [0, 3, 0, 3], fillColor: '#f3f3f3' },
+          null,
+          null,
+          null,
+          null,
+          null
+        ]);
+
+        // Linha de status destacada, ocupando todas as colunas da tabela
+        body.push([
+          {
+            text: statusRow?.item || '',
+            colSpan: 6,
+            fontSize: 9,
+            bold: true,
+            fillColor: '#d0d0d0',
+            margin: [0, 4, 0, 4],
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ]);
+
+        return; // pula as linhas seguintes deste grupo pois status não tem dados
+      }
+
+      // Agora as linhas normais do grupo
+      dataGroup.items.forEach(item => {
+        const isSubtotal = item.item === 'Total';
+        const isTotalGeral = item.item === 'Total Geral';
+
+        if (isSubtotal || isTotalGeral) {
+          // Linha total/subtotal com destaque
           body.push([
             { text: '', margin: [0, 1, 0, 1] },
             {
@@ -87,6 +126,7 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
             }
           ]);
         } else {
+          // Linhas normais: sem coluna status
           body.push([
             { text: item.data || '', fontSize: 8, margin: [0, 1, 0, 1] },
             { text: item.item, fontSize: 8, margin: [0, 1, 0, 1] },
@@ -113,13 +153,13 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
   const docDefinition: any = {
     pageSize: 'A4',
     pageMargins: [15, 20, 15, 20],
-    header: {
+    header: (currentPage: number, _pageCount: number) => ({
       margin: [15, 10, 15, 0],
       columns: [
         { text: 'RESUMO EXPEDIÇÃO POR DATA DE SAÍDA/PROJETO', style: 'header' },
         { text: formattedDateTime, alignment: 'right', fontSize: 9 }
       ]
-    },
+    }),
     footer: (currentPage: number, pageCount: number) => ({
       margin: [15, 0, 15, 10],
       columns: [
@@ -130,14 +170,14 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
       {
         style: 'tableStyle',
         table: {
-          headerRows: 2, // 2 linhas header para cada grupo (projeto+data e colunas)
-          widths: ['auto', '*', '*', 'auto', 'auto', 'auto'],
+          headerRows: 2,
+          widths: ['auto', '*', '*', 'auto', 'auto', 'auto'], // 6 colunas sem status
           body
         },
         layout: {
           fillColor: (rowIndex: number) => {
-            if (rowIndex % (body.length) === 0) return '#dddddd'; // fundo cinza projeto
-            if (rowIndex % (body.length) === 1) return '#eeeeee'; // fundo cinza claro colunas
+            if (rowIndex === 0 || rowIndex === 1) return '#dddddd'; // cabeçalho projeto e colunas
+            if (rowIndex % 2 === 0) return '#fafafa'; // linhas pares
             return null;
           },
           hLineWidth: () => 0.8,
@@ -166,5 +206,9 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
     }
   };
 
-  pdfMake.createPdf(docDefinition).open();
+  const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+  // Garante que o pageCount estará disponível para rodapé
+  pdfDocGenerator.getBuffer(() => {
+    pdfDocGenerator.open();
+  });
 }

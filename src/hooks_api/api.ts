@@ -51,8 +51,8 @@ const urlModificarItensDaCaixa = `http://${ip}:${port}/caixas/updatedbox`;
 const urlConsultarRanking = `http://${ip}:${port}/usuarios/ranking/`;
 const urlConsultaSaidasPorDataEProjeto = `http://${ip}:${port}/grades/saidaspdata/`;
 
-async function getProjectsPDataSaidas(projectId: string, tipoDeGrade: string): Promise<ExpedicaoResumoPDGrouped[]> {
-    const response = await fetch(`${urlConsultaSaidasPorDataEProjeto}${projectId}/${tipoDeGrade}`)
+async function getProjectsPDataSaidas(projectId: string, tipoDeGrade: string, remessa: string): Promise<ExpedicaoResumoPDGrouped[]> {
+    const response = await fetch(`${urlConsultaSaidasPorDataEProjeto}${projectId}/${tipoDeGrade}/${remessa}`)
     if (!response.ok) {
         throw new Error(`Erro ao buscar dados na api: ${response.statusText}`)
     }

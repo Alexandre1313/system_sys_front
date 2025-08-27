@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'RELATÓRIO POR DATA DE SAÍDA E PROJETO',
+    title: 'RELATÓRIO POR DATA DE SAÍDA',
     description: '...',
 }
 
