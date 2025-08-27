@@ -5,6 +5,7 @@ import {
     EntryInput,
     Escola,
     EscolaGradesItems,
+    ExpedicaoResumoPDGrouped,
     FinalyGrade, Grade,
     GradeOpenBySchool,
     GradesRomaneio, Grafo, Login,
@@ -48,11 +49,18 @@ const urlCaixasPorGrade = `http://${ip}:${port}/caixas/getcaixas/`;
 const urlGetCaixaAjust = `http://${ip}:${port}/caixas/getcaixaajust/`;
 const urlModificarItensDaCaixa = `http://${ip}:${port}/caixas/updatedbox`;
 const urlConsultarRanking = `http://${ip}:${port}/usuarios/ranking/`;
+const urlConsultaSaidasPorDataEProjeto = `http://${ip}:${port}/grades/saidaspdata/`;
 
-async function getRanking(month: string): Promise<{
-    rankingPorMes: Record<string, any[]>;
-    rankingGeral: any[];
-}> {
+async function getProjectsPDataSaidas(projectId: string, tipoDeGrade: string): Promise<ExpedicaoResumoPDGrouped[]> {
+    const response = await fetch(`${urlConsultaSaidasPorDataEProjeto}${projectId}/${tipoDeGrade}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados na api: ${response.statusText}`)
+    }
+    const data = await response.json();
+    return data;
+}
+
+async function getRanking(month: string): Promise<{ rankingPorMes: Record<string, any[]>; rankingGeral: any[]; }> {
     try {
         const response = await fetch(`${urlConsultarRanking}${month}`);
         if (!response.ok) {
@@ -441,5 +449,5 @@ export {
     getGradesPorEscolas, getGradesPorEscolasByItems, getGradesRoman, getGrafico, getProdEmbDay,
     getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp,
     getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb,
-    modificarCaixa, siginn, stockGenerate, getRanking, getFilterGradesPP
+    modificarCaixa, siginn, stockGenerate, getRanking, getFilterGradesPP, getProjectsPDataSaidas,
 };
