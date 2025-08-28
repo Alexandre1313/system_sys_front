@@ -114,6 +114,9 @@ export default function ResumoExpedicao() {
     expedido: '10%',
   };
   const alignClass = 'text-left'; // Alinha tudo à esquerda
+  let isTotalGeral = false;
+  let prev = 0;
+  let exp = 0;
 
   return (
     <div className="flex flex-col w-full bg-[#181818] text-zinc-300 min-h-[101vh] relative">
@@ -166,7 +169,7 @@ export default function ResumoExpedicao() {
       {loading && <IsLoading />}
 
       {!loading && buscou && (
-        <div className="max-w-7xl mx-auto w-full flex flex-col gap-6 mt-[10rem] mb-[3rem]">
+        <div className="max-w-full mx-auto w-full flex flex-col gap-6 mt-[10rem] mb-[4rem] px-6">
           {error && <p className="text-red-500 text-center">{error}</p>}
 
           {/* Container da tabela */}
@@ -203,15 +206,20 @@ export default function ResumoExpedicao() {
                       grupo.groupedItems.map((dataGroup, j) =>
                         dataGroup.items.map((row, k) => {
                           const isTotal = row.item === 'Total';
-                          const isTotalGeral = row.item === 'Total Geral';
+                          isTotalGeral = row.item === 'Total Geral';
+                          if (isTotalGeral) {
+                            prev = row.previsto;
+                            exp = row.expedido;
+                          }
 
-                          let rowStyle = 'font-extralight odd:bg-zinc-900 even:bg-[#1c1c1c]';
+                          let rowStyle = 'font-extralight odd:bg-gray-700 odd:bg-opacity-10 even:bg-transparent';
 
-                          if (isTotalGeral) rowStyle = 'bg-orange-600/10 text-white font-medium';
-                          if (isTotal) rowStyle = 'bg-green-600/10 text-white font-medium';
+                          if (isTotalGeral) rowStyle = 'bg-orange-600/20 text-white font-medium text-xl fixed bottom-0 left-0 w-full';
+                          if (isTotal) rowStyle = 'bg-zinc-800 text-green-500 font-medium';
+                          if (isTotalGeral) return null;
 
                           return (
-                            <tr key={`${i}-${j}-${k}`} className={`border-b border-zinc-700 ${rowStyle}`}>
+                            <tr key={`${i}-${j}-${k}`} className={`border-b border-zinc-800 ${rowStyle} hover:bg-green-500 hover:bg-opacity-[25%]`}>
                               <td style={{ width: colWidths.projeto }} className={`p-3 ${alignClass}`}>{isTotal || isTotalGeral ? '' : grupo.projectname}</td>
                               <td style={{ width: colWidths.data }} className={`p-3 ${alignClass}`}>{isTotal || isTotalGeral ? '' : row.data || ''}</td>
                               <td style={{ width: colWidths.item }} className={`p-3 ${alignClass}`}>{row.item}</td>
@@ -227,7 +235,20 @@ export default function ResumoExpedicao() {
                   )}
                 </tbody>
               </table>
-            </div>
+              {isTotalGeral && (
+                <div className="fixed bottom-0 left-0 w-full bg-orange-900 text-white font-medium text-xl">
+                  <div className="flex">
+                    <div style={{ width: '18%' }} className="p-3"></div>
+                    <div style={{ width: colWidths.data }} className="p-3"></div>
+                    <div style={{ width: colWidths.item }} className="p-3"></div>
+                    <div style={{ width: colWidths.genero }} className="p-3"></div>
+                    <div style={{ width: colWidths.tamanho }} className="p-3">TOTAL GERAL:</div>
+                    <div style={{ width: '10%' }} className="p-3">{convertMilharFormat(prev)}</div>
+                    <div style={{ width: '11%' }} className="p-3">{convertMilharFormat(exp)}</div>
+                  </div>
+                </div>
+              )}
+            </div>            
           </div>
         </div>
       )}
