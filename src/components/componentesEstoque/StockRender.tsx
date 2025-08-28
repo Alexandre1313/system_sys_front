@@ -2,7 +2,6 @@ import React from 'react';
 import { ProjetoStockItems } from '../../../core';
 import { getProjectsItemsSaldos } from '@/hooks_api/api';
 import { convertMilharFormat } from '../../../core/utils/tools';
-import TitleComponentFixed from '../ComponentesInterface/TitleComponentFixed';
 
 interface StockRenderProps {
   id: string;
@@ -42,10 +41,8 @@ export default async function StockRender({ id }: StockRenderProps) {
   const styleContraprova = contraprova ? 'text-green-400' : 'text-red-500';
 
   return (
-    <div className="p-6 pt-4 flex flex-col w-full gap-y-10">
-       <TitleComponentFixed stringOne={`MOVIMENTAÇÕES DO ESTOQUE`} twoPoints={`-`} stringTwo={stockRender.nome}/>
+    <div className="p-6 pt-4 flex flex-col w-full gap-y-10">      
       {/*<h1 className="text-xl font-bold text-center mb-4 text-zinc-500">{`MOVIMENTAÇÕES DO PROJETO ${stockRender.nome}`}</h1>*/}
-
       {/* Tabela de somatório geral */}
       <div className={`sticky top-28 min-w-full border border-zinc-700 mb-2 bg-[#181818]`}>
         <table className="min-w-full border-collapse border border-zinc-700 bg-green-500 bg-opacity-10">

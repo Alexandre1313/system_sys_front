@@ -12,7 +12,7 @@ export default function Home() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center lg:min-h-screen h-[100dvh] p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-2 lg:gap-3 row-start-2 items-center sm:items-center justify-center">
           <h1 className={`flex text-[20px] font-semi-bold text-emerald-600 lg:text-[50px]`}>
             <strong className={`flex lg:text-[120px] text-[50px] font-normal text-emerald-600 lg:-mt-[4.7rem] -mt-8 pr-3 lg:pr-8`}>
