@@ -9,6 +9,12 @@ function formatDateTime(date: Date): string {
   return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }
 
+function formatDateSP(date: string | null): string {
+  if (!date) return '';
+  const pad = date.split('-');
+  return `${pad[2]}/${pad[1]}/${pad[0]}`;
+}
+
 export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
   const now = new Date();
   const formattedDateTime = formatDateTime(now);
@@ -20,7 +26,8 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
     { text: 'Gênero', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
     { text: 'Tamanho', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
     { text: 'Previsto', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Expedido', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] }
+    { text: 'Expedido', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] },
+    { text: 'Diferença', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] }
   ];
 
   const body: any[] = [];
@@ -41,7 +48,7 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
       null,
       {
         text: `DATA E HORA DE GERAÇÃO: ${formattedDateTime}`,
-        colSpan: 2,
+        colSpan: 3,
         fontSize: 7,
         italics: true,
         alignment: 'right',
@@ -49,6 +56,7 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
         margin: [0, 2, 0, 2]
       },
       null,
+      null
     ]);
 
     // Adiciona o cabeçalho da tabela (sem status)
@@ -60,9 +68,38 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
       const isStatusHeader = !!statusRow;
 
       if (isStatusHeader) {
+        const statusText = statusRow?.item || '';
+
+        // Define cor de fundo baseado no status
+        let fillColor = '#d0d0d0';  // cor padrão
+        let fillOpacity = 0.3;
+
+        if (statusText.toUpperCase().includes('DESPACHADA')) {
+          fillColor = '#0000ff';  // azul
+        } else if (statusText.toUpperCase().includes('EXPEDIDA')) {
+          fillColor = '#008000';  // verde
+        } else if (statusText.toUpperCase().includes('PRONTA')) {
+          fillColor = '#FFFF00';
+        }
+
+        function traduzirStatus(status: string): string {
+          const cleanStatus = status.replace('STATUS:', '').trim().toUpperCase();
+          switch (cleanStatus) {
+            case 'DESPACHADA':
+              return 'JÁ ENVIADAS';
+            case 'EXPEDIDA':
+              return 'AGUARDANDO ENVIO';
+            case 'PRONTA':
+              return 'EM PROCESSAMENTO';
+            default:
+              return status; // retorna como está se não reconhecer
+          }
+        }
+
         // Linha em branco antes do status
         body.push([
-          { text: '', colSpan: 6, margin: [0, 3, 0, 3], fillColor: '#f3f3f3' },
+          { text: '', colSpan: 7, margin: [0, 3, 0, 3], fillColor: '#f3f3f3' },
+          null,
           null,
           null,
           null,
@@ -73,13 +110,15 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
         // Linha de status destacada, ocupando todas as colunas da tabela
         body.push([
           {
-            text: statusRow?.item || '',
-            colSpan: 6,
+            text: traduzirStatus(statusText),
+            colSpan: 7,
             fontSize: 9,
             bold: true,
-            fillColor: '#d0d0d0',
+            fillColor,
+            fillOpacity,
             margin: [0, 4, 0, 4],
           },
+          null,
           null,
           null,
           null,
@@ -94,11 +133,13 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
       dataGroup.items.forEach(item => {
         const isSubtotal = item.item === 'Total';
         const isTotalGeral = item.item === 'Total Geral';
+        let diff = item.expedido - item.previsto;
 
         if (isSubtotal || isTotalGeral) {
           // Linha total/subtotal com destaque
           body.push([
             { text: '', margin: [0, 1, 0, 1] },
+            { text: '' },
             {
               text: item.item,
               bold: true,
@@ -106,7 +147,6 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
               fillColor: '#bbbbbb',
               margin: [0, 2, 0, 2]
             },
-            { text: '', fillColor: '#bbbbbb' },
             { text: '', fillColor: '#bbbbbb' },
             {
               text: item.previsto.toString(),
@@ -123,12 +163,21 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
               fontSize: 9,
               fillColor: '#bbbbbb',
               margin: [0, 2, 0, 2]
+            },
+            {
+              text: diff === 0 ? '' : diff.toString(),
+              alignment: 'right',
+              bold: true,
+              fontSize: 9,
+              fillColor: '#bbbbbb',
+              margin: [0, 2, 0, 2],
+              color: diff < 0 ? 'red' : diff === 0 ? 'transparent' : 'black'
             }
           ]);
         } else {
           // Linhas normais: sem coluna status
           body.push([
-            { text: item.data || '', fontSize: 8, margin: [0, 1, 0, 1] },
+            { text: formatDateSP(item.data) || '', fontSize: 8, margin: [0, 1, 0, 1] },
             { text: item.item, fontSize: 8, margin: [0, 1, 0, 1] },
             { text: item.genero, fontSize: 8, margin: [0, 1, 0, 1] },
             { text: item.tamanho, fontSize: 8, margin: [0, 1, 0, 1] },
@@ -143,6 +192,15 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
               alignment: 'right',
               fontSize: 8,
               margin: [0, 1, 0, 1]
+            },
+            {
+              text: diff === 0 ? '' : diff.toString(),
+              alignment: 'right',
+              bold: true,
+              fontSize: 9,
+              fillColor: '#bbbbbb',
+              margin: [0, 1, 0, 1],
+              color: diff < 0 ? 'red' : diff === 0 ? 'transparent' : 'black'
             }
           ]);
         }
@@ -171,7 +229,7 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
         style: 'tableStyle',
         table: {
           headerRows: 2,
-          widths: ['auto', '*', '*', 'auto', 'auto', 'auto'], // 6 colunas sem status
+          widths: ['auto', '*', '*', 'auto', 'auto', 'auto', 'auto'],
           body
         },
         layout: {
