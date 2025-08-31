@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
-import { ChevronsRight, Search } from "react-feather";
+import { ChevronsRight, Search, ArrowLeft, Plus, Minus, Box, Eye } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
 import { convertMilharFormat } from "../../../core/utils/tools";
-import BotaoArrowLeft from "../ComponentesInterface/BotaoArrowLeft";
-import BotaoArrowLeftSmall from "../ComponentesInterface/BotaoArrowLehtSmall";
-import BotaoBox from "../ComponentesInterface/BotaoBox";
-import BotaoGradeDesc from "../ComponentesInterface/BotaoGradeDesc";
-import BotaoGradeUp from "../ComponentesInterface/BotaoGradeUp";
 import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
-import TitleComponentFixed from "../ComponentesInterface/TitleComponentFixed";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 import ItemsGradeInputText from './ItemsGradeInputText';
@@ -18,15 +12,16 @@ import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
 import ItemsGradeLinkTextHor from "./ItemsGradeLinkTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
 
+
 export interface GradeComponentProps {
     grade: Grade;
     escola: Escola;
-    formData: { [key: string]: any }; // Estado do pai passado como objeto   
+    formData: { [key: string]: any };
     isPend: boolean | null;
     inputRef: React.RefObject<HTMLInputElement>;
     isFocus: () => void;
     handlerOpnEncGradeMoodify: () => void
-    setFormData: (key: string, value: string) => void // Função que atualiza o estado no pai    
+    setFormData: (key: string, value: string) => void
     handleFormDataChangeDecresc: () => void
     handleItemSelecionado: (item: GradeItem | null) => void
     handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
@@ -78,13 +73,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         ).values()
     );
 
-    let borderColor = total === totalExpedido ? 'border-emerald-950 bg-emerald-950' : 'border-zinc-800 bg-zinc-800';
-
     const labelVolum = props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA';
-
-    if (props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" && total > totalExpedido) {
-        borderColor = 'border-red-900 bg-red-900';
-    }
 
     const abrirTela = () => {
         setMostrarTela(true);
@@ -96,7 +85,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const oneExpedida = props.grade.status === "EXPEDIDA" || props.grade.status === "DESPACHADA";
     const desativado = oneExpedida;
 
-    const statusClass = desativado ? "pointer-events-none opacity-50 hidden" : "";
+    const statusClass = desativado ? "pointer-events-none opacity-50" : "";
 
     const fecharTela = () => {
         setMostrarTela(false);
@@ -124,9 +113,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
-        //props.handleItemSelecionado(null)
-        //props.handleEscolaGradeSelecionada(null)
-        setItemSelecionado(null); // Limpa o item selecionado ao fechar a tela
+        setItemSelecionado(null);
     };
 
     const handlerItemGrade = () => {
@@ -192,268 +179,463 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     return (
         <>
-            {/* Card com informações */}
-            <div className={`flex flex-col m-2 p-2  border-[3px] rounded-md gap-y-0 shadow-lg ${borderColor}`}>
-                <div className="overflow-hidden">
-                    <table className="w-full table-fixed border-collapse">
-                        <thead className="">
-                            <tr className="text-zinc-400 font-extralight tracking-[1px]">
-                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">GRADE ID</th>
-                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">PREVISTO</th>
-                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">EXPEDIDO</th>
-                                <th className="w-1/4 px-4 py-2 text-center align-middle border-zinc-700 text-sm">À EXPEDIR</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="">
-                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-zinc-500 font-extralight tracking-[1px]">{props.grade.id}</td>
-                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-yellow-400 font-extralight tracking-[1px]">{convertMilharFormat(totalGrade || 0)}</td>
-                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-green-400 font-extralight tracking-[1px]">{convertMilharFormat(totalExpedido)}</td>
-                                <td className="px-4 py-2 text-center align-middle border border-zinc-600 text-xl text-blue-400 font-extralight tracking-[1px]">{convertMilharFormat(total - totalExpedido)}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div className={`flex flex-col`}>
-                    <div className={`flex flex-col items-center justify-center gap-y-1`}>
-                        {props.grade.tipo && (
-                            <h2 className="text-[14px] font-normal text-white mt-2 -mb-2">
-                                {props.grade.tipo}
-                            </h2>
-                        )}
-                        <span className={`text-[14px] font-normal text-white mt-2 -mb-2`}>{`${labelVolum ? 'VOL. CONSOLIDADOS' : 'VOL. PARCIAIS'}: ${props.grade.gradeCaixas.length}`}</span>
-                        <h2 className="text-[14px] font-normal text-blue-400 mt-2 mb-0">
-                            {uniqueItems.length === 1 ? 'ITEM:' : 'ITENS:'}
-                        </h2>
+            {/* Main Grade Card - Clean Modern Design */}
+            <div className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${
+                total === totalExpedido 
+                    ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20' 
+                    : totalExpedido > 0
+                        ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
+                        : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
+            }`}>
+                
+                {/* Header with Status and Grade ID */}
+                <div className="flex items-center justify-between mb-6">
+                    {/* Status Badge */}
+                    <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${
+                        total === totalExpedido 
+                            ? 'bg-emerald-900/30 border border-emerald-700' 
+                            : totalExpedido > 0
+                                ? 'bg-yellow-900/30 border border-yellow-700'
+                                : 'bg-blue-900/30 border border-blue-700'
+                    }`}>
+                        <div className={`w-2.5 h-2.5 rounded-full ${
+                            total === totalExpedido ? 'bg-emerald-400' : totalExpedido > 0 ? 'bg-yellow-400' : 'bg-blue-400'
+                        }`}></div>
+                        <span className={`text-xs font-semibold ${
+                            total === totalExpedido ? 'text-emerald-300' : totalExpedido > 0 ? 'text-yellow-300' : 'text-blue-300'
+                        }`}>
+                            {total === totalExpedido ? 'Completa' : totalExpedido > 0 ? 'Parcial' : 'Pendente'}
+                        </span>
                     </div>
-                    {uniqueItems.map((it, index) => {
-                        return (
-                            <div key={index} className={`flex w-full gap-x-3`}>
-                                <div className={`flex items-center justify-end w-1/2`}>
-                                    <strong className="ml-0 font-normal text-[16px] text-slate-400">{it.nome}</strong>
-                                </div>
-                                <div className={`flex items-center justify-start w-1/2`}>
-                                    <strong className="ml-0 font-normal text-[16px] text-slate-600">{it.genero}</strong>
-                                </div>
-                            </div>)
-                    })}
+
+                    {/* Grade ID - Critical Info */}
+                    <div className="flex items-center space-x-3">
+                        <span className="text-slate-400 text-sm font-medium">Grade</span>
+                        <span className="text-white font-bold text-2xl">#{props.grade.id}</span>
+                    </div>
                 </div>
-                {/* Botão que abre o modal */}
-                <div className={`flex items-center justify-center gap-x-3 w-full`}>
+
+                {/* Critical Expedition Information */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    {/* Escola */}
+                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola</p>
+                        <p className="text-blue-400 text-lg font-bold">#{props.escola?.numeroEscola}</p>
+                    </div>
+                    
+                    {/* Volumes */}
+                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Volumes</p>
+                        <p className="text-purple-400 text-lg font-bold">{props.grade.gradeCaixas.length}</p>
+                        <p className="text-xs text-slate-500 mt-1">{labelVolum ? 'Consolidados' : 'Parciais'}</p>
+                    </div>
+                </div>
+
+                {/* Grade Type Badge */}
+                {props.grade.tipo && (
+                    <div className="mb-6">
+                        <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${
+                            props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" 
+                                ? 'bg-red-900/30 text-red-300 border border-red-700'
+                                : 'bg-slate-900/50 text-slate-300 border border-slate-600'
+                        }`}>
+                            {props.grade.tipo}
+                        </span>
+                    </div>
+                )}
+
+                {/* Statistics Grid */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Previsto</p>
+                        <p className="text-yellow-400 text-lg font-bold">{convertMilharFormat(totalGrade || 0)}</p>
+                    </div>
+                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Expedido</p>
+                        <p className={`text-lg font-bold ${total === totalExpedido ? 'text-emerald-400' : 'text-slate-300'}`}>
+                            {convertMilharFormat(totalExpedido)}
+                        </p>
+                    </div>
+                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">À Expedir</p>
+                        <p className={`text-lg font-bold ${
+                            totalAExpedir > 0 ? 'text-blue-400' : 'text-slate-400'
+                        }`}>
+                            {convertMilharFormat(totalAExpedir)}
+                        </p>
+                    </div>
+                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Próxima Caixa</p>
+                        <p className="text-orange-400 text-lg font-bold">{props.grade.gradeCaixas.length + 1}</p>
+                    </div>
+                </div>
+
+                {/* Items Summary */}
+                <div className="mb-6">
+                    <h3 className="text-slate-400 text-sm font-semibold mb-3 flex items-center">
+                        <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
+                        {uniqueItems.length === 1 ? 'Item:' : `Itens (${uniqueItems.length}):`}
+                    </h3>
+                    <div className="space-y-2">
+                        {uniqueItems.slice(0, 3).map((it, index) => (
+                            <div key={index} className="flex items-center justify-between py-1.5 px-2 bg-slate-900/30 rounded-lg">
+                                <span className="text-white text-sm font-medium truncate flex-1 mr-2">{it.nome}</span>
+                                <span className="text-slate-400 text-sm bg-slate-800/50 px-2 py-1 rounded">{it.genero}</span>
+                            </div>
+                        ))}
+                        {uniqueItems.length > 3 && (
+                            <div className="text-slate-500 text-xs text-center py-2 bg-slate-900/30 rounded-lg">
+                                +{uniqueItems.length - 3} itens adicionais
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center gap-3">
                     {print()}
                     <button
                         type="button"
                         onClick={abrirTela}
-                        className={`flex items-center justify-center mt-3 px-3 py-1 bg-blue-500
-                            ${statusClass} hover:bg-green-500 hover:bg-opacity-10 bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]`}
+                        className={`flex-1 flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700
+                            ${statusClass} hover:from-blue-500 hover:to-blue-600 text-white font-semibold text-sm rounded-xl 
+                            transition-all duration-300 transform hover:scale-105 group-hover:shadow-lg shadow-lg min-h-[48px]`}
                     >
-                        ITENS DA GRADE <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+                        <Eye size={18} className="mr-2" />
+                        VER ITENS
+                        <ChevronsRight className="ml-2 transition-transform group-hover:translate-x-1" size={18} strokeWidth={2} />
                     </button>
                 </div>
             </div>
 
-            {/* Modal - Tela de sobreposição para Itens da Grade */}
+            {/* Modal 1: Items List View */}
             {mostrarTela && (
-                <div className="absolute inset-0 z-50 bg-[#181818] bg-opacity-100 flex 
-                pt-9 flex-col items-center lg:min-h-[101%] min-h-[290vh]">
-                    <TitleComponentFixed stringOne={`ESCOLA ${props.escola?.numeroEscola}`} twoPoints={`:`} stringTwo={props.escola?.nome} />
-                    <div className="flex w-full justify-center lg:pt-[2.5rem] fixed">
-                        <div className="relative w-full lg:w-1/4">
-                            {/* Ícone da lupa dentro do input */}
-                            <Search
-                                color="#ccc"
-                                size={21}
-                                className="absolute left-3 top-1/3 transform -translate-y-1/2 pointer-events-none"
-                                strokeWidth={1}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Buscar => 1º tamanho - 2ª Gênero - 3º Nome"
-                                className="w-full mb-6 p-2 pl-12 rounded border bg-[#181818] 
-                                                    border-neutral-600 text-white placeholder:text-neutral-400 focus:outline-none"
-                                value={busca}
-                                onChange={(e) => setBusca(e.target.value.toLowerCase())}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap justify-center w-full max-w-[1600px] p-8 mt-16">
-                        {itensFiltrados.map((itemGrade, index) => {
-                            const item = itemGrade?.itemTamanho?.item;
-                            const genero = item?.genero;
-                            const tamanho = itemGrade?.itemTamanho?.tamanho;
-                            const quantidade = itemGrade.quantidade;
-                            const quantidadeExpedida = itemGrade.quantidadeExpedida;
-                            const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
-                            const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
-                            const classBorderCard = quantidade === quantidadeExpedida ? 'border-green-800' : quantidadeExpedida === 0 ? 'border-gray-800' : 'border-yellow-800';
-                            const classBgCard = quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent' :
-                                  quantidadeExpedida === 0 ? 'bg-gradient-to-r from-[#252525] to-transparent' : 'bg-gradient-to-r from-[#4b3d0e] to-transparent';
-                            const classBgCardBarc = 'bg-gradient-to-r from-[#252525] to-transparent';
-                            const classBgCardAExpd = `${quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#252525] to-transparent text-zinc-400': 'bg-gradient-to-r from-blue-400/20 to-transparent text-blue-400'}`;
-                            const classBgCardExped = `${quantidade === quantidadeExpedida ? 'bg-gradient-to-r from-[#0d4127] to-transparent text-green-400 ': 'bg-gradient-to-r from-[#252525] to-transparent text-slate-400'}`;
-                            const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
-                            return (
-                                <div
-                                    onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)} // Passa o item ao clicar
-                                    key={index}
-                                    className={`bg-zinc-950 bg-opacity-15 p-3 m-4 rounded-md gap-y-2 shadow-lg flex-1 
-                                      min-w-[330px] max-w-[330px] flex flex-col items-start justify-start hover:shadow-green transition duration-200 
-                                      ease-in-out cursor-pointer min-h-[200px] border ${classBorderCard}`}
+                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col">
+                    {/* Background Patterns */}
+                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
+                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+                    
+                    {/* Header */}
+                    <div className="relative z-10 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-4 lg:p-6">
+                        <div className="flex items-center justify-between max-w-7xl mx-auto">
+                            <div className="flex items-center space-x-4">
+                                <button
+                                    onClick={fecharTela}
+                                    className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
                                 >
-                                    <div className={`flex flex-col ${classBgCard} gap-y-2 w-full`}>
-                                        <p className={`text-[13px] px-3 pt-2 font-semibold text-slate-500 tracking-[1px] w-full`}>
-                                            <strong className="text-slate-400 text-[19px] font-normal">{item?.nome}</strong>
-                                        </p>
-                                        <p className={`text-[13px] px-3 -mt-[7px] font-semibold text-slate-500 tracking-[1px] w-full`}>
-                                            <strong className="text-slate-400 text-[19px] font-normal">{genero}</strong>
-                                        </p>
-                                        <p className={`text-[13px] px-3 pb-2 -mt-[7px] font-semibold text-slate-500 tracking-[1px] w-full`}>
-                                            TAMANHO: <strong className="text-slate-200 text-[20px] font-normal"> {tamanho?.nome}</strong>
-                                        </p>
-                                    </div>
-                                    <table className="w-full table-fixed border-collapse">
-                                        <thead>
-                                            <tr className="text-slate-500 font-extralight tracking-[1px]">
-                                                <th className="w-1/2 px-4 py-2 text-center align-middle border-zinc-700 text-sm">PREVISTO</th>
-                                                <th className="w-1/2 px-4 py-2 text-center align-middle border-zinc-700 text-sm">EXPEDIDO</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td className="px-4 py-2 text-center align-middle border border-zinc-800 text-xl text-yellow-400 font-extralight tracking-[1px]">
-                                                    {convertMilharFormat(quantidade)}
-                                                </td>
-                                                <td className={`px-4 py-2 text-center align-middle border border-zinc-800
-                                                     text-xl font-extralight tracking-[1px] ${classBgCardExped}`}>
-                                                    {convertMilharFormat(quantidadeExpedida)}
-                                                </td>
-                                            </tr>
-
-                                            <tr className="text-slate-500 font-extralight tracking-[1px]">
-                                                <th className="px-4 py-2 text-center align-middle border-zinc-700 text-sm">ESTOQUE</th>
-                                                <th className="px-4 py-2 text-center align-middle border-zinc-700 text-sm">À EXPEDIR</th>
-                                            </tr>
-                                            <tr>
-                                                <td className={`p4 py-2 text-center align-middle border border-zinc-800 text-xl font-extralight tracking-[1px] 
-                                                     ${colorEstoque}`}>
-                                                    {convertMilharFormat(estoque!)}
-                                                </td>
-                                                <td className={`px-4 py-2 text-center align-middle border border-zinc-800 text-xl
-                                                    font-extralight tracking-[1px] ${classBgCardAExpd}`}>
-                                                    {convertMilharFormat(quantidade - quantidadeExpedida)}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2} className={`px-4 py-2 text-center align-middle border border-zinc-800
-                                                    text-xl text-slate-500 font-extralight tracking-[1px] ${classBgCardBarc}`}>
-                                                    BARCODE: {barcode}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <ArrowLeft size={20} />
+                                    <span>VOLTAR</span>
+                                </button>
+                                <div>
+                                    <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                                        ESCOLA {props.escola?.numeroEscola}
+                                    </h1>
+                                    <p className="text-sm text-slate-400">{props.escola?.nome}</p>
                                 </div>
-                            );
-                        })}
+                            </div>
+                            <div className="text-right">
+                                <div className="flex items-center space-x-2 mb-1">
+                                    <span className="text-slate-400 text-sm">Grade</span>
+                                    <span className="text-white font-bold text-lg">#{props.grade.id}</span>
+                                </div>
+                                <p className="text-emerald-400 text-sm font-medium">{itensFiltrados.length} ite{itensFiltrados.length !== 1 ? 'ns' : 'm'} encontrado{itensFiltrados.length !== 1 ? 's' : ''}</p>
+                            </div>
+                        </div>
                     </div>
-                    {/* Botão de fechar */}
-                    <div className="fixed top-[0.35rem] left-[8.07rem] w-auto flex justify-start mt-2 pt-16">
-                        <BotaoArrowLeft onClick={fecharTela} stringButtton={`VOLTAR`} iconSize={20}
-                            bgColor={"bg-red-700"} bgHoverColor={"hover:bg-red-600"} strokeWidth={3} />
+                    
+                    {/* Content */}
+                    <div className="relative z-10 flex-1 overflow-auto">
+                        <div className="max-w-7xl mx-auto p-6">
+                            {/* Search Bar */}
+                            <div className="flex justify-center mb-8">
+                                <div className="relative w-full max-w-md">
+                                    <Search
+                                        size={20}
+                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none"
+                                        strokeWidth={1.5}
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Buscar por tamanho, gênero ou nome..."
+                                        className="w-full h-12 pl-12 pr-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                                        value={busca}
+                                        onChange={(e) => setBusca(e.target.value.toLowerCase())}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Items Grid */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {itensFiltrados.map((itemGrade, index) => {
+                                    const item = itemGrade?.itemTamanho?.item;
+                                    const genero = item?.genero;
+                                    const tamanho = itemGrade?.itemTamanho?.tamanho;
+                                    const quantidade = itemGrade.quantidade;
+                                    const quantidadeExpedida = itemGrade.quantidadeExpedida;
+                                    const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
+                                    const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
+                                    const isCompleted = quantidade === quantidadeExpedida;
+                                    const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
+                                    const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
+                                    
+                                    return (
+                                        <div
+                                            onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
+                                            key={index}
+                                            className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${
+                                                isCompleted 
+                                                    ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20' 
+                                                    : isPartial 
+                                                        ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
+                                                        : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
+                                            }`}
+                                        >
+                                            {/* Status Badge */}
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${
+                                                    isCompleted 
+                                                        ? 'bg-emerald-900/30 border border-emerald-700' 
+                                                        : isPartial 
+                                                            ? 'bg-yellow-900/30 border border-yellow-700'
+                                                            : 'bg-blue-900/30 border border-blue-700'
+                                                }`}>
+                                                    <div className={`w-2.5 h-2.5 rounded-full ${
+                                                        isCompleted ? 'bg-emerald-400' : isPartial ? 'bg-yellow-400' : 'bg-blue-400'
+                                                    }`}></div>
+                                                    <span className={`text-xs font-semibold ${
+                                                        isCompleted ? 'text-emerald-300' : isPartial ? 'text-yellow-300' : 'text-blue-300'
+                                                    }`}>
+                                                        {isCompleted ? 'Completo' : isPartial ? 'Parcial' : 'Pendente'}
+                                                    </span>
+                                                </div>
+                                                <span className="text-slate-400 text-xs font-medium bg-slate-700/50 px-2 py-1 rounded">#{index + 1}</span>
+                                            </div>
+
+                                            {/* Item Info */}
+                                            <div className="mb-4">
+                                                <h3 className="text-lg font-semibold text-white group-hover:text-emerald-300 transition-colors duration-300 mb-2">
+                                                    {item?.nome}
+                                                </h3>
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <span className="text-slate-400 text-sm bg-slate-700/50 px-2 py-1 rounded">{genero}</span>
+                                                    <div className="flex items-center space-x-2">
+                                                        <span className="text-slate-500 text-sm">Tamanho:</span>
+                                                        <span className="text-white font-medium bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Stats Grid */}
+                                            <div className="grid grid-cols-2 gap-3 mb-4">
+                                                <div className="bg-slate-900/50 rounded-lg p-3 text-center border border-slate-700/50">
+                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Previsto</p>
+                                                    <p className="text-yellow-400 text-base font-semibold">{convertMilharFormat(quantidade)}</p>
+                                                </div>
+                                                <div className="bg-slate-900/50 rounded-lg p-3 text-center border border-slate-700/50">
+                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Expedido</p>
+                                                    <p className={`text-base font-semibold ${isCompleted ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                                        {convertMilharFormat(quantidadeExpedida)}
+                                                    </p>
+                                                </div>
+                                                <div className="bg-slate-900/50 rounded-lg p-3 text-center border border-slate-700/50">
+                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Estoque</p>
+                                                    <p className={`text-base font-semibold ${colorEstoque}`}>
+                                                        {convertMilharFormat(estoque!)}
+                                                    </p>
+                                                </div>
+                                                <div className="bg-slate-900/50 rounded-lg p-3 text-center border border-slate-700/50">
+                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">À Expedir</p>
+                                                    <p className={`text-base font-semibold ${
+                                                        quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
+                                                    }`}>
+                                                        {convertMilharFormat(quantidade - quantidadeExpedida)}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Barcode */}
+                                            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
+                                                <div className="flex items-center space-x-2 mb-2">
+                                                    <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                                                    <p className="text-slate-400 text-xs uppercase tracking-wider font-medium">Código de Barras</p>
+                                                </div>
+                                                <p className="text-slate-300 text-sm font-mono break-all">{barcode}</p>
+                                            </div>
+
+                                            {/* Click to Expand Indicator */}
+                                            <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-center">
+                                                <span className="text-slate-500 text-xs group-hover:text-slate-300 transition-colors duration-300">
+                                                    Clique para expedição →
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
 
-            {/* Modal de detalhes do item - Comportamento fixo */}
+            {/* Modal 2: Expedition Control */}
             {mostrarTelaExped && itemSelecionado && (
-                <div className="fixed inset-0 z-50 bg-[#181818] bg-opacity-100 min-h-[105vh]
-                 lg:min-h-[100vh] flex flex-col pt-10
-                justify-center items-center p-4">
-                    <TitleComponentFixed stringOne={`EXPEDINDO ITEM`} twoPoints={`:`}
-                        stringTwo={itemSelecionado?.itemTamanho?.item?.nome} />
-                    {/* Exibe detalhes do item selecionado, com largura fixa e centralização */}
-                    <div className="p-24 pt-5 rounded-md flex flex-col items-center justify-start w-full border border-transparent min-h-full gap-y-6">
-                        <div className="flex lg:flex-row flex-col justify-between w-full bg-[#252525] p-4 pb-6 shadow-[0px_0px_30px_5px_rgba(0,0,0,0.25)] rounded-md">
-                            <div className="flex gap-x-9">
-                                <BotaoArrowLeftSmall stringButtton={""} bgColor={"bg-red-700"}
-                                    iconSize={19} onClick={fecharTelaExped} bgHoverColor={"hover:bg-red-600"} width={`min-w-[55px] max-w-[55px]`}
-                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
-                                <BotaoGradeUp stringButtton={""} iconSize={19} bgColor={"bg-green-700"}
-                                    bgHoverColor={"hover:bg-green-600"} onClick={handlerItemGrade} width={`min-w-[55px] max-w-[55px]`}
-                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
-                                <BotaoGradeDesc stringButtton={""} iconSize={19} bgColor={"bg-blue-800"}
-                                    bgHoverColor={"hover:bg-blue-700"} onClick={props.handleFormDataChangeDecresc} width={`min-w-[55px] max-w-[55px]`}
-                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
-                                <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`} />
-                                <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
-                                    labelName={`ESCOLA Nº :`} color={`text-zinc-400`} />
-                                <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
-                                    labelName={`VOLUMES :`} color={`text-red-600`} />
+                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col">
+                    {/* Background Patterns */}
+                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
+                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+                    
+                    {/* Header */}
+                    <div className="relative z-10 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-4 lg:p-6">
+                        <div className="flex items-center justify-between max-w-7xl mx-auto">
+                            <div className="flex items-center space-x-4">
+                                <div>
+                                    <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                                        EXPEDINDO ITEM
+                                    </h1>
+                                    <p className="text-sm text-emerald-400 font-medium">{itemSelecionado?.itemTamanho?.item?.nome}</p>
+                                </div>
                             </div>
-                            <div className="lg:flex lg:gap-x-9">
-                                <BotaoBox stringButtton={"FECHAR CAIXA"} iconSize={19} bgColor={"bg-yellow-600"}
-                                    bgHoverColor={"hover:bg-yellow-500"} onClick={props.OpenModalGerarCaixa}
-                                    shadow={`shadow-[0px_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0px_8px_15px_rgba(0,0,0,0.3)] hover:translate-y-1 transition-all duration-300`} />
+                            <div className="text-right">
+                                <div className="flex items-center space-x-2 mb-1">
+                                    <span className="text-slate-400 text-sm">Grade</span>
+                                    <span className="text-white font-bold text-lg">#{props.grade.id}</span>
+                                </div>
+                                <p className="text-emerald-400 text-sm">Escola {props.escola?.numeroEscola}</p>
                             </div>
                         </div>
-                        <div className={"flex bg-[#252525] flex-row justify-center items-stretch max-w-[1600px] rounded-lg p-8 mt-8 shadow-[0px_20px_40px_rgba(0,0,0,0.3)]"}>
-                            <div className={"pt-0 flex flex-col justify-stretch items-start w-1/2 h-full gap-y-5"}>
-                                <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
-                                    labelName={`ITEM`} color={`text-zinc-400`} />
-                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                    labelName={`GÊNERO`} color={`text-zinc-400`} />
-                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                    labelName={`TAMANHO`} color={`text-zinc-400`} />
-                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="relative z-10 flex-1 overflow-auto">
+                        <div className="max-w-7xl mx-auto p-6">
+                            
+                            {/* Actions Bar */}
+                            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 mb-8">
+                                <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+                                    
+                                    {/* Action Buttons */}
+                                    <div className="flex flex-wrap gap-3">
+                                        <button
+                                            onClick={fecharTelaExped}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-red-700 hover:bg-red-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            <ArrowLeft size={19} />
+                                            <span>Voltar</span>
+                                        </button>
+                                        <button
+                                            onClick={handlerItemGrade}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-green-700 hover:bg-green-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            <Plus size={19} />
+                                            <span>Up</span>
+                                        </button>
+                                        <button
+                                            onClick={props.handleFormDataChangeDecresc}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            <Minus size={19} />
+                                            <span>Down</span>
+                                        </button>
+                                    </div>
+
+                                    {/* Horizontal Info */}
+                                    <div className="flex flex-wrap gap-3 text-sm">
+                                        <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`} />
+                                        <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
+                                            labelName={`ESCOLA Nº :`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
+                                            labelName={`VOLUMES :`} color={`text-red-600`} />
+                                    </div>
+
+                                    {/* Close Box Button */}
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={props.OpenModalGerarCaixa}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            <Box size={19} />
+                                            <span>FECHAR CAIXA</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div className={"pt-0 flex flex-col justify-start items-end w-1/2 h-full gap-y-5"}>
-                                <div className="flex flex-row justify-start items-center gap-x-5">
-                                    <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                        labelName={`TOTAL DO ITEM À EXPEDIR`} color={`text-zinc-400`} />
-                                    <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                        labelName={`TOTAL DO ITEM JÁ EXPEDIDO`} />
+
+                            {/* Main Content Grid */}
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                                
+                                {/* Left Column - Item Information */}
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
+                                    <div className="flex items-center space-x-2 mb-4">
+                                        <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                                        <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
+                                            labelName={`ITEM`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
+                                            labelName={`GÊNERO`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
+                                            labelName={`TAMANHO`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
+                                            labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
+                                    </div>
                                 </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">
-                                    <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
-                                        formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true} bgBackGround={``}
-                                        valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
-                                        height={`h-[80px]`} txtSize={`text-[56px]`} maxWhidth={`max-w-[300px]`}
-                                        colorBorder={``} />
-                                </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">
-                                    <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
-                                        formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true}
-                                        valueColor={`text-white`} labelColor={`text-white`}
-                                        bgBackGround={``} txtSize={`text-[56px]`}
-                                        maxWhidth={`max-w-[300px]`}
-                                        height={`h-[80px]`}
-                                        colorBorder={``} />
-                                </div>
-                                <div className="flex flex-row justify-start items-center gap-x-5">
-                                    <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
-                                        formData={props.formData} setFormData={props.setFormData}
-                                        isReadOnly={true}
-                                        valueColor={`text-zinc-400`} />
-                                    <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
-                                        formData={props.formData} setFormData={props.setFormData}
-                                        txtSize={`text-[23px]`}
-                                        inputRef={props.inputRef}
-                                        isFocuss={props.isFocus}
-                                        placeholder={`Mantenha o cursor aqui...`}
-                                        isFocus={`border border-emerald-300 focus:border-emeral-500 focus:outline-none 
-                                        focus:ring focus:ring-emerald-500`}
-                                        labelColor={`text-emerald-500`}
-                                        positionn={`text-left`}
-                                        labelposition={`justify-start`} />
+
+                                {/* Right Column - Expedition Control */}
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
+                                    <div className="flex items-center space-x-2 mb-4">
+                                        <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                                        <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
+                                    </div>
+                                    
+                                    {/* Quantities in Row */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
+                                            labelName={`TOTAL À EXPEDIR`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
+                                            labelName={`JÁ EXPEDIDO`} />
+                                    </div>
+
+                                    {/* Special Fields */}
+                                    <div className="space-y-4">
+                                        <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            isReadOnly={true} 
+                                            valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
+                                            height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
+                                        
+                                        <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            isReadOnly={true}
+                                            valueColor={`text-white`} labelColor={`text-white`}
+                                            txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
+                                            height={`h-[80px]`} />
+
+                                        <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            isReadOnly={true} maxWhidth={`w-full`}
+                                            valueColor={`text-zinc-400`} />
+                                        
+                                        <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
+                                            inputRef={props.inputRef}
+                                            isFocuss={props.isFocus}
+                                            placeholder={`Mantenha o cursor aqui...`}
+                                            isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
+                                            focus:ring focus:ring-emerald-500`}
+                                            labelColor={`text-emerald-500`}
+                                            positionn={`text-left`}
+                                            labelposition={`justify-start`} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
-            {/* Componente ModalGerarCaixa com o mutate passado */}
+
+            {/* Modal Component */}
             <ModalAlterGradeItem
                 itemSelecionado={itemSelecionado}
                 isOpen={modalModifyGradeItemOpen}

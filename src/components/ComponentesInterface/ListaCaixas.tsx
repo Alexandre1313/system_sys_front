@@ -6,11 +6,10 @@ import { Caixa } from '../../../core';
 
 interface ListaCaixasProps {
   caixas: Caixa[];
-  tema: boolean;  
   setTotalGrade?: (n: number, n1: number) => void;  
 }
 
-const ListaCaixas = ({ caixas, tema, setTotalGrade }: ListaCaixasProps) => {
+const ListaCaixas = ({ caixas, setTotalGrade }: ListaCaixasProps) => {
 
   useEffect(() => {
     const total = caixas.reduce((acc, caixa) => acc + (caixa.qtyCaixa || 0), 0);
@@ -22,9 +21,18 @@ const ListaCaixas = ({ caixas, tema, setTotalGrade }: ListaCaixasProps) => {
   }, [caixas, setTotalGrade]);
 
   return (
-    <div className="flex flex-col gap-y-8 gap-x-5 items-start justify-start min-h-[80vh] w-full">
+    <div className="w-full space-y-4">
       {caixas.map((caixa, index) => (
-        <CaixaCard key={index} caixa={caixa} tema={tema} len={caixas.length} />
+        <div
+          key={index}
+          className="animate-fade-in"
+          style={{
+            animationDelay: `${index * 50}ms`,
+            animationFillMode: 'both'
+          }}
+        >
+          <CaixaCard caixa={caixa} len={caixas.length} />
+        </div>
       ))}
     </div>
   );

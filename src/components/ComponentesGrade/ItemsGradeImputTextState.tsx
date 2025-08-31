@@ -41,7 +41,7 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
                 className={`flex p-2 ${props.maxWhidth ? props.maxWhidth: 'w-full'} text-left ${props.txtSize ? props.txtSize: 'text-[27px]'}
                 ${props.bgBackGround ? props.bgBackGround : 'bg-trans'}
                 ${props.isFocus ? props.isFocus: 'outline-none  pointer-events-none'} 
-                rounded-md  border h-[50px] min-w-[374px] ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
+                rounded-md  border h-[50px] grade-input-responsive ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
                 ${props.valueColor ? props.valueColor: 'text-green-400'} 
                 placeholder:text-[rgba(333,333,333,0.1)] ${props.height ? props.height: ''}
                 ${props.colorBorder ? props.colorBorder: 'border-gray-700'}`}

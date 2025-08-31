@@ -2,82 +2,131 @@
 
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import ListaCaixas from '@/components/ComponentesInterface/ListaCaixas';
-import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { getCaixasPorGrade } from '@/hooks_api/api';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Package } from 'react-feather';
 import { Caixa } from '../../../../core';
 
 const fachBox = async (id: string): Promise<Caixa[]> => {
-    const caixas = await getCaixasPorGrade(id);
-    return caixas;
+    return await getCaixasPorGrade(id);
 };
 
-export default function PaginaCaixas() {
-    const [tema, setTema] = useState<boolean>(false); // false = escuro
+export default function PaginaCaixasPorGrade() {
+    const params = useParams();
+    const id = params.id as string;
     const [caixas, setCaixas] = useState<Caixa[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [hasMounted, setHasMounted] = useState(false);
     const [totalGradeC, setTotalGradeC] = useState<number>(0);
     const [totalGradeI, setTotalGradeI] = useState<number>(0);
 
-    const { id } = useParams();
-
     useEffect(() => {
+        setHasMounted(true);
         const fetchData = async () => {
-            if (id) {
-                setLoading(true);
-                const box = await fachBox(id as string);
-
-                if (box.length > 0 && box[0].escolaCaixa) {
-                    document.title = `${box[0].escolaCaixa} - CAIXAS POR GRADE`;
-                }
-                
+            try {
+                const box = await fachBox(id);
                 setCaixas(box);
+                if (box.length > 0 && box[0].escolaCaixa) {
+                    document.title = `${box[0].escolaCaixa} - CAIXAS POR GRADE ${id}`;
+                }
+            } catch (error) {
+                console.log(error)
+            } finally {
                 setLoading(false);
             }
         };
         fetchData();
     }, [id]);
 
+    if (!hasMounted) return null;
+
+
+
     const setTotal = (num: number, num1: number) => {
         setTotalGradeC(num);
         setTotalGradeI(num1);
     }
 
-    const colorButons = tema ? 'bg-zinc-300 text-zinc-950 hover:bg-zinc-200' : 'bg-zinc-700 text-white hover:bg-zinc-600';
-
     return (
-        <div className={`flex w-full ${tema ? 'bg-[#FFFFFF]' : 'bg-[#181818]'} flex-col min-h-[101vh] pt-[80px]`}>
-            <TitleComponentFixed stringOne="LISTAGEM DE CAIXAS DA GRADE ID " stringTwo={`${id}`} />
-            <div className={`flex w-full z-20 items-center justify-between gap-x-4 bg-[#202020] fixed top-[2.8rem] left-0 px-4 p-3 pt-4`}>
-                <div className={`flex flex-row items-center justify-center p-1 px-3 uppercase bg-black rounded-lg`}>
-                    <span className={`flex text-[20px] text-slate-300 items-center justify-end`}>Total da grade por caixa:</span>
-                    <span className={`pl-5 flex text-[25px] min-w-[110px] items-center justify-start text-yellow-500`}>{totalGradeC}</span>
-                    <span className={`flex text-[20px] text-slate-300 items-center justify-end`}>Total da grade por itens:</span>
-                    <span className={`pl-5 flex text-[25px] min-w-[110px] items-center justify-start text-emerald-500`}>{totalGradeI}</span>
-                </div>
-                <div>
-                    {/* Botão mudar tema */}
-                    <button onClick={() => setTema(prev => !prev)} className={`px-6 py-1 min-w-[50px] h-[34px] rounded-md ${colorButons}`}>
-                        {tema ? "E" : "C"}
-                    </button>
-                </div>
-            </div>
-            <div className="flex flex-col w-full justify-start items-center gap-y-1 pb-4">
-                <div className="flex justify-center items-center w-full px-32 pt-[3.5rem]">
-                    {loading ? (
-                        <IsLoading color={tema} />
-                    ) : caixas.length === 0 ? (
-                        <div className="flex flex-row flex-wrap gap-y-1 gap-x-5 items-center justify-center min-h-[80vh] w-full">
-                            <p className={`text-center text-lg py-10 ${tema ? 'text-zinc-600' : 'text-zinc-400'}`}>
-                                {`Nenhuma caixa encontrada para a grade id ${id}.`}
-                            </p>
+        <PageWithDrawer
+            projectName="Caixas por Grade"
+            sectionName={`Grade ${id}`}
+            currentPage="caixas_por_grade"
+        >
+            {/* Header Fixo para Desktop, Compacto para Mobile */}
+            <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
+                <div className="px-4 pt-16 pb-3 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        
+                        {/* Header Compacto */}
+                        <div className="flex items-center justify-between mb-3 lg:mb-4">
+                            <div className="flex items-center space-x-3 lg:space-x-4 min-w-0">
+                                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg lg:rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                                    <Package size={14} className="lg:w-5 lg:h-5 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <h1 className="text-base lg:text-xl xl:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 truncate">
+                                        Caixas por Grade
+                                    </h1>
+                                    <p className="text-slate-400 text-xs lg:text-sm truncate">Grade ID: {id}</p>
+                                </div>
+                            </div>
                         </div>
-                    ) : (
-                        <ListaCaixas caixas={caixas} tema={tema} setTotalGrade={setTotal} />
-                    )}
+
+                        {/* Estatísticas */}
+                        {caixas.length > 0 && (
+                            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div className="bg-slate-700/50 border border-slate-600 rounded-lg p-3">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-slate-400 text-xs font-medium">Total por Caixa:</span>
+                                            <span className="text-lg font-bold text-yellow-500">{totalGradeC}</span>
+                                        </div>
+                                    </div>
+                                    <div className="bg-slate-700/50 border border-slate-600 rounded-lg p-3">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-slate-400 text-xs font-medium">Total por Itens:</span>
+                                            <span className="text-lg font-bold text-emerald-500">{totalGradeI}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+
+            {/* Conteúdo Principal */}
+            <div className="px-4 pt-4 lg:pt-48 pb-8 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col w-full justify-start items-center gap-y-1 pb-4">
+                        <div className="flex justify-center items-center w-full min-h-[90vh]">
+                            {loading ? (
+                                <IsLoading />
+                            ) : caixas.length === 0 ? (
+                                <div className="text-center py-12 lg:py-16">
+                                    <div className="w-16 h-16 lg:w-20 lg:h-20 bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6 border border-slate-700">
+                                        <Package size={32} className="lg:w-10 lg:h-10 text-slate-500" strokeWidth={1.5} />
+                                    </div>
+                                    <h3 className="text-xl lg:text-2xl font-semibold text-slate-300 mb-3 lg:mb-4">
+                                        Nenhuma caixa encontrada
+                                    </h3>
+                                    <p className="text-slate-500 text-sm lg:text-base max-w-md mx-auto mb-4 lg:mb-6">
+                                        Para a grade de ID: <span className="font-mono text-emerald-400">{id}</span>
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className="w-full">
+                                    {/* Lista de Caixas */}
+                                    <ListaCaixas caixas={caixas} setTotalGrade={setTotal} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </PageWithDrawer>
     );
 }

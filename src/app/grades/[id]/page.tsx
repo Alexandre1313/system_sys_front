@@ -6,7 +6,7 @@ import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import Modal from '@/components/ComponentesInterface/modal';
 import ModalEncGrade from '@/components/ComponentesInterface/ModalEncGrade';
 import ModalGerarCaixa from '@/components/ComponentesInterface/ModalGerarCaixa';
-import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGradesPorEscolas } from '@/hooks_api/api';
 import { useParams } from 'next/navigation';
@@ -261,11 +261,27 @@ export default function Grades() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-[95vh] w-[100%]">
-        <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
-          Erro: {error.message || 'Erro desconhecido'}
-        </p>
-      </div>
+      <PageWithDrawer sectionName="Erro" currentPage="grades">
+        <div className="flex items-center justify-center min-h-[100dvh] px-4">
+          <div className="relative z-10 max-w-md w-full">
+            <div className="bg-red-900/20 border border-red-800 rounded-2xl p-6 sm:p-8 text-center">
+              <div className="w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-red-400 text-2xl">⚠️</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-red-400 mb-4">Erro no Sistema</h2>
+              <p className="text-red-300 text-sm sm:text-base mb-6">
+                {error.message || 'Erro desconhecido ao carregar as grades.'}
+              </p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+              >
+                Tentar Novamente
+              </button>
+            </div>
+          </div>
+        </div>
+      </PageWithDrawer>
     );
   }
 
@@ -290,78 +306,103 @@ export default function Grades() {
   const terceiraParte = filteredGrades.slice(terco * 2);
 
   return (
-    <div className="flex flex-col p-2 lg:p-1">
-      <div className="flex flex-col items-center min-h-[95vh] pt-7 lg:pt-1 rounded-md">
-        <TitleComponentFixed stringOne={`${escola?.nome} - `} twoPoints={`${escola?.numeroEscola} - `} stringTwo={escola?.projeto?.nome} />
-        <div className="flex flex-col lg:flex-row justify-between lg:min-h-[95vh] p-2 lg:p-7 rounded-md lg:pt-12 w-full pt-7">
-          <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
-            {primeiraParte.map((grade) => (
-              <GradeComponent
-                key={grade.id}
-                grade={grade}
-                escola={escola}
-                formData={formData}
-                isPend={isPend}
-                inputRef={inputRef}
-                isFocus={isFocus}
-                handleFormDataChangeDecresc={handleFormDataChangeDecresc}
-                handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
-                setFormData={handleFormDataChange}
-                handleItemSelecionado={handleItemSelecionado}
-                handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
-                handleNumeroDaCaixa={handleNumeroDaCaixa}
-                OpenModalGerarCaixa={OpenModalGerarCaixa}
-                OpenModalGerarCaixaError={OpenModalGerarCaixaError}
-                printEti={printEti}
-                mutate={swrMutate}
-              />
-            ))}
+    <PageWithDrawer 
+      projectName={escola?.projeto?.nome} 
+      sectionName={`${escola?.nome} - Escola #${escola?.numeroEscola}`}
+      currentPage="grades"
+    >
+      <div className="px-4 pt-20 pb-8 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Page Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 mb-4">
+              Grades da Escola
+            </h1>
+            <div className="flex items-center justify-center space-x-4 text-slate-400 text-sm">
+              <span>{escola?.nome}</span>
+              <span>•</span>
+              <span>Escola #{escola?.numeroEscola}</span>
+              <span>•</span>
+              <span>{filteredGrades.length} grade{filteredGrades.length !== 1 ? 's' : ''}</span>
+            </div>
           </div>
-          <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
-            {segundaParte.map((grade) => (
-              <GradeComponent
-                key={grade.id}
-                grade={grade}
-                escola={escola}
-                formData={formData}
-                isPend={isPend}
-                inputRef={inputRef}
-                isFocus={isFocus}
-                handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
-                handleFormDataChangeDecresc={handleFormDataChangeDecresc}
-                setFormData={handleFormDataChange}
-                handleItemSelecionado={handleItemSelecionado}
-                handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
-                handleNumeroDaCaixa={handleNumeroDaCaixa}
-                OpenModalGerarCaixaError={OpenModalGerarCaixaError}
-                OpenModalGerarCaixa={OpenModalGerarCaixa}
-                printEti={printEti}
-                mutate={swrMutate}
-              />
-            ))}
-          </div>
-          <div className="flex flex-col justify-start pl-5 w-[100%] lg:w-1/3 p-2 gap-y-3 border-l border-neutral-700">
-            {terceiraParte.map((grade) => (
-              <GradeComponent
-                key={grade.id}
-                grade={grade}
-                escola={escola}
-                formData={formData}
-                isPend={isPend}
-                inputRef={inputRef}
-                isFocus={isFocus}
-                handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
-                setFormData={handleFormDataChange}
-                handleItemSelecionado={handleItemSelecionado}
-                handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
-                handleFormDataChangeDecresc={handleFormDataChangeDecresc}
-                handleNumeroDaCaixa={handleNumeroDaCaixa}
-                OpenModalGerarCaixaError={OpenModalGerarCaixaError}
-                OpenModalGerarCaixa={OpenModalGerarCaixa}
-                printEti={printEti}
-                mutate={swrMutate}
-              />
-            ))}
+
+          {/* Grades Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Primeira Coluna */}
+            <div className="space-y-4">
+              {primeiraParte.map((grade) => (
+                <GradeComponent
+                  key={grade.id}
+                  grade={grade}
+                  escola={escola}
+                  formData={formData}
+                  isPend={isPend}
+                  inputRef={inputRef}
+                  isFocus={isFocus}
+                  handleFormDataChangeDecresc={handleFormDataChangeDecresc}
+                  handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
+                  setFormData={handleFormDataChange}
+                  handleItemSelecionado={handleItemSelecionado}
+                  handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
+                  handleNumeroDaCaixa={handleNumeroDaCaixa}
+                  OpenModalGerarCaixa={OpenModalGerarCaixa}
+                  OpenModalGerarCaixaError={OpenModalGerarCaixaError}
+                  printEti={printEti}
+                  mutate={swrMutate}
+                />
+              ))}
+            </div>
+
+            {/* Segunda Coluna */}
+            <div className="space-y-4">
+              {segundaParte.map((grade) => (
+                <GradeComponent
+                  key={grade.id}
+                  grade={grade}
+                  escola={escola}
+                  formData={formData}
+                  isPend={isPend}
+                  inputRef={inputRef}
+                  isFocus={isFocus}
+                  handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
+                  handleFormDataChangeDecresc={handleFormDataChangeDecresc}
+                  setFormData={handleFormDataChange}
+                  handleItemSelecionado={handleItemSelecionado}
+                  handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
+                  handleNumeroDaCaixa={handleNumeroDaCaixa}
+                  OpenModalGerarCaixaError={OpenModalGerarCaixaError}
+                  OpenModalGerarCaixa={OpenModalGerarCaixa}
+                  printEti={printEti}
+                  mutate={swrMutate}
+                />
+              ))}
+            </div>
+
+            {/* Terceira Coluna */}
+            <div className="space-y-4">
+              {terceiraParte.map((grade) => (
+                <GradeComponent
+                  key={grade.id}
+                  grade={grade}
+                  escola={escola}
+                  formData={formData}
+                  isPend={isPend}
+                  inputRef={inputRef}
+                  isFocus={isFocus}
+                  handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
+                  setFormData={handleFormDataChange}
+                  handleItemSelecionado={handleItemSelecionado}
+                  handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
+                  handleFormDataChangeDecresc={handleFormDataChangeDecresc}
+                  handleNumeroDaCaixa={handleNumeroDaCaixa}
+                  OpenModalGerarCaixaError={OpenModalGerarCaixaError}
+                  OpenModalGerarCaixa={OpenModalGerarCaixa}
+                  printEti={printEti}
+                  mutate={swrMutate}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -390,6 +431,6 @@ export default function Grades() {
         box={caixa}
         isPend={isPend}
       />
-    </div>
+    </PageWithDrawer>
   );
 }

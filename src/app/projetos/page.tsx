@@ -1,4 +1,4 @@
-import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
+import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import ProjetoComponentNew from '@/components/ComponentesProjeto/ProjetoComponentNew';
 import { Projeto } from '../../../core';
 import { get } from "../../hooks_api/api";
@@ -12,34 +12,88 @@ export default async function Projetos() {
         const projetos: Projeto[] = await get();
 
         return (
-            <div className="flexColCS p-4 pt-14">
-                <TitleComponentFixed stringOne={`PROJETOS`} />
-                <div className="flexColCS min-h-[96vh] border border-transparent rounded-lg
-                  p-4 pt-7 lg:p-9 gap-y-5 lg:gap-y-10">
-                    <div className="flexRRFE max-w-[1450px] border border-transparent 
-                      rounded-lg gap-x-6 flex-wrap gap-y-6 p-1 lg:p-3">
-                        {
-                            projetos.length > 0 ? (
-                                projetos
+            <PageWithDrawer sectionName="Projetos" currentPage="projetos">
+                <div className="px-4 pt-20 pb-8 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        {/* Page Header */}
+                        <div className="text-center mb-8 sm:mb-12">
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 mb-4">
+                                Gestão de Projetos
+                            </h1>
+                            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+                                Selecione um projeto para acessar o sistema de expedição e gerenciar suas operações
+                            </p>
+                            <div className="flex items-center justify-center mt-4">
+                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+                                <span className="mx-4 text-slate-500 text-xs">
+                                    {projetos.length > 0 ? `${projetos.length} projeto${projetos.length > 1 ? 's' : ''} disponível${projetos.length > 1 ? 'eis' : ''}` : 'Carregando...'}
+                                </span>
+                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+                            </div>
+                        </div>
+
+                        {/* Projects Grid */}
+                        {projetos.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                                {projetos
                                     .sort((a, b) => a.nome.localeCompare(b.nome))
-                                    .map((p) => (
-                                        <ProjetoComponentNew key={p.id} projeto={p} />
+                                    .map((projeto, index) => (
+                                        <div 
+                                            key={projeto.id}
+                                            className="animate-fade-in"
+                                            style={{
+                                                animationDelay: `${index * 50}ms`,
+                                                animationFillMode: 'both'
+                                            }}
+                                        >
+                                            <ProjetoComponentNew projeto={projeto} />
+                                        </div>
                                     ))
-                            ) : (
-                                <p>Nenhum projeto encontrado.</p>
-                            )
-                        }
+                                }
+                            </div>
+                        ) : (
+                            <div className="text-center py-12 sm:py-20">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <span className="text-slate-500 text-2xl sm:text-3xl">📋</span>
+                                </div>
+                                <h3 className="text-xl sm:text-2xl font-semibold text-slate-300 mb-4">
+                                    Nenhum projeto encontrado
+                                </h3>
+                                <p className="text-slate-500 text-sm sm:text-base max-w-md mx-auto">
+                                    Não foi possível carregar os projetos no momento. Verifique sua conexão ou entre em contato com o suporte.
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
-            </div>
+            </PageWithDrawer>
         );
     } catch (error: any) {
         return (
-            <div className='flex items-center justify-center min-h-[95vh] w-[100%]'>
-                <p style={{ color: 'red', fontSize: '25px', fontWeight: '700' }}>
-                    Erro: {error.message}
-                </p>
-            </div>
+            <PageWithDrawer sectionName="Erro" currentPage="projetos">
+                <div className="flex items-center justify-center min-h-[100dvh] px-4">
+                    {/* Error Card */}
+                    <div className="relative z-10 max-w-md w-full">
+                        <div className="bg-red-900/20 border border-red-800 rounded-2xl p-6 sm:p-8 text-center">
+                            <div className="w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <span className="text-red-400 text-2xl">⚠️</span>
+                            </div>
+                            <h2 className="text-xl sm:text-2xl font-bold text-red-400 mb-4">
+                                Erro no Sistema
+                            </h2>
+                            <p className="text-red-300 text-sm sm:text-base mb-6">
+                                {error.message || 'Ocorreu um erro inesperado ao carregar os projetos.'}
+                            </p>
+                            <button 
+                                onClick={() => window.location.reload()}
+                                className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+                            >
+                                Tentar Novamente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </PageWithDrawer>
         );
     }
 }

@@ -282,7 +282,7 @@ export default function ConsultaStatusGrades() {
             <div className={`flex pt-[4rem] flex-col items-start justify-center w-full`}>
               {isLoading ? (
                 <div className="flex items-center justify-center w-full h-[82vh]">
-                  <IsLoading color={tema} />
+                                          <IsLoading />
                 </div>
               ) : data?.length ? (
                 <GradesFilterTable expedicaoData={dataFiltered} staticColors={tema} status={status} selectedGrades={selectedGrades} handleSelect={handleSelect} />

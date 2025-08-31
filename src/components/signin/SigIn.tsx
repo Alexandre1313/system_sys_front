@@ -7,11 +7,13 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+
 export default function SigIn() {
     const { login, logout } = useAuth();  // Função de login do contexto
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();  // Agora usamos o hook useRouter
     const [isClient, setIsClient] = useState(false); // Estado para verificar se o componente foi montado
 
@@ -21,9 +23,11 @@ export default function SigIn() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
 
         if (!email || !password) {
             setError('Por favor, preencha todos os campos');
+            setIsLoading(false);
             return;
         }
 
@@ -50,71 +54,135 @@ export default function SigIn() {
             }
         } catch (error: any) {
             setError(error.message || 'Erro ao tentar fazer login');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="relative flex items-center justify-center min-h-[100vh] w-[100%] bg-[#181818]">
-            <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl w-[500px] bg-[#181818] p-10 gap-y-4">
-                <div className={`flex flex-col`}>
-                    <div className="flex flex-col items-center justify-center h-auto w-auto gap-y-1">
-                        <h1 className={`flex lg:text-[50px] text-[25px] font-semi-bold text-emerald-600`}>
-                            <strong className={`flex lg:text-[120px] text-[55px] font-normal text-emerald-600 lg:-mt-20 lg:pr-8 pr-4`}>
-                                SYS
-                            </strong>
-                            <strong className={`flex lg:text-[120px] text-[55px] font-semi-bold text-blue-600 lg:-mt-[4.8rem]`}>
-                                E
-                            </strong>
-                            XPED
-                            <strong className={`text-orange-600 flex lg:-mt-32 lg:text-[120px] text-[55px]`}>
-                                .
-                            </strong>
-                        </h1>
-                        <h2 className={`flex text-[21px] text-white`}>LOGIN</h2>
+        <div className="min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 relative flex items-center justify-center px-4 py-8">
+            {/* Background Pattern */}
+            <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
+            <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+
+            {/* Login Card */}
+            <div className="relative z-10 w-full max-w-md">
+                {/* Header Card */}
+                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 sm:p-8 mb-6">
+                    {/* Logo Section */}
+                    <div className="text-center mb-8">
+                        <div className="flex items-center justify-center mb-4">
+                            <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                                <span className="text-white font-bold text-xl">S</span>
+                            </div>
+                            <div className="text-left">
+                                <h1 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600">
+                                    SYS<span className="text-blue-400 ml-1">E</span><span className="text-slate-300 ml-1">XPED</span>
+                                </h1>
+                                <p className="text-slate-400 text-sm">Sistema de Expedição</p>
+                            </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-center mb-6">
+                            <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+                            <span className="mx-4 text-slate-400 text-sm font-medium">LOGIN</span>
+                            <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+                        </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="w-full justify-center flex flex-col items-center
-                    lg:p-4 rounded-lg lg:gap-8 gap-y-2">
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className={`rounded-md p-2 w-full lg:min-h-[40px] text-zinc-800 bg-gray-300 font-normal lg:text-[20px] outline-none`}
-                            required
-                            autoComplete='current-email'
-                        />
-                        <input
-                            type="password"
-                            placeholder="Senha"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={`rounded-md p-2 w-full min-h-[40px] text-zinc-800 bg-gray-300 font-normal lg:text-[20px] outline-none`}
-                            required
-                            autoComplete='current-password'
-                        />
-                        <div className={`flex flex-col w-full gap-y-14 items-center justify-center`}>
-                            <div className={`flex lg:flex-row flex-col lg:gap-x-5 gap-y-2 h-[20px] w-[80%]`}>
-                                <button type="submit"
-                                    className={`w-[50%] p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
-                                font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>
-                                    LOGIN
-                                </button>
-                                <button type="button"
-                                    onClick={logout}
-                                    className={`w-[50%] p-4 py-2 h-[45px] text-white cursor-pointer rounded-md 
-                                    font-semibold text-[14px] outline-none bg-slate-700 hover:bg-slate-500`}>
-                                    LOGOUT
-                                </button>
+                    {/* Login Form */}
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Email Input */}
+                        <div className="space-y-2">
+                            <label htmlFor="email" className="text-slate-300 text-sm font-medium">
+                                Email
+                            </label>
+                            <div className="relative">
+                                <input
+                                    id="email"
+                                    type="email"
+                                    placeholder="Digite seu email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full h-12 px-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                                    required
+                                    autoComplete="email"
+                                />
+                                <div className="absolute inset-y-0 right-4 flex items-center">
+                                    <span className="text-slate-500 text-sm">📧</span>
+                                </div>
                             </div>
-                            <div className={`flex justify-center items-center`}>
-                                {error && <p className="text-red-500 text-sm">{error}</p>}
+                        </div>
+
+                        {/* Password Input */}
+                        <div className="space-y-2">
+                            <label htmlFor="password" className="text-slate-300 text-sm font-medium">
+                                Senha
+                            </label>
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    type="password"
+                                    placeholder="Digite sua senha"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full h-12 px-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                                    required
+                                    autoComplete="current-password"
+                                />
+                                <div className="absolute inset-y-0 right-4 flex items-center">
+                                    <span className="text-slate-500 text-sm">🔒</span>
+                                </div>
                             </div>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <div className="bg-red-900/20 border border-red-800 rounded-xl p-4">
+                                <p className="text-red-400 text-sm flex items-center">
+                                    <span className="mr-2">⚠️</span>
+                                    {error}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="space-y-4">
+                            <button 
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 disabled:from-slate-700 disabled:to-slate-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                                        Entrando...
+                                    </>
+                                ) : (
+                                    'Entrar no Sistema'
+                                )}
+                            </button>
+
+                            <button 
+                                type="button"
+                                onClick={logout}
+                                className="w-full h-12 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-medium rounded-xl transition-all duration-300 transform hover:scale-105"
+                            >
+                                Limpar Sessão
+                            </button>
                         </div>
                     </form>
                 </div>
-                <div className={`row-start-3 flex gap-6 flex-wrap text-[17px] items-center justify-center pt-0 text-zinc-600`}>
-                    © {new Date().getFullYear()} - {`SYS Exped`} - All rights reserved.
+
+                {/* Footer */}
+                <div className="text-center">
+                    <div className="flex items-center justify-center mb-4">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div>
+                        <span className="text-slate-500 text-xs">Sistema Online</span>
+                    </div>
+                    <p className="text-slate-500 text-xs">
+                        © {new Date().getFullYear()} SYS EXPED - Sistema de Expedição. Todos os direitos reservados.
+                    </p>
                 </div>
             </div>
         </div>
