@@ -139,7 +139,7 @@ export default function Escolas() {
                                     <h1 className="text-lg lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 truncate">
                                         {projeto.nome}
                                     </h1>
-                                    <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">Sistema de Escolas</p>
+                                    <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">Rede de Escolas</p>
                                 </div>
                             </div>
                             
@@ -147,7 +147,7 @@ export default function Escolas() {
                             <div className="hidden lg:flex items-center space-x-3">
                                 <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl px-4 py-2">
                                     <div className="flex items-center space-x-2">
-                                        <Users size={16} className="text-blue-400" />
+                                        <Home size={16} className="text-blue-400" />
                                         <span className="text-slate-300 text-sm font-medium">
                                             {escolasOrdenadas.length}
                                         </span>
@@ -157,7 +157,7 @@ export default function Escolas() {
                         </div>
 
                         {/* Barra de Pesquisa e Controles - Layout Flat */}
-                        <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-lg">
+                        <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg">
                             <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
                                 
                                 {/* Barra de Pesquisa */}
@@ -206,7 +206,7 @@ export default function Escolas() {
             </div>
 
             {/* Conteúdo Principal - Com Espaçamento Ajustado */}
-            <div className="px-4 pt-4 lg:pt-64 pb-8 sm:px-6 lg:px-8">
+            <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     
                     {/* Contador de Resultados - Apenas no Mobile */}

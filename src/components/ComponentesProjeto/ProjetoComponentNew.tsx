@@ -16,7 +16,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                     </div>
                     <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-green-400 text-xs font-medium">Ativo</span>
+                        <span className="text-slate-400 text-xs font-medium">Ativo</span>
                     </div>
                 </div>
 
@@ -26,7 +26,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                         {projeto.nome}
                     </h3>
                     <p className="text-slate-400 text-sm mt-1">
-                        Sistema de Expedição
+                        Expedição
                     </p>
                 </div>
 
@@ -35,7 +35,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                     <span className="text-slate-500 text-xs">
                         Clique para acessar
                     </span>
-                    <div className="flex items-center text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300">
+                    <div className="flex items-center text-slate-400 group-hover:text-emerald-300 transition-colors duration-300">
                         <span className="text-sm mr-1">→</span>
                         <span className="text-xs font-medium">ENTRAR</span>
                     </div>

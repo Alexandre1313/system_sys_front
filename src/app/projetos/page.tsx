@@ -20,15 +20,15 @@ export default async function Projetos() {
                          lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700 flex flex-col
                          justify-center items-center lg:py-7">
                             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r
-                            from-emerald-400 via-blue-500 to-purple-600 mb-4">
+                            from-emerald-400 via-blue-500 to-purple-600 mb-3">
                                 Gestão de Projetos
                             </h1>
                             <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto text-center">
-                                Selecione um projeto para acessar o sistema de expedição e gerenciar suas operações
+                                Selecione um projeto para acessar a expedição
                             </p>
                             <div className="flex items-center justify-center mt-4">
                                 <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
-                                <span className="mx-4 text-slate-500 text-xs">
+                                <span className="mx-4 text-slate-500 text-xs lg:text-sm">
                                     {projetos.length > 0 ? `${projetos.length} projeto${projetos.length > 1 ? 's' : ''} disponível${projetos.length > 1 ? 'eis' : ''}` : 'Carregando...'}
                                 </span>
                                 <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
@@ -37,7 +37,7 @@ export default async function Projetos() {
 
                         {/* Projects Grid */}
                         {projetos.length > 0 ? (
-                            <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:pt-36 sm:gap-6">
+                            <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:pt-[8rem] sm:gap-6">
                                 {projetos
                                     .sort((a, b) => a.nome.localeCompare(b.nome))
                                     .map((projeto, index) => (

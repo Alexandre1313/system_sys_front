@@ -55,7 +55,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                 {/* Progress Bar (if needed) */}
                 {isActive && (
                     <div className="mt-3 w-full bg-slate-700 rounded-full h-1">
-                        <div className="bg-gradient-to-r from-emerald-500 to-blue-600 h-1 rounded-full" style={{width: '99%'}}></div>
+                        <div className="bg-gradient-to-r from-emerald-500 to-blue-600 h-1 rounded-full" style={{width: '100%'}}></div>
                     </div>
                 )}
             </div>

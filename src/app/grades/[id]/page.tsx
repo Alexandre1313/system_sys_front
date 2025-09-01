@@ -272,7 +272,7 @@ export default function Grades() {
               <p className="text-red-300 text-sm sm:text-base mb-6">
                 {error.message || 'Erro desconhecido ao carregar as grades.'}
               </p>
-              <button 
+              <button
                 onClick={() => window.location.reload()}
                 className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
               >
@@ -306,19 +306,22 @@ export default function Grades() {
   const terceiraParte = filteredGrades.slice(terco * 2);
 
   return (
-    <PageWithDrawer 
-      projectName={escola?.projeto?.nome} 
+    <PageWithDrawer
+      projectName={escola?.projeto?.nome}
       sectionName={`${escola?.nome} - Escola #${escola?.numeroEscola}`}
       currentPage="grades"
     >
       <div className="px-4 pt-20 pb-8 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Page Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 mb-4">
-              Grades da Escola
+          <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20
+                         lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700 flex flex-col
+                         justify-center items-center lg:py-7">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent
+             bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 mb-4">
+              Grades
             </h1>
-            <div className="flex items-center justify-center space-x-4 text-slate-400 text-sm">
+            <div className="flex items-center justify-center space-x-4 text-slate-400 text-sm lg:text-lg">
               <span>{escola?.nome}</span>
               <span>•</span>
               <span>Escola #{escola?.numeroEscola}</span>
@@ -328,7 +331,7 @@ export default function Grades() {
           </div>
 
           {/* Grades Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:pt-[6rem]">
             {/* Primeira Coluna */}
             <div className="space-y-4">
               {primeiraParte.map((grade) => (
