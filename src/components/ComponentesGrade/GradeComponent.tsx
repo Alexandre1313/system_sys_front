@@ -180,51 +180,47 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Main Grade Card - Clean Modern Design */}
-            <div className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${
-                total === totalExpedido 
-                    ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20' 
-                    : totalExpedido > 0
-                        ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
-                        : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
-            }`}>
-                
+            <div className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${total === totalExpedido
+                ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
+                : totalExpedido > 0
+                    ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
+                    : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
+                }`}>
+
                 {/* Header with Status and Grade ID */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4">
                     {/* Status Badge */}
-                    <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${
-                        total === totalExpedido 
-                            ? 'bg-emerald-900/30 border border-emerald-700' 
-                            : totalExpedido > 0
-                                ? 'bg-yellow-900/30 border border-yellow-700'
-                                : 'bg-blue-900/30 border border-blue-700'
-                    }`}>
-                        <div className={`w-2.5 h-2.5 rounded-full ${
-                            total === totalExpedido ? 'bg-emerald-400' : totalExpedido > 0 ? 'bg-yellow-400' : 'bg-blue-400'
-                        }`}></div>
-                        <span className={`text-xs font-semibold ${
-                            total === totalExpedido ? 'text-emerald-300' : totalExpedido > 0 ? 'text-yellow-300' : 'text-blue-300'
+                    <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${total === totalExpedido
+                        ? 'bg-emerald-900/30 border border-emerald-700'
+                        : totalExpedido > 0
+                            ? 'bg-yellow-900/30 border border-yellow-700'
+                            : 'bg-blue-900/30 border border-blue-700'
                         }`}>
+                        <div className={`w-2.5 h-2.5 rounded-full ${total === totalExpedido ? 'bg-emerald-400' : totalExpedido > 0 ? 'bg-yellow-400' : 'bg-blue-400'
+                            }`}></div>
+                        <span className={`text-xs font-semibold ${total === totalExpedido ? 'text-emerald-300' : totalExpedido > 0 ? 'text-yellow-300' : 'text-blue-300'
+                            }`}>
                             {total === totalExpedido ? 'Completa' : totalExpedido > 0 ? 'Parcial' : 'Pendente'}
                         </span>
                     </div>
 
                     {/* Grade ID - Critical Info */}
                     <div className="flex items-center space-x-3">
-                        <span className="text-slate-400 text-sm font-medium">Grade</span>
-                        <span className="text-white font-bold text-2xl">#{props.grade.id}</span>
+                        <span className="text-slate-400 text-sm font-medium">Grade ID</span>
+                        <span className="text-white font-bold text-2xl">{props.grade.id}</span>
                     </div>
                 </div>
 
                 {/* Critical Expedition Information */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-[0.10rem] mb-2">
                     {/* Escola */}
-                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola</p>
                         <p className="text-blue-400 text-lg font-bold">#{props.escola?.numeroEscola}</p>
                     </div>
-                    
+
                     {/* Volumes */}
-                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Volumes</p>
                         <p className="text-purple-400 text-lg font-bold">{props.grade.gradeCaixas.length}</p>
                         <p className="text-xs text-slate-500 mt-1">{labelVolum ? 'Consolidados' : 'Parciais'}</p>
@@ -233,38 +229,36 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                 {/* Grade Type Badge */}
                 {props.grade.tipo && (
-                    <div className="mb-6">
-                        <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${
-                            props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO" 
-                                ? 'bg-red-900/30 text-red-300 border border-red-700'
-                                : 'bg-slate-900/50 text-slate-300 border border-slate-600'
-                        }`}>
+                    <div className="mb-2">
+                        <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${props.grade.tipo?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() === "REPOSICAO"
+                            ? 'bg-red-900/30 text-red-300 border border-red-700'
+                            : 'bg-slate-900/50 text-slate-300 border border-slate-600'
+                            }`}>
                             {props.grade.tipo}
                         </span>
                     </div>
                 )}
 
                 {/* Statistics Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                <div className="grid grid-cols-2 gap-[0.10rem] mb-6">
+                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Previsto</p>
                         <p className="text-yellow-400 text-lg font-bold">{convertMilharFormat(totalGrade || 0)}</p>
                     </div>
-                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Expedido</p>
                         <p className={`text-lg font-bold ${total === totalExpedido ? 'text-emerald-400' : 'text-slate-300'}`}>
                             {convertMilharFormat(totalExpedido)}
                         </p>
                     </div>
-                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">À Expedir</p>
-                        <p className={`text-lg font-bold ${
-                            totalAExpedir > 0 ? 'text-blue-400' : 'text-slate-400'
-                        }`}>
+                        <p className={`text-lg font-bold ${totalAExpedir > 0 ? 'text-blue-400' : 'text-slate-400'
+                            }`}>
                             {convertMilharFormat(totalAExpedir)}
                         </p>
                     </div>
-                    <div className="bg-slate-900/50 rounded-xl p-4 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Próxima Caixa</p>
                         <p className="text-orange-400 text-lg font-bold">{props.grade.gradeCaixas.length + 1}</p>
                     </div>
@@ -297,73 +291,73 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <button
                         type="button"
                         onClick={abrirTela}
-                        className={`flex-1 flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700
-                            ${statusClass} hover:from-blue-500 hover:to-blue-600 text-white font-semibold text-sm rounded-xl 
-                            transition-all duration-300 transform hover:scale-105 group-hover:shadow-lg shadow-lg min-h-[48px]`}
+                        className={`${statusClass} flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
+                         text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
+                           justify-center space-x-2 hover:scale-105`}
                     >
                         <Eye size={18} className="mr-2" />
                         VER ITENS
-                        <ChevronsRight className="ml-2 transition-transform group-hover:translate-x-1" size={18} strokeWidth={2} />
                     </button>
                 </div>
             </div>
 
             {/* Modal 1: Items List View */}
             {mostrarTela && (
-                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col">
+                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col min-h-[101dvh]">
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
-                    
+
                     {/* Header */}
                     <div className="relative z-10 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-4 lg:p-6">
-                        <div className="flex items-center justify-between max-w-7xl mx-auto">
-                            <div className="flex items-center space-x-4">
-                                <button
-                                    onClick={fecharTela}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
-                                >
-                                    <ArrowLeft size={20} />
-                                    <span>VOLTAR</span>
-                                </button>
-                                <div>
-                                    <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
-                                        ESCOLA {props.escola?.numeroEscola}
-                                    </h1>
-                                    <p className="text-sm text-slate-400">{props.escola?.nome}</p>
+                        <div className="flex items-center max-w-7xl mx-auto flex-col">
+                            <div className="flex items-center justify-between max-w-7xl mx-auto">
+                                <div className="flex items-center space-x-4 lg:flex-row">
+                                    <button
+                                        onClick={fecharTela}
+                                        className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                    >
+                                        <ArrowLeft size={20} />
+                                        <span>VOLTAR</span>
+                                    </button>
+                                    <div>
+                                        <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                                            ESCOLA {props.escola?.numeroEscola}
+                                        </h1>
+                                        <p className="text-sm text-slate-400">{props.escola?.nome}</p>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <div className="flex items-center space-x-2 mb-1">
+                                        <span className="text-slate-400 text-sm">Grade</span>
+                                        <span className="text-white font-bold text-lg">#{props.grade.id}</span>
+                                    </div>
+                                    <p className="text-emerald-400 text-sm font-medium">{itensFiltrados.length} ite{itensFiltrados.length !== 1 ? 'ns' : 'm'} encontrado{itensFiltrados.length !== 1 ? 's' : ''}</p>
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <div className="flex items-center space-x-2 mb-1">
-                                    <span className="text-slate-400 text-sm">Grade</span>
-                                    <span className="text-white font-bold text-lg">#{props.grade.id}</span>
-                                </div>
-                                <p className="text-emerald-400 text-sm font-medium">{itensFiltrados.length} ite{itensFiltrados.length !== 1 ? 'ns' : 'm'} encontrado{itensFiltrados.length !== 1 ? 's' : ''}</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="relative z-10 flex-1 overflow-auto">
-                        <div className="max-w-7xl mx-auto p-6">
                             {/* Search Bar */}
-                            <div className="flex justify-center mb-8">
-                                <div className="relative w-full max-w-md">
+                            <div className="flex justify-center mb-8 w-full">
+                                <div className="flex-1 relative w-full">
                                     <Search
-                                        size={20}
-                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none"
+                                        size={18}
+                                        className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none"
                                         strokeWidth={1.5}
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Buscar por tamanho, gênero ou nome..."
-                                        className="w-full h-12 pl-12 pr-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                                        placeholder="Buscar escola..."
+                                        className="w-full h-12 lg:h-14 pl-10 lg:pl-12 pr-4 bg-slate-700/50 border border-slate-600 rounded-lg lg:rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm lg:text-base"
                                         value={busca}
                                         onChange={(e) => setBusca(e.target.value.toLowerCase())}
                                     />
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
+                    {/* Content */}
+                    <div className="relative z-10 flex-1 overflow-auto">
+                        <div className="max-w-7xl mx-auto p-6">
                             {/* Items Grid */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {itensFiltrados.map((itemGrade, index) => {
@@ -377,34 +371,30 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     const isCompleted = quantidade === quantidadeExpedida;
                                     const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
                                     const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
-                                    
+
                                     return (
                                         <div
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
                                             key={index}
-                                            className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${
-                                                isCompleted 
-                                                    ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20' 
-                                                    : isPartial 
-                                                        ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
-                                                        : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
-                                            }`}
+                                            className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${isCompleted
+                                                ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
+                                                : isPartial
+                                                    ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
+                                                    : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
+                                                }`}
                                         >
                                             {/* Status Badge */}
                                             <div className="flex items-center justify-between mb-4">
-                                                <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${
-                                                    isCompleted 
-                                                        ? 'bg-emerald-900/30 border border-emerald-700' 
-                                                        : isPartial 
-                                                            ? 'bg-yellow-900/30 border border-yellow-700'
-                                                            : 'bg-blue-900/30 border border-blue-700'
-                                                }`}>
-                                                    <div className={`w-2.5 h-2.5 rounded-full ${
-                                                        isCompleted ? 'bg-emerald-400' : isPartial ? 'bg-yellow-400' : 'bg-blue-400'
-                                                    }`}></div>
-                                                    <span className={`text-xs font-semibold ${
-                                                        isCompleted ? 'text-emerald-300' : isPartial ? 'text-yellow-300' : 'text-blue-300'
+                                                <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${isCompleted
+                                                    ? 'bg-emerald-900/30 border border-emerald-700'
+                                                    : isPartial
+                                                        ? 'bg-yellow-900/30 border border-yellow-700'
+                                                        : 'bg-blue-900/30 border border-blue-700'
                                                     }`}>
+                                                    <div className={`w-2.5 h-2.5 rounded-full ${isCompleted ? 'bg-emerald-400' : isPartial ? 'bg-yellow-400' : 'bg-blue-400'
+                                                        }`}></div>
+                                                    <span className={`text-xs font-semibold ${isCompleted ? 'text-emerald-300' : isPartial ? 'text-yellow-300' : 'text-blue-300'
+                                                        }`}>
                                                         {isCompleted ? 'Completo' : isPartial ? 'Parcial' : 'Pendente'}
                                                     </span>
                                                 </div>
@@ -445,9 +435,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 </div>
                                                 <div className="bg-slate-900/50 rounded-lg p-3 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">À Expedir</p>
-                                                    <p className={`text-base font-semibold ${
-                                                        quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
-                                                    }`}>
+                                                    <p className={`text-base font-semibold ${quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
+                                                        }`}>
                                                         {convertMilharFormat(quantidade - quantidadeExpedida)}
                                                     </p>
                                                 </div>
@@ -483,7 +472,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
-                    
+
                     {/* Header */}
                     <div className="relative z-10 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-4 lg:p-6">
                         <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -504,15 +493,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Content */}
                     <div className="relative z-10 flex-1 overflow-auto">
                         <div className="max-w-7xl mx-auto p-6">
-                            
+
                             {/* Actions Bar */}
                             <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 mb-8">
                                 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-                                    
+
                                     {/* Action Buttons */}
                                     <div className="flex flex-wrap gap-3">
                                         <button
@@ -562,7 +551,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                             {/* Main Content Grid */}
                             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                                
+
                                 {/* Left Column - Item Information */}
                                 <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
                                     <div className="flex items-center space-x-2 mb-4">
@@ -587,7 +576,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
                                         <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
                                     </div>
-                                    
+
                                     {/* Quantities in Row */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
@@ -600,10 +589,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <div className="space-y-4">
                                         <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
                                             formData={props.formData} setFormData={props.setFormData}
-                                            isReadOnly={true} 
+                                            isReadOnly={true}
                                             valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
                                             height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
-                                        
+
                                         <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true}
@@ -615,7 +604,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true} maxWhidth={`w-full`}
                                             valueColor={`text-zinc-400`} />
-                                        
+
                                         <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}

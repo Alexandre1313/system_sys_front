@@ -7,7 +7,7 @@ import { getProjetosComEscolas } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Search, Grid, List, Home, Users } from 'react-feather';
+import { Search, Grid, List, Home } from 'react-feather';
 import useSWR from 'swr';
 import { Projeto } from '../../../../core';
 

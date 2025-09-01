@@ -1,5 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { ChevronsRight } from 'react-feather';
+import { ChevronsRight, Eye } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 
 export interface EtiquetaProps {
@@ -262,9 +262,10 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
         <button
             type="button"
             onClick={gerarPDF}
-            className="flex items-center justify-center mt-3 px-3 py-1 bg-blue-500 hover:bg-green-500 hover:bg-opacity-10 
-            bg-opacity-30 text-white font-normal text-[13px] rounded-md min-w-[200px]">
-            ETIQUETAS <ChevronsRight className="pl-2 animate-bounceX" size={25} strokeWidth={2} />
+            className={`flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
+                         text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
+                           justify-center space-x-2 hover:scale-105`}>
+            <Eye className="mr-2" size={18} strokeWidth={2} /> ETIQUETAS
         </button>
     );
 };
