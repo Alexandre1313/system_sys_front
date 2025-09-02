@@ -1,5 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { ChevronsRight, Eye } from 'react-feather';
+import { Eye } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 
 export interface EtiquetaProps {

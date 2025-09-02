@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronsRight, Search, ArrowLeft, Plus, Minus, Box, Eye } from "react-feather";
+import { Search, ArrowLeft, Plus, Minus, Box, Eye } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";

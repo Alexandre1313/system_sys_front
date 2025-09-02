@@ -1,9 +1,11 @@
 'use client';
 
 import StockRender from "@/components/componentesEstoque/StockRender";
-import TitleComponentFixed from "@/components/ComponentesInterface/TitleComponentFixed";
+import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { CreateServerSelectComponentProjects } from "@/components/componentesRomaneios/createServerSelectComponentProjects";
 import { useEffect, useState } from "react";
+import { Database, Package } from 'react-feather';
+import { motion } from 'framer-motion';
 
 export default function Estoques() {
   const [serverSelect, setServerSelect] = useState<JSX.Element | null>(null);
@@ -38,22 +40,106 @@ export default function Estoques() {
   }, [projectId]);
 
   return (
-    <div className="flex flex-col w-full items-start justify-center bg-[#181818]">
-      <div className="flex flex-col items-center justify-start min-h-[95vh] lg:pt-7 lg:gap-y-5 w-full">
-        <TitleComponentFixed stringOne={`MOVIMENTAÇÕES DO ESTOQUE`} twoPoints={``} stringTwo={""} />
-        <div className={`flex w-full lg:p-[1.1rem] lg:pt-8 p-2 lg:fixed bg-[#1F1F1F]`}>
-          {serverSelect || (
-            <div className="flex flex-col justify-center lg:items-start items-center w-full">
-              <p className="flex lg:w-[310px] w-full bg-[#181818] py-2 px-2 pl-3 text-[14px] text-zinc-400 border border-zinc-800 outline-none cursor-pointer h-[35px]">
-                SELECIONE O PROJETO
-              </p>
+    <PageWithDrawer 
+      sectionName="Movimentações do Estoque" 
+      currentPage="estoques"
+    >
+      {/* Header Fixo */}
+      <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
+        <div className="px-4 pt-16 pb-4 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            
+            {/* Header Principal */}
+            <div className="flex items-center justify-between mb-4 lg:mb-6">
+              {/* Título e Ícone */}
+              <div className="flex items-center space-x-3 lg:space-x-4">
+                <div className="w-9 h-9 lg:w-12 lg:h-12 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg lg:rounded-2xl flex items-center justify-center shadow-lg">
+                  <Database size={16} className="lg:w-6 lg:h-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-base lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 truncate">
+                    Movimentações do Estoque
+                  </h1>
+                  <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">
+                    Controle e análise de movimentações
+                  </p>
+                </div>
+              </div>
+              
+              {/* Estatísticas Rápidas - Desktop */}
+              <div className="hidden lg:flex items-center space-x-3">
+                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl px-4 py-2">
+                  <div className="flex items-center space-x-2">
+                    <Package size={16} className="text-emerald-400" />
+                    <span className="text-slate-300 text-sm font-medium">
+                      Controle de Estoque
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
-        <div className="flex w-[65%] flex-col items-center justify-start pt-24">
-          {stockRender}
+
+            {/* Controles de Seleção */}
+            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
+              <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
+                
+                {/* Seleção de Projeto */}
+                <div className="flex-1 w-full">
+                  {serverSelect || (
+                    <div className="flex flex-col justify-center lg:items-start items-center w-full">
+                      <p className="flex lg:w-[310px] w-full bg-slate-700/50 py-2 px-3 text-sm text-slate-400 border border-slate-600 rounded-lg cursor-pointer h-10 lg:h-12">
+                        SELECIONE O PROJETO
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Conteúdo Principal */}
+      <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Contador de Resultados - Mobile */}
+          <div className="lg:hidden flex items-center justify-center mb-6">
+            <div className="bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2">
+              <span className="text-slate-300 text-xs font-medium">
+                {projectId ? 'Estoque carregado' : 'Selecione um projeto'}
+              </span>
+            </div>
+          </div>
+
+          {/* Renderização do Estoque */}
+          <div className="w-full">
+            {stockRender}
+          </div>
+
+          {/* Estado Vazio */}
+          {!projectId && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-center py-12 lg:py-16"
+            >
+              <div className="w-16 h-16 lg:w-20 lg:h-20 bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6 border border-slate-700">
+                <Database size={32} className="lg:w-10 lg:h-10 text-emerald-500" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-xl lg:text-2xl font-semibold text-emerald-400 mb-3 lg:mb-4">
+                Configure o Estoque
+              </h3>
+              <div className="space-y-2 text-slate-400 text-sm lg:text-base">
+                <p>1. Selecione um projeto</p>
+                <p>2. Visualize as movimentações</p>
+                <p>3. Analise a consistência dos dados</p>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </div>
+    </PageWithDrawer>
   );
 }

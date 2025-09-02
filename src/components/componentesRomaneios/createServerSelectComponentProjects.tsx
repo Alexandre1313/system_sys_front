@@ -8,12 +8,14 @@ export async function CreateServerSelectComponentProjects({ onSelectChange }: Cr
   const projetos = await getProjectsSimp();
 
   return (
-    <div className={`flex flex-col justify-center items-start`}>     
+    <div className="flex flex-col gap-y-2 w-full">     
+      <label htmlFor="projeto-select" className="text-slate-400 text-xs lg:text-sm font-medium">
+        PROJETOS
+      </label>
       <select
-        id="select-projeto"
+        id="projeto-select"
         title="Selecione o projeto"
-        className={`flex w-[310px] bg-[#181818] py-2 px-3 text-[14px] text-zinc-400 no-arrow
-                        outline-none cursor-pointer h-[35px] border border-zinc-800`}
+        className="w-full h-10 lg:h-12 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-300 px-3 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 cursor-pointer"
         onChange={(event) => {
           const projectId = Number(event.target.value);
           onSelectChange(projectId); // Chama o manipulador ao mudar a seleção

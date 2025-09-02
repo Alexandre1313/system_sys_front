@@ -16,38 +16,62 @@ export default function ItemsProjects({ onClick, item, index, embalagemId, itemT
   const itemTamanho = itemSelect.tamanho;
   const itemBarcode = itemSelect.barcode;
   const itemTamId = itemSelect.id;
-  const bgColor = index % 2 === 0 ? `bg-gray-400 bg-opacity-10` : ``;
-  const classColor =
-    itemGenero === 'FEMININO'
-      ? 'text-zinc-300'
-      : itemGenero === 'MASCULINO'
-        ? 'text-zinc-300'
-        : 'text-zinc-300';
+  const bgColor = index % 2 === 0 ? `bg-slate-700/20` : ``;
+  
   return (
     <div
-      onClick={() => onClick(item, embalagemId, itemTamanhoId)} // Passando o item como argumento para a função `onClick`
-      className={`group flex justify-start items-center w-full border-[0.000em] hover:bg-green-500 hover:bg-opacity-20
-            border-zinc-900 p-[0.60rem] rounded-md cursor-pointer ${bgColor} h-12`}
+      onClick={() => onClick(item, embalagemId, itemTamanhoId)}
+      className={`group flex flex-col sm:flex-row justify-between items-start sm:items-center w-full border border-slate-700/50 hover:border-emerald-500/50 hover:bg-emerald-500/5 rounded-xl p-4 transition-all duration-300 cursor-pointer ${bgColor}`}
     >
-      <div className={`flex justify-start items-start gap-x-4 w-[10%] text-zinc-500`}>
-        <span className={`text-[14px]`}>IT ID:</span>
-        <span className={`text-[14px] text-transparent group-hover:text-white`}>{itemTamId}</span>
+      {/* Informações Principais */}
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 w-full">
+        {/* ID do Item */}
+        <div className="flex items-center space-x-2">
+          <span className="text-slate-500 text-xs lg:text-sm font-medium">ID:</span>
+          <span className="text-slate-300 text-xs lg:text-sm font-mono group-hover:text-emerald-400 transition-colors duration-300">
+            {itemTamId}
+          </span>
+        </div>
+
+        {/* Nome do Item */}
+        <div className="flex items-center space-x-2">
+          <span className="text-slate-500 text-xs lg:text-sm font-medium">Item:</span>
+          <span className="text-white text-xs lg:text-sm font-medium group-hover:text-emerald-400 transition-colors duration-300 truncate max-w-[150px] lg:max-w-[200px]" title={itemNome}>
+            {itemNome}
+          </span>
+        </div>
+
+        {/* Gênero */}
+        <div className="flex items-center space-x-2">
+          <span className="text-slate-500 text-xs lg:text-sm font-medium">Gênero:</span>
+          <span className="text-slate-300 text-xs lg:text-sm group-hover:text-emerald-400 transition-colors duration-300">
+            {itemGenero}
+          </span>
+        </div>
       </div>
-      <div className={`flex justify-start items-start gap-x-4 w-[30%] text-zinc-500`}>
-        <span className={`text-[14px]`}>ITEM:</span>
-        <span className={`text-[14px] ${classColor}`}>{itemNome}</span>
+
+      {/* Informações Secundárias */}
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto mt-3 sm:mt-0">
+        {/* Tamanho */}
+        <div className="flex items-center space-x-2">
+          <span className="text-slate-500 text-xs lg:text-sm font-medium">Tamanho:</span>
+          <span className="text-cyan-400 text-sm lg:text-base font-semibold group-hover:text-cyan-300 group-hover:scale-110 transition-all duration-300">
+            {itemTamanho}
+          </span>
+        </div>
+
+        {/* Código de Barras */}
+        <div className="flex items-center space-x-2">
+          <span className="text-slate-500 text-xs lg:text-sm font-medium">Código:</span>
+          <span className="text-yellow-400 text-xs lg:text-sm font-mono group-hover:text-yellow-300 group-hover:scale-105 transition-all duration-300" title={itemBarcode}>
+            {itemBarcode}
+          </span>
+        </div>
       </div>
-      <div className={`flex justify-start items-start gap-x-4 w-[20%] text-zinc-500`}>
-        <span className={`text-[14px] text-zinc-500`}>GÊNERO:</span>
-        <span className={`text-[14px] ${classColor}`}>{itemGenero}</span>
-      </div>
-      <div className={`flex justify-start items-center gap-x-4 w-[20%] text-zinc-500`}>
-        <span className={`text-[14px] text-zinc-500`}>TAMANHO:</span>
-        <span className={`text-[17px] ${classColor} group-hover:text-cyan-500 group-hover:!text-[27px]`}>{itemTamanho}</span>
-      </div>
-      <div className={`flex justify-start items-center gap-x-4 w-[20%] text-zinc-500`}>
-        <span className={`text-[14px] text-zinc-500`}>CÓDIGO DE BARRAS:</span>
-        <span className={`text-[17px] font-thin ${classColor} group-hover:text-yellow-500 group-hover:!text-[27px]`}>{itemBarcode}</span>
+
+      {/* Indicador de Clique */}
+      <div className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-slate-700/50 group-hover:bg-emerald-500/20 transition-all duration-300 ml-4">
+        <div className="w-2 h-2 rounded-full bg-slate-400 group-hover:bg-emerald-400 transition-colors duration-300"></div>
       </div>
     </div>
   );

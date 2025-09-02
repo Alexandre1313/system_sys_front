@@ -15,12 +15,15 @@ export default function SelectedEntriesEmb({ onSelectChangeEmb, embalagens}: Sel
   };
 
   return (
-     <div className={`flex flex-col gap-y-1 w-full`}>
-      <label htmlFor="" className={`text-[15px] text-zinc-700`}>EMBALADOR</label>
+    <div className="flex flex-col gap-y-2 w-full">
+      <label htmlFor="embalagem-select" className="text-slate-400 text-xs lg:text-sm font-medium">
+        EMBALADOR
+      </label>
       <select
-        className={`flex w-full bg-zinc-900 p-2 text-lg border rounded-md text-zinc-400
-                    border-zinc-700 outline-none cursor-pointer`}      
-        onChange={handleChange}>
+        id="embalagem-select"
+        className="w-full h-10 lg:h-12 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-300 px-3 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 cursor-pointer"
+        onChange={handleChange}
+      >
         <option value="">SELECIONE O EMBALADOR</option> 
         {embalagens?.map((embalagem) => (
           <option key={embalagem.id} value={embalagem.id}>
