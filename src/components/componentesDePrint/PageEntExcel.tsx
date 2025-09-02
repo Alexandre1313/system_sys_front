@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { GradesRomaneio } from "../../../core";
-import { Download } from "react-feather";
+import { Truck } from "react-feather";
 import { convertSPTime } from "../../../core/utils/tools";
 
 export interface PageEntExcelProps {
@@ -552,10 +552,8 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
         <button
             type="button"
             onClick={generateExcel}
-            className="flex items-center justify-center px-2 py-1 bg-transparent hover:bg-transparent hover:bg-opacity-30 
-              bg-opacity-20 text-zinc-400 font-semibold text-[13px] min-w-full z-50 pointer-events-auto"
-        >
-            <Download className="text-red-600 hover:text-red-400" size={27} strokeWidth={2} />
+            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-violet-100 font-medium text-xs transition-colors duration-200 mr-1">
+            <Truck className="text-violet-100 hover:text-violet-50" size={14} strokeWidth={2} />
         </button>
     );
 }

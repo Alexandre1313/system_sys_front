@@ -1,6 +1,6 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { Download } from "react-feather";
+import { FileText } from "react-feather";
 import { GradesRomaneio } from "../../../core";
 import { convertSPTime } from "../../../core/utils/tools";
 
@@ -778,10 +778,8 @@ export default function PageExcelRelatorioPedido({ expedicaoDataB }: PageExcelRe
         <button
             type="button"
             onClick={generateExcel}
-            className="flex items-center justify-center px-2 py-1 bg-transparent hover:bg-transparent hover:bg-opacity-30 
-              bg-opacity-20 text-zinc-400 font-semibold text-[13px] min-w-full z-50 pointer-events-auto"
-        >
-            <Download className="text-cyan-600 hover:text-cyan-400" size={27} strokeWidth={2} />
+            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-amber-100 font-medium text-xs transition-colors duration-200 mr-1">
+            <FileText className="text-amber-100 hover:text-amber-50" size={14} strokeWidth={2} />
         </button>
     );
 }

@@ -256,7 +256,7 @@ export default function ConsultaStatusGrades() {
               </div>
               <div className="relative flex w-[100%] justify-center items-center">
                 {/* Ícone da lupa dentro do input */}
-                <BuscaEscolaInput tema={tema} buscaEscola={buscaEscola} setBuscaEscola={setBuscaEscola} onBuscar={aplicarBusca} />
+                <BuscaEscolaInput buscaEscola={buscaEscola} setBuscaEscola={setBuscaEscola} onBuscar={aplicarBusca} />
               </div>
             </div>
           </div>

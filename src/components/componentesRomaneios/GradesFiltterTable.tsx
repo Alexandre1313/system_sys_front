@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { GradesRomaneio } from '../../../core';
 import { converPercentualFormat, convertMilharFormat, convertMilharFormatKG } from '../../../core/utils/tools';
+import { CheckCircle, ExternalLink, ChevronDown, ChevronUp } from 'react-feather';
+import { useState } from 'react';
 
 interface GradeFilterTableProps {
   expedicaoData: GradesRomaneio[];
@@ -13,6 +15,18 @@ interface GradeFilterTableProps {
 }
 
 export default function GradesFilterTable({ expedicaoData, staticColors, status, selectedGrades, handleSelect }: GradeFilterTableProps) {
+  const [expandedGrades, setExpandedGrades] = useState<Set<number>>(new Set());
+
+  const toggleGradeExpansion = (gradeId: number) => {
+    const newExpanded = new Set(expandedGrades);
+    if (newExpanded.has(gradeId)) {
+      newExpanded.delete(gradeId);
+    } else {
+      newExpanded.add(gradeId);
+    }
+    setExpandedGrades(newExpanded);
+  };
+
   const theme = staticColors
     ? {
       bg: 'bg-white',
@@ -31,15 +45,14 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
       colorText: 'text-slate-700',
       colorBG: 'bg-gray-100 text-zinc-500',
       colorDivResuls: 'border-zinc-900 bg-[#E3E3E4] bg-opacity-[1]',
-
     }
     : {
-      bg: 'bg-[#181818]',
-      text: 'text-zinc-300',
-      border: 'border-zinc-700',
-      header: 'bg-zinc-800 text-zinc-400',
-      zebra: 'bg-zinc-700 bg-opacity-30',
-      highlight: 'bg-zinc-400 bg-opacity-[0.07]',
+      bg: 'bg-slate-800/30',
+      text: 'text-slate-300',
+      border: 'border-slate-700',
+      header: 'bg-slate-700/50 text-slate-400',
+      zebra: 'bg-slate-700/30',
+      highlight: 'bg-slate-400 bg-opacity-[0.07]',
       textCyan: 'text-white',
       bgColorValueP: 'bg-gradient-to-r from-red-500/20 to-transparent',
       bgColorValueE: 'bg-gradient-to-l from-emerald-500/20 to-transparent',
@@ -48,155 +61,206 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
       textBlue: 'text-blue-400',
       nadie: '',
       colorText: 'text-slate-500',
-      colorBG: 'bg-zinc-800 text-zinc-500',
-      colorDivResuls: 'border-zinc-900 bg-[#1E1E1F] bg-opacity-[1]',
+      colorBG: 'bg-slate-700/50 text-slate-500',
+      colorDivResuls: 'border-slate-700 bg-slate-800/50',
     };
 
   return (
-    <div className={`flex flex-col gap-y-6 w-full px-2 py-4 ${theme.bg} ${theme.text}`}>
+    <div className={`flex flex-col gap-y-4 w-full ${theme.bg} ${theme.text}`}>
       {expedicaoData.map((grade) => {
         const totalQuantidade = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.quantidade, 0);
         const totalPrevisto = grade.tamanhosQuantidades.reduce((sum, i) => sum + i.previsto, 0);
         const totalPesoAfer = grade.tamanhosQuantidades.reduce((sum, i) => sum + (i.peso ?? 0) * (i.quantidade ?? 0), 0);
         const faltaExpedir = totalPrevisto - totalQuantidade;
         const percentualConcluido = converPercentualFormat((totalQuantidade / totalPrevisto) * 100);
-        const isSelected = selectedGrades.includes(grade.id); // <- aqui!
+        const isSelected = selectedGrades.includes(grade.id);
+        const isExpanded = expandedGrades.has(grade.id);
 
-        const colorValue = faltaExpedir > 0 ? 'text-white font-extralight text-[16px] bg-zinc-600 bg-opacity-50' : 'text-white font-extralight text-[16px] bg-zinc-600 bg-opacity-50';
-
-        const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500 font-normal pl-2' : grade.status === 'EXPEDIDA' ? 'text-emerald-500 font-normal pl-2' : 'text-slate-400 font-normal pl-2';
-
-        const colorChecked = grade.status === 'EXPEDIDA' ? 'border-green-500' : grade.status === 'DESPACHADA' ? 'border-blue-500' : 'border-slate-500';
+        const colorStatus = grade.status === 'DESPACHADA' ? 'text-blue-500' : grade.status === 'EXPEDIDA' ? 'text-emerald-500' : 'text-slate-400';
+        const colorChecked = grade.status === 'EXPEDIDA' ? 'border-emerald-500' : grade.status === 'DESPACHADA' ? 'border-blue-500' : 'border-slate-500';
 
         return (
-          <div className={`flex flex-col w-full gap-x-2 border border-slate-800`} key={grade.id}>
-            <div className={`${theme.colorText} ${theme.colorDivResuls} flex w-full gap-x-2 border-l border-r border-t border-slate-600 px-4 pt-2 pb-3`}>
-
-              {(status === 'EXPEDIDA' || status === 'PRONTA') && (
-                <div className="flex items-center justify-center w-[24px] h-[24px] mr-4">
-                  <label className="relative cursor-pointer z-[0]">
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => handleSelect(grade.id)}
-                      className="sr-only peer"
-                    />
-                    <div
-                      className={`w-6 h-6 rounded-sm border-2 ${colorChecked} flex items-center justify-center`}
-                    >
-                      <svg
-                        className="w-4 h-4 text-green-400 opacity-1 peer-checked:opacity-100 transition-opacity duration-200"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 111.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
+          <div key={grade.id} className={`border border-slate-700 rounded-xl overflow-hidden shadow-lg ${theme.bg}`}>
+            {/* Header da Grade */}
+            <div className={`${theme.colorDivResuls} p-4 lg:p-6`}>
+              <div className="space-y-4">
+                
+                {/* Checkbox no topo */}
+                {(status === 'EXPEDIDA' || status === 'PRONTA') && (
+                  <div className="flex items-center justify-center w-6 h-6">
+                    <label className="relative cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleSelect(grade.id)}
+                        className="sr-only peer"
+                      />
+                      <div className={`w-6 h-6 rounded border-2 ${colorChecked} flex items-center justify-center transition-all duration-200`}>
+                        <CheckCircle
+                          className={`w-4 h-4 text-emerald-400 transition-opacity duration-200 ${isSelected ? 'opacity-100' : 'opacity-0'}`}
                         />
-                      </svg>
-                    </div>
-                  </label>
-                </div>
-              )}
+                      </div>
+                    </label>
+                  </div>
+                )}
 
-              <div className={`flex flex-col flex-1 gap-x-1`}>
-                <h4 className="text-md font-semibold uppercase">Projeto: <span className={`text-cyan-500 font-light pl-2`}>{grade.projectname}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Unidade escolar: <span className={`text-cyan-500 font-light pl-2`}>{grade.escola}</span></h4>
-                <h4 className={`text-md font-semibold uppercase`}>Status: <span className={`${colorStatus}`}>{grade.status}</span><span className={`text-red-600 pl-2 font-light`}> {grade.tipo ? 'R' : ''}</span></h4>
-              </div>
-              <div className={`flex flex-col flex-1 gap-x-1 border-l border-slate-600 pl-3`}>
-                <h4 className="text-md font-semibold uppercase">Empresa: <span className={`text-cyan-500 font-light pl-2`}>{grade.company}</span></h4>
-                {status === 'PRONTA' && (
-                  <Link href={`/expedition/${grade.escolaId}`} target="_blank">
-                    <h4 className="text-md font-semibold uppercase cursor-pointer">Nº da escola: <span className={`text-cyan-500 font-light pl-2`}>{grade.numeroEscola}</span></h4>
-                  </Link>
-                )}
-                {status !== 'PRONTA' && (
-                  <h4 className="text-md font-semibold uppercase">Nº da escola: <span className={`text-cyan-500 font-light pl-2`}>{grade.numeroEscola}</span></h4>
-                )}
-                <h4 className="text-md font-semibold uppercase">Nº Join: <span className={`text-cyan-500 font-light pl-2`}>{grade.numberJoin}</span></h4>
-              </div>
-              <div className={`flex flex-col flex-1 gap-x-1 border-l border-slate-600 pl-3`}>
-                <h4 className="text-md font-semibold uppercase">Grade ID: <span className={`text-cyan-500 font-light pl-2`}>{grade.id}</span></h4>
-                <h4 className="text-md font-semibold uppercase">Último Update: <span className={`text-cyan-500 font-light pl-2`}>{grade.update}</span></h4>
-                <Link href={`/caixas_por_grade/${grade.id}`} target="_blank">
-                  <h4 className="text-md font-semibold uppercase">Qty de volumes: <span className={`text-red-500 font-light pl-2`}>{grade.caixas.length}</span></h4>
-                </Link>
-                <h4 className="text-md font-semibold uppercase">Concluído: <span className={`text-yellow-500 font-light pl-2`}>{percentualConcluido}</span></h4>
+                {/* Textos grandes - um por linha */}
+                <div className="space-y-3">
+                  <div className="bg-slate-700/30 rounded-lg p-3">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Projeto</p>
+                    <p className="text-sm lg:text-lg font-semibold text-blue-300 truncate">{grade.projectname}</p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Unidade Escolar</p>
+                    <p className="text-sm lg:text-lg font-semibold text-emerald-300 truncate">{grade.escola}</p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Empresa</p>
+                    <p className="text-sm lg:text-lg font-semibold text-purple-300 truncate">{grade.company}</p>
+                  </div>
+                </div>
+
+                {/* Textos pequenos - lado a lado bem divididos */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Status</p>
+                    <div className="flex items-center space-x-2">
+                      <span className={`text-sm lg:text-lg font-semibold ${colorStatus}`}>{grade.status}</span>
+                      {grade.tipo && <span className="text-xs lg:text-base text-orange-400 bg-orange-500/10 px-2 py-1 rounded">R</span>}
+                    </div>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Nº da Escola</p>
+                    {status === 'PRONTA' ? (
+                      <Link href={`/expedition/${grade.escolaId}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-cyan-300 hover:text-cyan-200 transition-colors">
+                        <span>{grade.numeroEscola}</span>
+                        <ExternalLink size={12} />
+                      </Link>
+                    ) : (
+                      <p className="text-sm lg:text-lg font-semibold text-cyan-300">{grade.numeroEscola}</p>
+                    )}
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Nº Join</p>
+                    <p className="text-sm lg:text-lg font-semibold text-violet-300">{grade.numberJoin}</p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Grade ID</p>
+                    <p className="text-sm lg:text-lg font-semibold text-slate-200">{grade.id}</p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Último Update</p>
+                    <p className="text-sm lg:text-lg font-semibold text-slate-300">{grade.update}</p>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Qty de Volumes</p>
+                    <Link href={`/caixas_por_grade/${grade.id}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-amber-300 hover:text-amber-200 transition-colors">
+                      <span>{grade.caixas.length}</span>
+                      <ExternalLink size={12} />
+                    </Link>
+                  </div>
+                  
+                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
+                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Concluído</p>
+                    <p className="text-sm lg:text-lg font-semibold text-green-300">{percentualConcluido}</p>
+                  </div>
+                </div>
+
+                {/* Botão Expandir/Recolher */}
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => toggleGradeExpansion(grade.id)}
+                    className="flex items-center justify-center w-8 h-8 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-colors duration-200"
+                  >
+                    {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </button>
+                </div>
               </div>
             </div>
-            <table className={`w-full table-fixed border-collapse text-sm`}>
-              <thead className={`${theme.header} text-[15px]`}>
-                <tr>
-                  {['Item', 'Gênero', 'Tam', 'Previsto', 'Expedido', 'À Expedir', 'Peso Unitário', 'Peso Total'].map((title, index) => {
-                    const widthClasses = [
-                      'w-[27%] text-left', // Item
-                      'w-[9%] text-left', // Gênero
-                      'w-[6%] text-left', // Tamanho                    
-                      'w-[9%] text-left', // Previsto
-                      'w-[9%] text-right', // Expedido
-                      'w-[9%] text-left', // À Expedir
-                      'w-[14%] text-left', // Peso Unitário
-                      'w-[14%] text-left', // Peso Total
-                    ];
-                    return (
-                      <th
-                        key={title}
-                        className={`py-2 px-4 border ${theme.border} ${widthClasses[index]}`}
-                      >
-                        {title}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {grade.tamanhosQuantidades.map((item, index) => {
-                  const zebra = index % 2 === 0 ? theme.nadie : '';
-                  const highlight = item.previsto > item.quantidade ? theme.highlight : '';
 
-                  return (
-                    <tr key={index} className={`${theme.border} border ${zebra} ${highlight}`}>
-                      <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.item}</td>
-                      <td className={`py-2 px-4 uppercase border ${theme.border}`}>{item.genero}</td>
-                      <td className={`py-2 px-4 uppercase border ${theme.border} ${theme.header}`}>{item.tamanho}</td>                     
-                      <td className={`py-2 px-4 border ${theme.textPurple} ${theme.border}`}>
-                        {convertMilharFormat(item.previsto)}
-                      </td>
-                      <td className={`py-2 px-4 border text-right ${theme.textGreen} ${theme.border} ${(item.previsto === item.quantidade) ? theme.bgColorValueE : ''}`}>
-                        <span className={`${(item.previsto === item.quantidade) ? 'text-emerald-500' : ''}`}>
-                          {convertMilharFormat(item.quantidade)}
-                        </span>
-                      </td>
-                       <td className={`py-2 px-4 border  ${theme.textCyan} ${theme.border} ${(item.previsto - item.quantidade > 0) ? theme.bgColorValueP : ''}`}>
-                        <span className={`${(item.previsto - item.quantidade > 0) ? 'text-red-500' : ''}`}>
-                          {convertMilharFormat(item.previsto - item.quantidade)}
-                        </span>
-                      </td>
-                      <td className={`py-2 px-4 border ${theme.textBlue} ${theme.border}`}>
-                        {convertMilharFormatKG(item.peso ?? 0)}
-                      </td>
-                      <td className={`py-2 px-4 border ${theme.textBlue} ${theme.border}`}>
-                        {convertMilharFormatKG((item.peso ?? 0) * item.quantidade)}
-                      </td>
-                    </tr>
-                  );
-                })}
+                        {/* Tabela de Itens - Expandida */}
+            {isExpanded && (
+              <div className="border-t border-slate-700">
+                <div className="overflow-x-auto w-full">
+                  <div className="min-w-max">
+                    <table className="w-full">
+                      <thead className={`${theme.header}`}>
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[120px]">Item</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[100px]">Gênero</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[80px]">Tam</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[100px]">Previsto</th>
+                          <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[100px]">Expedido</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[100px]">À Expedir</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[100px]">Peso Unit.</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider whitespace-nowrap min-w-[100px]">Peso Total</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-700">
+                        {grade.tamanhosQuantidades.map((item, index) => {
+                          const zebra = index % 2 === 0 ? theme.nadie : theme.zebra;
+                          const highlight = item.previsto > item.quantidade ? theme.highlight : '';
 
-                <tr className={`font-bold ${theme.header}`}>
-                  <td className={`py-2 px-4 border ${theme.border}`}></td>
-                  <td className={`py-2 px-4 border ${theme.border}`}>TOTAIS</td>
-                  <td className={`py-2 px-4 border ${theme.border}`} colSpan={1}>{`==>`}</td>                 
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(totalPrevisto)}</td>
-                  <td className={`py-2 px-4 border text-right ${theme.border} ${colorValue}`}>{convertMilharFormat(totalQuantidade)}</td>
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormat(faltaExpedir)}</td>
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}></td>
-                  <td className={`py-2 px-4 border ${theme.border} ${colorValue}`}>{convertMilharFormatKG(totalPesoAfer ?? 0)}</td>
-                </tr>
-              </tbody>
-            </table>
+                          return (
+                            <tr key={index} className={`${zebra} ${highlight} hover:bg-slate-700/30 transition-colors duration-150`}>
+                              <td className="px-4 py-3 text-sm font-medium uppercase whitespace-nowrap min-w-[120px]">{item.item}</td>
+                              <td className="px-4 py-3 text-sm font-medium uppercase whitespace-nowrap min-w-[100px]">{item.genero}</td>
+                              <td className={`px-4 py-3 text-sm font-medium uppercase ${theme.header} whitespace-nowrap min-w-[80px]`}>{item.tamanho}</td>
+                              <td className={`px-4 py-3 text-sm ${theme.textPurple} whitespace-nowrap min-w-[100px]`}>
+                                {convertMilharFormat(item.previsto)}
+                              </td>
+                              <td className={`px-4 py-3 text-sm text-right ${theme.textGreen} ${(item.previsto === item.quantidade) ? theme.bgColorValueE : ''} whitespace-nowrap min-w-[100px]`}>
+                                <span className={`${(item.previsto === item.quantidade) ? 'text-emerald-500' : ''}`}>
+                                  {convertMilharFormat(item.quantidade)}
+                                </span>
+                              </td>
+                              <td className={`px-4 py-3 text-sm ${theme.textCyan} ${(item.previsto - item.quantidade > 0) ? theme.bgColorValueP : ''} whitespace-nowrap min-w-[100px]`}>
+                                <span className={`${(item.previsto - item.quantidade > 0) ? 'text-red-500' : ''}`}>
+                                  {convertMilharFormat(item.previsto - item.quantidade)}
+                                </span>
+                              </td>
+                              <td className={`px-4 py-3 text-sm ${theme.textBlue} whitespace-nowrap min-w-[100px]`}>
+                                {convertMilharFormatKG(item.peso ?? 0)}
+                              </td>
+                              <td className={`px-4 py-3 text-sm ${theme.textBlue} whitespace-nowrap min-w-[100px]`}>
+                                {convertMilharFormatKG((item.peso ?? 0) * item.quantidade)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+
+                        {/* Linha de Totais */}
+                        <tr className={`font-bold ${theme.header}`}>
+                          <td className="px-4 py-3 whitespace-nowrap min-w-[120px]"></td>
+                          <td className="px-4 py-3 whitespace-nowrap min-w-[100px]">TOTAIS</td>
+                          <td className="px-4 py-3 whitespace-nowrap min-w-[80px]" colSpan={1}>{'==>'}</td>
+                          <td className="px-4 py-3 text-sm font-bold text-slate-300 bg-slate-600/50 whitespace-nowrap min-w-[100px]">
+                            {convertMilharFormat(totalPrevisto)}
+                          </td>
+                          <td className="px-4 py-3 text-sm font-bold text-slate-300 bg-slate-600/50 text-right whitespace-nowrap min-w-[100px]">
+                            {convertMilharFormat(totalQuantidade)}
+                          </td>
+                          <td className="px-4 py-3 text-sm font-bold text-slate-300 bg-slate-600/50 whitespace-nowrap min-w-[100px]">
+                            {convertMilharFormat(faltaExpedir)}
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap min-w-[100px]"></td>
+                          <td className="px-4 py-3 text-sm font-bold text-slate-300 bg-slate-600/50 whitespace-nowrap min-w-[100px]">
+                            {convertMilharFormatKG(totalPesoAfer ?? 0)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
