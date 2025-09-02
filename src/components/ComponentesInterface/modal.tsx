@@ -31,27 +31,30 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.7 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="bg-white p-8 rounded-md shadow-md min-w-[350px] min-h-[200px] gap-y-4 
-      flex flex-col items-center justify-between"
-      >
-        <h2 className="text-3xl text-black font-semibold">
-          <AlertTriangle size={90} color={`rgba(255, 0, 0, 1)`} />
-        </h2>
-        <p className={`flex text-[20px] text-black uppercase font-bold`}>{message}</p>
-        <button
-          className="mt-4 bg-blue-900 hover:bg-blue-700 text-white px-12 py-2
-           rounded text-[18px] flex gap-x-5 items-center justify-center"
-          onClick={onClose}
+      <div className='flex p-8'>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.7 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          className="bg-white lg:p-8 p-4 rounded-md shadow-md lg:min-w-[350px] lg:min-h-[200px] lg:gap-y-4 gap-y-2
+                       flex flex-col items-center justify-between"
         >
-          <X size={18} />
-          FECHAR
-        </button>
-      </motion.div>
+          <h2 className="lg:text-3xl text-[9px] text-black font-semibold">
+            <AlertTriangle size={60} color={`rgba(255, 0, 0, 1)`} />
+          </h2>
+          <p className={`flex text-[15px] w-full text-wrap text-center lg:text-[20px]
+             text-black uppercase font-bold line leading-tight`}>{message}</p>
+          <button
+            className="mt-2 bg-blue-900 hover:bg-blue-700 text-white px-12 py-2
+           rounded lg:text-[18px] text-[13px] flex gap-x-5 items-center justify-center"
+            onClick={onClose}
+          >
+            <X size={18} />
+            FECHAR
+          </button>
+        </motion.div>
+      </div>
     </div>
   );
 };

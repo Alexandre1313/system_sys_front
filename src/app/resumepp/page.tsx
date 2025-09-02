@@ -125,15 +125,15 @@ export default function ConsultaStatusGradesPP() {
   const filtered = getResumo(status, dataFiltered);
 
   return (
-    <PageWithDrawer 
-      sectionName="Relatórios de Saída P/ Peças" 
+    <PageWithDrawer
+      sectionName="Relatórios de Saída P/ Peças"
       currentPage="resumepp"
     >
       {/* Header Fixo */}
       <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
         <div className="px-4 pt-16 pb-4 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
           <div className="max-w-[1370px] mx-auto">
-            
+
             {/* Header Principal */}
             <div className="flex items-center justify-between mb-4 lg:mb-6">
               {/* Título e Ícone */}
@@ -150,7 +150,7 @@ export default function ConsultaStatusGradesPP() {
                   </p>
                 </div>
               </div>
-              
+
               {/* Estatísticas Rápidas - Desktop */}
               <div className="hidden lg:flex items-center space-x-3">
                 <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl px-4 py-2">
@@ -175,7 +175,7 @@ export default function ConsultaStatusGradesPP() {
             {/* Controles de Filtro */}
             <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 lg:gap-4 items-center">
-                
+
                 {/* Status */}
                 <div className="flex-1">
                   <select
@@ -216,7 +216,7 @@ export default function ConsultaStatusGradesPP() {
 
                 {/* Busca */}
                 <div className="flex-1">
-                  <button 
+                  <button
                     onClick={loaderFilter}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2"
                   >
@@ -227,10 +227,10 @@ export default function ConsultaStatusGradesPP() {
 
                 {/* Busca por Escola */}
                 <div className="flex-1">
-                  <BuscaEscolaInput 
-                    buscaEscola={buscaEscola} 
-                    setBuscaEscola={setBuscaEscola} 
-                    onBuscar={aplicarBusca} 
+                  <BuscaEscolaInput
+                    buscaEscola={buscaEscola}
+                    setBuscaEscola={setBuscaEscola}
+                    onBuscar={aplicarBusca}
                   />
                 </div>
               </div>
@@ -244,7 +244,7 @@ export default function ConsultaStatusGradesPP() {
                   <span>Relatórios e Ações</span>
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-3">
-                  <div 
+                  <div
                     title="Geração de Romaneios de Embarque/Entrega"
                     className="bg-blue-500/15 border border-blue-400/40 text-blue-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-blue-500/25 hover:border-blue-400/60 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
                   >
@@ -252,8 +252,8 @@ export default function ConsultaStatusGradesPP() {
                     <span className="hidden sm:inline">Romaneios</span>
                     <span className="sm:hidden">Rom</span>
                   </div>
-                  
-                  <div 
+
+                  <div
                     title="Relatório em Excel Faltas (Itens à Expedir)"
                     className="bg-red-500/15 border border-red-400/40 text-red-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-red-500/25 hover:border-red-400/60 hover:scale-105 hover:shadow-lg hover:shadow-red-500/20 focus:ring-2 focus:ring-red-500/50 focus:border-transparent"
                   >
@@ -261,8 +261,8 @@ export default function ConsultaStatusGradesPP() {
                     <span className="hidden sm:inline">Faltas</span>
                     <span className="sm:hidden">Falt</span>
                   </div>
-                  
-                  <div 
+
+                  <div
                     title="Relatório em Excel Expedidos (Para Embarque)"
                     className="bg-emerald-500/15 border border-emerald-400/40 text-emerald-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-emerald-500/25 hover:border-emerald-400/60 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent"
                   >
@@ -270,8 +270,8 @@ export default function ConsultaStatusGradesPP() {
                     <span className="hidden sm:inline">Expedidos</span>
                     <span className="sm:hidden">Exp</span>
                   </div>
-                  
-                  <div 
+
+                  <div
                     title="Relatório em Excel por Entrega (Por Data de Saída)"
                     className="bg-violet-500/15 border border-violet-400/40 text-violet-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-violet-500/25 hover:border-violet-400/60 hover:scale-105 hover:shadow-lg hover:shadow-violet-500/20 focus:ring-2 focus:ring-violet-500/50 focus:border-transparent"
                   >
@@ -279,8 +279,8 @@ export default function ConsultaStatusGradesPP() {
                     <span className="hidden sm:inline">Entregas</span>
                     <span className="sm:hidden">Ent</span>
                   </div>
-                  
-                  <div 
+
+                  <div
                     title="Relatório em Excel Pedido Total"
                     className="bg-amber-500/15 border border-amber-400/40 text-amber-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-amber-500/25 hover:border-amber-400/60 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 focus:ring-2 focus:ring-amber-500/50 focus:border-transparent"
                   >
@@ -288,8 +288,8 @@ export default function ConsultaStatusGradesPP() {
                     <span className="hidden sm:inline">Pedido Total</span>
                     <span className="sm:hidden">Total</span>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={modalAjustStatus}
                     title="Mudança de Status (Expedida para Despachada)"
                     className="bg-cyan-500/15 border border-cyan-400/40 text-cyan-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-cyan-500/25 hover:border-cyan-400/60 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
@@ -308,9 +308,57 @@ export default function ConsultaStatusGradesPP() {
       {/* Conteúdo Principal */}
       <div className="px-4 pt-4 lg:pt-[22rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-[1370px] mx-auto">
-          
-            {/* Estatísticas Resumidas */}
+
+          {/* Estatísticas Resumidas */}
           <div className="grid grid-cols-1 gap-4 mb-6">
+            {/* Estatísticas Totais */}
+            <div className="bg-orange-800/20 lg:bg-orange-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-0">
+              <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
+                <BarChart size={18} className="text-green-400" />
+                <span>Estatísticas Totais</span>
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Previsto T</p>
+                  <p className="text-cyan-500 text-base lg:text-lg font-bold">{filtered.previstoT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos T</p>
+                  <p className="text-emerald-500 text-base lg:text-lg font-bold">{filtered.expedidosT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir T</p>
+                  <p className="text-orange-500 text-base lg:text-lg font-bold">{filtered.aExpedirT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Grades T</p>
+                  <p className="text-white text-base lg:text-lg font-bold">{filtered.gradesT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas T</p>
+                  <p className="text-purple-500 text-base lg:text-lg font-bold">{filtered.escolasAtendidasT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total T</p>
+                  <p className="text-white text-base lg:text-lg font-bold">{filtered.cubagemT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total T</p>
+                  <p className="text-white text-base lg:text-lg font-bold">{filtered.pesoT}</p>
+                </div>
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Volumes T</p>
+                  <p className="text-red-500 text-base lg:text-lg font-bold">{filtered.volumes}</p>
+                </div>
+                {tipo === 'T' && (
+                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3 sm:col-span-2 lg:col-span-1">
+                    <p className="text-slate-400 text-xs lg:text-sm">Perc. Erros T</p>
+                    <p className="text-yellow-500 text-base lg:text-lg font-bold">{filtered.percErr}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Estatísticas Normais */}
             <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
@@ -354,7 +402,7 @@ export default function ConsultaStatusGradesPP() {
             </div>
 
             {/* Estatísticas Reposição */}
-            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
+            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-6">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <Settings size={18} className="text-purple-400" />
                 <span>Estatísticas Reposição</span>
@@ -395,79 +443,30 @@ export default function ConsultaStatusGradesPP() {
               </div>
             </div>
           </div>
-
-          {/* Estatísticas Totais */}
-          <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-6">
-                         <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
-               <BarChart size={18} className="text-green-400" />
-               <span>Estatísticas Totais</span>
-             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Previsto T</p>
-                <p className="text-cyan-500 text-base lg:text-lg font-bold">{filtered.previstoT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Expedidos T</p>
-                <p className="text-emerald-500 text-base lg:text-lg font-bold">{filtered.expedidosT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">À Expedir T</p>
-                <p className="text-orange-500 text-base lg:text-lg font-bold">{filtered.aExpedirT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Grades T</p>
-                <p className="text-white text-base lg:text-lg font-bold">{filtered.gradesT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas T</p>
-                <p className="text-purple-500 text-base lg:text-lg font-bold">{filtered.escolasAtendidasT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Cub. Total T</p>
-                <p className="text-white text-base lg:text-lg font-bold">{filtered.cubagemT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Peso Total T</p>
-                <p className="text-white text-base lg:text-lg font-bold">{filtered.pesoT}</p>
-              </div>
-              <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                <p className="text-slate-400 text-xs lg:text-sm">Volumes T</p>
-                <p className="text-red-500 text-base lg:text-lg font-bold">{filtered.volumes}</p>
-              </div>
-              {tipo === 'T' && (
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3 sm:col-span-2 lg:col-span-1">
-                  <p className="text-slate-400 text-xs lg:text-sm">Perc. Erros T</p>
-                  <p className="text-yellow-500 text-base lg:text-lg font-bold">{filtered.percErr}</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-                    {/* Tabela de Grades */}
+          {/* Tabela de Grades */}
           <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
             <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
               <Package size={18} className="text-green-400" />
-              <span>Grades Filtradas</span>
+              <span>Grades</span>
               <span className="text-slate-400 text-xs lg:text-sm">({dataFiltered.length} resultados)</span>
             </h3>
-            
+
             <div className="overflow-x-auto">
               {isLoading ? (
                 <div className="flex items-center justify-center w-full h-64">
                   <IsLoading />
                 </div>
               ) : data?.length ? (
-                <GradesFilterTable 
-                  expedicaoData={dataFiltered} 
-                  staticColors={false} 
-                  status={status} 
-                  selectedGrades={selectedGrades} 
-                  handleSelect={handleSelect} 
+                <GradesFilterTable
+                  expedicaoData={dataFiltered}
+                  staticColors={false}
+                  status={status}
+                  selectedGrades={selectedGrades}
+                  handleSelect={handleSelect}
                 />
               ) : (
                 <div className="flex items-center justify-center w-full h-64">
-                  <p className="text-slate-400 text-lg">Não há dados para os parâmetros pesquisados.</p>
+                  <p className="text-slate-400 text-center w-full text-wrap text-lg">Não há dados para os parâmetros pesquisados.</p>
                 </div>
               )}
             </div>
@@ -489,7 +488,7 @@ export default function ConsultaStatusGradesPP() {
               <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
                 <AlertTriangle size={24} className="text-red-400" />
               </div>
-              
+
               <div className="space-y-1">
                 <h2 className="text-lg lg:text-xl font-bold text-white">
                   Mudança de Status

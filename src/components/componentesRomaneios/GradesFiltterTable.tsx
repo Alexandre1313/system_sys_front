@@ -84,7 +84,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
             {/* Header da Grade */}
             <div className={`${theme.colorDivResuls} p-4 lg:p-6`}>
               <div className="space-y-4">
-                
+
                 {/* Checkbox no topo */}
                 {(status === 'EXPEDIDA' || status === 'PRONTA') && (
                   <div className="flex items-center justify-center w-6 h-6">
@@ -106,19 +106,20 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
 
                 {/* Textos grandes - um por linha */}
                 <div className="space-y-3">
-                  <div className="bg-slate-700/30 rounded-lg p-3">
-                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Projeto</p>
-                    <p className="text-sm lg:text-lg font-semibold text-blue-300 truncate">{grade.projectname}</p>
+                  <div className="flex gap-x-3">
+                    <div className="bg-slate-700/30 rounded-lg p-3 lg:w-1/2">
+                      <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Projeto</p>
+                      <p className="text-sm lg:text-lg font-semibold text-blue-300 truncate">{grade.projectname}</p>
+                    </div>
+                    <div className="bg-slate-700/30 rounded-lg p-3 lg:w-1/2">
+                      <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Empresa</p>
+                      <p className="text-sm lg:text-lg font-semibold text-purple-300 truncate">{grade.company}</p>
+                    </div>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Unidade Escolar</p>
                     <p className="text-sm lg:text-lg font-semibold text-emerald-300 truncate">{grade.escola}</p>
-                  </div>
-                  
-                  <div className="bg-slate-700/30 rounded-lg p-3">
-                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Empresa</p>
-                    <p className="text-sm lg:text-lg font-semibold text-purple-300 truncate">{grade.company}</p>
                   </div>
                 </div>
 
@@ -131,7 +132,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                       {grade.tipo && <span className="text-xs lg:text-base text-orange-400 bg-orange-500/10 px-2 py-1 rounded">R</span>}
                     </div>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Nº da Escola</p>
                     {status === 'PRONTA' ? (
@@ -143,22 +144,22 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                       <p className="text-sm lg:text-lg font-semibold text-cyan-300">{grade.numeroEscola}</p>
                     )}
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Nº Join</p>
                     <p className="text-sm lg:text-lg font-semibold text-violet-300">{grade.numberJoin}</p>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Grade ID</p>
                     <p className="text-sm lg:text-lg font-semibold text-slate-200">{grade.id}</p>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Último Update</p>
                     <p className="text-sm lg:text-lg font-semibold text-slate-300">{grade.update}</p>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Qty de Volumes</p>
                     <Link href={`/caixas_por_grade/${grade.id}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-amber-300 hover:text-amber-200 transition-colors">
@@ -166,26 +167,25 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                       <ExternalLink size={12} />
                     </Link>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Concluído</p>
                     <p className="text-sm lg:text-lg font-semibold text-green-300">{percentualConcluido}</p>
                   </div>
-                </div>
-
-                {/* Botão Expandir/Recolher */}
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => toggleGradeExpansion(grade.id)}
-                    className="flex items-center justify-center w-8 h-8 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-colors duration-200"
-                  >
-                    {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </button>
+                  {/* Botão Expandir/Recolher */}
+                  <div className="flex justify-end items-end">
+                    <button
+                      onClick={() => toggleGradeExpansion(grade.id)}
+                      className="flex items-center justify-center w-8 h-8 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-colors duration-200"
+                    >
+                      {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-                        {/* Tabela de Itens - Expandida */}
+            {/* Tabela de Itens - Expandida */}
             {isExpanded && (
               <div className="border-t border-slate-700">
                 <div className="overflow-x-auto w-full">
@@ -250,7 +250,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                           <td className="px-4 py-3 text-sm font-bold text-slate-300 bg-slate-600/50 whitespace-nowrap min-w-[100px]">
                             {convertMilharFormat(faltaExpedir)}
                           </td>
-                          <td className="px-4 py-3 whitespace-nowrap min-w-[100px]"></td>
+                          <td className="px-4 py-3 whitespace-nowrap min-w-[100px] bg-slate-600/50"></td>
                           <td className="px-4 py-3 text-sm font-bold text-slate-300 bg-slate-600/50 whitespace-nowrap min-w-[100px]">
                             {convertMilharFormatKG(totalPesoAfer ?? 0)}
                           </td>

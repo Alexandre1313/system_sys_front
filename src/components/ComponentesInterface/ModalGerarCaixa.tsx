@@ -97,24 +97,23 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 pt-8">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start lg:items-center justify-center z-50 pt-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         className="bg-[#f7f7f7] p-4 rounded-md shadow-md min-w-[40%] min-h-[380px] gap-y-4 
-      flex flex-col items-center justify-between"
+      flex flex-col items-center justify-between m-8"
       >
         <h2 className="text-3xl text-black font-semibold">
           <Loader
             className={isLoading ? 'animate-rotate' : ''}
-            size={40}
+            size={30}
             color={`rgba(234, 170, 0, 0.7)`}
           />
-        </h2>
-        <Image src={`/fiveicon72x72BoxOne.png`} alt={`caixa imagem`} height={70} width={70} loading="eager"/>
-        <p className="text-red-500 flex text-[17px] uppercase font-bold text-center">{msg}</p>
+        </h2>       
+        <p className="text-red-500 flex lg:text-[17px] text-[12px] uppercase font-bold text-center">{msg}</p>
         <div className={`flex justify-center items-center w-full`}>
           <CaixaResume caixa={box} />
         </div>
