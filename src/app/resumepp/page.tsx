@@ -477,7 +477,7 @@ export default function ConsultaStatusGradesPP() {
 
       {/* Modal de Confirmação */}
       {filtered.ids.length > 0 && modalStatus && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}

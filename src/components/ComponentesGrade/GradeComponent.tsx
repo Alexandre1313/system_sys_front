@@ -303,14 +303,14 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             {/* Modal 1: Items List View */}
             {mostrarTela && (
-                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col min-h-[101dvh]">
+                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
 
                     {/* Header */}
-                    <div className="relative z-10 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-4 lg:p-6">
-                        <div className="flex items-center max-w-7xl mx-auto flex-col">
+                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                        <div className="flex items-center max-w-7xl mx-auto flex-col p-2 lg:p-3">
                             <div className="flex items-center justify-between max-w-7xl mx-auto">
                                 <div className="flex items-center space-x-4 lg:flex-row">
                                     <button
@@ -356,7 +356,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </div>
 
                     {/* Content */}
-                    <div className="relative z-10 flex-1 overflow-auto">
+                    <div className="relative z-10 flex-1 overflow-auto" style={{ marginTop: '80px' }}>
                         <div className="max-w-7xl mx-auto p-6">
                             {/* Items Grid */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -468,14 +468,14 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             {/* Modal 2: Expedition Control */}
             {mostrarTelaExped && itemSelecionado && (
-                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col">
+                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
 
                     {/* Header */}
-                    <div className="relative z-10 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 p-4 lg:p-6">
-                        <div className="flex items-center justify-between max-w-7xl mx-auto">
+                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                        <div className="flex items-center justify-between max-w-7xl mx-auto p-2 lg:p-3">
                             <div className="flex items-center space-x-4">
                                 <div>
                                     <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
@@ -495,7 +495,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </div>
 
                     {/* Content */}
-                    <div className="relative z-10 flex-1 overflow-auto">
+                    <div className="relative z-10 flex-1 overflow-auto" style={{ marginTop: '80px' }}>
                         <div className="max-w-7xl mx-auto p-6">
 
                             {/* Actions Bar */}
