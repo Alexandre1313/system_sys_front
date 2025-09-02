@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
-import Image from 'next/image';
 
 interface ModalGerarCaixaProps {
   box: Caixa | null;
