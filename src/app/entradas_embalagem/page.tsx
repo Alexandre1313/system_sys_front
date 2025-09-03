@@ -358,10 +358,10 @@ export default function EntradasEmbalagem() {
                   {/* Header do Grupo */}
                   <button
                     onClick={() => toggleNome(nome)}
-                    className={`w-full flex justify-between items-center px-4 lg:px-6 py-3 lg:py-4 bg-slate-700/30 hover:bg-slate-700/50 transition-all duration-300 ${
-                      expandedNome === nome ? 'bg-slate-700/50' : ''
-                    }`}
-                  >
+                    className={`w-full flex justify-between items-center px-4 lg:px-6 py-3 lg:py-4
+                       bg-slate-700/30 hover:bg-slate-700/50 transition-all duration-300 
+                       ${expandedNome === nome ? 'bg-slate-700/50' : ''}`}
+                     >
                     <div className="flex items-center space-x-3">
                       <div className={`w-2 h-2 lg:w-3 lg:h-3 rounded-full ${
                         expandedNome === nome ? 'bg-emerald-400' : 'bg-slate-400'
@@ -379,7 +379,7 @@ export default function EntradasEmbalagem() {
                       <span className={`text-slate-400 text-xs lg:text-sm ${
                         expandedNome === nome ? 'text-emerald-400' : ''
                       }`}>
-                        {expandedNome === nome ? 'Recolher' : 'Expandir'}
+                        {expandedNome === nome ? 'R' : 'E'}
                       </span>
                       {expandedNome === nome ? (
                         <ChevronUp size={16} className="text-emerald-400" />

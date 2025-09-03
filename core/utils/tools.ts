@@ -418,6 +418,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
  * analyzerStatus(grades); // Retorna: { statusClass: 'text-red-500', desactiv: true }
  */
 function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: string } {
+  console.log(grades)
   const STATUS = {
     EXPEDIDA: 'EXPEDIDA',
     DESPACHADA: 'DESPACHADA',
@@ -426,11 +427,11 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
   };
 
   const COLORS = {
-    emerald: 'text-emerald-500',
-    cyan: 'text-cyan-500',
-    red: 'text-red-500',
-    slate: 'text-slate-200',
-    orange: 'text-orange-400',
+    emerald: 'bg-emerald-700',
+    cyan: 'bg-cyan-700',
+    red: 'bg-red-700',
+    slate: 'bg-slate-200',
+    orange: 'bg-orange-600',
   };
 
   let desactiv = false;

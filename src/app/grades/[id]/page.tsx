@@ -311,8 +311,8 @@ export default function Grades() {
       sectionName={`${escola?.nome} - Escola #${escola?.numeroEscola}`}
       currentPage="grades"
     >
-      <div className="px-4 pt-14 lg:pt20 pb-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="px-6 pt-14 lg:pt20 pb-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
           {/* Page Header */}
           <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20
                          lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700 flex flex-col
@@ -321,9 +321,9 @@ export default function Grades() {
              bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 mb-2 lg:mb-2">
               Grades
             </h1>
-            <div className="flex items-center lg:flex-row flex-col justify-center space-x-4 text-slate-400 text-sm lg:text-lg">
+            <div className="flex items-center lg:flex-row flex-col justify-center text-slate-400 text-sm lg:text-lg">
               <span className='text-center'>{escola?.nome}</span>
-              <span className='hidden lg:flex'>•</span>
+              <span className='hidden lg:flex lg:pr-2 lg:pl-2'>•</span>
               <span className="text-center">ESCOLA #{escola?.numeroEscola}</span>
             </div>
             <div className="flex items-center justify-center">

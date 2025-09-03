@@ -269,7 +269,7 @@ export default function ConsultaStatusGradesPP() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 pt-4 lg:pt-[22rem] pb-8 sm:px-6 lg:px-8">
+      <div className="px-4 pt-4 lg:pt-[21rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-[1370px] mx-auto">
 
           {/* Estatísticas Resumidas */}

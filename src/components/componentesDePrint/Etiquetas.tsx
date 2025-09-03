@@ -264,7 +264,7 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
             onClick={gerarPDF}
             className={`flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                          text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
-                           justify-center space-x-2 hover:scale-105`}>
+                           justify-center space-x-2 hover:scale-105 text-[13px]`}>
             <Eye className="mr-2" size={18} strokeWidth={2} /> ETIQUETAS
         </button>
     );
