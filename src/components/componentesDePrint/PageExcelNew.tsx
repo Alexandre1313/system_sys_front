@@ -942,8 +942,8 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
             new Blob([buffer]),
-            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${nameV}_${dataSp}.xlsx` : expedicaoData.length === 0 ? 
-            `RELATORIO_REPOSICAO_${nameV}_${dataSp}.xlsx`: `RELATORIO_EXPEDICAO_REPOSICAO_${nameV}_${dataSp}.xlsx`
+            expedicaoDataRepo.length === 0 ? `RELATORIO_EXPEDICAO_${nameV}_${dataSp}.xlsx` : expedicaoData.length === 0 ?
+                `RELATORIO_REPOSICAO_${nameV}_${dataSp}.xlsx` : `RELATORIO_EXPEDICAO_REPOSICAO_${nameV}_${dataSp}.xlsx`
         );
     }
 
@@ -951,8 +951,15 @@ export default function PageExcelNew({ expedicaoDataB }: PageExcelNewProps) {
         <button
             type="button"
             onClick={generateExcel}
-            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-emerald-100 font-medium text-xs transition-colors duration-200 mr-1">
-            <Download className="text-emerald-100 hover:text-emerald-50" size={14} strokeWidth={2} />
+            title="Relatório em Excel expedição (Por grades)"
+            className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
+                text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
+                focus:ring-slate-500/50 focus:border-transparent"
+        >
+            <Download size={14} className="lg:w-4 lg:h-4" />
+            <span className="hidden sm:inline pl-2">Relatório Exp.</span>
+            <span className="sm:hidden pl-2">Expedição</span>
         </button>
     );
 }

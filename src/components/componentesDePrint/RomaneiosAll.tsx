@@ -886,8 +886,15 @@ const RomaneiosAll = ({ romaneios }: RomaneiosProps) => {
         <button
             type="button"
             onClick={gerarPDF}
-            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-blue-100 font-medium text-xs transition-colors duration-200 mr-1">
-            <Printer className="text-blue-100 hover:text-blue-50" size={14} strokeWidth={2} />
+            title="Romaneis de Despacho"
+            className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
+                text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
+                focus:ring-slate-500/50 focus:border-transparent"
+        >
+            <Printer size={14} className="lg:w-4 lg:h-4" />
+            <span className="hidden sm:inline pl-2">Romaneios</span>
+            <span className="sm:hidden pl-2">Romaneios</span>
         </button>
     );
 };

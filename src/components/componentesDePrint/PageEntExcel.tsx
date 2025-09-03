@@ -73,7 +73,7 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
                 dateExisting.getDate() === dateCurrent.getDate();
 
             // Verifica se o tipo é "reposicao"
-           const isReposicao = school.tipo?.normalize("NFD").replace(/\p{M}/gu, "").trim().toUpperCase() === "REPOSICAO";
+            const isReposicao = school.tipo?.normalize("NFD").replace(/\p{M}/gu, "").trim().toUpperCase() === "REPOSICAO";
 
             // Se a escola já existe no mergedSchools
             if (existingSchool) {
@@ -406,7 +406,7 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
                         richText: [
                             { text: `${grade.escola} `, font: { color: { argb: "FFFFFF" } } }, // Estilo para a escola
                             { text: `(${grade.numeroEscola}) `, font: { color: { argb: "818181" } } },
-                            { text: `${!grade.tipo ? '': `(${grade.tipo})`}`, font: { color: { argb: "FF0000" } } }  // Estilo para o número da escola
+                            { text: `${!grade.tipo ? '' : `(${grade.tipo})`}`, font: { color: { argb: "FF0000" } } }  // Estilo para o número da escola
                         ],
                         alignment: { horizontal: 'left' } // Alinhamento à esquerda
                     }, // Coluna "ESCOLA"
@@ -552,8 +552,15 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
         <button
             type="button"
             onClick={generateExcel}
-            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-violet-100 font-medium text-xs transition-colors duration-200 mr-1">
-            <Truck className="text-violet-100 hover:text-violet-50" size={14} strokeWidth={2} />
+            title="Relatório em Excel por Entrega (Por Data de Saída)"
+            className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
+                text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
+                focus:ring-slate-500/50 focus:border-transparent"
+        >
+            <Truck size={14} className="lg:w-4 lg:h-4" />
+            <span className="hidden sm:inline pl-2">Entrgas</span>
+            <span className="sm:hidden pl-2">Entregas</span>
         </button>
     );
 }

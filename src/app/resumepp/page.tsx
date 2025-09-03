@@ -244,59 +244,22 @@ export default function ConsultaStatusGradesPP() {
                   <span>Relatórios e Ações</span>
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-3">
-                  <div
-                    title="Geração de Romaneios de Embarque/Entrega"
-                    className="bg-blue-500/15 border border-blue-400/40 text-blue-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-blue-500/25 hover:border-blue-400/60 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
-                  >
-                    <RomaneiosAll romaneios={dataFiltered} />
-                    <span className="hidden sm:inline">Romaneios</span>
-                    <span className="sm:hidden">Rom</span>
-                  </div>
-
-                  <div
-                    title="Relatório em Excel Faltas (Itens à Expedir)"
-                    className="bg-red-500/15 border border-red-400/40 text-red-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-red-500/25 hover:border-red-400/60 hover:scale-105 hover:shadow-lg hover:shadow-red-500/20 focus:ring-2 focus:ring-red-500/50 focus:border-transparent"
-                  >
-                    <PageExcelNewfaltas expedicaoDataB={dataFiltered} />
-                    <span className="hidden sm:inline">Faltas</span>
-                    <span className="sm:hidden">Falt</span>
-                  </div>
-
-                  <div
-                    title="Relatório em Excel Expedidos (Para Embarque)"
-                    className="bg-emerald-500/15 border border-emerald-400/40 text-emerald-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-emerald-500/25 hover:border-emerald-400/60 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent"
-                  >
-                    <PageExcelNew expedicaoDataB={dataFiltered} />
-                    <span className="hidden sm:inline">Expedidos</span>
-                    <span className="sm:hidden">Exp</span>
-                  </div>
-
-                  <div
-                    title="Relatório em Excel por Entrega (Por Data de Saída)"
-                    className="bg-violet-500/15 border border-violet-400/40 text-violet-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-violet-500/25 hover:border-violet-400/60 hover:scale-105 hover:shadow-lg hover:shadow-violet-500/20 focus:ring-2 focus:ring-violet-500/50 focus:border-transparent"
-                  >
-                    <PageEntExcel expedicaoDataB={dataFiltered} />
-                    <span className="hidden sm:inline">Entregas</span>
-                    <span className="sm:hidden">Ent</span>
-                  </div>
-
-                  <div
-                    title="Relatório em Excel Pedido Total"
-                    className="bg-amber-500/15 border border-amber-400/40 text-amber-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center cursor-pointer hover:bg-amber-500/25 hover:border-amber-400/60 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 focus:ring-2 focus:ring-amber-500/50 focus:border-transparent"
-                  >
-                    <PageExcelRelatorioPedido expedicaoDataB={dataFiltered} />
-                    <span className="hidden sm:inline">Pedido Total</span>
-                    <span className="sm:hidden">Total</span>
-                  </div>
-
+                  <RomaneiosAll romaneios={dataFiltered} />
+                  <PageExcelNewfaltas expedicaoDataB={dataFiltered} />
+                  <PageExcelNew expedicaoDataB={dataFiltered} />
+                  <PageEntExcel expedicaoDataB={dataFiltered} />
+                  <PageExcelRelatorioPedido expedicaoDataB={dataFiltered} />
                   <button
                     onClick={modalAjustStatus}
                     title="Mudança de Status (Expedida para Despachada)"
-                    className="bg-cyan-500/15 border border-cyan-400/40 text-cyan-100 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-cyan-500/25 hover:border-cyan-400/60 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
+                    className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
+                    text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                    hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
+                    focus:ring-slate-500/50 focus:border-transparent"
                   >
                     <Settings size={14} className="lg:w-4 lg:h-4" />
-                    <span className="hidden sm:inline">Mudar Status</span>
-                    <span className="sm:hidden">Status</span>
+                    <span className="hidden sm:inline pl-2">Mudar Status</span>
+                    <span className="sm:hidden pl-2">Status</span>
                   </button>
                 </div>
               </div>
@@ -312,7 +275,7 @@ export default function ConsultaStatusGradesPP() {
           {/* Estatísticas Resumidas */}
           <div className="grid grid-cols-1 gap-4 mb-6">
             {/* Estatísticas Totais */}
-            <div className="bg-orange-800/20 lg:bg-orange-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-0">
+            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-0">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <BarChart size={18} className="text-green-400" />
                 <span>Estatísticas Totais</span>
@@ -360,7 +323,7 @@ export default function ConsultaStatusGradesPP() {
             </div>
 
             {/* Estatísticas Normais */}
-            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
+            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <Package size={18} className="text-blue-400" />
                 <span>Estatísticas Normais</span>
@@ -402,7 +365,7 @@ export default function ConsultaStatusGradesPP() {
             </div>
 
             {/* Estatísticas Reposição */}
-            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-6">
+            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-6">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <Settings size={18} className="text-purple-400" />
                 <span>Estatísticas Reposição</span>

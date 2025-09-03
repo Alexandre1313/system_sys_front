@@ -778,8 +778,15 @@ export default function PageExcelRelatorioPedido({ expedicaoDataB }: PageExcelRe
         <button
             type="button"
             onClick={generateExcel}
-            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-amber-100 font-medium text-xs transition-colors duration-200 mr-1">
-            <FileText className="text-amber-100 hover:text-amber-50" size={14} strokeWidth={2} />
+            title="Relatório em Excel Pedido Total"
+            className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
+                text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
+                focus:ring-slate-500/50 focus:border-transparent"
+        >
+            <FileText size={14} className="lg:w-4 lg:h-4" />
+            <span className="hidden sm:inline pl-2">Pedido Total</span>
+            <span className="sm:hidden pl-2">Total</span>
         </button>
     );
 }

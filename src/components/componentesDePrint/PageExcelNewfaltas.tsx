@@ -95,7 +95,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
 
     const generateExcel = async () => {
         const workbook = new ExcelJS.Workbook();
-        
+
         // Estilos para colunas específicas
         const totalVolumes2 = {
             font: {
@@ -771,7 +771,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         const data = new Date();
         const dataSp = convertSPTime(String(data));
 
-        const nameV = expedicaoDataRepo[0]?.projectname || expedicaoData[0]?.projectname;       
+        const nameV = expedicaoDataRepo[0]?.projectname || expedicaoData[0]?.projectname;
 
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(
@@ -785,8 +785,15 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         <button
             type="button"
             onClick={generateExcel}
-            className="flex items-center justify-center w-full h-full bg-transparent hover:bg-transparent text-red-100 font-medium text-xs transition-colors duration-200 mr-1">
-            <Download className="text-red-100 hover:text-red-50" size={14} strokeWidth={2} />
+            title="Relatório em Excel Faltas Totais por projeto"
+            className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
+                text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
+                focus:ring-slate-500/50 focus:border-transparent"
+        >
+            <Download size={14} className="lg:w-4 lg:h-4" />
+            <span className="hidden sm:inline pl-2">Faltas Total</span>
+            <span className="sm:hidden pl-2">faltas</span>
         </button>
     );
 }

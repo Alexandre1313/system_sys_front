@@ -106,7 +106,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
 
                 {/* Textos grandes - um por linha */}
                 <div className="space-y-3">
-                  <div className="flex gap-x-3">
+                  <div className="flex lg:flex-row flex-col lg:gap-x-3 gap-y-3">
                     <div className="bg-slate-700/30 rounded-lg p-3 lg:w-1/2">
                       <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Projeto</p>
                       <p className="text-sm lg:text-lg font-semibold text-blue-300 truncate">{grade.projectname}</p>
@@ -126,11 +126,11 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                 {/* Textos pequenos - lado a lado bem divididos */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
-                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Status</p>
                     <div className="flex items-center space-x-2">
-                      <span className={`text-sm lg:text-lg font-semibold ${colorStatus}`}>{grade.status}</span>
+                      <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Status</p>
                       {grade.tipo && <span className="text-xs lg:text-base text-orange-400 bg-orange-500/10 px-2 py-1 rounded">R</span>}
                     </div>
+                    <span className={`text-sm lg:text-lg font-semibold ${colorStatus}`}>{grade.status}</span>
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
