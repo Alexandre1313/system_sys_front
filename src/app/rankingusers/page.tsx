@@ -124,14 +124,16 @@ export default function Ranking() {
                                             Todos os Meses
                                         </button>
                                         
-                                        <div className="flex-1 max-w-[200px] lg:max-w-[250px]">
+                                        <div className="flex-1 w-full lg:max-w-[250px] items-center justify-center">
                                             <DatePicker
                                                 selected={selectedDate}
                                                 onChange={(date: Date | null) => setSelectedDate(date)}
                                                 dateFormat="MM/yyyy"
                                                 showMonthYearPicker
                                                 locale="pt-BR"
-                                                className="w-full h-9 lg:h-10 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-300 px-3 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                                                className="w-full h-9 lg:h-10 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-300 px-3 
+                                                text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all 
+                                                duration-300 text-center lg:text-left"
                                                 placeholderText="Selecione o mês"
                                             />
                                         </div>
@@ -322,7 +324,7 @@ export default function Ranking() {
                                                         <span className="text-slate-400 text-xs lg:text-sm font-medium">Total:</span>
                                                     </td>
                                                     <td className="p-2 lg:p-3">
-                                                        <span className="text-emerald-400 font-bold text-sm lg:text-lg">
+                                                        <span className="text-zinc-00 font-bold text-sm lg:text-lg">
                                                             {convertMilharFormat(
                                                                 ranking.reduce(
                                                                     (acc, item) => acc + (item.total_pecas_expedidas || 0),
@@ -412,7 +414,7 @@ export default function Ranking() {
                                                         <span className="text-slate-400 text-xs lg:text-sm font-medium">Total:</span>
                                                     </td>
                                                     <td className="p-2 lg:p-3">
-                                                        <span className="text-emerald-400 font-bold text-sm lg:text-lg">
+                                                        <span className="text-zinc-300 font-bold text-sm lg:text-lg">
                                                             {convertMilharFormat(
                                                                 rankingData.rankingPorMes[mesFormatado].reduce(
                                                                     (acc, item) => acc + (item.total_pecas_expedidas || 0),
@@ -506,7 +508,7 @@ export default function Ranking() {
                                                     <span className="text-slate-400 text-xs lg:text-sm font-medium">Total Geral:</span>
                                                 </td>
                                                 <td className="p-2 lg:p-3">
-                                                    <span className="text-emerald-400 font-bold text-sm lg:text-lg">
+                                                    <span className="text-zinc-300 font-bold text-sm lg:text-lg">
                                                         {convertMilharFormat(
                                                             rankingData.rankingGeral.reduce(
                                                                 (acc, item) => acc + (item.total_pecas_expedidas_geral || 0),

@@ -6,8 +6,7 @@ export interface EscolaComponentProps {
 }
 
 export default function EscolaComponent({ escola }: EscolaComponentProps) {     
-    const statusClass = analyzerStatus(escola.grades);   
-
+    const statusClass = analyzerStatus(escola.grades); 
     return (
         <Link
             href={!statusClass.desactiv ? `/grades/${escola.id}` : "#"}

@@ -417,8 +417,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
  * @example
  * analyzerStatus(grades); // Retorna: { statusClass: 'text-red-500', desactiv: true }
  */
-function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: string } {
-  console.log(grades)
+function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: string } {  
   const STATUS = {
     EXPEDIDA: 'EXPEDIDA',
     DESPACHADA: 'DESPACHADA',
