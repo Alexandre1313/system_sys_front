@@ -146,7 +146,7 @@ export default function ConsultaStatusGradesPP() {
                     Relatórios de Saída P/ Peças
                   </h1>
                   <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">
-                    Controle e análise de expedição por peças
+                    Análise de expedição por peças e impressão de romaneios de despacho
                   </p>
                 </div>
               </div>
