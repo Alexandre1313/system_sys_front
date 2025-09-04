@@ -5,15 +5,16 @@ export interface EscolaComponentProps {
     escola: any;
 }
 
-export default function EscolaComponent({ escola }: EscolaComponentProps) {     
-    const statusClass = analyzerStatus(escola.grades); 
+export default function EscolaComponent({ escola }: EscolaComponentProps) {
+    const statusClass = analyzerStatus(escola.grades);
     return (
         <Link
             href={!statusClass.desactiv ? `/grades/${escola.id}` : "#"}
             target={'_GRADES'}
             className={`group block w-full ${statusClass.desactiv ? "pointer-events-none cursor-not-allowed" : ""}`}
         >
-            <div className={`bg-slate-800/30 hover:bg-slate-700/50 border border-slate-700 hover:border-emerald-500/30 rounded-xl p-4 transition-all duration-300 transform hover:scale-[1.02] ${statusClass.desactiv ? "opacity-40" : ""}`}>
+            <div className={`${statusClass.statusClassBg} rounded-xl p-4 transition-all duration-300 
+                             transform hover:scale-[1.02] ${statusClass.desactiv ? "opacity-40" : ""}`}>
                 <div className="flex items-center space-x-4">
                     {/* School Number */}
                     <div className="flex-shrink-0">
@@ -29,9 +30,16 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                         <h3 className={`font-medium text-sm sm:text-base truncate group-hover:text-emerald-300 transition-colors duration-300`}>
                             {escola.nome}
                         </h3>
-                        <p className="text-slate-500 text-xs mt-1">
-                            Escola #{escola.numeroEscola}
-                        </p>
+                        {!statusClass.desactiv && (
+                            <p className="text-slate-500 text-xs mt-1">
+                                Atica - Grades pendentes
+                            </p>
+                        )}
+                        {statusClass.desactiv && (
+                            <p className="text-slate-500 text-xs mt-1">
+                                Inativa
+                            </p>
+                        )}
                     </div>
 
                     {/* Status Indicator */}
@@ -52,7 +60,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                 {/* Progress Bar (if needed) */}
                 {!statusClass.desactiv && (
                     <div className="mt-3 w-full bg-slate-700 rounded-full h-1">
-                        <div className="bg-gradient-to-r from-emerald-500 to-blue-600 h-1 rounded-full" style={{width: '100%'}}></div>
+                        <div className="bg-gradient-to-r from-emerald-500 to-blue-600 h-1 rounded-full" style={{ width: '100%' }}></div>
                     </div>
                 )}
             </div>

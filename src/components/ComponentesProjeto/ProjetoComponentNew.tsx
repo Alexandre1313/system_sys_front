@@ -46,7 +46,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                             {projeto.nome}
                         </h3>
                         <p className="text-slate-400 text-sm mt-1">
-                            Situação - Tudo finalizado
+                            Situação - Finalizado Totalmente
                         </p>
                     </div>
                 )}
