@@ -24,7 +24,7 @@ export default async function Projetos() {
                                 Gestão de Projetos
                             </h1>
                             <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto text-center">
-                                Selecione um projeto para acessar a expedição
+                                Selecione um projeto para acessar suas unidades escolares
                             </p>
                             <div className="flex items-center justify-center mt-4">
                                 <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>

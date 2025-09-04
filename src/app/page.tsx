@@ -19,7 +19,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden sm:flex items-center space-x-2 text-xs text-slate-400">
-            <span>v2.0.1</span>
+            <span>v2.1.1</span>
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           </div>
         </div>
@@ -34,10 +34,10 @@ export default function Home() {
               SYS
             </h1>
             <span className="text-2xl sm:text-4xl lg:text-6xl font-bold text-blue-400 ml-2">E</span>
-            <span className="text-xl sm:text-3xl lg:text-5xl font-medium text-slate-300 ml-2">XPED</span>          
+            <span className="text-xl sm:text-3xl lg:text-5xl font-medium text-slate-300 ml-0">XPED</span>          
           </div>
           <p className="text-slate-400 text-sm sm:text-base max-w-md mx-auto">
-            Sistema integrado de gestão logística e expedição
+            Sistema para gestão de expedição e logística
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default function Home() {
                       <span className="text-blue-400 text-xs">📋</span>
                     </div>
                   </div>
-                  <p className="text-slate-400 text-xs sm:text-sm">Controle de embalagens</p>
+                  <p className="text-slate-400 text-xs sm:text-sm">Controle de estoque</p>
                 </div>
               </Link>
 
@@ -91,7 +91,7 @@ export default function Home() {
                       <span className="text-orange-400 text-xs">📈</span>
                     </div>
                   </div>
-                  <p className="text-slate-400 text-xs sm:text-sm">Controle de estoque</p>
+                  <p className="text-slate-400 text-xs sm:text-sm">Análise de estoque</p>
                 </div>
               </Link>
             </div>
@@ -110,22 +110,22 @@ export default function Home() {
 
               <Link href="/resume2" className="group">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1">Resumos PK</h3>
-                  <p className="text-slate-400 text-xs">Relatórios consolidados</p>
+                  <h3 className="text-white font-medium text-sm mb-1">Relatórios PK</h3>
+                  <p className="text-slate-400 text-xs">Relatórios por Kits ou peças avulsas</p>
                 </div>
               </Link>
 
               <Link href="/resumepp" className="group">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1">Resumos PP</h3>
-                  <p className="text-slate-400 text-xs">Relatórios de produção</p>
+                  <h3 className="text-white font-medium text-sm mb-1">Relatórios PP</h3>
+                  <p className="text-slate-400 text-xs">Relatórios somente por peças avulsas</p>
                 </div>
               </Link>
 
               <Link href="/caixas_por_grade_m" className="group">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
                   <h3 className="text-white font-medium text-sm mb-1">Etiquetas/Grade</h3>
-                  <p className="text-slate-400 text-xs">Controle por grade</p>
+                  <p className="text-slate-400 text-xs">Impressão de etiquetas por grade</p>
                 </div>
               </Link>
             </div>
@@ -140,26 +140,26 @@ export default function Home() {
                   <h3 className="text-white font-medium text-sm mb-1">Relatório Saída</h3>
                   <p className="text-slate-400 text-xs">Saídas por data</p>
                 </div>
-              </Link>
+              </Link>              
 
-              <Link href="/entradas_embalagem" className="group">
+              <Link href="/" className="group hidden">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1">Packages</h3>
-                  <p className="text-slate-400 text-xs">Gestão de pacotes</p>
+                  <h3 className="text-white font-medium text-sm mb-1"></h3>
+                  <p className="text-slate-400 text-xs"></p>
                 </div>
               </Link>
 
-              <Link href="/consulta_grades" className="group">
+               <Link href="/" className="group hidden">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1">Consulta Grades</h3>
-                  <p className="text-slate-400 text-xs">Busca avançada</p>
+                  <h3 className="text-white font-medium text-sm mb-1"></h3>
+                  <p className="text-slate-400 text-xs"></p>
                 </div>
               </Link>
 
-              <Link href="/romaneios_despacho" className="group">
+               <Link href="/" className="group hidden">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1">Romaneios</h3>
-                  <p className="text-slate-400 text-xs">Despacho</p>
+                  <h3 className="text-white font-medium text-sm mb-1"></h3>
+                  <p className="text-slate-400 text-xs"></p>
                 </div>
               </Link>
             </div>
@@ -174,8 +174,8 @@ export default function Home() {
             <Link href="/resume" className="text-slate-400 hover:text-white transition-colors">
               Resumos Legacy
             </Link>
-            <Link href="/consulta_grades" className="text-slate-400 hover:text-white transition-colors">
-              Query Grids
+            <Link href="/" className="text-slate-400 hover:text-white transition-colors">
+              ----
             </Link>
             <span className="text-slate-600">|</span>
             <span className="text-slate-500">Status: Online</span>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Projeto from "../../../core/interfaces/Projeto";
 
 interface ProjetoComponentNewProps {
-    projeto: Projeto; // Define que você espera um objeto Projeto
+    projeto: Projeto;
 }
 
 export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProps) {
@@ -20,7 +20,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                             <span className="text-slate-400 text-xs font-medium">Ativo</span>
                         </div>
                     )}
-                     {!projeto.isActive && (
+                    {!projeto.isActive && (
                         <div className="flex items-center space-x-1">
                             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                             <span className="text-slate-400 text-xs font-medium">Inativo</span>
@@ -29,14 +29,27 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                 </div>
 
                 {/* Project Name */}
-                <div className="mb-4">
-                    <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors duration-300 line-clamp-2">
-                        {projeto.nome}
-                    </h3>
-                    <p className="text-slate-400 text-sm mt-1">
-                        Expedição
-                    </p>
-                </div>
+                {projeto.isActive && (
+                    <div className="mb-4">
+                        <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors duration-300 line-clamp-2">
+                            {projeto.nome}
+                        </h3>
+                        <p className="text-slate-400 text-sm mt-1 animate-shake-loop">
+                            <span className="text-white">Situação</span> - Há grades pendentes
+                        </p>
+                    </div>
+                )}
+
+                {!projeto.isActive && (
+                    <div className="mb-4">
+                        <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors duration-300 line-clamp-2">
+                            {projeto.nome}
+                        </h3>
+                        <p className="text-slate-400 text-sm mt-1">
+                            Situação - Tudo finalizado
+                        </p>
+                    </div>
+                )}
 
                 {/* Action Indicator */}
                 <div className="flex items-center justify-between">

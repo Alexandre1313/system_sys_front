@@ -15,7 +15,7 @@ const config: Config = {
     'bg-red-700',
     'bg-orange-600',
   ],
-  
+
   theme: {
     extend: {
       colors: {
@@ -25,6 +25,7 @@ const config: Config = {
         trans: "rgba(0, 0, 0, 0)",
       },
     },
+
     animation: {
       bounceX: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
       bounceXL: 'bounceX 1s ease-in-out infinite',  // Animação vai e vem horizontal
@@ -33,36 +34,61 @@ const config: Config = {
       rotate: 'rotate 1s linear infinite', // Duração de 1 segundo, animação linear e infinita
       rotate2: 'rotate 1.5s linear infinite', // Duração de 0.7sec segundos, animação linear e infinita
       jump: 'jump 1.5s ease-in-out infinite',
+      shake: 'shake 1.4s ease-in-out', 'shake-periodic': 'shake 1.4s ease-in-out infinite alternate', 'shake-loop': 'shakeTwo 4s ease-in-out infinite',
     },
+
     keyframes: {
       jump: {
-        '0%, 100%': { transform: 'translateY(0)' }, 
-        '10%': { transform: 'translateY(0)' }, 
-        '20%': { transform: 'translateY(0)' },      
-        '30%': { transform: 'translateY(0)' },  
-        '40%': { transform: 'translateY(0)' }, 
-        '50%': { transform: 'translateY(-20px)' },      
-        '60%': { transform: 'translateY(0)' },  
-        '70%': { transform: 'translateY(-40px)' }, 
-        '80%': { transform: 'translateY(0)' },      
-        '90%': { transform: 'translateY(0)' },  
+        '0%, 100%': { transform: 'translateY(0)' },
+        '10%': { transform: 'translateY(0)' },
+        '20%': { transform: 'translateY(0)' },
+        '30%': { transform: 'translateY(0)' },
+        '40%': { transform: 'translateY(0)' },
+        '50%': { transform: 'translateY(-20px)' },
+        '60%': { transform: 'translateY(0)' },
+        '70%': { transform: 'translateY(-40px)' },
+        '80%': { transform: 'translateY(0)' },
+        '90%': { transform: 'translateY(0)' },
       },
+
+      shakeTwo: {
+        '0%': { transform: 'translateX(0)' },
+        '2%': { transform: 'translateX(-2px)' },
+        '4%': { transform: 'translateX(2px)' },
+        '6%': { transform: 'translateX(-2px)' },
+        '8%': { transform: 'translateX(2px)' },
+        '10%': { transform: 'translateX(0)' },
+        '100%': { transform: 'translateX(0)' },
+      },
+
+      shake: {
+        '0%, 100%': { transform: 'translateX(0)' },
+        '20%': { transform: 'translateX(-2px)' },
+        '40%': { transform: 'translateX(2px)' },
+        '60%': { transform: 'translateX(-2px)' },
+        '80%': { transform: 'translateX(2px)' },
+      },
+
       bounceX: {
         '0%, 100%': { transform: 'translateX(0)' },  // No início e no fim, fica na posição inicial
         '50%': { transform: 'translateX(5px)' },   // No meio do ciclo, move 100px para a direita
       },
+
       bounceXL: {
         '0%, 100%': { transform: 'translateX(0)' },  // No início e no fim, fica na posição inicial
         '50%': { transform: 'translateX(-5px)' },   // No meio do ciclo, move 100px para a direita
       },
+
       bounceY: {
         '0%, 100%': { transform: 'translateY(0)' },  // No início e no fim, fica na posição inicial
         '50%': { transform: 'translateY(3px)' },   // No meio do ciclo, move 100px para baixo
       },
+
       bounceYEfect: {
-        '0%': { transform: 'translateY(-10px)' },  
-        '100%': { transform: 'translateY(0)' },  
+        '0%': { transform: 'translateY(-10px)' },
+        '100%': { transform: 'translateY(0)' },
       },
+
       rotate: {
         '0%': { transform: 'rotate(0deg)' },  // No início
         '100%': { transform: 'rotate(-360deg)' },  // No fim, faz a rotação completa

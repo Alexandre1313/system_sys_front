@@ -78,7 +78,7 @@ export default function Escolas() {
                             </div>
                             <h2 className="text-xl sm:text-2xl font-bold text-red-400 mb-4">Erro no Sistema</h2>
                             <p className="text-red-300 text-sm sm:text-base mb-6">{error.message}</p>
-                            <button 
+                            <button
                                 onClick={() => window.location.reload()}
                                 className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
                             >
@@ -113,21 +113,19 @@ export default function Escolas() {
         escola.nome.toLowerCase().includes(busca) || escola.numeroEscola.toString().includes(busca)
     );
 
-    const escolasOrdenadas = escolasFiltradas.sort(
-        (a, b) => parseInt(a.numeroEscola, 10) - parseInt(b.numeroEscola, 10)
-    );
+    const escolasOrdenadas = escolasFiltradas;
 
     return (
-        <PageWithDrawer 
-            projectName={projeto.nome} 
-            sectionName="Escolas" 
+        <PageWithDrawer
+            projectName={projeto.nome}
+            sectionName="Escolas"
             currentPage="escolas"
         >
             {/* Header Fixo para Desktop, Compacto para Mobile */}
             <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
                 <div className="px-4 pt-16 pb-4 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto">
-                        
+
                         {/* Header Compacto e Alinhado */}
                         <div className="flex items-center justify-between mb-4 lg:mb-6">
                             {/* Título e Ícone - Alinhado com Menu Hamburguer */}
@@ -139,10 +137,10 @@ export default function Escolas() {
                                     <h1 className="text-lg lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 truncate">
                                         {projeto.nome}
                                     </h1>
-                                    <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">Rede de Escolas</p>
+                                    <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">Unidades Escolares</p>
                                 </div>
                             </div>
-                            
+
                             {/* Contador de Escolas - Apenas no Desktop */}
                             <div className="hidden lg:flex items-center space-x-3">
                                 <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl px-4 py-2">
@@ -159,7 +157,7 @@ export default function Escolas() {
                         {/* Barra de Pesquisa e Controles - Layout Flat */}
                         <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg">
                             <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
-                                
+
                                 {/* Barra de Pesquisa */}
                                 <div className="flex-1 relative w-full">
                                     <Search
@@ -180,21 +178,19 @@ export default function Escolas() {
                                 <div className="flex bg-slate-700/50 rounded-lg lg:rounded-xl p-1 border border-slate-600">
                                     <button
                                         onClick={() => setViewMode('grid')}
-                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${
-                                            viewMode === 'grid' 
-                                                ? 'bg-emerald-600 text-white shadow-lg' 
+                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid'
+                                                ? 'bg-emerald-600 text-white shadow-lg'
                                                 : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                                        }`}
+                                            }`}
                                     >
                                         <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
                                     </button>
                                     <button
                                         onClick={() => setViewMode('list')}
-                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${
-                                            viewMode === 'list' 
-                                                ? 'bg-emerald-600 text-white shadow-lg' 
+                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'list'
+                                                ? 'bg-emerald-600 text-white shadow-lg'
                                                 : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                                        }`}
+                                            }`}
                                     >
                                         <List size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
                                     </button>
@@ -208,9 +204,9 @@ export default function Escolas() {
             {/* Conteúdo Principal - Com Espaçamento Ajustado */}
             <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
-                    
+
                     {/* Contador de Resultados - Apenas no Mobile */}
-                    <div className="lg:hidden flex items-center justify-center mb-6">
+                    <div className="lg:hidden flex items-center justify-center mb-7">
                         <div className="bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2">
                             <span className="text-slate-300 text-sm font-medium">
                                 {escolasOrdenadas.length} escola{escolasOrdenadas.length !== 1 ? 's' : ''} encontrada{escolasOrdenadas.length !== 1 ? 's' : ''}
@@ -221,7 +217,7 @@ export default function Escolas() {
                     {/* Lista/Grid de Escolas */}
                     {escolasOrdenadas.length > 0 ? (
                         <div className={
-                            viewMode === 'grid' 
+                            viewMode === 'grid'
                                 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6"
                                 : "grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 lg:gap-6"
                         }>
@@ -252,7 +248,7 @@ export default function Escolas() {
                             <p className="text-slate-500 text-sm lg:text-base max-w-md mx-auto mb-4 lg:mb-6">
                                 Tente ajustar sua busca ou verifique se digitou corretamente.
                             </p>
-                            <button 
+                            <button
                                 onClick={() => setBusca('')}
                                 className="h-10 lg:h-12 px-6 lg:px-8 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-300 font-medium rounded-lg lg:rounded-xl transition-all duration-300 transform hover:scale-105"
                             >

@@ -1,6 +1,6 @@
 {
-  "name": "ventura_system",
-  "version": "0.1.0",
+  "name": "sys_exped",
+  "version": "2.1.1",
   "private": true,
   "scripts": {
     "dev": "cross-env HOST=0.0.0.0 PORT=3000 next dev",
