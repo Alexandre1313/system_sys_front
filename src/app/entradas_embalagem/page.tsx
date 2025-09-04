@@ -246,7 +246,7 @@ export default function EntradasEmbalagem() {
               <p className="text-red-300 text-sm sm:text-base mb-6">
                 {errorProjetos?.message || errorItems?.message || errorEmbalagens?.message || errorSumsTotal?.message}
               </p>
-              <button 
+              <button
                 onClick={() => window.location.reload()}
                 className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
               >
@@ -260,8 +260,8 @@ export default function EntradasEmbalagem() {
   }
 
   return (
-    <PageWithDrawer 
-      sectionName="Entradas de Embalagem" 
+    <PageWithDrawer
+      sectionName="Entradas de Itens"
       currentPage="entradas_embalagem"
       projectName={projectItems?.nome}
     >
@@ -269,7 +269,7 @@ export default function EntradasEmbalagem() {
       <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
         <div className="px-4 pt-16 pb-4 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            
+
             {/* Header Principal */}
             <div className="flex items-center justify-between mb-4 lg:mb-6">
               {/* Título e Ícone */}
@@ -279,14 +279,14 @@ export default function EntradasEmbalagem() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h1 className="text-base lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 truncate">
-                    Entradas de Embalagem
+                    Entrada de Itens - Embalagem
                   </h1>
                   <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">
-                    {projectItems?.nome ? `Projeto: ${projectItems.nome}` : 'Controle de entrada de itens'}
+                    {projectItems?.nome ? `Projeto: ${projectItems.nome} - Controle de entrada de itens - Consulta código de barras` : 'Controle de entrada de itens - Consulta código de barras'}
                   </p>
                 </div>
               </div>
-              
+
               {/* Estatísticas Rápidas - Desktop */}
               <div className="hidden lg:flex items-center space-x-3">
                 {projectItems && (
@@ -315,12 +315,12 @@ export default function EntradasEmbalagem() {
             {/* Controles de Seleção */}
             <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                
+
                 {/* Seleção de Projeto */}
                 <div className="flex-1">
                   <SelectedEntries projetos={projetos} onSelectChange={handleProjectChange} />
                 </div>
-                
+
                 {/* Seleção de Embalagem */}
                 <div className="flex-1">
                   <SelectedEntriesEmb embalagens={embalagens} onSelectChangeEmb={handleEmbalagemChange} />
@@ -332,9 +332,9 @@ export default function EntradasEmbalagem() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
+      <div className="px-4 pt-3 lg:pt-[15.5rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          
+
           {/* Contador de Resultados - Mobile */}
           <div className="lg:hidden flex items-center justify-center mb-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2">
@@ -348,7 +348,7 @@ export default function EntradasEmbalagem() {
           <div className="space-y-4 lg:space-y-6">
             {(projectItems && projectItems.itensProject && projectItems.itensProject.length > 0) ? (
               Object.entries(groupedByNomeGenero).map(([nome, itens], groupIndex) => (
-                <motion.div 
+                <motion.div
                   key={nome}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -361,14 +361,12 @@ export default function EntradasEmbalagem() {
                     className={`w-full flex justify-between items-center px-4 lg:px-6 py-3 lg:py-4
                        bg-slate-700/30 hover:bg-slate-700/50 transition-all duration-300 
                        ${expandedNome === nome ? 'bg-slate-700/50' : ''}`}
-                     >
+                  >
                     <div className="flex items-center space-x-3">
-                      <div className={`w-2 h-2 lg:w-3 lg:h-3 rounded-full ${
-                        expandedNome === nome ? 'bg-emerald-400' : 'bg-slate-400'
-                      }`}></div>
-                      <span className={`text-sm lg:text-base font-semibold ${
-                        expandedNome === nome ? 'text-emerald-400' : 'text-slate-300'
-                      }`}>
+                      <div className={`w-2 h-2 lg:w-3 lg:h-3 rounded-full ${expandedNome === nome ? 'bg-emerald-400' : 'bg-slate-400'
+                        }`}></div>
+                      <span className={`text-sm lg:text-base font-semibold ${expandedNome === nome ? 'text-emerald-400' : 'text-slate-300'
+                        }`}>
                         {nome}
                       </span>
                       <span className="text-slate-500 text-xs lg:text-sm">
@@ -376,9 +374,8 @@ export default function EntradasEmbalagem() {
                       </span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className={`text-slate-400 text-xs lg:text-sm ${
-                        expandedNome === nome ? 'text-emerald-400' : ''
-                      }`}>
+                      <span className={`text-slate-400 text-xs lg:text-sm ${expandedNome === nome ? 'text-emerald-400' : ''
+                        }`}>
                         {expandedNome === nome ? 'R' : 'E'}
                       </span>
                       {expandedNome === nome ? (
@@ -425,7 +422,7 @@ export default function EntradasEmbalagem() {
                 </motion.div>
               ))
             ) : (projectItems && projectItems.itensProject && projectItems.itensProject.length === 0) ? (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
@@ -442,7 +439,7 @@ export default function EntradasEmbalagem() {
                 </p>
               </motion.div>
             ) : (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
@@ -467,7 +464,7 @@ export default function EntradasEmbalagem() {
           <div className="lg:hidden mt-8">
             <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-4 text-center">
               <p className="text-slate-500 text-xs mb-3">NÃO POSSUI CADASTRO?</p>
-              <button 
+              <button
                 onClick={() => setModalOpenEmb(true)}
                 type="button"
                 disabled={true}
@@ -496,7 +493,7 @@ export default function EntradasEmbalagem() {
           updateStockEndEntryInput={updateStockEndEntryInput}
         />
       )}
-      
+
       {/* Componente Modal */}
       <Modal isOpen={isModalOpenCodeInvalid} message={modalMessage} onClose={closeModal} />
       <ModalCancel isOpenCancel={isOpenCancel} finalizarOp={handleCloseModalContinue} messageCancel={modalMessageCancel} onCloseCancel={handleCloseModalCancel} />

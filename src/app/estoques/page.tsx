@@ -72,7 +72,7 @@ export default function Estoques() {
                   <div className="flex items-center space-x-2">
                     <Package size={16} className="text-emerald-400" />
                     <span className="text-slate-300 text-sm font-medium">
-                      Controle de Estoque
+                      Análise de Estoque
                     </span>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export default function Estoques() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
+      <div className="px-4 pt-3 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           
           {/* Contador de Resultados - Mobile */}
@@ -113,7 +113,7 @@ export default function Estoques() {
           </div>
 
           {/* Renderização do Estoque */}
-          <div className="w-full">
+          <div className="w-full lg:pt-2 pt-1">
             {stockRender}
           </div>
 
@@ -129,7 +129,7 @@ export default function Estoques() {
                 <Database size={32} className="lg:w-10 lg:h-10 text-emerald-500" strokeWidth={1.5} />
               </div>
               <h3 className="text-xl lg:text-2xl font-semibold text-emerald-400 mb-3 lg:mb-4">
-                Configure o Estoque
+                Configure o Seletor
               </h3>
               <div className="space-y-2 text-slate-400 text-sm lg:text-base">
                 <p>1. Selecione um projeto</p>

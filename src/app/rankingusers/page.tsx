@@ -133,7 +133,7 @@ export default function Ranking() {
                                                 locale="pt-BR"
                                                 className="w-full h-9 lg:h-10 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-300 px-3 
                                                 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all 
-                                                duration-300 text-center lg:text-left"
+                                                duration-300 text-center lg:text-left z-100"
                                                 placeholderText="Selecione o mês"
                                             />
                                         </div>

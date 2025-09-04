@@ -55,7 +55,7 @@ export default function ItemsProjects({ onClick, item, index, embalagemId, itemT
         {/* Tamanho */}
         <div className="flex items-center space-x-2">
           <span className="text-slate-500 text-xs lg:text-sm font-medium">Tamanho:</span>
-          <span className="text-cyan-400 text-sm lg:text-base font-semibold group-hover:text-cyan-300 group-hover:scale-110 transition-all duration-300">
+          <span className="text-cyan-400 text-sm lg:text-xl font-extralight group-hover:text-cyan-300 group-hover:scale-110 transition-all duration-300">
             {itemTamanho}
           </span>
         </div>
@@ -63,7 +63,7 @@ export default function ItemsProjects({ onClick, item, index, embalagemId, itemT
         {/* Código de Barras */}
         <div className="flex items-center space-x-2">
           <span className="text-slate-500 text-xs lg:text-sm font-medium">Código:</span>
-          <span className="text-yellow-400 text-xs lg:text-sm font-mono group-hover:text-yellow-300 group-hover:scale-105 transition-all duration-300" title={itemBarcode}>
+          <span className="text-yellow-400 text-xs lg:text-xl font-extralight group-hover:text-yellow-300 group-hover:scale-105 transition-all duration-300" title={itemBarcode}>
             {itemBarcode}
           </span>
         </div>

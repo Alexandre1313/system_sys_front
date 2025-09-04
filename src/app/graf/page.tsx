@@ -25,10 +25,10 @@ export default function Graf() {
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <h1 className="text-base lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-600 truncate">
-                                        Progresso dos Projetos
+                                        Andamento da Expedição - Gráfico
                                     </h1>
                                     <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">
-                                        Visualização do progresso de expedição por projeto
+                                        Visualização do progresso de expedição por expedidos x previstos
                                     </p>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@ export default function Graf() {
             </div>
 
             {/* Conteúdo Principal */}
-            <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
+            <div className="px-4 pt-2 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     
                     {/* Contador de Resultados - Mobile */}
@@ -95,7 +95,7 @@ export default function Graf() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="text-center py-12 lg:py-16"
+                        className="text-center py-7 lg:py-7"
                     >
                         <div className="w-16 h-16 lg:w-20 lg:h-20 bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6 border border-slate-700">
                             <BarChart size={32} className="lg:w-10 lg:h-10 text-cyan-500" strokeWidth={1.5} />
@@ -106,7 +106,7 @@ export default function Graf() {
                         <div className="space-y-2 text-slate-400 text-sm lg:text-base">
                             <p>Visualize o progresso de expedição</p>
                             <p>Compare quantidades planejadas vs expedidas</p>
-                            <p>Analise a eficiência dos projetos</p>
+                            <p>Analise a eficiência dos operações</p>
                         </div>
                     </motion.div>
                 </div>

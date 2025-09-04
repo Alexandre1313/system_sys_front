@@ -787,7 +787,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
             onClick={generateExcel}
             title="Relatório em Excel Faltas Totais por projeto"
             className="bg-slate-500/15 border border-slate-400/40 text-slate-100 rounded-md px-3 py-2 
-                text-xs font-semibold transition-all duration-200 flex items-center justify-center hover:bg-slate-500/25
+                text-xs font-semibold transition-all duration-200 flex items-center lg:justify-center justify-start hover:bg-slate-500/25
                 hover:border-slate-400/60 hover:scale-105 hover:shadow-lg hover:shadow-slate-500/20 focus:ring-2
                 focus:ring-slate-500/50 focus:border-transparent"
         >
