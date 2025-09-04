@@ -417,7 +417,12 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
  * @example
  * analyzerStatus(grades); // Retorna: { statusClass: 'text-red-500', desactiv: true }
  */
-function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: string, statusClassBg: string } {
+function analyzerStatus(grades: Grade[]): {
+  desactiv: boolean,
+  statusClass: string,
+  statusClassBg: string,
+  statusClassBgGrad: string
+} {
   const STATUS = {
     EXPEDIDA: 'EXPEDIDA',
     DESPACHADA: 'DESPACHADA',
@@ -441,12 +446,21 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
     orange: 'bg-orange-900/30 border border-orange-700 hover:bg-orange-700/50 hover:border-orange-500/30',
   };
 
+  const BGCOLORSGRAD = {
+    emerald: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
+    cyan: 'bg-gradient-to-r from-cyan-700 to-cyan-500',
+    red: 'bg-gradient-to-r from-red-700 to-red-500',
+    slate: 'bg-gradient-to-r from-slate-700 to-slate-500',
+    orange: 'bg-gradient-to-r from-orange-700 to-orange-500',
+  };
+
   let desactiv = false;
   let statusClass = COLORS.slate;
   let statusClassBg = BGCOLORS.slate;
+  let statusClassBgGrad = BGCOLORSGRAD.slate;
 
   if (grades.length === 0) {
-    return { desactiv: true, statusClass: COLORS.slate, statusClassBg: BGCOLORS.slate };
+    return { desactiv: true, statusClass: COLORS.slate, statusClassBg: BGCOLORS.slate, statusClassBgGrad };
   }
 
   const todasDespachadas = grades.every(g => g.status === STATUS.DESPACHADA);
@@ -460,33 +474,40 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean; statusClass: stri
   if (repo) {
     statusClass = COLORS.red;
     statusClassBg = BGCOLORS.red;
+    statusClassBgGrad = BGCOLORSGRAD.red;
   } else if (repoInit) {
     statusClass = COLORS.orange;
     statusClassBg = BGCOLORS.orange;
+    statusClassBgGrad = BGCOLORSGRAD.orange;
     desactiv = false;
   } else if (todasDespachadas) {
     statusClass = COLORS.emerald;
     statusClassBg = BGCOLORS.emerald;
+    statusClassBgGrad = BGCOLORSGRAD.emerald;
     desactiv = false;
   } else if (todasExpedidasOuDespachadas) {
     statusClass = COLORS.emerald;
     statusClassBg = BGCOLORS.emerald;
+    statusClassBgGrad = BGCOLORSGRAD.emerald;
     desactiv = false;
   } else if (todasProntasNaoIniciadas) {
     statusClass = COLORS.slate;
     statusClassBg = BGCOLORS.slate;
+    statusClassBgGrad = BGCOLORSGRAD.slate;
     desactiv = false;
   } else if (umaProntaNaoIniciada) {
     statusClass = COLORS.slate;
     statusClassBg = BGCOLORS.slate;
+    statusClassBgGrad = BGCOLORSGRAD.slate;
     desactiv = false;
   } else if (umaProntaIniciada) {
     statusClass = COLORS.cyan;
     statusClassBg = BGCOLORS.cyan;
+    statusClassBgGrad = BGCOLORSGRAD.cyan;
     desactiv = false;
   }
 
-  return { desactiv, statusClass, statusClassBg };
+  return { desactiv, statusClass, statusClassBg, statusClassBgGrad };
 }
 
 function formatarTituloRanking(titulo?: string | null): string {

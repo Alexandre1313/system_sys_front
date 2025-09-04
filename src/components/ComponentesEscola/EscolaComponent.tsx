@@ -18,7 +18,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                 <div className="flex items-center space-x-4">
                     {/* School Number */}
                     <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-gradient-to-r from-yellow-700 to-orange-700 rounded-lg flex items-center justify-center">
+                        <div className={`w-10 h-10 ${statusClass.statusClassBgGrad} rounded-lg flex items-center justify-center`}>
                             <span className="text-white font-bold text-sm">
                                 {escola.numeroEscola}
                             </span>
@@ -32,7 +32,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                         </h3>
                         {!statusClass.desactiv && (
                             <p className="text-slate-500 text-xs mt-1">
-                                Atica - Grades pendentes
+                                Ativa - Pendências
                             </p>
                         )}
                         {statusClass.desactiv && (

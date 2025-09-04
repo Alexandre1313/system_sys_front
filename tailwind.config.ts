@@ -34,7 +34,18 @@ const config: Config = {
     'hover:border-red-500/30',
     'hover:bg-orange-700/50',
     'hover:border-orange-500/30',
-    'Border'
+    'Border',
+    'bg-gradient-to-r',
+    'from-orange-700',
+    'from-cyan-700',
+    'from-red-700',
+    'from-emerald-700',
+    'from-slate-700',
+    'to-orange-500',
+    'to-cyan-500',
+    'to-red-500',
+    'to-emerald-500',
+    'to-slate-500'
   ],
 
   theme: {
