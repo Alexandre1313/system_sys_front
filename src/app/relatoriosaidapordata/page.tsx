@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import TitleComponentFixed from '@/components/ComponentesInterface/TitleComponentFixed';
 import { ExpedicaoResumoPDGrouped } from '../../../core';
 import { gerarPDFExpedicao } from '../../../core/create_pdfs/pdfMakeGenertor';
 import ProjectSelect from '@/components/componentesRomaneios/preojectSelect';
 import { getProjectsPDataSaidas, getProjectsPDataSaidasResum } from '@/hooks_api/api';
 import RemessaSelect from '@/components/componentesRomaneios/RemessaSelect';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
+import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { convertMilharFormat } from '../../../core/utils/tools';
+import { BarChart, FileText, Search, Download, Calendar, Package, Hash } from 'react-feather';
 
 const fetcherSaidasPProjetoEData = async (
   projectId: string,
@@ -35,6 +36,24 @@ const fetcherSaidasPProjetoEDataResum = async (
   } catch (error) {
     console.error('Erro ao buscar grades e suas saídas:', error);
     return [];
+  }
+};
+
+// Função para formatar data
+const formatarData = (dataString: string): string => {
+  if (!dataString) return '';
+  
+  try {
+    const data = new Date(dataString);
+    if (isNaN(data.getTime())) return dataString;
+    
+    return data.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  } catch {
+    return dataString;
   }
 };
 
@@ -103,155 +122,357 @@ export default function ResumoExpedicao() {
     }
   };
 
-  // Variáveis de largura e alinhamento
+  // Configurações de largura das colunas
   const colWidths = {
-    projeto: '19%',
-    data: '15%',
-    item: '26%',
-    genero: '10%',
-    tamanho: '10%',
-    previsto: '10%',
-    expedido: '10%',
+    projeto: 'w-[19%] min-w-[120px]',
+    data: 'w-[15%] min-w-[100px]',
+    item: 'w-[26%] min-w-[150px]',
+    genero: 'w-[10%] min-w-[80px]',
+    tamanho: 'w-[10%] min-w-[120px]',
+    previsto: 'w-[10%] min-w-[90px]',
+    expedido: 'w-[10%] min-w-[90px]',
   };
-  const alignClass = 'text-left'; // Alinha tudo à esquerda
+
+  const alignClass = 'text-left';
+
   let isTotalGeral = false;
   let prev = 0;
   let exp = 0;
 
   return (
-    <div className="flex flex-col w-full bg-[#181818] text-zinc-300 min-h-[101vh] relative">
-      <TitleComponentFixed stringOne="RESUMO DE SAÍDAS P/ PROJETO - STATUS - DATA" />
+    <PageWithDrawer sectionName="Relatório de Saídas por Data">
+      {/* Header Fixo */}
+      <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
+        <div className="px-4 pt-16 pb-4 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1370px] mx-auto">
 
-      {/* Filtros fixos */}
-      <div className="flex flex-wrap gap-4 justify-start items-center p-6 bg-[#1F1F1F] fixed w-full top-11 z-30">
-        <ProjectSelect onSelectChange={setProjectId} />
-        <RemessaSelect onSelectChange={setRemessa} projectId={projectId} />
+            {/* Header Principal */}
+            <div className="flex items-center justify-between mb-4 lg:mb-6">
+              {/* Título e Ícone */}
+              <div className="flex items-center space-x-3 lg:space-x-4">
+                <div className="w-9 h-9 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg lg:rounded-2xl flex items-center justify-center shadow-lg">
+                  <FileText size={16} className="lg:w-6 lg:h-6 text-white" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-base lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600 truncate">
+                    Relatório de Saídas por Data
+                  </h1>
+                  <p className="text-slate-400 text-xs lg:text-sm hidden lg:block">
+                    Análise detalhada de saídas por projeto e data
+                  </p>
+                </div>
+              </div>
 
-        <select
-          id="select-tipo"
-          title="Selecione o tipo de grade"
-          className="flex w-[310px] py-2 px-3 text-[14px] no-arrow outline-none cursor-pointer bg-[#181818] text-zinc-400 h-[35px] border border-zinc-800"
-          value={tipo}
-          onChange={(e) => setTipo(e.target.value)}
-        >
-          <option value="-1">TODAS</option>
-          <option value="1">PEDIDO NORMAL</option>
-          <option value="2">REPOSIÇÃO</option>
-        </select>
+              {/* Estatísticas Rápidas - Desktop */}
+              <div className="hidden lg:flex items-center space-x-3">
+                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl px-4 py-2">
+                  <div className="flex items-center space-x-2">
+                    <FileText size={16} className="text-blue-400" />
+                    <span className="text-slate-300 text-sm font-medium">
+                      Relatório Ativo
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <div className="flex gap-3 ml-auto">
-          <button
-            onClick={handleBuscarResum}
-            disabled={loading}
-            className={`px-6 py-1 min-w-[250px] h-[34px] rounded-md bg-zinc-700 text-white hover:bg-zinc-600 ${loading ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
-          >
-            {loading ? 'CARREGANDO...' : 'RESUMIDO'}
-          </button>
+            {/* Controles de Filtro */}
+            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 items-center">
 
-          <button
-            onClick={handleBuscar}
-            disabled={loading}
-            className={`px-6 py-1 min-w-[250px] h-[34px] rounded-md bg-zinc-700 text-white hover:bg-zinc-600 ${loading ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
-          >
-            {loading ? 'CARREGANDO...' : 'COMPLETO'}
-          </button>
+                {/* Projeto */}
+                <div className="flex-1">
+                  <ProjectSelect onSelectChange={setProjectId} />
+                </div>
 
-          <button
-            onClick={() => gerarPDFExpedicao(resumo)}
-            disabled={resumo.length === 0 || loading}
-            className="px-6 py-1 min-w-[250px] h-[34px] rounded-md bg-zinc-700 text-white hover:bg-zinc-600"
-          >
-            GERAR PDF
-          </button>
+                {/* Remessa */}
+                <div className="flex-1">
+                  <RemessaSelect onSelectChange={setRemessa} projectId={projectId} />
+                </div>
+
+                {/* Tipo */}
+                <div className="flex-1">
+                  <select
+                    value={tipo}
+                    onChange={(e) => setTipo(e.target.value)}
+                    className="w-full bg-slate-700/50 border border-slate-600 text-slate-300 rounded-lg px-3 py-2 text-xs lg:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                  >
+                    <option value="-1">Todas</option>
+                    <option value="1">Pedido Normal</option>
+                    <option value="2">Reposição</option>
+                  </select>
+                </div>
+
+                {/* Botões de Ação */}
+                <div className="flex-1">
+                  <button
+                    onClick={handleBuscarResum}
+                    disabled={loading}
+                    className={`w-full bg-slate-600 hover:bg-slate-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2 ${loading ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
+                  >
+                    <Search size={14} className="lg:w-4 lg:h-4" />
+                    <span>{loading ? 'Carregando...' : 'Resumido'}</span>
+                  </button>
+                </div>
+
+                <div className="flex-1">
+                  <button
+                    onClick={handleBuscar}
+                    disabled={loading}
+                    className={`w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2 ${loading ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
+                  >
+                    <Search size={14} className="lg:w-4 lg:h-4" />
+                    <span>{loading ? 'Carregando...' : 'Completo'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Botão de PDF */}
+            {resumo.length > 0 && (
+              <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg mt-3 lg:mt-4">
+                <div className="flex items-center justify-center">
+                  <button
+                    onClick={() => gerarPDFExpedicao(resumo)}
+                    disabled={resumo.length === 0 || loading}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 text-sm lg:text-base font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
+                  >
+                    <Download size={18} className="lg:w-5 lg:h-5" />
+                    <span>Gerar PDF</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {loading && <IsLoading />}
+      {/* Conteúdo Principal */}
+      <div className="px-4 pt-4 lg:pt-[21rem] pb-8 sm:px-6 lg:px-8">
+        <div className="max-w-[1370px] mx-auto">
 
-      {!loading && buscou && (
-        <div className="max-w-full mx-auto w-full flex flex-col gap-6 mt-[10rem] mb-[4rem] px-6">
-          {error && <p className="text-red-500 text-center">{error}</p>}
-
-          {/* Container da tabela */}
-          <div className="relative rounded border border-zinc-800 bg-zinc-900">
-            {/* Cabeçalho sticky em div */}
-            <div className="sticky top-[128px] z-20 bg-zinc-900">
-              <table className="min-w-full border-collapse table-fixed">
-                <thead>
-                  <tr className="bg-zinc-800 text-zinc-400 border-b border-zinc-700">
-                    <th style={{ width: colWidths.projeto }} className={`p-3 ${alignClass}`}>PROJETO</th>
-                    <th style={{ width: colWidths.data }} className={`p-3 ${alignClass}`}>DATA</th>
-                    <th style={{ width: colWidths.item }} className={`p-3 ${alignClass}`}>ITEM</th>
-                    <th style={{ width: colWidths.genero }} className={`p-3 ${alignClass}`}>GÊNERO</th>
-                    <th style={{ width: colWidths.tamanho }} className={`p-3 ${alignClass}`}>TAMANHO</th>
-                    <th style={{ width: colWidths.previsto }} className={`p-3 ${alignClass}`}>PREVISTO</th>
-                    <th style={{ width: colWidths.expedido }} className={`p-3 ${alignClass}`}>EXPEDIDO</th>
-                  </tr>
-                </thead>
-              </table>
+          {loading && (
+            <div className="flex items-center justify-center w-full h-64">
+              <IsLoading />
             </div>
+          )}
 
-            {/* Corpo da tabela scrollável */}
-            <div className="">
-              <table className="min-w-full border-collapse table-fixed">
-                <tbody>
-                  {resumo.length === 0 ? (
-                    <tr>
-                      <td colSpan={7} className="p-4 text-center text-zinc-500 font-extralight">
-                        Nenhum dado encontrado para os filtros selecionados.
-                      </td>
-                    </tr>
-                  ) : (
-                    resumo.map((grupo, i) =>
-                      grupo.groupedItems.map((dataGroup, j) =>
-                        dataGroup.items.map((row, k) => {
-                          const isTotal = row.item === 'Total';
-                          isTotalGeral = row.item === 'Total Geral';
-                          if (isTotalGeral) {
-                            prev = row.previsto;
-                            exp = row.expedido;
-                          }
+          {!loading && buscou && (
+            <div className="w-full">
+              {error && (
+                <div className="bg-red-500/20 border border-red-500/40 rounded-xl p-4 mb-6">
+                  <p className="text-red-400 text-center">{error}</p>
+                </div>
+              )}
 
-                          let rowStyle = 'font-extralight odd:bg-gray-700 odd:bg-opacity-10 even:bg-transparent';
+              {resumo.length === 0 ? (
+                <div className="text-center py-12 lg:py-16">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6 border border-slate-700">
+                    <FileText size={32} className="lg:w-10 lg:h-10 text-blue-500" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-semibold text-blue-400 mb-3 lg:mb-4">
+                    Nenhum Dado Encontrado
+                  </h3>
+                  <p className="text-slate-500 text-sm lg:text-base max-w-md mx-auto mb-4 lg:mb-6">
+                    Não foram encontrados dados para os filtros selecionados. Tente ajustar os critérios de busca.
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl shadow-lg overflow-hidden">
 
-                          if (isTotalGeral) rowStyle = 'bg-orange-600/20 text-white font-medium text-xl fixed bottom-0 left-0 w-full';
-                          if (isTotal) rowStyle = 'bg-zinc-800 text-green-500 font-medium';
-                          if (isTotalGeral) return null;
+                  {/* Tabela Responsiva */}
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full border-collapse">
+                      {/* Cabeçalho sticky */}
+                      <thead className="sticky top-0 z-20 bg-slate-800/95 backdrop-blur-sm border-b border-slate-700">
+                        <tr className="text-slate-300 bg-slate-700/50">
+                          <th className={`${colWidths.projeto} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <Package size={12} className="lg:w-4 lg:h-4 text-blue-400" />
+                              <span className="hidden sm:inline">Projeto</span>
+                              <span className="sm:hidden">Proj</span>
+                            </div>
+                          </th>
+                          <th className={`${colWidths.data} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <Calendar size={12} className="lg:w-4 lg:h-4 text-purple-400" />
+                              <span>Data</span>
+                            </div>
+                          </th>
+                          <th className={`${colWidths.item} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <FileText size={12} className="lg:w-4 lg:h-4 text-green-400" />
+                              <span>Item</span>
+                            </div>
+                          </th>
+                          <th className={`${colWidths.genero} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <Hash size={12} className="lg:w-4 lg:h-4 text-orange-400" />
+                              <span className="hidden sm:inline">Gênero</span>
+                              <span className="sm:hidden">Gen</span>
+                            </div>
+                          </th>
+                          <th className={`${colWidths.tamanho} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <Hash size={12} className="lg:w-4 lg:h-4 text-cyan-400" />
+                              <span className="hidden sm:inline">Tamanho</span>
+                              <span className="sm:hidden">Tam</span>
+                            </div>
+                          </th>
+                          <th className={`${colWidths.previsto} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <BarChart size={12} className="lg:w-4 lg:h-4 text-yellow-400" />
+                              <span className="hidden sm:inline">Previsto</span>
+                              <span className="sm:hidden">Prev</span>
+                            </div>
+                          </th>
+                          <th className={`${colWidths.expedido} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <BarChart size={12} className="lg:w-4 lg:h-4 text-emerald-400" />
+                              <span className="hidden sm:inline">Expedido</span>
+                              <span className="sm:hidden">Exp</span>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
 
-                          return (
-                            <tr key={`${i}-${j}-${k}`} className={`border-b border-zinc-800 ${rowStyle} hover:bg-green-500 hover:bg-opacity-[25%]`}>
-                              <td style={{ width: colWidths.projeto }} className={`p-3 ${alignClass}`}>{isTotal || isTotalGeral ? '' : grupo.projectname}</td>
-                              <td style={{ width: colWidths.data }} className={`p-3 ${alignClass}`}>{isTotal || isTotalGeral ? '' : row.data || ''}</td>
-                              <td style={{ width: colWidths.item }} className={`p-3 ${alignClass}`}>{row.item}</td>
-                              <td style={{ width: colWidths.genero }} className={`p-3 ${alignClass}`}>{row.genero}</td>
-                              <td style={{ width: colWidths.tamanho }} className={`p-3 ${alignClass}`}>{row.tamanho}</td>
-                              <td style={{ width: colWidths.previsto }} className={`p-3 ${alignClass}`}>{convertMilharFormat(row.previsto)}</td>
-                              <td style={{ width: colWidths.expedido }} className={`p-3 ${alignClass}`}>{convertMilharFormat(row.expedido)}</td>
-                            </tr>
-                          );
-                        })
-                      )
-                    )
-                  )}
-                </tbody>
-              </table>
-              {isTotalGeral && (
-                <div className="fixed bottom-0 left-0 w-full bg-orange-900 text-white font-medium text-xl">
-                  <div className="flex">
-                    <div style={{ width: '18%' }} className="p-3"></div>
-                    <div style={{ width: colWidths.data }} className="p-3"></div>
-                    <div style={{ width: colWidths.item }} className="p-3"></div>
-                    <div style={{ width: colWidths.genero }} className="p-3"></div>
-                    <div style={{ width: colWidths.tamanho }} className="p-3">TOTAL GERAL:</div>
-                    <div style={{ width: '10%' }} className="p-3">{convertMilharFormat(prev)}</div>
-                    <div style={{ width: '11%' }} className="p-3">{convertMilharFormat(exp)}</div>
+                      {/* Corpo da tabela */}
+                      <tbody>
+                        {resumo.map((grupo, i) =>
+                          grupo.groupedItems.map((dataGroup, j) =>
+                            dataGroup.items.map((row, k) => {
+                              const isTotal = row.item === 'Total';
+                              const isStatus = row.item.startsWith('STATUS:');
+                              isTotalGeral = row.item === 'Total Geral';
+                              if (isTotalGeral) {
+                                prev = row.previsto;
+                                exp = row.expedido;
+                              }
+
+                              // Determina se é linha par ou ímpar para efeito zebrado
+                              const isEvenRow = (i + j + k) % 2 === 0;
+                              
+                              let rowStyle = `transition-all duration-200 ${
+                                isEvenRow 
+                                  ? 'bg-slate-700/20 hover:bg-slate-700/40' 
+                                  : 'bg-slate-800/20 hover:bg-slate-800/40'
+                              }`;
+
+                              if (isTotal) rowStyle = 'bg-green-600/20 text-green-400 font-medium border-l-4 border-green-500';
+                              if (isStatus) rowStyle = 'bg-blue-600/20 text-blue-400 font-medium border-l-4 border-blue-500';
+                              if (isTotalGeral) rowStyle = 'bg-orange-600/20 text-white font-medium text-xl';
+                              if (isTotalGeral) return null;
+
+                              return (
+                                <tr key={`${i}-${j}-${k}`} className={`border-b border-slate-700/30 ${rowStyle}`}>
+                                  <td className={`${colWidths.projeto} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
+                                    {isTotal || isTotalGeral || isStatus ? '' : (
+                                      <span className="text-blue-300 truncate block" title={grupo.projectname}>
+                                        {grupo.projectname}
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className={`${colWidths.data} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
+                                    {isTotal || isTotalGeral || isStatus ? '' : (
+                                      <span className="text-purple-300 font-mono" title={formatarData(row.data || '')}>
+                                        {formatarData(row.data || '')}
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className={`${colWidths.item} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
+                                    <span className={`${isTotal ? 'text-green-300 font-semibold' : isStatus ? 'text-blue-300 font-semibold' : 'text-white'} truncate block`} title={row.item}>
+                                      {row.item}
+                                    </span>
+                                  </td>
+                                  <td className={`${colWidths.genero} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
+                                    {!isTotal && !isTotalGeral && !isStatus && (
+                                      <span className="text-orange-300 truncate block" title={row.genero}>
+                                        {row.genero}
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className={`${colWidths.tamanho} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
+                                    {!isTotal && !isTotalGeral && !isStatus && (
+                                      <span className="text-cyan-300 font-medium truncate block" title={row.tamanho}>
+                                        {row.tamanho}
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className={`${colWidths.previsto} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-mono`}>
+                                    {!isTotal && !isTotalGeral && !isStatus ? (
+                                      <span className="text-yellow-300 font-semibold" title={convertMilharFormat(row.previsto)}>
+                                        {convertMilharFormat(row.previsto)}
+                                      </span>
+                                    ) : isTotal && row.previsto > 0 ? (
+                                      <span className="text-green-300 font-semibold" title={convertMilharFormat(row.previsto)}>
+                                        {convertMilharFormat(row.previsto)}
+                                      </span>
+                                    ) : null}
+                                  </td>
+                                  <td className={`${colWidths.expedido} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-mono`}>
+                                    {!isTotal && !isTotalGeral && !isStatus ? (
+                                      <span className="text-emerald-300 font-semibold" title={convertMilharFormat(row.expedido)}>
+                                        {convertMilharFormat(row.expedido)}
+                                      </span>
+                                    ) : isTotal && row.expedido > 0 ? (
+                                      <span className="text-green-300 font-semibold" title={convertMilharFormat(row.expedido)}>
+                                        {convertMilharFormat(row.expedido)}
+                                      </span>
+                                    ) : null}
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          )
+                        )}
+
+                        {/* Total Geral - Agora dentro da tabela */}
+                        {isTotalGeral && (
+                          <tr className="bg-slate-700/30 backdrop-blur-sm text-white font-medium text-lg lg:text-xl border-t-2 border-slate-600 shadow-lg">
+                            <td className={`${colWidths.projeto} p-3 lg:p-4`}></td>
+                            <td className={`${colWidths.data} p-3 lg:p-4`}></td>
+                            <td className={`${colWidths.item} p-3 lg:p-4`}></td>
+                            <td className={`${colWidths.genero} p-3 lg:p-4`}></td>
+                            <td className={`${colWidths.tamanho} p-3 lg:p-4`}>
+                              <div className="flex items-center">
+                                <Hash size={16} className="lg:w-5 lg:h-5 text-orange-300 mr-2 lg:mr-3 flex-shrink-0" />
+                                <span className="text-sm lg:text-base whitespace-nowrap flex-shrink-0">TOTAL GERAL:</span>
+                              </div>
+                            </td>
+                            <td className={`${colWidths.previsto} p-3 lg:p-4`}>
+                              <span className="text-yellow-200 font-mono text-sm lg:text-base">{convertMilharFormat(prev)}</span>
+                            </td>
+                            <td className={`${colWidths.expedido} p-3 lg:p-4`}>
+                              <span className="text-emerald-200 font-mono text-sm lg:text-base">{convertMilharFormat(exp)}</span>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               )}
-            </div>            
-          </div>
+            </div>
+          )}
+
+          {!loading && !buscou && (
+            <div className="text-center py-12 lg:py-16">
+              <div className="w-16 h-16 lg:w-20 lg:h-20 bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6 border border-slate-700">
+                <FileText size={32} className="lg:w-10 lg:h-10 text-emerald-500" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-xl lg:text-2xl font-semibold text-emerald-400 mb-3 lg:mb-4">
+                Configure o Relatório
+              </h3>
+              <div className="space-y-2 text-slate-400 text-sm lg:text-base">
+                <p>1. Selecione um projeto</p>
+                <p>2. Escolha a remessa (opcional)</p>
+                <p>3. Defina o tipo de pedido</p>
+                <p>4. Clique em "Completo" ou "Resumido"</p>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </PageWithDrawer>
   );
 }

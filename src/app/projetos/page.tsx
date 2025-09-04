@@ -38,9 +38,7 @@ export default async function Projetos() {
                         {/* Projects Grid */}
                         {projetos.length > 0 ? (
                             <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:pt-[8rem] sm:gap-6">
-                                {projetos
-                                    .sort((a, b) => a.nome.localeCompare(b.nome))
-                                    .map((projeto, index) => (
+                                {projetos.map((projeto, index) => (
                                         <div 
                                             key={projeto.id}
                                             className="animate-fade-in"

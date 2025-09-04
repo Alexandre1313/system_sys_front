@@ -14,10 +14,18 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                     <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center">
                         <span className="text-white font-bold text-lg">📋</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-slate-400 text-xs font-medium">Ativo</span>
-                    </div>
+                    {projeto.isActive && (
+                        <div className="flex items-center space-x-1">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="text-slate-400 text-xs font-medium">Ativo</span>
+                        </div>
+                    )}
+                     {!projeto.isActive && (
+                        <div className="flex items-center space-x-1">
+                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                            <span className="text-slate-400 text-xs font-medium">Inativo</span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Project Name */}
