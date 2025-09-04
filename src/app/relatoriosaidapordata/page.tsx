@@ -467,7 +467,7 @@ export default function ResumoExpedicao() {
                 <p>1. Selecione um projeto</p>
                 <p>2. Escolha a remessa (opcional)</p>
                 <p>3. Defina o tipo de pedido</p>
-                <p>4. Clique em "Completo" ou "Resumido"</p>
+                <p>4. Clique em &quot;Completo&quot; ou &quot;Resumido&quot;</p>
               </div>
             </div>
           )}
