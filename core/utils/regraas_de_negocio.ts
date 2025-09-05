@@ -294,7 +294,7 @@ const processarQtdParaEstoque = (
             if (value === itemCodigo) {
                 setFormData((prevData: any) => ({
                     ...prevData,
-                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1), // Incrementa QUANTIDADELIDA
+                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1), 
                     LEITURADOCODDEBARRAS: '',
                 }));
             } else {
@@ -323,7 +323,7 @@ const processarQtdParaEstoque = (
             if (selectedEmbalagem) {
                 setFormData((prevData: any) => ({
                     ...prevData,
-                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn), 
+                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn), // Incrementa QUANTIDADELIDA
                     LEITURADOCODDEBARRAS: '',
                 }));
             } else {
