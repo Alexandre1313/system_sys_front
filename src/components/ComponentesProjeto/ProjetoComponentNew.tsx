@@ -34,8 +34,8 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                         <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors duration-300 line-clamp-2">
                             {projeto.nome}
                         </h3>
-                        <p className="text-slate-400 text-sm mt-1 animate-shake-loop">
-                            <span className="text-white">Situação</span> - Há grades pendentes
+                        <p className="text-slate-400 text-sm mt-1">
+                            <span className="text-white">Situação</span> - Escolas pendentes
                         </p>
                     </div>
                 )}
@@ -46,7 +46,7 @@ export default function ProjetoComponentNew({ projeto }: ProjetoComponentNewProp
                             {projeto.nome}
                         </h3>
                         <p className="text-slate-400 text-sm mt-1">
-                            Situação - Finalizado Totalmente
+                            Situação - Concluído
                         </p>
                     </div>
                 )}

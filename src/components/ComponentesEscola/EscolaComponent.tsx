@@ -32,7 +32,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                         </h3>
                         {!statusClass.desactiv && (
                             <p className="text-slate-500 text-xs mt-1">
-                                Ativa - Pendências
+                                Ativa - Pendente
                             </p>
                         )}
                         {statusClass.desactiv && (

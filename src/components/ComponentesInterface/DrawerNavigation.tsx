@@ -178,7 +178,7 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, section
                     {/* Footer */}
                     <div className="p-4 border-t border-slate-700">
                         <p className="text-xs text-slate-500 text-center">
-                            © {new Date().getFullYear()} SYS EXPED - v2.0.1
+                            © {new Date().getFullYear()} SYS EXPED - v2.1.1
                         </p>
                     </div>
                 </div>

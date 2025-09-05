@@ -67,7 +67,8 @@ const config: Config = {
       rotate2: 'rotate 1.5s linear infinite', // Duração de 0.7sec segundos, animação linear e infinita
       jump: 'jump 1.5s ease-in-out infinite',
       shake: 'shake 1.4s ease-in-out', 'shake-periodic': 'shake 1.4s ease-in-out infinite alternate', 'shake-loop': 'shakeTwo 4s ease-in-out infinite',
-    },
+      loadingBar: 'loadingBar 0.5s infinite linear',
+    },   
 
     keyframes: {
       jump: {
@@ -81,6 +82,11 @@ const config: Config = {
         '70%': { transform: 'translateY(-40px)' },
         '80%': { transform: 'translateY(0)' },
         '90%': { transform: 'translateY(0)' },
+      },
+
+      loadingBar: {
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(300%)' },
       },
 
       shakeTwo: {

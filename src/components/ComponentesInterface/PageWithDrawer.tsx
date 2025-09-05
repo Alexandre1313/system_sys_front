@@ -28,7 +28,7 @@ export default function PageWithDrawer({ children, projectName, sectionName, cur
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowSwipeIndicator(false);
-        }, 5000);
+        }, 100);
 
         return () => clearTimeout(timer);
     }, []);

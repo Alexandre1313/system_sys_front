@@ -143,7 +143,11 @@ function converPercentualFormat(value: number): string {
  * 
  * @returns {Resumo} Objeto contendo todos os totais calculados e formatados.
  */
-function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
+function getResumo(
+  status: string,
+  grades: GradesRomaneio[]
+): Resumo {
+
   if (!grades || grades.length === 0) {
     const zero = () => convertMilharFormat(0);
     const zeroKG = () => convertMilharFormatKG(0);
@@ -181,7 +185,6 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
     };
   }
 
-  // Cache de valores
   let gradesValidas = 0, gradesRepo = 0;
   let pesoN = 0, pesoR = 0;
   let cubagemN = 0, cubagemR = 0;
@@ -189,34 +192,33 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
   let previstoNormais = 0, previstoRepo = 0;
   let volumesN = 0, volumesR = 0;
 
-  const escolasTotais = new Set<string>();
-  const escolasTotaisN = new Set<string>();
-  const escolasTotaisR = new Set<string>();
-  const escolasAtendidasN = new Set<string>();
-  const escolasAtendidasR = new Set<string>();
-  const escolasAtendidasT = new Set<string>();
+  const escolasTotaisN = new Set<number>();
+  const escolasTotaisR = new Set<number>();
+  const escolasAtendidasN = new Set<number>();
+  const escolasAtendidasR = new Set<number>();
+  const escolasAtendidasT = new Set<number>();
+  const escolasTotaisT = new Set<number>();
   const ids: number[] = [];
 
   const statusExpedido = new Set(['DESPACHADA', 'EXPEDIDA']);
 
   for (const grade of grades) {
-    const escola = grade.escola;
-    escolasTotais.add(escola);
-
+    const escolaId = grade.escolaId;
     const tipo = grade.tipo;
     const tipoNorm = tipo
       ? tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
       : null;
     const isReposicao = tipoNorm === 'reposicao';
-
     const isExpedido = statusExpedido.has(grade.status);
+
+    escolasTotaisT.add(escolaId!); // adiciona em totais gerais
 
     if (isReposicao) {
       gradesRepo++;
       pesoR += grade.peso;
       cubagemR += grade.cubagem || 0;
       volumesR += grade.caixas?.length || 0;
-      escolasTotaisR.add(escola);
+      escolasTotaisR.add(escolaId!);
 
       for (const item of grade.tamanhosQuantidades) {
         expedidosRepo += item.quantidade;
@@ -224,15 +226,14 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
       }
 
       if (isExpedido) {
-        escolasAtendidasR.add(escola);
-        escolasAtendidasT.add(escola);
+        escolasAtendidasR.add(escolaId!);
       }
     } else {
       gradesValidas++;
       pesoN += grade.peso;
       cubagemN += grade.cubagem || 0;
       volumesN += grade.caixas?.length || 0;
-      escolasTotaisN.add(escola);
+      escolasTotaisN.add(escolaId!);
 
       for (const item of grade.tamanhosQuantidades) {
         expedidosNormais += item.quantidade;
@@ -240,13 +241,12 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
       }
 
       if (isExpedido) {
-        escolasAtendidasN.add(escola);
-        escolasAtendidasT.add(escola);
+        escolasAtendidasN.add(escolaId!);
       }
     }
 
     if (isExpedido) {
-      escolasAtendidasT.add(escola);
+      escolasAtendidasT.add(escolaId!);
     }
 
     if (status === 'EXPEDIDA') {
@@ -285,7 +285,7 @@ function getResumo(status: string, grades: GradesRomaneio[]): Resumo {
     aExpedirT: convertMilharFormat(aExpedirT),
     escolasTotaisN: convertMilharFormat(escolasTotaisN.size),
     escolasTotaisR: convertMilharFormat(escolasTotaisR.size),
-    escolasTotaisT: convertMilharFormat(escolasTotais.size),
+    escolasTotaisT: convertMilharFormat(escolasTotaisT.size),
     escolasAtendidasN: convertMilharFormat(escolasAtendidasN.size),
     escolasAtendidasR: convertMilharFormat(escolasAtendidasR.size),
     escolasAtendidasT: convertMilharFormat(escolasAtendidasT.size),
