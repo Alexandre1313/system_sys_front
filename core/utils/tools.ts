@@ -406,7 +406,6 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
     })
     .filter((grade): grade is GradesRomaneio => grade !== null);
 }
-
 /**
  * Função que retorna a cor do texto e o estado de desativação para a tela de escolas,
  * com base nas propriedades das grades recebidas.
@@ -417,12 +416,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
  * @example
  * analyzerStatus(grades); // Retorna: { statusClass: 'text-red-500', desactiv: true }
  */
-function analyzerStatus(grades: Grade[]): {
-  desactiv: boolean,
-  statusClass: string,
-  statusClassBg: string,
-  statusClassBgGrad: string
-} {
+function analyzerStatus(grades: Grade[]): {desactiv: boolean, statusClass: string, statusClassBg: string, statusClassBgGrad: string} {
   const STATUS = {
     EXPEDIDA: 'EXPEDIDA',
     DESPACHADA: 'DESPACHADA',
