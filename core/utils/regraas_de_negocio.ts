@@ -323,7 +323,7 @@ const processarQtdParaEstoque = (
             if (selectedEmbalagem) {
                 setFormData((prevData: any) => ({
                     ...prevData,
-                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn), // Incrementa QUANTIDADELIDA
+                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn), 
                     LEITURADOCODDEBARRAS: '',
                 }));
             } else {
