@@ -5,6 +5,11 @@ import { Grade, GradesRomaneio, Resumo } from '../interfaces';
 /**
  * Endereço IP do servidor local.
  */
+const colorLinkExternal = "text-gray-400";
+
+/**
+ * Endereço IP do servidor local.
+ */
 const ip = "192.168.1.169";
 
 /**
@@ -533,5 +538,5 @@ function formatarTituloRanking(titulo?: string | null): string {
 export {
   analyzerStatus, concat, converPercentualFormat,
   convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG, convertSPTime,
-  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, sizeOrders, formatarTituloRanking
+  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, colorLinkExternal, sizeOrders, formatarTituloRanking
 };

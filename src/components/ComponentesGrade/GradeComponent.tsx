@@ -3,7 +3,7 @@ import { Search, ArrowLeft, Plus, Minus, Box, Eye, ExternalLink } from "react-fe
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
-import { convertMilharFormat } from "../../../core/utils/tools";
+import { colorLinkExternal, convertMilharFormat } from "../../../core/utils/tools";
 import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
@@ -645,7 +645,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <p className="pl-16 text-sm text-emerald-400 font-medium text-left w-[99%] truncate flex">{itemSelecionado?.itemTamanho?.item?.nome}</p>
                                 </div>
                                 <div className="flex w-full">
-                                    <p className="pl-14 text-sm text-zinc-400 font-medium text-left w-full flex">{`GÊN: ${itemSelecionado?.itemTamanho?.item?.genero}`}</p>
+                                    <p className="pl-14 text-sm text-zinc-400 font-medium text-left w-full flex">{`${itemSelecionado?.itemTamanho?.item?.genero}`}</p>
                                 </div>
                                 <div className="flex w-full">
                                     <p className="pl-14 text-sm text-zinc-400 font-medium text-left w-full flex">{`TAM: ${itemSelecionado?.itemTamanho?.tamanho?.nome}`}</p>
@@ -748,7 +748,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <p className="text-slate-400 text-xs uppercase tracking-wider mb-0">GRADE ID</p>
                                                 <p className={`text-base font-semibold gap-x-1 text-indigo-500 flex items-center justify-center`}>
                                                     {String(props.grade.id)}
-                                                    <ExternalLink className="" size={12} />
+                                                    <ExternalLink className={`${colorLinkExternal}`} size={12} />
                                                 </p>
                                             </div>
                                         </Link>

@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import plugin from 'tailwindcss/plugin';
+import { colorLinkExternal } from "./core/utils/tools";
 
 const config: Config = {
   content: [
@@ -45,7 +46,8 @@ const config: Config = {
     'to-cyan-500',
     'to-red-500',
     'to-emerald-500',
-    'to-slate-500'
+    'to-slate-500',
+    `${colorLinkExternal}`,
   ],
 
   theme: {

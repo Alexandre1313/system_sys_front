@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { GradesRomaneio } from '../../../core';
-import { converPercentualFormat, convertMilharFormat, convertMilharFormatKG } from '../../../core/utils/tools';
+import { colorLinkExternal, converPercentualFormat, convertMilharFormat, convertMilharFormatKG } from '../../../core/utils/tools';
 import { CheckCircle, ExternalLink, ChevronDown, ChevronUp } from 'react-feather';
 import { useState } from 'react';
 
@@ -138,7 +138,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                     {status === 'PRONTA' ? (
                       <Link href={`/expedition/${grade.escolaId}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-cyan-300 hover:text-cyan-200 transition-colors">
                         <span>{grade.numeroEscola}</span>
-                        <ExternalLink size={12} />
+                        <ExternalLink className={`${colorLinkExternal}`}  size={12} />
                       </Link>
                     ) : (
                       <p className="text-sm lg:text-lg font-semibold text-cyan-300">{grade.numeroEscola}</p>
@@ -164,7 +164,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Qty de Volumes</p>
                     <Link href={`/caixas_por_grade/${grade.id}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-amber-300 hover:text-amber-200 transition-colors">
                       <span>{grade.caixas.length}</span>
-                      <ExternalLink size={12} />
+                      <ExternalLink className={`${colorLinkExternal}`} size={12} />
                     </Link>
                   </div>
 
