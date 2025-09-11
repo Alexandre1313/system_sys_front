@@ -345,6 +345,7 @@ export default function Grades() {
                   formData={formData}
                   isPend={isPend}
                   inputRef={inputRef}
+                  userId={user?.id}
                   isFocus={isFocus}
                   handleFormDataChangeDecresc={handleFormDataChangeDecresc}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
@@ -370,6 +371,7 @@ export default function Grades() {
                   formData={formData}
                   isPend={isPend}
                   inputRef={inputRef}
+                  userId={user?.id}
                   isFocus={isFocus}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
                   handleFormDataChangeDecresc={handleFormDataChangeDecresc}
@@ -395,6 +397,7 @@ export default function Grades() {
                   formData={formData}
                   isPend={isPend}
                   inputRef={inputRef}
+                  userId={user?.id}
                   isFocus={isFocus}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
                   setFormData={handleFormDataChange}

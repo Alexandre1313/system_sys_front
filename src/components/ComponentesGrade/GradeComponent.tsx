@@ -23,6 +23,7 @@ export interface GradeComponentProps {
     formData: { [key: string]: any };
     isPend: boolean | null;
     inputRef: React.RefObject<HTMLInputElement>;
+    userId?: number | undefined | null;
     isFocus: () => void;
     handlerOpnEncGradeMoodify: () => void
     setFormData: (key: string, value: string) => void
@@ -482,20 +483,37 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {/* Header */}
                     <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
                         <div className="flex items-center justify-between max-w-7xl mx-auto p-2 lg:p-3">
-                            <div className="flex items-center space-x-4">
+                            <div className="text-left">
                                 <div>
-                                    <h1 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
-                                        EXPEDINDO ITEM
+                                    <h1 className="text-xl lg:text-4xl font-bold text-indigo-500">
+                                        {`${props.grade.id}`}
                                     </h1>
-                                    <p className="text-sm text-emerald-400 font-medium">{itemSelecionado?.itemTamanho?.item?.nome}</p>
+                                    <p className="text-sm text-emerald-400 font-medium">GRADE ID</p>
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <div className="flex items-center space-x-2 mb-1">
-                                    <span className="text-slate-400 text-sm">Grade</span>
-                                    <span className="text-white font-bold text-lg">#{props.grade.id}</span>
+                            <div className="text-left">
+                                <div>
+                                    <h1 className="text-xl lg:text-4xl font-bold text-zinc-300">
+                                        {`${props.escola?.numeroEscola}`}
+                                    </h1>
+                                    <p className="text-sm text-emerald-400 font-medium">NÚMERO DA UNIDADE ESCOLAR</p>
                                 </div>
-                                <p className="text-emerald-400 text-sm">Escola {props.escola?.numeroEscola}</p>
+                            </div>
+                            <div className="text-left">
+                                <div>
+                                    <h1 className="text-xl lg:text-4xl font-bold text-red-500">
+                                        {`${props.grade.gradeCaixas.length}`}
+                                    </h1>
+                                    {props.grade.gradeCaixas.length > 1 && (
+                                        <p className="text-sm text-emerald-400 font-medium">VOLUMES CONSOLIDADOS</p>
+                                    )}
+                                    {props.grade.gradeCaixas.length === 1 && (
+                                        <p className="text-sm text-emerald-400 font-medium">VOLUME CONSOLIDADO</p>
+                                    )}
+                                    {props.grade.gradeCaixas.length === 0 && (
+                                        <p className="text-sm text-emerald-400 font-medium">NÃO HÁ VOLUMES GERADOS</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -505,41 +523,39 @@ export default function GradeComponent(props: GradeComponentProps) {
                         <div className="max-w-7xl mx-auto p-6">
 
                             {/* Actions Bar */}
-                            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 mb-8">
+                            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-8">
                                 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
 
                                     {/* Action Buttons */}
                                     <div className="flex flex-wrap gap-3">
                                         <button
                                             onClick={fecharTelaExped}
-                                            className="flex items-center space-x-2 px-4 py-2 bg-red-700 hover:bg-red-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                            className={`flex items-center space-x-2 px-2 py-2 bg-red-700 hover:bg-red-600
+                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                             min-w-[70px] justify-center`}
                                         >
                                             <ArrowLeft size={19} />
-                                            <span>Voltar</span>
+                                            <span className="hidden"></span>
                                         </button>
                                         <button
                                             onClick={handlerItemGrade}
-                                            className="flex items-center space-x-2 px-4 py-2 bg-green-700 hover:bg-green-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                            className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
+                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                             min-w-[50px] justify-center ${props?.userId === 1 ? 'pointer-events-auto cursor-pointer opacity-100' : 
+                                             'pointer-events-none cursor-not-allowed opacity-30'}`}
                                         >
                                             <Plus size={19} />
-                                            <span>Up</span>
+                                            <span className="hidden"></span>
                                         </button>
                                         <button
                                             onClick={props.handleFormDataChangeDecresc}
-                                            className="flex items-center space-x-2 px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                            className="flex items-center justify-center px-2 py-2 bg-blue-800
+                                             hover:bg-blue-700 text-white font-medium rounded-lg transition-all
+                                              duration-300 transform hover:scale-105 min-w-[50px]"
                                         >
                                             <Minus size={19} />
-                                            <span>Down</span>
+                                            <span className="hidden"></span>
                                         </button>
-                                    </div>
-
-                                    {/* Horizontal Info */}
-                                    <div className="flex flex-wrap gap-3 text-sm">
-                                        <ItemsGradeLinkTextHor labelName={`GRADE ID:`} value={String(props.grade.id)} baseUrl={`/caixas_por_grade/`} />
-                                        <ItemsGradeInputTextHor value={props.escola?.numeroEscola}
-                                            labelName={`ESCOLA Nº :`} color={`text-zinc-400`} />
-                                        <ItemsGradeInputTextHor value={String(props.grade.gradeCaixas.length)}
-                                            labelName={`VOLUMES :`} color={`text-red-600`} />
                                     </div>
 
                                     {/* Close Box Button */}
@@ -559,7 +575,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
                                 {/* Left Column - Item Information */}
-                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
                                     <div className="flex items-center space-x-2 mb-4">
                                         <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
                                         <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
@@ -577,7 +593,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
 
                                 {/* Right Column - Expedition Control */}
-                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
                                     <div className="flex items-center space-x-2 mb-4">
                                         <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
                                         <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
@@ -714,14 +730,16 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         >
                                             <ArrowLeft size={15} />
                                         </button>
-                                        <button
-                                            onClick={handlerItemGrade}
-                                            className="flex flex-1 px-4 py-2 bg-green-700 hover:bg-green-600
+                                        {props?.userId === 1 && (
+                                            <button
+                                                onClick={handlerItemGrade}
+                                                className={`flex flex-1 px-4 py-2 bg-green-700 hover:bg-green-600
                                              text-white font-medium rounded-lg transition-all duration-300
-                                              transform hover:scale-105 h-6 justify-center items-center"
-                                        >
-                                            <Plus size={15} />
-                                        </button>
+                                              transform hover:scale-105 h-6 justify-center items-center`}
+                                            >
+                                                <Plus size={15} />
+                                            </button>
+                                        )}
                                         <button
                                             onClick={props.handleFormDataChangeDecresc}
                                             className="flex flex-1 px-4 py-2 bg-blue-800 hover:bg-blue-700

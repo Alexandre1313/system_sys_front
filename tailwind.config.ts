@@ -48,6 +48,8 @@ const config: Config = {
     'to-emerald-500',
     'to-slate-500',
     `${colorLinkExternal}`,
+    'pointer-events-auto',
+    'pointer-events-none',
   ],
 
   theme: {
@@ -70,7 +72,7 @@ const config: Config = {
       jump: 'jump 1.5s ease-in-out infinite',
       shake: 'shake 1.4s ease-in-out', 'shake-periodic': 'shake 1.4s ease-in-out infinite alternate', 'shake-loop': 'shakeTwo 4s ease-in-out infinite',
       loadingBar: 'loadingBar 0.5s infinite linear',
-    },   
+    },
 
     keyframes: {
       jump: {
