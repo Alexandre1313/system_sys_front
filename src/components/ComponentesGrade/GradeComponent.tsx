@@ -275,15 +275,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                         {uniqueItems.length === 1 ? 'Item:' : `Itens (${uniqueItems.length}):`}
                     </h3>
                     <div className="space-y-2">
-                        {uniqueItems.slice(0, 3).map((it, index) => (
+                        {uniqueItems.slice(0, 5).map((it, index) => (
                             <div key={index} className="flex items-center justify-between py-1.5 px-2 bg-slate-900/30 rounded-lg">
                                 <span className="text-white text-sm font-medium truncate flex-1 mr-2">{it.nome}</span>
                                 <span className="text-slate-400 text-sm bg-slate-800/50 px-2 py-1 rounded">{it.genero}</span>
                             </div>
                         ))}
-                        {uniqueItems.length > 3 && (
+                        {uniqueItems.length > 5 && (
                             <div className="text-slate-500 text-xs text-center py-2 bg-slate-900/30 rounded-lg">
-                                +{uniqueItems.length - 3} itens adicionais
+                                +{uniqueItems.length - 5} itens adicionais
                             </div>
                         )}
                     </div>
@@ -381,7 +381,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
                                             key={index}
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
-                                                duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${isCompleted
+                                                duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer min-w-[295px]
+                                                ${isCompleted
                                                     ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
                                                     : isPartial
                                                         ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
@@ -453,7 +454,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider font-medium">Código de Barras</p>
                                                 </div>
-                                                <p className="text-slate-300 text-sm font-mono break-all">{barcode}</p>
+                                                <p className="text-slate-300 text-lg font-mono break-all">{barcode}</p>
                                             </div>
 
                                             {/* Click to Expand Indicator */}
