@@ -332,7 +332,7 @@ export default function EntradasEmbalagem() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 pt-3 lg:pt-[15.5rem] pb-8 sm:px-6 lg:px-8">
+      <div className="px-4 pt-3 lg:pt-[15.5rem] lg:min-h-[101dvh] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
 
           {/* Contador de Resultados - Mobile */}
