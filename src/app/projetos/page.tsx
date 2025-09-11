@@ -2,6 +2,7 @@ import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import ProjetoComponentNew from '@/components/ComponentesProjeto/ProjetoComponentNew';
 import { Projeto } from '../../../core';
 import { get } from "../../hooks_api/api";
+import RetryButton from '@/components/ComponentesInterface/RetryButton';
 
 export const revalidate = 0;
 
@@ -85,12 +86,7 @@ export default async function Projetos() {
                             <p className="text-red-300 text-sm sm:text-base mb-6">
                                 {error.message || 'Ocorreu um erro inesperado ao carregar os projetos.'}
                             </p>
-                            <button 
-                                onClick={() => window.location.reload()}
-                                className="w-full h-12 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
-                            >
-                                Tentar Novamente
-                            </button>
+                          <RetryButton/>
                         </div>
                     </div>
                 </div>

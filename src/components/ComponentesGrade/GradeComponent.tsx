@@ -8,8 +8,6 @@ import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
 import ItemsGradeInputText from './ItemsGradeInputText';
-import ItemsGradeInputTextHor from "./ItemsGradeInputTextHor";
-import ItemsGradeLinkTextHor from "./ItemsGradeLinkTextHor";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
 import Link from "next/link";
 import ItemGradeInputTextStateBarMobil from "./ItemsGradeImputTextStateBarMobil";
