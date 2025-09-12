@@ -120,6 +120,9 @@ export default function GradeComponent(props: GradeComponentProps) {
     };
 
     const abrirTelaExped = (item: any, escola: Escola, grade: Grade, totalAExpedir: number, totalExpedido: number) => {
+        // ✅ CORREÇÃO: Definir isCount = true para o item selecionado
+        item.isCount = true;
+        
         const escolaGrade: EscolaGrade = {
             nomeEscola: escola.nome,
             projeto: escola.projeto?.nome,
