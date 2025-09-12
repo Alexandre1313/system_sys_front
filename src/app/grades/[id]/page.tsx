@@ -28,7 +28,7 @@ export default function Grades() {
 
   const router = useRouter();
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); 
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -88,7 +88,7 @@ export default function Grades() {
   const isFocus = () => {
     if (inputRef.current) {
       inputRef.current.focus();
-    }
+    }    
   }
 
   const handleFormDataChange = (key: string, value: string) => {
@@ -344,7 +344,7 @@ export default function Grades() {
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
-                  inputRef={inputRef}
+                  inputRef={inputRef}                  
                   userId={user?.id}
                   isFocus={isFocus}
                   handleFormDataChangeDecresc={handleFormDataChangeDecresc}
@@ -370,7 +370,7 @@ export default function Grades() {
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
-                  inputRef={inputRef}
+                  inputRef={inputRef}                 
                   userId={user?.id}
                   isFocus={isFocus}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
@@ -396,7 +396,7 @@ export default function Grades() {
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
-                  inputRef={inputRef}
+                  inputRef={inputRef}                  
                   userId={user?.id}
                   isFocus={isFocus}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Search, ArrowLeft, Plus, Minus, Box, Eye, ExternalLink } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
@@ -13,6 +13,7 @@ import Link from "next/link";
 import ItemGradeInputTextStateBarMobil from "./ItemsGradeImputTextStateBarMobil";
 import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
+import { useIsMobile } from "@/hooks_personal.ts/useIsMobile";
 
 
 export interface GradeComponentProps {
@@ -43,6 +44,30 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
     const [busca, setBusca] = useState<string>('');
+
+    const isMobile = useIsMobile();
+
+    const btnRef = useRef<HTMLButtonElement>(null);
+
+    // Adiciona o evento de keydown quando o componente for montado
+    useEffect(() => {
+        // Adiciona o ouvinte de evento global para a tecla "Enter"
+        const handleGlobalKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "ArrowLeft") {
+                if (btnRef.current) {
+                    btnRef.current.click(); // Simula o clique no botão
+                }
+            }
+        };
+
+        // Adiciona o evento para o evento global de keydown
+        window.addEventListener("keydown", handleGlobalKeyDown);
+
+        // Limpa o evento quando o componente for desmontado
+        return () => {
+            window.removeEventListener("keydown", handleGlobalKeyDown);
+        };
+    }, []); // Esse useEffect é executado uma vez quando o componente é montado
 
     useEffect(() => {
         const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
@@ -471,181 +496,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                 </div>
             )}
 
-            {/* Modal 2: Expedition Control */}
-            {mostrarTelaExped && itemSelecionado && (
-                <div className="fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
-                    {/* Background Patterns */}
-                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
-                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
-
-                    {/* Header */}
-                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
-                        <div className="flex items-center justify-between max-w-7xl mx-auto p-2 lg:p-3">
-                            <div className="text-left">
-                                <div>
-                                    <h1 className="text-xl lg:text-4xl font-bold text-indigo-500">
-                                        {`${props.grade.id}`}
-                                    </h1>
-                                    <p className="text-sm text-emerald-400 font-medium">GRADE ID</p>
-                                </div>
-                            </div>
-                            <div className="text-left">
-                                <div>
-                                    <h1 className="text-xl lg:text-4xl font-bold text-zinc-300">
-                                        {`${props.escola?.numeroEscola}`}
-                                    </h1>
-                                    <p className="text-sm text-emerald-400 font-medium">NÚMERO DA UNIDADE ESCOLAR</p>
-                                </div>
-                            </div>
-                            <div className="text-left">
-                                <div>
-                                    <h1 className="text-xl lg:text-4xl font-bold text-red-500">
-                                        {`${props.grade.gradeCaixas.length}`}
-                                    </h1>
-                                    {props.grade.gradeCaixas.length > 1 && (
-                                        <p className="text-sm text-emerald-400 font-medium">VOLUMES CONSOLIDADOS</p>
-                                    )}
-                                    {props.grade.gradeCaixas.length === 1 && (
-                                        <p className="text-sm text-emerald-400 font-medium">VOLUME CONSOLIDADO</p>
-                                    )}
-                                    {props.grade.gradeCaixas.length === 0 && (
-                                        <p className="text-sm text-emerald-400 font-medium">NÃO HÁ VOLUMES GERADOS</p>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative z-10 flex-1 overflow-auto" style={{ marginTop: '80px' }}>
-                        <div className="max-w-7xl mx-auto p-6">
-
-                            {/* Actions Bar */}
-                            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-8">
-                                <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-
-                                    {/* Action Buttons */}
-                                    <div className="flex flex-wrap gap-3">
-                                        <button
-                                            onClick={fecharTelaExped}
-                                            className={`flex items-center space-x-2 px-2 py-2 bg-red-700 hover:bg-red-600
-                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
-                                             min-w-[70px] justify-center`}
-                                        >
-                                            <ArrowLeft size={19} />
-                                            <span className="hidden"></span>
-                                        </button>
-                                        <button
-                                            onClick={handlerItemGrade}
-                                            className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
-                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
-                                             min-w-[50px] justify-center ${props?.userId === 1 ? 'pointer-events-auto cursor-pointer opacity-100' : 
-                                             'pointer-events-none cursor-not-allowed opacity-30'}`}
-                                        >
-                                            <Plus size={19} />
-                                            <span className="hidden"></span>
-                                        </button>
-                                        <button
-                                            onClick={props.handleFormDataChangeDecresc}
-                                            className="flex items-center justify-center px-2 py-2 bg-blue-800
-                                             hover:bg-blue-700 text-white font-medium rounded-lg transition-all
-                                              duration-300 transform hover:scale-105 min-w-[50px]"
-                                        >
-                                            <Minus size={19} />
-                                            <span className="hidden"></span>
-                                        </button>
-                                    </div>
-
-                                    {/* Close Box Button */}
-                                    <div className="flex justify-end">
-                                        <button
-                                            onClick={props.OpenModalGerarCaixa}
-                                            className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
-                                        >
-                                            <Box size={19} />
-                                            <span>FECHAR CAIXA</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Main Content Grid */}
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-
-                                {/* Left Column - Item Information */}
-                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
-                                    <div className="flex items-center space-x-2 mb-4">
-                                        <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                                        <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
-                                    </div>
-                                    <div className="space-y-4">
-                                        <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
-                                            labelName={`ITEM`} color={`text-zinc-400`} />
-                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                            labelName={`GÊNERO`} color={`text-zinc-400`} />
-                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                            labelName={`TAMANHO`} color={`text-zinc-400`} />
-                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                            labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
-                                    </div>
-                                </div>
-
-                                {/* Right Column - Expedition Control */}
-                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
-                                    <div className="flex items-center space-x-2 mb-4">
-                                        <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
-                                        <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
-                                    </div>
-
-                                    {/* Quantities in Row */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                            labelName={`TOTAL À EXPEDIR`} color={`text-zinc-400`} />
-                                        <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                            labelName={`JÁ EXPEDIDO`} />
-                                    </div>
-
-                                    {/* Special Fields */}
-                                    <div className="space-y-4">
-                                        <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
-                                            formData={props.formData} setFormData={props.setFormData}
-                                            isReadOnly={true}
-                                            valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
-                                            height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
-
-                                        <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
-                                            formData={props.formData} setFormData={props.setFormData}
-                                            isReadOnly={true}
-                                            valueColor={`text-white`} labelColor={`text-white`}
-                                            txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
-                                            height={`h-[80px]`} />
-
-                                        <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
-                                            formData={props.formData} setFormData={props.setFormData}
-                                            isReadOnly={true} maxWhidth={`w-full`}
-                                            valueColor={`text-zinc-400`} />
-
-                                        <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
-                                            formData={props.formData} setFormData={props.setFormData}
-                                            txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
-                                            inputRef={props.inputRef}
-                                            isFocuss={props.isFocus}
-                                            placeholder={`Mantenha o cursor aqui...`}
-                                            isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
-                                            focus:ring focus:ring-emerald-500`}
-                                            labelColor={`text-emerald-500`}
-                                            positionn={`text-left`}
-                                            labelposition={`justify-start`} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {/* Modal 3: Expedition Control Mobile */}
-            {mostrarTelaExped && itemSelecionado && (
+            {mostrarTelaExped && itemSelecionado && isMobile && (
                 <div className="fixed lg:hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
@@ -774,6 +626,180 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 {String(props.grade.gradeCaixas.length)}
                                             </p>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal 2: Expedition Control */}
+            {mostrarTelaExped && itemSelecionado && !isMobile && (
+                <div className="fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
+                    {/* Background Patterns */}
+                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
+                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+
+                    {/* Header */}
+                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                        <div className="flex items-center justify-between max-w-7xl mx-auto p-2 lg:p-3">
+                            <div className="text-left">
+                                <div>
+                                    <h1 className="text-xl lg:text-4xl font-bold text-indigo-500">
+                                        {`${props.grade.id}`}
+                                    </h1>
+                                    <p className="text-sm text-emerald-400 font-medium">GRADE ID</p>
+                                </div>
+                            </div>
+                            <div className="text-left">
+                                <div>
+                                    <h1 className="text-xl lg:text-4xl font-bold text-zinc-300">
+                                        {`${props.escola?.numeroEscola}`}
+                                    </h1>
+                                    <p className="text-sm text-emerald-400 font-medium">NÚMERO DA UNIDADE ESCOLAR</p>
+                                </div>
+                            </div>
+                            <div className="text-left">
+                                <div>
+                                    <h1 className="text-xl lg:text-4xl font-bold text-red-500">
+                                        {`${props.grade.gradeCaixas.length}`}
+                                    </h1>
+                                    {props.grade.gradeCaixas.length > 1 && (
+                                        <p className="text-sm text-emerald-400 font-medium">VOLUMES CONSOLIDADOS</p>
+                                    )}
+                                    {props.grade.gradeCaixas.length === 1 && (
+                                        <p className="text-sm text-emerald-400 font-medium">VOLUME CONSOLIDADO</p>
+                                    )}
+                                    {props.grade.gradeCaixas.length === 0 && (
+                                        <p className="text-sm text-emerald-400 font-medium">NÃO HÁ VOLUMES GERADOS</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex-1 overflow-auto" style={{ marginTop: '80px' }}>
+                        <div className="max-w-7xl mx-auto p-6">
+
+                            {/* Actions Bar */}
+                            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-8">
+                                <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+
+                                    {/* Action Buttons */}
+                                    <div className="flex flex-wrap gap-3">
+                                        <button
+                                            onClick={fecharTelaExped}
+                                            className={`flex items-center space-x-2 px-2 py-2 bg-red-700 hover:bg-red-600
+                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                             min-w-[70px] justify-center`}
+                                        >
+                                            <ArrowLeft size={19} />
+                                            <span className="hidden"></span>
+                                        </button>
+                                        <button
+                                            onClick={handlerItemGrade}
+                                            className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
+                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                             min-w-[50px] justify-center ${props?.userId === 1 ? 'pointer-events-auto cursor-pointer opacity-100' :
+                                                    'pointer-events-none cursor-not-allowed opacity-30'}`}
+                                        >
+                                            <Plus size={19} />
+                                            <span className="hidden"></span>
+                                        </button>
+                                        <button
+                                            onClick={props.handleFormDataChangeDecresc}
+                                            className="flex items-center justify-center px-2 py-2 bg-blue-800
+                                             hover:bg-blue-700 text-white font-medium rounded-lg transition-all
+                                              duration-300 transform hover:scale-105 min-w-[50px]"
+                                        >
+                                            <Minus size={19} />
+                                            <span className="hidden"></span>
+                                        </button>
+                                    </div>
+
+                                    {/* Close Box Button */}
+                                    <div className="flex justify-end">
+                                        <button
+                                            ref={btnRef}
+                                            onClick={props.OpenModalGerarCaixa}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            <Box size={19} />
+                                            <span>FECHAR CAIXA</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Main Content Grid */}
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+                                {/* Left Column - Item Information */}
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
+                                    <div className="flex items-center space-x-2 mb-4">
+                                        <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                                        <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
+                                            labelName={`ITEM`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
+                                            labelName={`GÊNERO`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
+                                            labelName={`TAMANHO`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
+                                            labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
+                                    </div>
+                                </div>
+
+                                {/* Right Column - Expedition Control */}
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
+                                    <div className="flex items-center space-x-2 mb-4">
+                                        <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                                        <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
+                                    </div>
+
+                                    {/* Quantities in Row */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
+                                            labelName={`TOTAL À EXPEDIR`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
+                                            labelName={`JÁ EXPEDIDO`} />
+                                    </div>
+
+                                    {/* Special Fields */}
+                                    <div className="space-y-4">
+                                        <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            isReadOnly={true}
+                                            valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
+                                            height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
+
+                                        <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            isReadOnly={true}
+                                            valueColor={`text-white`} labelColor={`text-white`}
+                                            txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
+                                            height={`h-[80px]`} />
+
+                                        <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            isReadOnly={true} maxWhidth={`w-full`}
+                                            valueColor={`text-zinc-400`} />
+
+                                        <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
+                                            formData={props.formData} setFormData={props.setFormData}
+                                            txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
+                                            inputRef={props.inputRef}
+                                            isFocuss={props.isFocus}
+                                            placeholder={`Mantenha o cursor aqui...`}
+                                            isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
+                                            focus:ring focus:ring-emerald-500`}
+                                            labelColor={`text-emerald-500`}
+                                            positionn={`text-left`}
+                                            labelposition={`justify-start`} />
                                     </div>
                                 </div>
                             </div>
