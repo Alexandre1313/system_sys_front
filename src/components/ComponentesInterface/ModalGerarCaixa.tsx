@@ -102,8 +102,8 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="bg-[#f7f7f7] p-4 rounded-md shadow-md min-w-[40%] min-h-[380px] gap-y-4 
-      flex flex-col items-center justify-between m-8"
+        className="bg-[#f7f7f7] p-4 rounded-md shadow-md lg:min-w-[40%] min-w-[90%] lg:min-h-[380px] min-h-[75%] gap-y-4 
+        flex flex-col items-center justify-between m-8"
       >
         <h2 className="text-3xl text-black font-semibold">
           <Loader
@@ -112,11 +112,11 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             color={`rgba(234, 170, 0, 0.7)`}
           />
         </h2>       
-        <p className="text-red-500 flex lg:text-[17px] text-[12px] uppercase font-bold text-center">{msg}</p>
+        <p className="text-red-500 flex lg:text-[17px] text-[10px] uppercase font-bold text-center">{msg}</p>
         <div className={`flex justify-center items-center w-full`}>
           <CaixaResume caixa={box} />
         </div>
-        <div className="flex w-full justify-between mt-4 gap-4">
+        <div className="flex lg:flex-row flex-col w-full lg:justify-between justify-center mt-4 gap-4">
           {/* Botão Encerrar Grade */}
           <button
             ref={encerrarCaixaRef}
