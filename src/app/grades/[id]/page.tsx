@@ -200,8 +200,13 @@ export default function Grades() {
   const handleEscolaGradeSelecionada = (escolaGrade: EscolaGrade | null) => {
     setFormData((prevData) => ({
       ...prevData,
-      QUANTIDADELIDA: String(escolaGrade?.totalExpedido),
-      ESCOLA_GRADE: escolaGrade,
+      // ✅ CORREÇÃO: Preservar estado local se já existe contabilização
+      ESCOLA_GRADE: (prevData.ESCOLA_GRADE?.totalExpedido ?? 0) > 0 
+        ? prevData.ESCOLA_GRADE 
+        : escolaGrade,
+      QUANTIDADELIDA: prevData.QUANTIDADELIDA !== '0' 
+        ? prevData.QUANTIDADELIDA 
+        : String(escolaGrade?.totalExpedido ?? 0),
     }));
   };
 
