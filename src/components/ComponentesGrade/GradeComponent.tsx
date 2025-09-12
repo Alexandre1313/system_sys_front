@@ -402,6 +402,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     const isCompleted = quantidade === quantidadeExpedida;
                                     const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
                                     const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
+                                    const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50': 'bg-slate-300/50';
 
                                     return (
                                         <div
@@ -440,7 +441,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     {item?.nome}
                                                 </h3>
                                                 <div className="flex items-center justify-between mb-3">
-                                                    <span className="text-slate-400 text-sm bg-slate-700/50 px-2 py-1 rounded">{genero}</span>
+                                                    <span className={`text-slate-400 text-sm px-2 py-1 rounded ${colorGenero}`}>{genero}</span>
                                                     <div className="flex items-center space-x-2">
                                                         <span className="text-slate-500 text-sm">Tam:</span>
                                                         <span className="text-white font-medium bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
