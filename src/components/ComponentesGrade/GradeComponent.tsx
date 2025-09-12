@@ -402,7 +402,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     const isCompleted = quantidade === quantidadeExpedida;
                                     const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
                                     const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
-                                    const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50': 'bg-slate-300/50';
+                                    const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50': 'bg-slate-700/50';
 
                                     return (
                                         <div
