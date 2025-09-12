@@ -9,13 +9,6 @@ const atualizarQuantidadeCaixa = (formData: any) => {
     formData.ESCOLA_GRADE.totalAExpedir -= 1
 }
 
-const atualizarQuantidadeCaixaInvert = (formData: any) => {
-    formData.ITEM_SELECIONADO.quantidadeExpedida -= 1
-    formData.ITEM_SELECIONADO.qtyPCaixa -= 1
-    formData.ESCOLA_GRADE.totalExpedido -= 1
-    formData.ESCOLA_GRADE.totalAExpedir += 1
-}
-
 const atualizarQuantidadeCaixaNnn = (formData: any, nnn: number) => {
     formData.ITEM_SELECIONADO.quantidadeExpedida += nnn
     formData.ITEM_SELECIONADO.qtyPCaixa += nnn
@@ -23,30 +16,30 @@ const atualizarQuantidadeCaixaNnn = (formData: any, nnn: number) => {
     formData.ESCOLA_GRADE.totalAExpedir -= nnn
 }
 
-/*const atualizarQuantidadeCaixaNnnInvert = (formData: any, nnn: number) => {
+const atualizarQuantidadeCaixaNnnInvert = (formData: any, nnn: number) => {
     formData.ITEM_SELECIONADO.quantidadeExpedida -= nnn;
     formData.ITEM_SELECIONADO.qtyPCaixa -= nnn;
     formData.ESCOLA_GRADE.totalExpedido -= nnn;
     formData.ESCOLA_GRADE.totalAExpedir += nnn;
-};*/
-
+};
 const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
 ) => {
     const quantidade = formData.ITEM_SELECIONADO?.quantidade;
     const quantidadeExpedida = formData.ITEM_SELECIONADO?.quantidadeExpedida;
+    const qtyPCaixaItem = Number(formData.ITEM_SELECIONADO?.qtyPCaixa || 0);
 
-    // Verifica se a quantidade lida não ultrapassa a quantidade permitida
-    if ((Number(quantidadeExpedida) > 0 && Number(formData.QUANTIDADENACAIXAATUAL) !== 0) &&
-        (Number(quantidadeExpedida) !== Number(quantidade) || Number(formData.QUANTIDADENACAIXAATUAL) !== 0)) {
+    // ✅ CORREÇÃO: Verifica se há quantidade específica do item na caixa atual antes de decrementar
+    if ((Number(quantidadeExpedida) > 0 && qtyPCaixaItem > 0) &&
+        (Number(quantidadeExpedida) !== Number(quantidade) || qtyPCaixaItem !== 0)) {
         setFormData((prevData: any) => ({
             ...prevData,
             QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) - 1), // decrementa QUANTIDADELIDA
             QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) - 1),
             CODDEBARRASLEITURA: '',
         }));
-        atualizarQuantidadeCaixaInvert(formData)
+        atualizarQuantidadeCaixaNnnInvert(formData, 1)
     } else {
         setFormData((prevData: any) => ({
             ...prevData,
@@ -145,24 +138,36 @@ const processarCodigoDeBarras = (
     }
 
     // 3. Entrada manual para remover quantidade (somente com 4 caracteres, ex: -050)
-    /*if (/^\-\d{3}$/.test(value) && value.length === 4 && user?.id) {
+    if (/^\-\d{3}$/.test(value) && value.length === 4 && user?.id) {
         const nnn = parseInt(value.substring(1), 10);
+        const qtyPCaixaItem = Number(formData.ITEM_SELECIONADO?.qtyPCaixa || 0);
+        
         if (quantidadeLidaAtual === 0) {
             setModalMessage('Nenhuma quantidade lida para remover');
             setModalOpen(true);
         } else {
-            const remover = Math.min(nnn, quantidadeLidaAtual, quantidadeNaCaixaAtual);
-            const novoForm = {
-                ...formData,
-                QUANTIDADELIDA: String(quantidadeLidaAtual - remover),
-                QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual - remover),
-                CODDEBARRASLEITURA: '',
-            };
-            setFormData(novoForm);
-            atualizarQuantidadeCaixaNnnInvert(novoForm, remover);
+            // ✅ CORREÇÃO: Garantir que não decremente mais do que há do item específico na caixa atual
+            const remover = Math.min(nnn, quantidadeLidaAtual, qtyPCaixaItem);
+            if (remover > 0) {
+                const novoForm = {
+                    ...formData,
+                    QUANTIDADELIDA: String(quantidadeLidaAtual - remover),
+                    QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual - remover),
+                    CODDEBARRASLEITURA: '',
+                };
+                setFormData(novoForm);
+                atualizarQuantidadeCaixaNnnInvert(novoForm, remover);
+            } else {
+                setModalMessage('Não há quantidade suficiente deste item na caixa atual para remover');
+                setModalOpen(true);
+            }
         }
+        setFormData((prevData: any) => ({
+            ...prevData,
+            CODDEBARRASLEITURA: '',
+        }));
         return;
-    }*/
+    }
 
     // 4. Código especial 99999XYZ (expedição manual com código especial)
     if (/^99999\d{3}$/.test(value) && value.length === 8 && user?.id) {
@@ -232,9 +237,9 @@ function criarCaixa(formData: any, id: any): Caixa | null {
                     caixa.caixaItem.push(novoItem);
                     totalExpedido += quantidadeParaCaixa;
                 }
-                // Zera qtyPCaixa e marca isCount como false
-                itemGrade.qtyPCaixa = 0;
-                itemGrade.isCount = false; // Item não deve ser contado em futuras caixas
+                // ✅ CORREÇÃO: NÃO zera qtyPCaixa aqui - será zerado APÓS confirmar a caixa
+                // itemGrade.qtyPCaixa = 0;
+                // itemGrade.isCount = false; // Item não deve ser contado em futuras caixas
             } else {
                 // Se não igualou, mas ainda tem quantidade para caixa, adiciona
                 if (quantidadeParaCaixa > 0) {
@@ -248,8 +253,8 @@ function criarCaixa(formData: any, id: any): Caixa | null {
                     // Adiciona ao caixa
                     caixa.caixaItem.push(novoItem);
                     totalExpedido += quantidadeParaCaixa;
-                    // Zera qtyPCaixa
-                    itemGrade.qtyPCaixa = 0;
+                    // ✅ CORREÇÃO: NÃO zera qtyPCaixa aqui - será zerado APÓS confirmar a caixa
+                    // itemGrade.qtyPCaixa = 0;
                 }
             }
         }
@@ -261,6 +266,37 @@ function criarCaixa(formData: any, id: any): Caixa | null {
         return null;
     }
     return caixa; // Retorna a caixa pronta para inserção no banco
+}
+
+// ✅ NOVA FUNÇÃO: Zerar quantidades APÓS confirmar a caixa
+function zerarQuantidadesCaixa(formData: any): void {
+    const { ESCOLA_GRADE } = formData;
+    
+    // Calcular total expedido na caixa atual (qtyPCaixa)
+    let totalExpedidoNaCaixa = 0;
+    
+    // Percorre os itens da grade para zerar qtyPCaixa e calcular total
+    for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {
+        if (itemGrade.isCount && itemGrade.qtyPCaixa > 0) {
+            // Adicionar ao total expedido na caixa
+            totalExpedidoNaCaixa += itemGrade.qtyPCaixa;
+            
+            // Se a quantidade expedida for igual à quantidade total, marca como não contável
+            if (itemGrade.quantidade === itemGrade.quantidadeExpedida) {
+                itemGrade.qtyPCaixa = 0;
+                itemGrade.isCount = false; // Item não deve ser contado em futuras caixas
+            } else {
+                // Se não igualou, apenas zera qtyPCaixa
+                itemGrade.qtyPCaixa = 0;
+            }
+        }
+    }
+    
+    // ✅ CORREÇÃO: Atualizar totalExpedido da escola com o que foi expedido nesta caixa
+    ESCOLA_GRADE.totalExpedido += totalExpedidoNaCaixa;
+    
+    // Atualizar totalAExpedir da escola
+    ESCOLA_GRADE.totalAExpedir = ESCOLA_GRADE.grade.itensGrade.reduce((sum: number, item: any) => sum + (item.quantidade - item.quantidadeExpedida), 0);
 }
 
 const processarQtdParaEstoque = (
@@ -354,4 +390,4 @@ function objectsStockEmbs(embalagenid: number, formdata: FormDateInputs,
     return stock;
 }
 
-export { criarCaixa, objectsStockEmbs, processarCodigoDeBarras, processarCodigoDeBarrasInvert, processarQtdParaEstoque };
+export { criarCaixa, zerarQuantidadesCaixa, objectsStockEmbs, processarCodigoDeBarras, processarCodigoDeBarrasInvert, processarQtdParaEstoque };

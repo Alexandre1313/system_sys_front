@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
 import Caixa from '../../../../core/interfaces/Caixa';
-import { criarCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert } from '../../../../core/utils/regraas_de_negocio';
+import { criarCaixa, zerarQuantidadesCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert } from '../../../../core/utils/regraas_de_negocio';
 import { useRouter } from 'next/navigation';
 
 const fetcher = async (id: number) => {
@@ -165,6 +165,11 @@ export default function Grades() {
     }
   };
 
+  // ✅ NOVA FUNÇÃO: Zerar quantidades após confirmar a caixa
+  const handleZerarQuantidadesCaixa = () => {
+    zerarQuantidadesCaixa(formData);
+  };
+
   const handlerCaixaPend = () => {
     try {
       const boxSave0 = localStorage.getItem('saveBox');
@@ -198,11 +203,15 @@ export default function Grades() {
   };
 
   const handleEscolaGradeSelecionada = (escolaGrade: EscolaGrade | null) => {
-    setFormData((prevData) => ({
+    setFormData((prevData): FormData => ({
       ...prevData,
-      // ✅ CORREÇÃO: Preservar estado local se já existe contabilização
+      // ✅ CORREÇÃO MELHORADA: Preservar contabilização local e sincronizar totalAExpedir
       ESCOLA_GRADE: (prevData.ESCOLA_GRADE?.totalExpedido ?? 0) > 0 
-        ? prevData.ESCOLA_GRADE 
+        ? {
+            ...prevData.ESCOLA_GRADE,
+            // Sincronizar totalAExpedir com o estado atual
+            totalAExpedir: (escolaGrade?.totalAExpedir ?? 0) + ((prevData.ESCOLA_GRADE?.totalExpedido ?? 0) - (escolaGrade?.totalExpedido ?? 0))
+          } as EscolaGrade
         : escolaGrade,
       QUANTIDADELIDA: prevData.QUANTIDADELIDA !== '0' 
         ? prevData.QUANTIDADELIDA 
@@ -444,6 +453,7 @@ export default function Grades() {
         mutate={swrMutate}
         box={caixa}
         isPend={isPend}
+        zerarQuantidadesCaixa={handleZerarQuantidadesCaixa}
       />
     </PageWithDrawer>
   );
