@@ -14,6 +14,7 @@ export default function SigIn() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();  // Agora usamos o hook useRouter
     const [isClient, setIsClient] = useState(false); // Estado para verificar se o componente foi montado
 
@@ -122,17 +123,24 @@ export default function SigIn() {
                             <div className="relative">
                                 <input
                                     id="password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="Digite sua senha"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full h-12 px-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
+                                    className="w-full h-12 px-4 pr-12 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
                                     required
                                     autoComplete="current-password"
                                 />
-                                <div className="absolute inset-y-0 right-4 flex items-center">
-                                    <span className="text-slate-500 text-sm">🔒</span>
-                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-4 flex items-center text-slate-500 hover:text-slate-300 transition-colors duration-200 focus:outline-none"
+                                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                                >
+                                    <span className="text-sm">
+                                        {showPassword ? "🔓" : "🔒"}
+                                    </span>
+                                </button>
                             </div>
                         </div>
 
