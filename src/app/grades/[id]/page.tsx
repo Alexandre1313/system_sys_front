@@ -203,20 +203,50 @@ export default function Grades() {
   };
 
   const handleEscolaGradeSelecionada = (escolaGrade: EscolaGrade | null) => {
+    // Calcular quantidade na caixa atual (soma das qtyPCaixa dos itens)
+    const quantidadeNaCaixaAtual = escolaGrade?.grade?.itensGrade?.reduce((total, item) => {
+      return total + (item.qtyPCaixa || 0);
+    }, 0) || 0;
+
     setFormData((prevData): FormData => ({
       ...prevData,
-      // ✅ CORREÇÃO MELHORADA: Preservar contabilização local e sincronizar totalAExpedir
-      ESCOLA_GRADE: (prevData.ESCOLA_GRADE?.totalExpedido ?? 0) > 0 
-        ? {
-            ...prevData.ESCOLA_GRADE,
-            // Sincronizar totalAExpedir com o estado atual
-            totalAExpedir: (escolaGrade?.totalAExpedir ?? 0) + ((prevData.ESCOLA_GRADE?.totalExpedido ?? 0) - (escolaGrade?.totalExpedido ?? 0))
-          } as EscolaGrade
-        : escolaGrade,
-      QUANTIDADELIDA: prevData.QUANTIDADELIDA !== '0' 
-        ? prevData.QUANTIDADELIDA 
-        : String(escolaGrade?.totalExpedido ?? 0),
+      // ✅ CORREÇÃO CRÍTICA: Isolamento total entre grades
+      ESCOLA_GRADE: escolaGrade,
+      // ✅ CORREÇÃO: Inicializar com quantidade total expedida da grade
+      QUANTIDADELIDA: String(escolaGrade?.totalExpedido ?? 0),
+      // ✅ CORREÇÃO: Mostrar quantidade pendente na caixa atual
+      QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual),
+      NUMERODACAIXA: '1',
     }));
+  };
+
+  // ✅ FUNÇÃO: Sincronizar dados da grade com formData (APENAS para grade ativa)
+  const sincronizarGradeComFormData = (grade: any) => {
+    // ✅ PRINCÍPIO: Cada grade é completamente independente
+    // Só sincronizar se for a grade ativa no formData
+    if (formData.ESCOLA_GRADE?.gradeId === grade.id && formData.ESCOLA_GRADE?.grade?.itensGrade) {
+      return {
+        ...grade,
+        itensGrade: formData.ESCOLA_GRADE.grade.itensGrade.map((itemAtualizado: any) => {
+          // Encontrar o item correspondente na grade original
+          const itemOriginal = grade.itensGrade.find((item: any) => item.id === itemAtualizado.id);
+          if (itemOriginal) {
+            // Retornar o item original com as quantidades atualizadas
+            return {
+              ...itemOriginal,
+              quantidadeExpedida: itemAtualizado.quantidadeExpedida,
+              qtyPCaixa: itemAtualizado.qtyPCaixa,
+              isCount: itemAtualizado.isCount
+            };
+          }
+          return itemOriginal;
+        })
+      };
+    }
+    
+    // ✅ IMPORTANTE: Retornar grade original sem modificações
+    // Isso garante que cada grade seja completamente independente
+    return grade;
   };
 
   const handlerOpnEncGradeMoodify = () => {
@@ -354,7 +384,7 @@ export default function Grades() {
               {primeiraParte.map((grade) => (
                 <GradeComponent
                   key={grade.id}
-                  grade={grade}
+                  grade={sincronizarGradeComFormData(grade)}
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
@@ -369,6 +399,8 @@ export default function Grades() {
                   handleNumeroDaCaixa={handleNumeroDaCaixa}
                   OpenModalGerarCaixa={OpenModalGerarCaixa}
                   OpenModalGerarCaixaError={OpenModalGerarCaixaError}
+                  setModalMessage={setModalMessage}
+                  setModalOpen={setModalOpen}
                   printEti={printEti}
                   mutate={swrMutate}
                 />
@@ -380,7 +412,7 @@ export default function Grades() {
               {segundaParte.map((grade) => (
                 <GradeComponent
                   key={grade.id}
-                  grade={grade}
+                  grade={sincronizarGradeComFormData(grade)}
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
@@ -395,6 +427,8 @@ export default function Grades() {
                   handleNumeroDaCaixa={handleNumeroDaCaixa}
                   OpenModalGerarCaixaError={OpenModalGerarCaixaError}
                   OpenModalGerarCaixa={OpenModalGerarCaixa}
+                  setModalMessage={setModalMessage}
+                  setModalOpen={setModalOpen}
                   printEti={printEti}
                   mutate={swrMutate}
                 />
@@ -406,7 +440,7 @@ export default function Grades() {
               {terceiraParte.map((grade) => (
                 <GradeComponent
                   key={grade.id}
-                  grade={grade}
+                  grade={sincronizarGradeComFormData(grade)}
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
@@ -421,6 +455,8 @@ export default function Grades() {
                   handleNumeroDaCaixa={handleNumeroDaCaixa}
                   OpenModalGerarCaixaError={OpenModalGerarCaixaError}
                   OpenModalGerarCaixa={OpenModalGerarCaixa}
+                  setModalMessage={setModalMessage}
+                  setModalOpen={setModalOpen}
                   printEti={printEti}
                   mutate={swrMutate}
                 />

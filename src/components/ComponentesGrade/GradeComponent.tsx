@@ -32,6 +32,8 @@ export interface GradeComponentProps {
     handleNumeroDaCaixa: (numeroDaCaixa: string) => void
     OpenModalGerarCaixa: () => void
     OpenModalGerarCaixaError: () => void;
+    setModalMessage: (message: string) => void;
+    setModalOpen: (open: boolean) => void;
     mutate: () => void;
     printEti: (etiquetas: Caixa[]) => JSX.Element
 }
@@ -77,6 +79,15 @@ export default function GradeComponent(props: GradeComponentProps) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.grade.itensGrade])
 
+    // ✅ CORREÇÃO: Sincronizar itemSelecionado com formData.ITEM_SELECIONADO em tempo real
+    // Isso garante que a interface seja atualizada imediatamente quando há mudanças nas quantidades
+    useEffect(() => {
+        if (props.formData?.ITEM_SELECIONADO && itemSelecionado?.id === props.formData.ITEM_SELECIONADO.id) {
+            // Atualizar itemSelecionado local com os dados atualizados do formData
+            setItemSelecionado(props.formData.ITEM_SELECIONADO);
+        }
+    }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);
+
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
     const total = props.grade.itensGrade.reduce((totini, itemGrade) => {
@@ -119,9 +130,103 @@ export default function GradeComponent(props: GradeComponentProps) {
         setMostrarTela(false);
     };
 
+    // ✅ FUNÇÃO CORRIGIDA: Verificar se há caixas pendentes em QUALQUER grade
+    const verificarCaixasPendentes = (gradeAtual: Grade) => {
+        // Se estamos tentando entrar na mesma grade que já está ativa, não há problema
+        if (props.formData?.ESCOLA_GRADE?.gradeId === gradeAtual.id) {
+            return { temPendencia: false };
+        }
+        
+        // Verificar se há pendências na grade que está atualmente no formData
+        if (props.formData?.ESCOLA_GRADE?.grade?.itensGrade) {
+            const temCaixaPendente = props.formData.ESCOLA_GRADE.grade.itensGrade.some((item: any) => item.qtyPCaixa > 0);
+            if (temCaixaPendente) {
+                return {
+                    temPendencia: true,
+                    gradePendente: `Grade ${props.formData.ESCOLA_GRADE?.gradeId || 'anterior'}`
+                };
+            }
+        }
+        
+        // ✅ NOVA VERIFICAÇÃO: Verificar se há pendências na grade atual
+        if (gradeAtual?.itensGrade) {
+            const temCaixaPendenteNaGradeAtual = gradeAtual.itensGrade.some((item: any) => item.qtyPCaixa > 0);
+            if (temCaixaPendenteNaGradeAtual) {
+                return {
+                    temPendencia: true,
+                    gradePendente: `Grade ${gradeAtual.id}`
+                };
+            }
+        }
+        
+        // ✅ VERIFICAÇÃO ADICIONAL: Verificar todas as outras grades da escola
+        if (props.escola?.grades) {
+            for (const grade of props.escola.grades) {
+                if (grade.id !== gradeAtual.id && grade.id !== props.formData?.ESCOLA_GRADE?.gradeId) {
+                    if (grade.itensGrade?.some((item: any) => item.qtyPCaixa > 0)) {
+                        return {
+                            temPendencia: true,
+                            gradePendente: `Grade ${grade.id}`
+                        };
+                    }
+                }
+            }
+        }
+        
+        return { temPendencia: false };
+    };
+
     const abrirTelaExped = (item: any, escola: Escola, grade: Grade, totalAExpedir: number, totalExpedido: number) => {
-        // ✅ CORREÇÃO: Definir isCount = true para o item selecionado
-        item.isCount = true;
+        // ✅ VALIDAÇÃO: Verificar se há caixas pendentes em outras grades
+        const verificacaoPendencia = verificarCaixasPendentes(grade);
+        if (verificacaoPendencia.temPendencia) {
+            // Abrir modal de aviso sobre caixa pendente usando o modal genérico
+            props.setModalMessage(`⚠️ HÁ CAIXAS PENDENTES!\n\nHá caixas pendentes na ${verificacaoPendencia.gradePendente}.\n\nEncerre a caixa pendente antes de trocar de grade.`);
+            props.setModalOpen(true);
+            return;
+        }
+        
+        // ✅ CORREÇÃO CRÍTICA: Cada grade deve ser completamente isolada
+        // Se estamos trocando de grade, usar apenas os dados da grade atual
+        let gradeAtualizada = grade;
+        let itemAtualizado = item;
+        
+        // ✅ CORREÇÃO: Só usar dados do formData se for a MESMA grade
+        if (props.formData?.ESCOLA_GRADE?.gradeId === grade.id && props.formData?.ESCOLA_GRADE?.grade?.itensGrade) {
+            gradeAtualizada = props.formData.ESCOLA_GRADE.grade;
+            
+            // Encontrar o item atualizado correspondente
+            const itemAtualizadoEncontrado = gradeAtualizada.itensGrade?.find(
+                (gradeItem: any) => gradeItem.id === item.id
+            );
+            
+            if (itemAtualizadoEncontrado) {
+                itemAtualizado = itemAtualizadoEncontrado;
+            }
+        }
+        
+        // ✅ CORREÇÃO CRÍTICA: Limpar isCount de TODOS os itens primeiro
+        gradeAtualizada.itensGrade?.forEach((gradeItem: any) => {
+            gradeItem.isCount = false;
+        });
+        
+        // ✅ CORREÇÃO: Definir isCount = true APENAS para o item selecionado
+        itemAtualizado.isCount = true;
+        
+        // ✅ CORREÇÃO ADICIONAL: Garantir que todos os itens com qtyPCaixa > 0 tenham isCount = true
+        gradeAtualizada.itensGrade?.forEach((gradeItem: any) => {
+            if (gradeItem.qtyPCaixa > 0) {
+                gradeItem.isCount = true;
+            }
+        });
+        
+        // ✅ CORREÇÃO: Usar totais da grade atual, não do formData
+        const totalAExpedirAtualizado = props.formData?.ESCOLA_GRADE?.gradeId === grade.id 
+            ? (props.formData?.ESCOLA_GRADE?.totalAExpedir ?? totalAExpedir)
+            : totalAExpedir;
+        const totalExpedidoAtualizado = props.formData?.ESCOLA_GRADE?.gradeId === grade.id 
+            ? (props.formData?.ESCOLA_GRADE?.totalExpedido ?? totalExpedido)
+            : totalExpedido;
         
         const escolaGrade: EscolaGrade = {
             nomeEscola: escola.nome,
@@ -131,12 +236,21 @@ export default function GradeComponent(props: GradeComponentProps) {
             idEscola: escola.id,
             gradeId: grade.id,
             finalizada: grade.finalizada,
-            totalAExpedir: totalAExpedir,
-            totalExpedido: totalExpedido,
-            grade: grade
+            totalAExpedir: totalAExpedirAtualizado,
+            totalExpedido: totalExpedidoAtualizado,
+            grade: gradeAtualizada
         }
-        setItemSelecionado(item);
-        props.handleItemSelecionado(item)
+        
+        console.log("🔍 abrirTelaExped - Grade isolada:", {
+            gradeId: grade.id,
+            nome: itemAtualizado?.itemTamanho?.item?.nome,
+            quantidadeExpedida: itemAtualizado.quantidadeExpedida,
+            qtyPCaixa: itemAtualizado.qtyPCaixa,
+            isCount: itemAtualizado.isCount
+        });
+        
+        setItemSelecionado(itemAtualizado);
+        props.handleItemSelecionado(itemAtualizado)
         props.handleEscolaGradeSelecionada(escolaGrade)
         props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))
         setMostrarTelaExped(true);

@@ -37,20 +37,45 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
     }, [isOpen, message]); // Executa o efeito quando `isOpen` ou `message` mudam
 
     const handleFinalizeGrade = async () => {
+        // ✅ CORREÇÃO: Verificar se escolaGrade é válido
+        if (!escolaGrade?.gradeId) {
+            setMsg('Erro: Dados da grade não encontrados');
+            setIsError(true);
+            return;
+        }
+
         setIsLoading(true);
         setIsError(false); // Reset error state on new attempt
         try {
-            const data = await finalizarGrades({ id: escolaGrade?.gradeId, finalizada: true, status: Status.EXPEDIDA });
+            console.log('🔍 Finalizando grade:', { 
+                gradeId: escolaGrade.gradeId, 
+                finalizada: true, 
+                status: Status.EXPEDIDA 
+            });
+            
+            const data = await finalizarGrades({ 
+                id: escolaGrade.gradeId, 
+                finalizada: true, 
+                status: Status.EXPEDIDA 
+            });
+            
             if (data) {
-                mutate();
+                console.log('✅ Grade finalizada com sucesso:', data);
                 setMsg('Grade finalizada com sucesso!');
+                
+                // ✅ CORREÇÃO: Chamar mutate antes de fechar
+                mutate();
+                
+                const timeout = setTimeout(() => {
+                    onClose();
+                    clearTimeout(timeout);
+                }, 1500);
+            } else {
+                throw new Error('Resposta inválida do servidor');
             }
-            const timeout = setTimeout(() => {
-                onClose()
-                clearTimeout(timeout)
-            }, 1500)
         } catch (error) {
-            setMsg('Erro ao encerrar a grade, tente novamente.' + error);
+            console.error('❌ Erro ao finalizar grade:', error);
+            setMsg(`Erro ao encerrar a grade: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
             setIsError(true);
         } finally {
             setIsLoading(false);
@@ -60,14 +85,14 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 pt-8">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start lg:items-center justify-center z-50 pt-8">
             <motion.div
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="bg-white p-8 rounded-md shadow-md min-w-[350px] min-h-[250px] gap-y-4 
-                flex flex-col items-center justify-between"
+                className="bg-white p-4 lg:p-8 rounded-md shadow-md lg:min-w-[400px] min-w-[90%] lg:min-h-[300px] min-h-[60%] gap-y-4 
+                flex flex-col items-center justify-between m-4 lg:m-8"
             >
                 <h2 className="text-3xl text-black font-semibold">
                     <Loader
@@ -76,11 +101,35 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
                         color={`rgba(0, 128, 0, 0.7)`}
                     />
                 </h2>
-                <p className="flex text-[16px] text-black uppercase font-semibold text-center">{msg}</p>
-                <div className="flex w-full justify-between mt-4 gap-4">
+                
+                <p className={`flex lg:text-[16px] text-[14px] text-black uppercase font-semibold text-center ${
+                    isError ? 'text-red-600' : 'text-green-600'
+                }`}>
+                    {msg}
+                </p>
+                
+                {isError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 w-full">
+                        <p className="text-red-700 text-sm text-center">
+                            💡 <strong>Dica:</strong> Verifique se a grade possui dados válidos e tente novamente.
+                        </p>
+                    </div>
+                )}
+                
+                <div className="flex lg:flex-row flex-col w-full lg:justify-between justify-center mt-4 gap-4">
+                    {/* Botão Cancelar */}
+                    <button
+                        className={`w-full text-white px-6 lg:px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-gray-500 hover:bg-gray-700'}
+                              flex items-center justify-center`}
+                        onClick={onClose}
+                        disabled={isLoading}
+                    >
+                        Cancelar
+                    </button>
+                    
                     {/* Botão Encerrar Grade */}
                     <button
-                        className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-green-500 hover:bg-green-700'}
+                        className={`w-full text-white px-6 lg:px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-green-500 hover:bg-green-700'}
                               flex items-center justify-center`}
                         onClick={handleFinalizeGrade}
                         disabled={isLoading}
