@@ -52,12 +52,15 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
       setMsg(`Por favor, aguarde...`);
       const data = await inserirCaixa(box);
       if (data) {
-        // ✅ CORREÇÃO: Zerar quantidades APÓS confirmar a caixa
+        // ✅ CORREÇÃO CRÍTICA: mutate() PRIMEIRO, depois zerarQuantidadesCaixa()
+        // Isso garante que os dados do banco sejam recarregados ANTES de zerar os campos locais
+        mutate();
+        
+        // ✅ CORREÇÃO: Zerar quantidades APÓS recarregar dados do banco
         if (zerarQuantidadesCaixa) {
           zerarQuantidadesCaixa();
         }
         
-        mutate();
         setMsg(`Caixa encerrada com sucesso!`);
         handlerCaixaPend();
         handleNumberBox(String(data.caixaNumber))

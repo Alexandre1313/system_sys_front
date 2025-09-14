@@ -102,17 +102,16 @@ const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
 ) => {
-    const quantidade = formData.ITEM_SELECIONADO?.quantidade;
-    const quantidadeExpedida = formData.ITEM_SELECIONADO?.quantidadeExpedida;
     const qtyPCaixaItem = Number(formData.ITEM_SELECIONADO?.qtyPCaixa || 0);
+    const quantidadeLidaAtual = Number(formData.QUANTIDADELIDA || 0);
+    const quantidadeNaCaixaAtual = Number(formData.QUANTIDADENACAIXAATUAL || 0);
 
-    // ✅ CORREÇÃO: Verifica se há quantidade específica do item na caixa atual antes de decrementar
-    if ((Number(quantidadeExpedida) > 0 && qtyPCaixaItem > 0) &&
-        (Number(quantidadeExpedida) !== Number(quantidade) || qtyPCaixaItem !== 0)) {
+    // ✅ CORREÇÃO CRÍTICA: Só permite decrementar se há quantidade na caixa atual
+    if (qtyPCaixaItem > 0 && quantidadeLidaAtual > 0 && quantidadeNaCaixaAtual > 0) {
         setFormData((prevData: any) => ({
             ...prevData,
-            QUANTIDADELIDA: String(Number(prevData.QUANTIDADELIDA) - 1), // decrementa QUANTIDADELIDA
-            QUANTIDADENACAIXAATUAL: String(Number(prevData.QUANTIDADENACAIXAATUAL) - 1),
+            QUANTIDADELIDA: String(quantidadeLidaAtual - 1), // decrementa QUANTIDADELIDA
+            QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual - 1),
             CODDEBARRASLEITURA: '',
         }));
         atualizarQuantidadeCaixaNnnInvert(formData, 1, setFormData)
@@ -217,6 +216,17 @@ const processarCodigoDeBarras = (
     if (/^\-\d{3}$/.test(value) && value.length === 4 && user?.id) {
         const nnn = parseInt(value.substring(1), 10);
         const qtyPCaixaItem = Number(formData.ITEM_SELECIONADO?.qtyPCaixa || 0);
+        
+        // ✅ CORREÇÃO CRÍTICA: Verificar se há quantidade na caixa atual ANTES de qualquer decremento
+        if (qtyPCaixaItem === 0) {
+            setModalMessage('Não é possível decrementar: item já foi consolidado no banco de dados');
+            setModalOpen(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                CODDEBARRASLEITURA: '',
+            }));
+            return;
+        }
         
         if (quantidadeLidaAtual === 0) {
             setModalMessage('Nenhuma quantidade lida para remover');
@@ -394,6 +404,16 @@ function zerarQuantidadesCaixa(formData: any): void {
             // Se não está completo, mantém isCount = true para permitir futuras expedições
         }
     }
+    
+    // ✅ CORREÇÃO CRÍTICA: Zerar apenas os campos relacionados à caixa atual
+    // QUANTIDADELIDA deve manter o valor da quantidade total expedida da grade
+    formData.QUANTIDADENACAIXAATUAL = '0';
+    if (formData.ITEM_SELECIONADO) {
+        formData.ITEM_SELECIONADO.qtyPCaixa = 0;
+    }
+    
+    // ✅ CORREÇÃO: Atualizar QUANTIDADELIDA com o novo total expedido
+    formData.QUANTIDADELIDA = String(ESCOLA_GRADE.totalExpedido);
     
     // ✅ CORREÇÃO: NÃO somar totalExpedidoNaCaixa ao totalExpedido
     // O totalExpedido já está correto porque as funções de expedição atualizam quantidadeExpedida
