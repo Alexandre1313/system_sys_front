@@ -136,7 +136,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         if (props.formData?.ESCOLA_GRADE?.gradeId === gradeAtual.id) {
             return { temPendencia: false };
         }
-        
+
         // Verificar se há pendências na grade que está atualmente no formData
         if (props.formData?.ESCOLA_GRADE?.grade?.itensGrade) {
             const temCaixaPendente = props.formData.ESCOLA_GRADE.grade.itensGrade.some((item: any) => item.qtyPCaixa > 0);
@@ -147,7 +147,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 };
             }
         }
-        
+
         // ✅ NOVA VERIFICAÇÃO: Verificar se há pendências na grade atual
         if (gradeAtual?.itensGrade) {
             const temCaixaPendenteNaGradeAtual = gradeAtual.itensGrade.some((item: any) => item.qtyPCaixa > 0);
@@ -158,7 +158,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 };
             }
         }
-        
+
         // ✅ VERIFICAÇÃO ADICIONAL: Verificar todas as outras grades da escola
         if (props.escola?.grades) {
             for (const grade of props.escola.grades) {
@@ -172,7 +172,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 }
             }
         }
-        
+
         return { temPendencia: false };
     };
 
@@ -185,49 +185,49 @@ export default function GradeComponent(props: GradeComponentProps) {
             props.setModalOpen(true);
             return;
         }
-        
+
         // ✅ CORREÇÃO CRÍTICA: Cada grade deve ser completamente isolada
         // Se estamos trocando de grade, usar apenas os dados da grade atual
         let gradeAtualizada = grade;
         let itemAtualizado = item;
-        
+
         // ✅ CORREÇÃO: Só usar dados do formData se for a MESMA grade
         if (props.formData?.ESCOLA_GRADE?.gradeId === grade.id && props.formData?.ESCOLA_GRADE?.grade?.itensGrade) {
             gradeAtualizada = props.formData.ESCOLA_GRADE.grade;
-            
+
             // Encontrar o item atualizado correspondente
             const itemAtualizadoEncontrado = gradeAtualizada.itensGrade?.find(
                 (gradeItem: any) => gradeItem.id === item.id
             );
-            
+
             if (itemAtualizadoEncontrado) {
                 itemAtualizado = itemAtualizadoEncontrado;
             }
         }
-        
+
         // ✅ CORREÇÃO CRÍTICA: Limpar isCount de TODOS os itens primeiro
         gradeAtualizada.itensGrade?.forEach((gradeItem: any) => {
             gradeItem.isCount = false;
         });
-        
+
         // ✅ CORREÇÃO: Definir isCount = true APENAS para o item selecionado
         itemAtualizado.isCount = true;
-        
+
         // ✅ CORREÇÃO ADICIONAL: Garantir que todos os itens com qtyPCaixa > 0 tenham isCount = true
         gradeAtualizada.itensGrade?.forEach((gradeItem: any) => {
             if (gradeItem.qtyPCaixa > 0) {
                 gradeItem.isCount = true;
             }
         });
-        
+
         // ✅ CORREÇÃO: Usar totais da grade atual, não do formData
-        const totalAExpedirAtualizado = props.formData?.ESCOLA_GRADE?.gradeId === grade.id 
+        const totalAExpedirAtualizado = props.formData?.ESCOLA_GRADE?.gradeId === grade.id
             ? (props.formData?.ESCOLA_GRADE?.totalAExpedir ?? totalAExpedir)
             : totalAExpedir;
-        const totalExpedidoAtualizado = props.formData?.ESCOLA_GRADE?.gradeId === grade.id 
+        const totalExpedidoAtualizado = props.formData?.ESCOLA_GRADE?.gradeId === grade.id
             ? (props.formData?.ESCOLA_GRADE?.totalExpedido ?? totalExpedido)
             : totalExpedido;
-        
+
         const escolaGrade: EscolaGrade = {
             nomeEscola: escola.nome,
             projeto: escola.projeto?.nome,
@@ -240,7 +240,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             totalExpedido: totalExpedidoAtualizado,
             grade: gradeAtualizada
         }
-        
+
         console.log("🔍 abrirTelaExped - Grade isolada:", {
             gradeId: grade.id,
             nome: itemAtualizado?.itemTamanho?.item?.nome,
@@ -248,7 +248,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             qtyPCaixa: itemAtualizado.qtyPCaixa,
             isCount: itemAtualizado.isCount
         });
-        
+
         setItemSelecionado(itemAtualizado);
         props.handleItemSelecionado(itemAtualizado)
         props.handleEscolaGradeSelecionada(escolaGrade)
@@ -516,7 +516,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     const isCompleted = quantidade === quantidadeExpedida;
                                     const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
                                     const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
-                                    const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50': 'bg-slate-700/50';
+                                    const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50' : 'bg-slate-700/50';
 
                                     return (
                                         <div
@@ -880,9 +880,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     {/* Quantities in Row */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                             labelName={`TOTAL À EXPEDIR`} color={`text-zinc-400`} />
+                                        <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
+                                            labelName={`PENDENTE`} color={`text-zinc-400`} />
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                             labelName={`JÁ EXPEDIDO`} />
                                     </div>

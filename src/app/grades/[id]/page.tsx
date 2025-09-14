@@ -10,7 +10,7 @@ import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { useAuth } from '@/contexts/AuthContext';
 import { getGradesPorEscolas } from '@/hooks_api/api';
 import { useParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import useSWR from 'swr';
 import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
 import Caixa from '../../../../core/interfaces/Caixa';
@@ -62,17 +62,8 @@ export default function Grades() {
     return () => channel.close();
   }, [id, router]);
 
-  useEffect(() => {
-    try {
-      const boxSave0 = localStorage.getItem('saveBox');
-      if (boxSave0) {
-        setIsPend(true);
-        setCaixa(JSON.parse(boxSave0));
-      }
-    } catch (error) {
-      console.error('Erro ao parsear o localStorage saveBox', error);
-    }
-  }, []);
+  // ✅ REMOVIDO: useEffect que verificava caixa pendente baseado no ID da escola
+  // A verificação agora é feita apenas quando uma grade é selecionada através de verificarCaixaPendente()
 
   const { user } = useAuth();
 
@@ -84,6 +75,39 @@ export default function Grades() {
     QUANTIDADENACAIXAATUAL: '0',
     NUMERODACAIXA: '',
   });
+
+  // ✅ CORREÇÃO: Verificar caixa pendente - SEMPRE mostrar se existir
+  const verificarCaixaPendente = useCallback(() => {
+    try {
+      const boxSave0 = localStorage.getItem('saveBox');
+      if (boxSave0) {
+        const caixaPendente = JSON.parse(boxSave0);
+        
+        // ✅ SEMPRE mostrar caixa pendente, independentemente da grade selecionada
+        // O usuário deve resolver a pendência antes de continuar qualquer fluxo
+        setIsPend(true);
+        setCaixa(caixaPendente);
+        console.log('⚠️ Caixa pendente encontrada - deve ser resolvida:', caixaPendente.caixaNumber);
+      } else {
+        setIsPend(null);
+        setCaixa(null);
+      }
+    } catch (error) {
+      console.error('Erro ao verificar caixa pendente:', error);
+      setIsPend(null);
+      setCaixa(null);
+    }
+  }, []); // ✅ Removida dependência da grade - sempre verificar
+
+  // ✅ useEffect: Verificar caixa pendente sempre que a página carrega
+  useEffect(() => {
+    verificarCaixaPendente();
+  }, [verificarCaixaPendente]);
+
+  // ✅ useEffect: Verificar caixa pendente sempre que o ID da escola mudar (reload da página)
+  useEffect(() => {
+    verificarCaixaPendente();
+  }, [id, verificarCaixaPendente]);
 
   const isFocus = () => {
     if (inputRef.current) {
@@ -175,10 +199,14 @@ export default function Grades() {
       const boxSave0 = localStorage.getItem('saveBox');
       if (boxSave0) {
         setIsPend(null);
+        setCaixa(null); // ✅ CORREÇÃO: Limpar também o estado da caixa
         localStorage.removeItem('saveBox');
       }
     } catch (error) {
       console.error('Erro ao descartar a saveBox', error);
+      // ✅ CORREÇÃO: Limpar estado mesmo em caso de erro
+      setIsPend(null);
+      setCaixa(null);
     }
   }
 
@@ -187,11 +215,15 @@ export default function Grades() {
       const boxSave0 = localStorage.getItem('saveBox');
       if (boxSave0) {
         setIsPend(null);
+        setCaixa(null); // ✅ CORREÇÃO: Limpar também o estado da caixa
         localStorage.removeItem('saveBox');
         closeModalGerarCaixa()
       }
     } catch (error) {
       console.error('Erro ao descartar a saveBox', error);
+      // ✅ CORREÇÃO: Limpar estado mesmo em caso de erro
+      setIsPend(null);
+      setCaixa(null);
     }
   }
 
