@@ -255,6 +255,8 @@ const processarCodigoDeBarras = (
         return;
     }
 
+    //echo
+
     // 4. Código especial 99999XYZ (expedição manual com código especial)
     if (/^99999\d{3}$/.test(value) && value.length === 8 && user?.id) {
         let nnn = parseInt(value.substring(5), 10);
