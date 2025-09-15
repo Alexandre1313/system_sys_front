@@ -558,7 +558,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     <span className={`text-slate-400 text-sm px-2 py-1 rounded ${colorGenero}`}>{genero}</span>
                                                     <div className="flex items-center space-x-2">
                                                         <span className="text-slate-500 text-sm">Tam:</span>
-                                                        <span className="text-orange-600 font-medium bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
+                                                        <span className="text-purple-400 font-medium text-[20px] bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
                                                     </div>
                                                 </div>
                                             </div>
