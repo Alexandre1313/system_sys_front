@@ -421,7 +421,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
  * @example
  * analyzerStatus(grades); // Retorna: { statusClass: 'text-red-500', desactiv: true }
  */
-function analyzerStatus(grades: Grade[]): {desactiv: boolean, statusClass: string, statusClassBg: string, statusClassBgGrad: string} {
+function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: string, statusClassBg: string, statusClassBgGrad: string } {
   const STATUS = {
     EXPEDIDA: 'EXPEDIDA',
     DESPACHADA: 'DESPACHADA',
@@ -494,15 +494,15 @@ function analyzerStatus(grades: Grade[]): {desactiv: boolean, statusClass: strin
     statusClassBg = BGCOLORS.slate;
     statusClassBgGrad = BGCOLORSGRAD.slate;
     desactiv = false;
-  } else if (umaProntaNaoIniciada) {
-    statusClass = COLORS.slate;
-    statusClassBg = BGCOLORS.slate;
-    statusClassBgGrad = BGCOLORSGRAD.slate;
-    desactiv = false;
   } else if (umaProntaIniciada) {
     statusClass = COLORS.cyan;
     statusClassBg = BGCOLORS.cyan;
     statusClassBgGrad = BGCOLORSGRAD.cyan;
+    desactiv = false;
+  } else if (umaProntaNaoIniciada) {
+    statusClass = COLORS.slate;
+    statusClassBg = BGCOLORS.slate;
+    statusClassBgGrad = BGCOLORSGRAD.slate;
     desactiv = false;
   }
 
