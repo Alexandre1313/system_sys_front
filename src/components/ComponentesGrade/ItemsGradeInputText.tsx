@@ -6,6 +6,7 @@ export interface ItemsGradeInputTextProps {
     labelName: string
     value: string | undefined
     color?: string
+    bgColor?: string
 }
 
 export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {    
@@ -16,7 +17,9 @@ export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {
                 {props.labelName}
             </label>
             <input className={`flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
-            outline-none border border-gray-700 ${props.color ? props.color: 'text-cyan-500'} h-[50px] grade-input-responsive pointer-events-none`}
+            outline-none border border-gray-700 ${props.color ? props.color: 'text-cyan-500'}
+            ${props.bgColor ? props.bgColor: 'bg-transparent'}
+            h-[50px] grade-input-responsive pointer-events-none`}
                 type="text"
                 name={`${concat(props.labelName)}`}
                 id={`${concat(props.labelName)}-input`}

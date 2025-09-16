@@ -50,15 +50,20 @@ export default function GradeComponent(props: GradeComponentProps) {
     const isMobile = useIsMobile();
 
     const btnRef = useRef<HTMLButtonElement>(null);
+    const btnRef1 = useRef<HTMLButtonElement>(null);
+    const btnRef2 = useRef<HTMLButtonElement>(null);
 
     // Adiciona o evento de keydown quando o componente for montado
-    useEffect(() => {
-        // Adiciona o ouvinte de evento global para a tecla "Enter"
+    useEffect(() => {       
         const handleGlobalKeyDown = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
                 if (btnRef.current) {
                     btnRef.current.click(); // Simula o clique no botão
                 }
+            }          
+            if (event.key === "ArrowDown") {
+                event.preventDefault(); // evita scroll da página
+                btnRef1.current?.click();
             }
         };
 
@@ -86,7 +91,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             // Atualizar itemSelecionado local com os dados atualizados do formData
             setItemSelecionado(props.formData.ITEM_SELECIONADO);
         }
-    }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);
+    }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);    
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -691,6 +696,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     {/* Action Buttons */}
                                     <div className="flex flex-wrap gap-3 justify-center">
                                         <button
+                                            ref={btnRef2}
                                             onClick={fecharTelaExped}
                                             className="flex flex-1 px-4 py-2 bg-red-700 hover:bg-red-600
                                              text-white font-medium rounded-lg transition-all duration-300
@@ -808,6 +814,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     {/* Action Buttons */}
                                     <div className="flex flex-wrap gap-3">
                                         <button
+                                            ref={btnRef1}
                                             onClick={fecharTelaExped}
                                             className={`flex items-center space-x-2 px-2 py-2 bg-red-700 hover:bg-red-600
                                              text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
@@ -882,11 +889,13 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     {/* Quantities in Row */}
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                            labelName={`TOTAL À EXPEDIR`} color={`text-zinc-400`} />
-                                        <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
-                                            labelName={`PENDENTE`} color={`text-zinc-400`} />
+                                            labelName={`PREVISTO`} color={`text-yellow-400`} />
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                            labelName={`JÁ EXPEDIDO`} />
+                                            labelName={`EXPEDIDO`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
+                                            bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'bg-emerald-400/10' : 'bg-transparent'}`} />
+                                        <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
+                                            labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
+                                            bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'bg-blue-400/10' : 'bg-transparent'}`} />
                                     </div>
 
                                     {/* Special Fields */}
@@ -896,19 +905,20 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             isReadOnly={true}
                                             valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
                                             height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
-
-                                        <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
-                                            formData={props.formData} setFormData={props.setFormData}
-                                            isReadOnly={true}
-                                            valueColor={`text-white`} labelColor={`text-white`}
-                                            txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
-                                            height={`h-[80px]`} />
-
-                                        <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
-                                            formData={props.formData} setFormData={props.setFormData}
-                                            isReadOnly={true} maxWhidth={`w-full`}
-                                            valueColor={`text-zinc-400`} />
-
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                            <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                                formData={props.formData} setFormData={props.setFormData}
+                                                isReadOnly={true} maxWhidth={`w-full`}
+                                                valueColor={`text-zinc-400`}
+                                                labelposition={`justify-start`}
+                                                positionn={`text-left`} />
+                                            <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                                formData={props.formData} setFormData={props.setFormData}
+                                                isReadOnly={true}
+                                                valueColor={`text-white`} labelColor={`text-white`}
+                                                txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
+                                                height={`h-[80px]`} />
+                                        </div>
                                         <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
