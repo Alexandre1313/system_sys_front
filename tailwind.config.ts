@@ -50,6 +50,9 @@ const config: Config = {
     `${colorLinkExternal}`,
     'pointer-events-auto',
     'pointer-events-none',
+    'bg-emerald-400/10',
+    'bg-blue-400/10',
+    'bg-transparent'
   ],
 
   theme: {
