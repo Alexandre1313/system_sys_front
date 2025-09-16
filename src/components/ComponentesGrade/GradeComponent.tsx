@@ -459,14 +459,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
 
                     {/* Header */}
-                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0 w-full" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0 w-full min-h-[93px] max-h-[93px]" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
                         <div className="flex items-center max-w-7xl mx-auto flex-col p-2 lg:p-3 w-full">
-                            <div className="flex relative items-center justify-between max-w-7xl mx-auto w-full flex-col">
+                            <div className="flex relative items-center justify-between max-w-7xl mx-auto w-full flex-row">
                                 <button
                                     onClick={fecharTela}
                                     className="flex items-center space-x-2 px-2 lg:px-4 py-2 bg-red-600 hover:bg-red-500
                                      text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
-                                       absolute top-14 lg:top-2 left-[0.6rem]"
+                                       absolute top-14 lg:top-4 left-[0.6rem]"
                                 >
                                     <ArrowLeft size={20} />
                                     <span className="hidden lg:visible">VOLTAR</span>
@@ -475,14 +475,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <h1 className="text-xl lg:pl-16 lg:text-2xl font-bold w-full text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
                                         ESCOLA {props.escola?.numeroEscola}
                                     </h1>
-                                    <p className="text-sm lg:pl-16 text-slate-400 truncate w-[90%]">{props.escola?.nome}</p>
+                                    <p className="text-sm lg:pl-16 text-emerald-400 truncate w-[90%]">{props.escola?.nome}</p>
                                 </div>
                                 <div className="text-left w-full pl-16">
-                                    <div className="flex items-center space-x-2 mb-1 justify-start w-full">
-                                        <span className="text-slate-400 text-sm lg:pl-16">Grade ID:</span>
-                                        <span className="text-white font-bold text-lg">{props.grade.id}</span>
+                                    <div className="flex items-center space-x-2 mb-1 justify-end w-full">
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 font-bold text-2xl lg:pl-16">GRADE ID:</span>
+                                        <span className="text-rose-400 font-bold text-2xl">{props.grade.id}</span>
                                     </div>
-                                    <p className="text-emerald-400 text-sm font-medium lg:pl-16">{itensFiltrados.length} ite{itensFiltrados.length !== 1 ? 'ns' : 'm'} encontrado{itensFiltrados.length !== 1 ? 's' : ''}</p>
+                                    <p className="text-emerald-400 text-sm text-right font-medium lg:pl-16 -mt-1">{itensFiltrados.length} ITE{itensFiltrados.length !== 1 ? 'NS' : 'M'} ENCONTRADO{itensFiltrados.length !== 1 ? 'S' : ''}</p>
                                 </div>
                             </div>
                         </div>
@@ -490,9 +490,9 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                     {/* Content */}
                     <div className="relative z-10 flex-1 overflow-auto flex items-start justify-center" style={{ marginTop: '115px', paddingBottom: '80px' }}>
-                        <div className="max-w-7xl mx-auto p-6">
+                        <div className="max-w-7xl mx-auto p-6 lg:pt-3">
                             {/* Search Bar */}
-                            <div className="flex justify-center mb-8 w-full lg:pt-5">
+                            <div className="flex justify-center mb-8 w-full lg:pt-0">
                                 <div className="flex-1 relative max-w-[500px]">
                                     <Search
                                         size={18}
@@ -766,7 +766,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
 
                     {/* Header */}
-                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
                         <div className="flex items-center justify-between max-w-7xl mx-auto p-2 lg:p-3">
                             <div className="text-left">
                                 <div>
