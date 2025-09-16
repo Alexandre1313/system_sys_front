@@ -10,9 +10,10 @@ interface PageWithDrawerProps {
     projectName?: string;
     sectionName?: string;
     currentPage?: string;
+    projectId?: number;
 }
 
-export default function PageWithDrawer({ children, projectName, sectionName, currentPage }: PageWithDrawerProps) {
+export default function PageWithDrawer({ children, projectName, sectionName, currentPage, projectId }: PageWithDrawerProps) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [showSwipeIndicator, setShowSwipeIndicator] = useState(true);
 
@@ -83,6 +84,7 @@ export default function PageWithDrawer({ children, projectName, sectionName, cur
                 projectName={projectName}
                 sectionName={sectionName}
                 currentPage={currentPage}
+                projectId={projectId}
             />
         </div>
     );

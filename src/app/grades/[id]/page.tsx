@@ -383,9 +383,10 @@ export default function Grades() {
 
   return (
     <PageWithDrawer
-      projectName={escola?.projeto?.nome}
+      projectName={escola?.projeto?.nome}      
       sectionName={`${escola?.nome} - Escola #${escola?.numeroEscola}`}
       currentPage="grades"
+      projectId={escola?.projeto?.id as number}
     >
       <div className="px-6 pt-14 lg:pt20 pb-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">

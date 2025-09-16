@@ -11,10 +11,11 @@ export interface DrawerNavigationProps {
     onClose: () => void;
     currentPage?: string;
     projectName?: string;
+    projectId?: number;
     sectionName?: string;
 }
 
-export default function DrawerNavigation({ isOpen, onClose, projectName, sectionName }: DrawerNavigationProps) {
+export default function DrawerNavigation({ isOpen, onClose, projectName, projectId, sectionName, currentPage }: DrawerNavigationProps) {
     const { logout, user } = useAuth();
     const router = useRouter();
     const [isClient, setIsClient] = useState<boolean>(false);
@@ -122,6 +123,17 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, section
                             <Folder size={20} className="text-slate-400 group-hover:text-emerald-400" />
                             <span className="text-slate-300 group-hover:text-white">Projetos</span>
                         </Link>
+
+                        {currentPage === 'grades' && typeof projectId === 'number' && (
+                            <Link 
+                                href={`/escolas/${projectId}`} 
+                                onClick={onClose}
+                                className="flex items-center space-x-3 p-3 rounded-xl hover:bg-slate-800 transition-colors duration-200 group"
+                            >
+                                <Folder size={20} className="text-slate-400 group-hover:text-emerald-400" />
+                                <span className="text-slate-300 group-hover:text-white">Escolas</span>
+                            </Link>
+                        )}
 
                         {projectName && (
                             <div className="pt-4 border-t border-slate-700">
