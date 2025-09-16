@@ -19,7 +19,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                     {/* School Number */}
                     <div className="flex-shrink-0">
                         <div className={`w-10 h-10 ${statusClass.statusClassBgGrad} rounded-lg flex items-center justify-center`}>
-                            <span className="text-white font-bold text-sm">
+                            <span className="text-white font-extralight text-lg">
                                 {escola.numeroEscola}
                             </span>
                         </div>

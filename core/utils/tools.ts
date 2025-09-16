@@ -446,11 +446,11 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
   };
 
   const BGCOLORSGRAD = {
-    emerald: 'bg-gradient-to-r from-emerald-700 to-emerald-500',
-    cyan: 'bg-gradient-to-r from-cyan-700 to-cyan-500',
-    red: 'bg-gradient-to-r from-red-700 to-red-500',
-    slate: 'bg-gradient-to-r from-slate-700 to-slate-500',
-    orange: 'bg-gradient-to-r from-orange-700 to-orange-500',
+    emerald: 'bg-gradient-to-r from-emerald-900 to-emerald-800',
+    cyan: 'bg-gradient-to-r from-cyan-900 to-cyan-800',
+    red: 'bg-gradient-to-r from-red-900 to-red-800',
+    slate: 'bg-gradient-to-r from-slate-700 to-slate-600',
+    orange: 'bg-gradient-to-r from-orange-900 to-orange-800',
   };
 
   let desactiv = false;
