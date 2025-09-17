@@ -435,6 +435,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     red: 'bg-red-700',
     slate: 'bg-slate-200',
     orange: 'bg-orange-600',
+    cyan500: 'bg-cyan-700',
   };
 
   const BGCOLORS = {
@@ -443,6 +444,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     red: 'bg-red-900/30 border border-red-700 hover:bg-red-700/50 hover:border-red-500/30',
     slate: 'bg-slate-900/30 border border-slate-700 hover:bg-slate-700/50 hover:border-slate-500/30',
     orange: 'bg-orange-900/30 border border-orange-700 hover:bg-orange-700/50 hover:border-orange-500/30',
+    cyan500: 'bg-cyan-900/30 border border-green-700 hover:bg-cyan-700/50 hover:border-emerald-500/30',
   };
 
   const BGCOLORSGRAD = {
@@ -451,6 +453,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     red: 'bg-gradient-to-r from-red-900 to-red-800',
     slate: 'bg-gradient-to-r from-slate-700 to-slate-600',
     orange: 'bg-gradient-to-r from-orange-900 to-orange-800',
+    cyan500: 'bg-gradient-to-r from-cyan-900 to-cyan-800',
   };
 
   let desactiv = false;
@@ -469,6 +472,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
   const umaProntaIniciada = grades.some(g => g.status === STATUS.PRONTA && g.iniciada);
   const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && !g.iniciada);
   const repoInit = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && g.iniciada);
+  const umaExpedida = grades.some(g => g.status === STATUS.EXPEDIDA);
 
   if (repo) {
     statusClass = COLORS.red;
@@ -494,7 +498,13 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     statusClassBg = BGCOLORS.slate;
     statusClassBgGrad = BGCOLORSGRAD.slate;
     desactiv = false;
-  } else if (umaProntaIniciada) {
+  } else if (umaExpedida) {
+    statusClass = COLORS.cyan500;
+    statusClassBg = BGCOLORS.cyan500;
+    statusClassBgGrad = BGCOLORSGRAD.cyan500;
+    desactiv = false;
+  }
+  else if (umaProntaIniciada) {
     statusClass = COLORS.cyan;
     statusClassBg = BGCOLORS.cyan;
     statusClassBgGrad = BGCOLORSGRAD.cyan;

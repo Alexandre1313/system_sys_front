@@ -14,17 +14,21 @@ const config: Config = {
     'bg-emerald-700',
     'bg-cyan-700',
     'bg-red-700',
-    'bg-orange-600',
+    'bg-orange-600',    
+
     'bg-emerald-900/30',
     'bg-cyan-900/30',
     'bg-red-900/30',
     'bg-slate-900/30',
-    'bg-orange-900/30',
+    'bg-orange-900/30',   
+
     'border-emerald-700',
     'border-cyan-700',
     'border-red-700',
     'border-slate-700',
-    'border-orange-700',
+    'border-orange-700',   
+    'border-green-600',  
+    
     'hover:bg-emerald-700/50',
     'hover:border-emerald-500/30',
     'hover:bg-cyan-700/50',
@@ -35,24 +39,29 @@ const config: Config = {
     'hover:border-red-500/30',
     'hover:bg-orange-700/50',
     'hover:border-orange-500/30',
-    'Border',
+   
+    'Border',    
     'bg-gradient-to-r',
+
     'from-orange-900',
     'from-cyan-900',
     'from-red-900',
     'from-emerald-900',
     'from-slate-700',
+  
     'to-orange-800',
     'to-cyan-800',
     'to-red-800',
     'to-emerald-800',
     'to-slate-600',
+   
     `${colorLinkExternal}`,
     'pointer-events-auto',
     'pointer-events-none',
+
     'bg-emerald-400/10',
     'bg-blue-400/10',
-    'bg-transparent'
+    'bg-transparent',
   ],
 
   theme: {
