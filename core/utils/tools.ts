@@ -83,8 +83,8 @@ function concat(s: string): string {
  */
 function convertMilharFormatKG(peso: number): string {
   return `${peso.toLocaleString('pt-BR', {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   })} Kg`
 }
 
