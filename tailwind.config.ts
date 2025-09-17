@@ -27,7 +27,7 @@ const config: Config = {
     'border-red-700',
     'border-slate-700',
     'border-orange-700',   
-    'border-green-600',  
+    'border-green-500',  
     
     'hover:bg-emerald-700/50',
     'hover:border-emerald-500/30',

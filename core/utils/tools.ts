@@ -444,7 +444,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     red: 'bg-red-900/30 border border-red-700 hover:bg-red-700/50 hover:border-red-500/30',
     slate: 'bg-slate-900/30 border border-slate-700 hover:bg-slate-700/50 hover:border-slate-500/30',
     orange: 'bg-orange-900/30 border border-orange-700 hover:bg-orange-700/50 hover:border-orange-500/30',
-    cyan500: 'bg-cyan-900/30 border border-green-700 hover:bg-cyan-700/50 hover:border-emerald-500/30',
+    cyan500: 'bg-cyan-900/30 border border-green-500 hover:bg-cyan-700/50 hover:border-emerald-500/30',
   };
 
   const BGCOLORSGRAD = {
