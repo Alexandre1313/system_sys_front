@@ -28,7 +28,8 @@ export default function Grades() {
 
   const router = useRouter();
 
-  const inputRef = useRef<HTMLInputElement>(null); 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const modalJaAberto = useRef(false);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -82,7 +83,7 @@ export default function Grades() {
       const boxSave0 = localStorage.getItem('saveBox');
       if (boxSave0) {
         const caixaPendente = JSON.parse(boxSave0);
-        
+
         // ✅ SEMPRE mostrar caixa pendente, independentemente da grade selecionada
         // O usuário deve resolver a pendência antes de continuar qualquer fluxo
         setIsPend(true);
@@ -99,6 +100,17 @@ export default function Grades() {
     }
   }, []); // ✅ Removida dependência da grade - sempre verificar
 
+  const OpenModalGerarCaixa = useCallback(() => {
+    const novaCaixa = criarCaixa(formData, user?.id);
+    if (novaCaixa) {
+      setCaixa(novaCaixa);
+      setModalGerarCaixaOpen(true);
+      setModalGerarCaixaMessage('Deseja mesmo encerrar a caixa ? Confira as quantidades.');
+    } else {
+      console.log("Nenhuma caixa foi criada.");
+    }
+  }, [formData, user?.id]);
+
   // ✅ useEffect: Verificar caixa pendente sempre que a página carrega
   useEffect(() => {
     verificarCaixaPendente();
@@ -109,10 +121,27 @@ export default function Grades() {
     verificarCaixaPendente();
   }, [id, verificarCaixaPendente]);
 
+  // ✅ useEffect: Monitorar quando totalAExpedir chega a 0 para abrir modal de gerar caixa
+  useEffect(() => {
+    if (formData.ESCOLA_GRADE?.totalAExpedir === 0 &&
+      (formData.ESCOLA_GRADE?.totalExpedido || 0) > 0 && // Garantir que houve expedição
+      !modalGerarCaixaOpen && // Evitar abrir múltiplas vezes
+      !isPend && // Não abrir se há caixa pendente
+      !modalJaAberto.current) { // ✅ NOVO: só abre se não foi aberto ainda
+      modalJaAberto.current = true; // ✅ Marca como já aberto
+      OpenModalGerarCaixa();
+    }
+
+    // ✅ Reset quando totalAExpedir muda (nova expedição iniciada)
+    if (formData.ESCOLA_GRADE?.totalAExpedir !== 0) {
+      modalJaAberto.current = false;
+    }
+  }, [formData.ESCOLA_GRADE?.totalAExpedir, formData.ESCOLA_GRADE?.totalExpedido, modalGerarCaixaOpen, isPend, OpenModalGerarCaixa]);
+
   const isFocus = () => {
     if (inputRef.current) {
       inputRef.current.focus();
-    }    
+    }
   }
 
   const handleFormDataChange = (key: string, value: string) => {
@@ -163,22 +192,14 @@ export default function Grades() {
     setModalGerarCaixaMessage('');
     setCaixa(null);
     isFocus();
+  };
+
+  const openModalEncGrade = useCallback(() => {
     if (formData.ESCOLA_GRADE?.totalAExpedir === 0) {
       setModalEncGradeOpen(true);
       setModalEncGradeMessage('Grade finalizada');
     }
-  };
-
-  const OpenModalGerarCaixa = () => {
-    const novaCaixa = criarCaixa(formData, user?.id);
-    if (novaCaixa) {
-      setCaixa(novaCaixa);
-      setModalGerarCaixaOpen(true);
-      setModalGerarCaixaMessage('Deseja mesmo encerrar a caixa ? Confira as quantidades.');
-    } else {
-      console.log("Nenhuma caixa foi criada.");
-    }
-  };
+  }, [formData.ESCOLA_GRADE?.totalAExpedir]);
 
   const OpenModalGerarCaixaError = () => {
     if (isPend) {
@@ -275,7 +296,7 @@ export default function Grades() {
         })
       };
     }
-    
+
     // ✅ IMPORTANTE: Retornar grade original sem modificações
     // Isso garante que cada grade seja completamente independente
     return grade;
@@ -383,7 +404,7 @@ export default function Grades() {
 
   return (
     <PageWithDrawer
-      projectName={escola?.projeto?.nome}      
+      projectName={escola?.projeto?.nome}
       sectionName={`${escola?.nome} - Escola #${escola?.numeroEscola}`}
       currentPage="grades"
       projectId={escola?.projeto?.id as number}
@@ -421,7 +442,7 @@ export default function Grades() {
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
-                  inputRef={inputRef}                  
+                  inputRef={inputRef}
                   userId={user?.id}
                   isFocus={isFocus}
                   handleFormDataChangeDecresc={handleFormDataChangeDecresc}
@@ -449,7 +470,7 @@ export default function Grades() {
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
-                  inputRef={inputRef}                 
+                  inputRef={inputRef}
                   userId={user?.id}
                   isFocus={isFocus}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
@@ -477,7 +498,7 @@ export default function Grades() {
                   escola={escola}
                   formData={formData}
                   isPend={isPend}
-                  inputRef={inputRef}                  
+                  inputRef={inputRef}
                   userId={user?.id}
                   isFocus={isFocus}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
@@ -517,6 +538,7 @@ export default function Grades() {
         setFormData={handleFormDataCaixaAtualChange}
         handleNumberBox={handleNumberBox}
         onClose={closeModalGerarCaixa}
+        openEncGrade={openModalEncGrade}
         handlerCaixaPend={handlerCaixaPend}
         handlerCaixaPend2={handlerCaixaPend2}
         mutate={swrMutate}

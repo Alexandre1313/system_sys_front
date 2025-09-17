@@ -99,6 +99,16 @@ const atualizarQuantidadeCaixaNnnInvert = (formData: any, nnn: number, setFormDa
     });
 };
 
+// ✅ FUNÇÃO HELPER: Calcula totalAExpedir após incremento/decremento
+const calcularTotalAExpedirAposIncremento = (itensGrade: any[], itemId: number, incremento: number) => {
+    return itensGrade.reduce((sum: number, item: any) => {
+        const quantidadeExpedidaFutura = item.id === itemId 
+            ? item.quantidadeExpedida + incremento 
+            : item.quantidadeExpedida;
+        return sum + (item.quantidade - quantidadeExpedidaFutura);
+    }, 0);
+};
+
 const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
@@ -161,10 +171,9 @@ const processarCodigoDeBarras = (
                     CODDEBARRASLEITURA: '',
                 };
                 setFormData(novoForm);
-                atualizarQuantidadeCaixa(novoForm, setFormData);               
-                if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                    OpenModalGerarCaixa();
-                }
+                atualizarQuantidadeCaixa(novoForm, setFormData);
+                
+                // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
             } else {
                 setModalMessage('Quantidade já atendida para o item em questão!');
                 setModalOpen(true);
@@ -198,10 +207,9 @@ const processarCodigoDeBarras = (
                 CODDEBARRASLEITURA: '',
             };
             setFormData(novoForm);
-            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);          
-            if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                OpenModalGerarCaixa();                
-            }
+            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
+            
+            // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
         } else {
             setModalMessage('Quantidade já atendida para o item em questão!');
             setModalOpen(true);
@@ -272,10 +280,9 @@ const processarCodigoDeBarras = (
                 CODDEBARRASLEITURA: '',
             };
             setFormData(novoForm);
-            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);           
-            if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                OpenModalGerarCaixa();
-            }
+            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
+            
+            // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
         } else {
             setModalMessage('Quantidade já atendida para a grade em questão');
             setModalOpen(true);

@@ -12,6 +12,7 @@ interface ModalGerarCaixaProps {
   isPend: boolean | null;
   setFormData: (key: string, value: string) => void;
   onClose: () => void;
+  openEncGrade: () => void;
   mutate: () => void;
   handleNumberBox: (numeracaixa: string) => void;
   handlerCaixaPend: () => void;
@@ -19,7 +20,7 @@ interface ModalGerarCaixaProps {
   zerarQuantidadesCaixa?: () => void; // ✅ NOVA PROP: Função para zerar quantidades após confirmar
 }
 
-const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, isPend, setFormData, onClose, mutate, handleNumberBox, handlerCaixaPend, handlerCaixaPend2, zerarQuantidadesCaixa }) => {
+const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box, isPend, setFormData, openEncGrade, onClose, mutate, handleNumberBox, handlerCaixaPend, handlerCaixaPend2, zerarQuantidadesCaixa }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState<string>(message);
   const [isError, setIsError] = useState(false);
@@ -55,18 +56,19 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         // ✅ CORREÇÃO CRÍTICA: mutate() PRIMEIRO, depois zerarQuantidadesCaixa()
         // Isso garante que os dados do banco sejam recarregados ANTES de zerar os campos locais
         mutate();
-        
+
         // ✅ CORREÇÃO: Zerar quantidades APÓS recarregar dados do banco
         if (zerarQuantidadesCaixa) {
           zerarQuantidadesCaixa();
         }
-        
+
         setMsg(`Caixa encerrada com sucesso!`);
         handlerCaixaPend();
         handleNumberBox(String(data.caixaNumber))
         const timeout = setTimeout(() => {
           setFormData('QUANTIDADENACAIXAATUAL', '0');
           onClose()
+          openEncGrade()
           clearTimeout(timeout)
         }, 200)
       }
@@ -78,14 +80,13 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
     } finally {
       setIsLoading(false);
     }
-  }, [box, zerarQuantidadesCaixa, mutate, handlerCaixaPend, handleNumberBox, setFormData, onClose]);
-
+  }, [box, zerarQuantidadesCaixa, mutate, handlerCaixaPend, handleNumberBox, setFormData, onClose, openEncGrade]);
 
   // Adicionar um evento de teclado global para diferentes ações
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (isLoading) return; // Não permite ações durante carregamento
-      
+
       if (event.key === "ArrowRight") {
         if (encerrarCaixaRef.current) {
           encerrarCaixaRef.current.click(); // Aciona o clique do botão principal
@@ -123,16 +124,15 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             size={30}
             color={`rgba(234, 170, 0, 0.7)`}
           />
-        </h2>       
-        <p className={`flex lg:text-[17px] text-[10px] uppercase font-bold text-center ${
-          isError ? 'text-red-600' : 'text-green-600'
-        }`}>
+        </h2>
+        <p className={`flex lg:text-[17px] text-[10px] uppercase font-bold text-center ${isError ? 'text-red-600' : 'text-green-600'
+          }`}>
           {msg}
         </p>
         {isError && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-3 w-full">
             <p className="text-red-700 text-sm text-center">
-              💡 <strong>Dica:</strong> Use as teclas para navegar:<br/>
+              💡 <strong>Dica:</strong> Use as teclas para navegar:<br />
               <span className="text-xs">→ Tentar Novamente | Enter Tentar Novamente | ESC Fechar</span>
             </p>
           </div>
@@ -150,7 +150,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           >
             Cancelar
           </button>
-          
+
           {/* Botão Principal - Encerrar/Tentar Novamente */}
           <button
             ref={encerrarCaixaRef}
@@ -161,10 +161,10 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           >
             {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : 'Encerrar Caixa'}
           </button>
-          
+
           {/* Botão Cancelar Caixa - Removido quando há erro de persistência */}
           {/* Mantém apenas Cancelar + Tentar Novamente para preservar localStorage */}
-          
+
           {/* Botão Limpar Caixa - Aparece quando há caixa pendente */}
           {isPend && !isError && (
             <button

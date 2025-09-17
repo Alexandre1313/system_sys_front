@@ -116,11 +116,11 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
                     </div>
                 )}
                 
-                <div className="flex lg:flex-row flex-col w-full lg:justify-between justify-center mt-4 gap-4">
+                <div className="flex lg:flex-row flex-col w-full lg:justify-center justify-center mt-4 gap-4">
                     {/* Botão Cancelar */}
                     <button
                         className={`w-full text-white px-6 lg:px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-gray-500 hover:bg-gray-700'}
-                              flex items-center justify-center`}
+                            items-center justify-center hidden`}
                         onClick={onClose}
                         disabled={isLoading}
                     >
