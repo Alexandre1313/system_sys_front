@@ -9,26 +9,26 @@ const atualizarQuantidadeCaixa = (formData: any, setFormData: (data: any) => voi
         newData.ESCOLA_GRADE = { ...newData.ESCOLA_GRADE };
         newData.ESCOLA_GRADE.grade = { ...newData.ESCOLA_GRADE.grade };
         newData.ESCOLA_GRADE.grade.itensGrade = [...newData.ESCOLA_GRADE.grade.itensGrade];
-        
+
         // Encontrar e atualizar o item específico
-        const itemIndex = newData.ESCOLA_GRADE.grade.itensGrade.findIndex((item: any) => 
+        const itemIndex = newData.ESCOLA_GRADE.grade.itensGrade.findIndex((item: any) =>
             item.id === newData.ITEM_SELECIONADO.id
         );
-        
+
         if (itemIndex !== -1) {
             newData.ESCOLA_GRADE.grade.itensGrade[itemIndex] = {
                 ...newData.ESCOLA_GRADE.grade.itensGrade[itemIndex],
                 quantidadeExpedida: newData.ESCOLA_GRADE.grade.itensGrade[itemIndex].quantidadeExpedida + 1,
                 qtyPCaixa: newData.ESCOLA_GRADE.grade.itensGrade[itemIndex].qtyPCaixa + 1
             };
-            
+
             // ✅ CORREÇÃO: ITEM_SELECIONADO deve ser uma referência ao item atualizado na grade
             newData.ITEM_SELECIONADO = { ...newData.ESCOLA_GRADE.grade.itensGrade[itemIndex] };
         }
-        
+
         newData.ESCOLA_GRADE.totalExpedido += 1;
         newData.ESCOLA_GRADE.totalAExpedir -= 1;
-        
+
         return newData;
     });
 }
@@ -40,26 +40,26 @@ const atualizarQuantidadeCaixaNnn = (formData: any, nnn: number, setFormData: (d
         newData.ESCOLA_GRADE = { ...newData.ESCOLA_GRADE };
         newData.ESCOLA_GRADE.grade = { ...newData.ESCOLA_GRADE.grade };
         newData.ESCOLA_GRADE.grade.itensGrade = [...newData.ESCOLA_GRADE.grade.itensGrade];
-        
+
         // Encontrar e atualizar o item específico
-        const itemIndex = newData.ESCOLA_GRADE.grade.itensGrade.findIndex((item: any) => 
+        const itemIndex = newData.ESCOLA_GRADE.grade.itensGrade.findIndex((item: any) =>
             item.id === newData.ITEM_SELECIONADO.id
         );
-        
+
         if (itemIndex !== -1) {
             newData.ESCOLA_GRADE.grade.itensGrade[itemIndex] = {
                 ...newData.ESCOLA_GRADE.grade.itensGrade[itemIndex],
                 quantidadeExpedida: newData.ESCOLA_GRADE.grade.itensGrade[itemIndex].quantidadeExpedida + nnn,
                 qtyPCaixa: newData.ESCOLA_GRADE.grade.itensGrade[itemIndex].qtyPCaixa + nnn
             };
-            
+
             // ✅ CORREÇÃO: ITEM_SELECIONADO deve ser uma referência ao item atualizado na grade
             newData.ITEM_SELECIONADO = { ...newData.ESCOLA_GRADE.grade.itensGrade[itemIndex] };
         }
-        
+
         newData.ESCOLA_GRADE.totalExpedido += nnn;
         newData.ESCOLA_GRADE.totalAExpedir -= nnn;
-        
+
         return newData;
     });
 }
@@ -71,33 +71,34 @@ const atualizarQuantidadeCaixaNnnInvert = (formData: any, nnn: number, setFormDa
         newData.ESCOLA_GRADE = { ...newData.ESCOLA_GRADE };
         newData.ESCOLA_GRADE.grade = { ...newData.ESCOLA_GRADE.grade };
         newData.ESCOLA_GRADE.grade.itensGrade = [...newData.ESCOLA_GRADE.grade.itensGrade];
-        
+
         // Encontrar e atualizar o item específico
-        const itemIndex = newData.ESCOLA_GRADE.grade.itensGrade.findIndex((item: any) => 
+        const itemIndex = newData.ESCOLA_GRADE.grade.itensGrade.findIndex((item: any) =>
             item.id === newData.ITEM_SELECIONADO.id
         );
-        
+
         if (itemIndex !== -1) {
             newData.ESCOLA_GRADE.grade.itensGrade[itemIndex] = {
                 ...newData.ESCOLA_GRADE.grade.itensGrade[itemIndex],
                 quantidadeExpedida: newData.ESCOLA_GRADE.grade.itensGrade[itemIndex].quantidadeExpedida - nnn,
                 qtyPCaixa: newData.ESCOLA_GRADE.grade.itensGrade[itemIndex].qtyPCaixa - nnn
             };
-            
+
             // ✅ CORREÇÃO: ITEM_SELECIONADO deve ser uma referência ao item atualizado na grade
             newData.ITEM_SELECIONADO = { ...newData.ESCOLA_GRADE.grade.itensGrade[itemIndex] };
         }
-        
+
         newData.ESCOLA_GRADE.totalExpedido -= nnn;
-        
+
         // ✅ CORREÇÃO CRÍTICA: Recalcular totalAExpedir baseado na diferença real
         newData.ESCOLA_GRADE.totalAExpedir = newData.ESCOLA_GRADE.grade.itensGrade.reduce((sum: number, item: any) => {
             return sum + (item.quantidade - item.quantidadeExpedida);
         }, 0);
-        
+
         return newData;
     });
 };
+
 const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
@@ -131,10 +132,10 @@ const processarCodigoDeBarras = (
     setFormData: (data: any) => void,
     setModalMessage: (message: string) => void,
     setModalOpen: (open: boolean) => void,
-    OpenModalGerarCaixa: () => void 
+    OpenModalGerarCaixa: () => void
 ) => {
     // Aceita apenas caracteres válidos: números, + e -
-    if (!/^[0-9+\-]*$/.test(value)) return;    
+    if (!/^[0-9+\-]*$/.test(value)) return;
 
     if (formData.CODDEBARRASLEITURA === value) return;
 
@@ -160,12 +161,12 @@ const processarCodigoDeBarras = (
                     CODDEBARRASLEITURA: '',
                 };
                 setFormData(novoForm);
-                atualizarQuantidadeCaixa(novoForm, setFormData);
+                atualizarQuantidadeCaixa(novoForm, setFormData);               
                 if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
                     OpenModalGerarCaixa();
                 }
             } else {
-                setModalMessage('Quantidade já atendida para o item de grade em questão');
+                setModalMessage('Quantidade já atendida para o item em questão!');
                 setModalOpen(true);
                 setFormData((prevData: any) => ({
                     ...prevData,
@@ -173,7 +174,7 @@ const processarCodigoDeBarras = (
                 }));
             }
         } else {
-            setModalMessage('Código de barras não pertence ao item em questão, por favor verifique');
+            setModalMessage('Código de barras não pertence ao item em questão, por favor verifique!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -197,12 +198,12 @@ const processarCodigoDeBarras = (
                 CODDEBARRASLEITURA: '',
             };
             setFormData(novoForm);
-            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
+            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);          
             if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
-                OpenModalGerarCaixa();
+                OpenModalGerarCaixa();                
             }
         } else {
-            setModalMessage('Quantidade já atendida para o item de grade em questão');
+            setModalMessage('Quantidade já atendida para o item em questão!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -216,10 +217,10 @@ const processarCodigoDeBarras = (
     if (/^\-\d{3}$/.test(value) && value.length === 4 && user?.id) {
         const nnn = parseInt(value.substring(1), 10);
         const qtyPCaixaItem = Number(formData.ITEM_SELECIONADO?.qtyPCaixa || 0);
-        
+
         // ✅ CORREÇÃO CRÍTICA: Verificar se há quantidade na caixa atual ANTES de qualquer decremento
         if (qtyPCaixaItem === 0) {
-            setModalMessage('Não é possível decrementar: item já foi consolidado no banco de dados');
+            setModalMessage('Não é possível decrementar!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -227,9 +228,9 @@ const processarCodigoDeBarras = (
             }));
             return;
         }
-        
+
         if (quantidadeLidaAtual === 0) {
-            setModalMessage('Nenhuma quantidade lida para remover');
+            setModalMessage('Nenhuma quantidade lida para remover deste item!');
             setModalOpen(true);
         } else {
             // ✅ CORREÇÃO: Garantir que não decremente mais do que há do item específico na caixa atual
@@ -244,7 +245,7 @@ const processarCodigoDeBarras = (
                 setFormData(novoForm);
                 atualizarQuantidadeCaixaNnnInvert(novoForm, remover, setFormData);
             } else {
-                setModalMessage('Não há quantidade suficiente deste item na caixa atual para remover');
+                setModalMessage('Não há quantidade suficiente deste item na caixa atual para remover!');
                 setModalOpen(true);
             }
         }
@@ -271,7 +272,7 @@ const processarCodigoDeBarras = (
                 CODDEBARRASLEITURA: '',
             };
             setFormData(novoForm);
-            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
+            atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);           
             if (formData.ESCOLA_GRADE.totalAExpedir === 0) {
                 OpenModalGerarCaixa();
             }
@@ -288,12 +289,7 @@ const processarCodigoDeBarras = (
 
 function criarCaixa(formData: any, id: any): Caixa | null {
     const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
-    
-    console.log("🔍 criarCaixa - INÍCIO");
-    console.log("   ESCOLA_GRADE:", ESCOLA_GRADE?.nomeEscola);
-    console.log("   NUMERODACAIXA:", NUMERODACAIXA);
-    console.log("   Total de itens na grade:", ESCOLA_GRADE?.grade?.itensGrade?.length);
-    
+
     // Informações para a caixa
     const caixa: Caixa = {
         gradeId: ESCOLA_GRADE.gradeId,
@@ -313,23 +309,11 @@ function criarCaixa(formData: any, id: any): Caixa | null {
 
     // Percorre os itens da grade
     for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {
-        console.log(`🔍 criarCaixa - Processando item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'}:`, {
-            isCount: itemGrade.isCount,
-            qtyPCaixa: itemGrade.qtyPCaixa,
-            quantidade: itemGrade.quantidade,
-            quantidadeExpedida: itemGrade.quantidadeExpedida,
-            nome: itemGrade?.itemTamanho?.item?.nome,
-            estrutura: Object.keys(itemGrade)
-        });
-        
         // Verifica se o item deve ser contado
         if (itemGrade.isCount) {
-            const quantidadeParaCaixa = itemGrade.qtyPCaixa; // Pega a quantidade da caixa
-            console.log(`✅ Item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'} será contado, quantidadeParaCaixa: ${quantidadeParaCaixa}`);
-            
+            const quantidadeParaCaixa = itemGrade.qtyPCaixa; // Pega a quantidade da caixa           
             // Se a quantidade expedida for igual à quantidade total
             if (itemGrade.quantidade === itemGrade.quantidadeExpedida) {
-                console.log(`🎯 Item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'} está completo`);
                 // Adiciona o item à caixa
                 if (quantidadeParaCaixa > 0) {
                     const novoItem: CaixaItem = {
@@ -342,10 +326,8 @@ function criarCaixa(formData: any, id: any): Caixa | null {
                     // Adiciona ao caixa
                     caixa.caixaItem.push(novoItem);
                     totalExpedido += quantidadeParaCaixa;
-                    console.log(`✅ Item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'} adicionado à caixa: ${quantidadeParaCaixa} unidades`);
                 }
             } else {
-                console.log(`🔄 Item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'} não está completo`);
                 // Se não igualou, mas ainda tem quantidade para caixa, adiciona
                 if (quantidadeParaCaixa > 0) {
                     const novoItem: CaixaItem = {
@@ -358,46 +340,34 @@ function criarCaixa(formData: any, id: any): Caixa | null {
                     // Adiciona ao caixa
                     caixa.caixaItem.push(novoItem);
                     totalExpedido += quantidadeParaCaixa;
-                    console.log(`✅ Item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'} adicionado à caixa: ${quantidadeParaCaixa} unidades`);
                 }
             }
-        } else {
-            console.log(`❌ Item ${itemGrade?.itemTamanho?.item?.nome || 'SEM_NOME'} não será contado (isCount: false)`);
         }
     }
     caixa.qtyCaixa = totalExpedido;
-    
-    console.log("🔍 criarCaixa - RESULTADO FINAL:");
-    console.log(`   totalExpedido: ${totalExpedido}`);
-    console.log(`   caixa.caixaItem.length: ${caixa.caixaItem.length}`);
-    console.log(`   caixa.qtyCaixa: ${caixa.qtyCaixa}`);
-
     // Se não houve expedição de itens, retorne null
     if (totalExpedido === 0) {
-        console.log("❌ criarCaixa - RETORNANDO NULL (totalExpedido = 0)");
         return null;
     }
-    
-    console.log("✅ criarCaixa - RETORNANDO CAIXA VÁLIDA");
     return caixa; // Retorna a caixa pronta para inserção no banco
 }
 
 // ✅ NOVA FUNÇÃO: Zerar quantidades APÓS confirmar a caixa
 function zerarQuantidadesCaixa(formData: any): void {
     const { ESCOLA_GRADE } = formData;
-    
+
     // Calcular total expedido na caixa atual (qtyPCaixa)
     let totalExpedidoNaCaixa = 0;
-    
+
     // Percorre os itens da grade para zerar qtyPCaixa e calcular total
     for (const itemGrade of ESCOLA_GRADE.grade.itensGrade) {
         if (itemGrade.isCount && itemGrade.qtyPCaixa > 0) {
             // Adicionar ao total expedido na caixa
             totalExpedidoNaCaixa += itemGrade.qtyPCaixa;
-            
+
             // ✅ CORREÇÃO CRÍTICA: Sempre zerar qtyPCaixa, mas manter isCount para permitir futuras expedições
             itemGrade.qtyPCaixa = 0;
-            
+
             // ✅ CORREÇÃO: Só definir isCount = false se o item estiver REALMENTE completo
             // Isso permite que itens sejam reexpedidos em futuras caixas
             if (itemGrade.quantidade === itemGrade.quantidadeExpedida) {
@@ -406,23 +376,23 @@ function zerarQuantidadesCaixa(formData: any): void {
             // Se não está completo, mantém isCount = true para permitir futuras expedições
         }
     }
-    
+
     // ✅ CORREÇÃO CRÍTICA: Zerar apenas os campos relacionados à caixa atual
     // QUANTIDADELIDA deve manter o valor da quantidade total expedida da grade
     formData.QUANTIDADENACAIXAATUAL = '0';
     if (formData.ITEM_SELECIONADO) {
         formData.ITEM_SELECIONADO.qtyPCaixa = 0;
     }
-    
+
     // ✅ CORREÇÃO: Atualizar QUANTIDADELIDA com o novo total expedido
     formData.QUANTIDADELIDA = String(ESCOLA_GRADE.totalExpedido);
-    
+
     // ✅ CORREÇÃO: NÃO somar totalExpedidoNaCaixa ao totalExpedido
     // O totalExpedido já está correto porque as funções de expedição atualizam quantidadeExpedida
-    
+
     // Atualizar totalAExpedir da escola
     ESCOLA_GRADE.totalAExpedir = ESCOLA_GRADE.grade.itensGrade.reduce((sum: number, item: any) => sum + (item.quantidade - item.quantidadeExpedida), 0);
-    
+
     // ✅ CORREÇÃO: Recalcular totalExpedido baseado na quantidadeExpedida real
     ESCOLA_GRADE.totalExpedido = ESCOLA_GRADE.grade.itensGrade.reduce((sum: number, item: any) => sum + item.quantidadeExpedida, 0);
 }
@@ -458,7 +428,7 @@ const processarQtdParaEstoque = (
             if (value === itemCodigo) {
                 setFormData((prevData: any) => ({
                     ...prevData,
-                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1), 
+                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1),
                     LEITURADOCODDEBARRAS: '',
                 }));
             } else {
