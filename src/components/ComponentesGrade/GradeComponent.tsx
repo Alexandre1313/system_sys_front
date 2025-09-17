@@ -13,7 +13,7 @@ import Link from "next/link";
 import ItemGradeInputTextStateBarMobil from "./ItemsGradeImputTextStateBarMobil";
 import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
-import { useIsMobile } from "@/hooks_personal.ts/useIsMobile";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 
 export interface GradeComponentProps {
