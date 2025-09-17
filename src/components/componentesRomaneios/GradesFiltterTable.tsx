@@ -109,17 +109,17 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                   <div className="flex lg:flex-row flex-col lg:gap-x-3 gap-y-3">
                     <div className="bg-slate-700/30 rounded-lg p-3 lg:w-1/2">
                       <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Projeto</p>
-                      <p className="text-sm lg:text-lg font-semibold text-blue-300 truncate">{grade.projectname}</p>
+                      <p className="text-sm lg:text-lg font-extralight text-slate-300 truncate">{grade.projectname}</p>
                     </div>
                     <div className="bg-slate-700/30 rounded-lg p-3 lg:w-1/2">
                       <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Empresa</p>
-                      <p className="text-sm lg:text-lg font-semibold text-purple-300 truncate">{grade.company}</p>
+                      <p className="text-sm lg:text-lg font-extralight text-slate-300 truncate">{grade.company}</p>
                     </div>
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Unidade Escolar</p>
-                    <p className="text-sm lg:text-lg font-semibold text-emerald-300 truncate">{grade.escola}</p>
+                    <p className="text-sm lg:text-lg font-extralight text-slate-300 truncate">{grade.escola}</p>
                   </div>
                 </div>
 
@@ -141,28 +141,28 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                         <ExternalLink className={`${colorLinkExternal}`}  size={12} />
                       </Link>
                     ) : (
-                      <p className="text-sm lg:text-lg font-semibold text-cyan-300">{grade.numeroEscola}</p>
+                      <p className="text-sm lg:text-lg font-semibold text-yellow-500">{grade.numeroEscola}</p>
                     )}
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Nº Join</p>
-                    <p className="text-sm lg:text-lg font-semibold text-violet-300">{grade.numberJoin}</p>
+                    <p className="text-sm lg:text-lg font-extralight text-slate-300">{grade.numberJoin}</p>
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Grade ID</p>
-                    <p className="text-sm lg:text-lg font-semibold text-slate-200">{grade.id}</p>
+                    <p className="text-sm lg:text-lg font-extralight text-slate-300">{grade.id}</p>
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Último Update</p>
-                    <p className="text-sm lg:text-lg font-semibold text-slate-300">{grade.update}</p>
+                    <p className="text-sm lg:text-lg font-extralight text-slate-300">{grade.update}</p>
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Qty de Volumes</p>
-                    <Link href={`/caixas_por_grade/${grade.id}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-amber-300 hover:text-amber-200 transition-colors">
+                    <Link href={`/caixas_por_grade/${grade.id}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-red-600 hover:text-red-400 transition-colors">
                       <span>{grade.caixas.length}</span>
                       <ExternalLink className={`${colorLinkExternal}`} size={12} />
                     </Link>
@@ -170,7 +170,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Concluído</p>
-                    <p className="text-sm lg:text-lg font-semibold text-green-300">{percentualConcluido}</p>
+                    <p className="text-sm lg:text-lg font-extralight text-slate-300">{percentualConcluido}</p>
                   </div>
                   {/* Botão Expandir/Recolher */}
                   <div className="flex justify-end items-end">
