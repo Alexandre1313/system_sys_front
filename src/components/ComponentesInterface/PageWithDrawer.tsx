@@ -25,7 +25,7 @@ export default function PageWithDrawer({ children, projectName, sectionName, cur
         edgeThreshold: 30
     });
 
-    // Hide swipe indicator after first interaction or after 5 seconds
+    // Hide swipe indicator after first interaction or after 100ms
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowSwipeIndicator(false);
@@ -57,9 +57,9 @@ export default function PageWithDrawer({ children, projectName, sectionName, cur
                 <Menu size={18} className="text-slate-400 group-hover:text-emerald-400" />
             </button>
 
-            {/* Swipe Indicator */}
+            {/* Swipe Indicator - Apenas Mobile */}
             {showSwipeIndicator && (
-                <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-20 pointer-events-none">
+                <div className="fixed top-1/2 left-0 transform -translate-y-1/2 z-20 pointer-events-none sm:hidden">
                     <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-r-xl p-3 animate-pulse">
                         <div className="flex items-center space-x-2 text-slate-400">
                             <div className="w-1 h-8 bg-emerald-500 rounded-full"></div>

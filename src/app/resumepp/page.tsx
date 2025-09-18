@@ -5,7 +5,7 @@ import PageExcelNew from '@/components/componentesDePrint/PageExcelNew';
 import PageExcelNewfaltas from '@/components/componentesDePrint/PageExcelNewfaltas';
 import PageExcelRelatorioPedido from '@/components/componentesDePrint/PageExcelRelatorioPedido';
 import RomaneiosAll from '@/components/componentesDePrint/RomaneiosAll';
-import BuscaEscolaInput from '@/components/ComponentesInterface/BuscaEscolaInput';
+import AdvancedFilter from '@/components/ComponentesInterface/AdvancedFilter';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import GradesFilterTable from '@/components/componentesRomaneios/GradesFiltterTable';
@@ -67,6 +67,22 @@ export default function ConsultaStatusGradesPP() {
     loaderFilter();
   }, [loaderFilter]);
 
+  // ✅ NOVO: Função para aplicar filtro manualmente
+  const aplicarFiltro = useCallback((termoBusca: string) => {
+    if (data.length > 0) {
+      const resultado = filtrarGradesPorPrioridade(data, termoBusca);
+      setDataFiltered(resultado);
+    } else if (!termoBusca.trim()) {
+      // Se não tem dados mas busca está vazia, limpa o filtro
+      setDataFiltered([]);
+    }
+  }, [data]);
+
+  // Aplicar filtro quando dados carregam
+  useEffect(() => {
+    aplicarFiltro(buscaEscola);
+  }, [data, buscaEscola, aplicarFiltro]);
+
   const modalAjustStatus = () => {
     if (status === 'EXPEDIDA' && dataFiltered.length > 0) {
       setModalStatus(modalStatus ? false : true);
@@ -77,10 +93,6 @@ export default function ConsultaStatusGradesPP() {
     setModalStatus(modalStatus ? false : true);
   }
 
-  const aplicarBusca = () => {
-    const resultado = filtrarGradesPorPrioridade(data, buscaEscola);
-    setDataFiltered(resultado);
-  };
 
   const ajustarStatus = async (ids: number[]) => {
     const resp = await fetcherAlterStatus(ids);
@@ -174,14 +186,14 @@ export default function ConsultaStatusGradesPP() {
 
             {/* Controles de Filtro */}
             <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 lg:gap-4 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 sm:gap-3 lg:gap-4 items-stretch">
 
                 {/* Status */}
-                <div className="flex-1">
+                <div className="lg:col-span-2">
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-slate-700/50 border border-slate-600 text-slate-300 rounded-lg px-3 py-2 text-xs lg:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                    className="w-full h-10 bg-slate-700/50 border border-slate-600 text-slate-300 rounded-lg px-3 py-2 text-xs lg:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
                   >
                     <option value="EXPEDIDA">Expedidas</option>
                     <option value="DESPACHADA">Despachadas</option>
@@ -192,21 +204,21 @@ export default function ConsultaStatusGradesPP() {
                 </div>
 
                 {/* Projeto */}
-                <div className="flex-1">
+                <div className="lg:col-span-2">
                   <ProjectSelect onSelectChange={setProjectId} />
                 </div>
 
                 {/* Remessa */}
-                <div className="flex-1">
+                <div className="lg:col-span-2">
                   <RemessaSelect onSelectChange={setRemessa} projectId={projectId} />
                 </div>
 
                 {/* Tipo */}
-                <div className="flex-1">
+                <div className="lg:col-span-2">
                   <select
                     value={tipo}
                     onChange={(e) => setTipo(e.target.value)}
-                    className="w-full bg-slate-700/50 border border-slate-600 text-slate-300 rounded-lg px-3 py-2 text-xs lg:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                    className="w-full h-10 bg-slate-700/50 border border-slate-600 text-slate-300 rounded-lg px-3 py-2 text-xs lg:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
                   >
                     <option value="T">Todas</option>
                     <option value="N">Pedido Normal</option>
@@ -214,23 +226,29 @@ export default function ConsultaStatusGradesPP() {
                   </select>
                 </div>
 
-                {/* Busca */}
-                <div className="flex-1">
+                {/* Busca - Menor no desktop, normal no mobile */}
+                <div className="sm:col-span-1 lg:col-span-1">
                   <button
                     onClick={loaderFilter}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2"
+                    className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-2 py-2 text-xs font-medium transition-colors duration-200 flex items-center justify-center gap-2 lg:gap-0"
+                    title="Buscar dados"
                   >
-                    <Search size={14} className="lg:w-4 lg:h-4" />
-                    <span>Buscar</span>
+                    <Search size={16} />
+                    <span className="lg:hidden">Buscar</span>
                   </button>
                 </div>
 
-                {/* Busca por Escola */}
-                <div className="flex-1">
-                  <BuscaEscolaInput
-                    buscaEscola={buscaEscola}
-                    setBuscaEscola={setBuscaEscola}
-                    onBuscar={aplicarBusca}
+                {/* Filtro Avançado - Responsivo */}
+                <div className="sm:col-span-1 lg:col-span-3">
+                  <AdvancedFilter
+                    value={buscaEscola}
+                    onChange={setBuscaEscola}
+                    onEnter={(valor) => {
+                      setBuscaEscola(valor);
+                      aplicarFiltro(valor);
+                    }}
+                    placeholder="Filtro avançado..."
+                    className="w-full"
                   />
                 </div>
               </div>

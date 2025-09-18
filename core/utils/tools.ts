@@ -338,10 +338,224 @@ const sizeOrders = (tamanhos: string[]): string[] => {
  */
 function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): GradesRomaneio[] {
   const termoBusca = busca.trim().toLowerCase();
-  if (!termoBusca) return [];
+  
+  // ✅ CORRIGIDO: Se busca vazia, retorna todas as grades ordenadas por escola
+  if (!termoBusca) {
+    return grades.sort((a, b) => {
+      const numA = parseInt(a.numeroEscola?.toString() || '0', 10);
+      const numB = parseInt(b.numeroEscola?.toString() || '0', 10);
+      return numA - numB;
+    });
+  }
+
+  // ✅ NOVO: Parser de busca avançada
+  const parseAdvancedSearch = (term: string): 
+    | { tipo: 'campo'; campo: string; valor: string }
+    | { tipo: 'multiplas'; valores: string[] }
+    | { tipo: 'intervalo'; inicio: number; fim: number }
+    | { tipo: 'combinado'; termos: string[] }
+    | { tipo: 'normal'; termo: string } => {
+    
+    // Busca com prefixo específico: "escola: 01,05" ou "genero: feminino"
+    const prefixMatch = term.match(/^(\w+):\s*(.+)$/);
+    if (prefixMatch) {
+      const [, campo, valor] = prefixMatch;
+      return { tipo: 'campo', campo, valor: valor.trim() };
+    }
+
+    // Múltiplas escolas: "01, 05, 10, 25"
+    if (/^\d+(\s*,\s*\d+)+$/.test(term)) {
+      const numeros = term.split(',').map(n => n.trim().padStart(2, '0'));
+      return { tipo: 'multiplas', valores: numeros };
+    }
+
+    // Intervalo de escolas: "15-25" ou "05-15"
+    const intervalMatch = term.match(/^(\d+)\s*-\s*(\d+)$/);
+    if (intervalMatch) {
+      const inicio = parseInt(intervalMatch[1], 10);
+      const fim = parseInt(intervalMatch[2], 10);
+      return { tipo: 'intervalo', inicio, fim };
+    }
+
+    // Busca combinada com múltiplos termos: "camiseta feminino", "polo masculino p"
+    if (term.includes(' ')) {
+      const termos = term.split(/\s+/).filter(t => t.length > 0);
+      if (termos.length > 1) {
+        return { tipo: 'combinado', termos };
+      }
+    }
+
+    // Busca normal
+    return { tipo: 'normal', termo: term };
+  };
+
+  const searchConfig = parseAdvancedSearch(termoBusca);
 
   const padroniza = (valor: string | number | undefined | null): string =>
     (valor ?? '').toString().toLowerCase();
+
+  // ✅ NOVO: Filtro por múltiplas escolas
+  if (searchConfig.tipo === 'multiplas') {
+    const filtradas = grades.filter(grade => {
+      const numeroEscola = padroniza(grade.numeroEscola).padStart(2, '0');
+      return searchConfig.valores.includes(numeroEscola);
+    });
+    // Ordenar por número da escola (menor para maior)
+    return filtradas.sort((a, b) => {
+      const numA = parseInt(padroniza(a.numeroEscola), 10) || 0;
+      const numB = parseInt(padroniza(b.numeroEscola), 10) || 0;
+      return numA - numB;
+    });
+  }
+
+  // ✅ NOVO: Filtro por intervalo
+  if (searchConfig.tipo === 'intervalo') {
+    const filtradas = grades.filter(grade => {
+      const numeroEscola = parseInt(padroniza(grade.numeroEscola), 10);
+      return numeroEscola >= searchConfig.inicio && numeroEscola <= searchConfig.fim;
+    });
+    // Ordenar por número da escola (menor para maior)
+    return filtradas.sort((a, b) => {
+      const numA = parseInt(padroniza(a.numeroEscola), 10) || 0;
+      const numB = parseInt(padroniza(b.numeroEscola), 10) || 0;
+      return numA - numB;
+    });
+  }
+
+  // ✅ NOVO: Filtro por campo específico
+  if (searchConfig.tipo === 'campo') {
+    const { campo, valor } = searchConfig;
+    
+    // Campos que retornam grade completa
+    const camposCompletos = ['escola', 'data'];
+    
+    const filtradas = grades
+      .map(grade => {
+        let match = false;
+        
+        switch (campo) {
+          case 'escola':
+            match = padroniza(grade.escola).includes(valor) || padroniza(grade.numeroEscola).includes(valor);
+            return match ? grade : null; // Grade completa
+            
+          case 'data':
+            match = padroniza(grade.update).includes(valor);
+            return match ? grade : null; // Grade completa
+            
+          case 'genero':
+            const itensPorGenero = grade.tamanhosQuantidades.filter(item => 
+              padroniza(item.genero).includes(valor)
+            );
+            return itensPorGenero.length > 0 ? { ...grade, tamanhosQuantidades: itensPorGenero } : null;
+            
+          case 'item':
+            const itensPorNome = grade.tamanhosQuantidades.filter(item => 
+              padroniza(item.item).includes(valor)
+            );
+            return itensPorNome.length > 0 ? { ...grade, tamanhosQuantidades: itensPorNome } : null;
+            
+          case 'tam': case 'tamanho':
+            const tamanhos = valor.split(',').map(t => t.trim());
+            const itensPorTamanho = grade.tamanhosQuantidades.filter(item => 
+              tamanhos.some(tam => padroniza(item.tamanho).includes(tam))
+            );
+            return itensPorTamanho.length > 0 ? { ...grade, tamanhosQuantidades: itensPorTamanho } : null;
+            
+          default:
+            return null;
+        }
+      })
+      .filter((grade): grade is GradesRomaneio => grade !== null);
+
+    // Ordenar por número da escola
+    return filtradas.sort((a, b) => {
+      const numA = parseInt(padroniza(a.numeroEscola), 10) || 0;
+      const numB = parseInt(padroniza(b.numeroEscola), 10) || 0;
+      return numA - numB;
+    });
+  }
+
+  // ✅ NOVO: Filtro combinado inteligente
+  if (searchConfig.tipo === 'combinado') {
+    const { termos } = searchConfig;
+    
+    // Identificar tipos de termos
+    const tamanhosPadrao = new Set([
+      "00", "01", "02", "04", "06", "08", "10", "12", "14", "16",
+      "6m", "pp", "p", "m", "g", "gg", "xg", "xgg", "eg", "egg", "eg/lg", "exg", "g1", "g2", "g3"
+    ]);
+
+    const generos = new Set(["masculino", "feminino", "unissex", "infantil"]);
+    
+    const termosTamanho = termos.filter(t => tamanhosPadrao.has(t));
+    const termosGenero = termos.filter(t => generos.has(t));
+    const termosData = termos.filter(t => /^\d{4}-\d{2}-\d{2}$/.test(t) || /^\d{2}\/\d{2}\/\d{4}$/.test(t));
+    const termosTexto = termos.filter(t => 
+      !tamanhosPadrao.has(t) && !generos.has(t) && 
+      !/^\d{4}-\d{2}-\d{2}$/.test(t) && !/^\d{2}\/\d{2}\/\d{4}$/.test(t)
+    );
+
+    const filtradas = grades
+      .map(grade => {
+        // Filtrar por data se especificada
+        if (termosData.length > 0) {
+          const gradeDataMatch = termosData.some(dataterm => 
+            padroniza(grade.update).includes(dataterm)
+          );
+          if (!gradeDataMatch) return null;
+        }
+
+        // Separar termos de escola dos termos de itens
+        const termosEscola = termosTexto.filter(termo => 
+          padroniza(grade.escola).includes(termo) || 
+          padroniza(grade.numeroEscola).includes(termo)
+        );
+        
+        const termosItem = termosTexto.filter(termo => 
+          !padroniza(grade.escola).includes(termo) && 
+          !padroniza(grade.numeroEscola).includes(termo)
+        );
+
+        // Se tem termos de escola, deve atender a eles
+        const escolaMatch = termosEscola.length === 0 || termosEscola.length > 0;
+        if (!escolaMatch) return null;
+
+        // Se só tem filtros de escola/data (sem item/gênero/tamanho), retorna grade completa
+        if (termosItem.length === 0 && termosGenero.length === 0 && termosTamanho.length === 0) {
+          return grade; // Retorna grade completa
+        }
+
+        // ✅ Se tem filtros de item/gênero/tamanho, filtra apenas esses itens
+        const itensFiltrados = grade.tamanhosQuantidades.filter(item => {
+          // Verificar nome do item
+          const itemMatch = termosItem.length === 0 || 
+            termosItem.some(termo => padroniza(item.item).includes(termo));
+
+          // Verificar gênero
+          const generoMatch = termosGenero.length === 0 || 
+            termosGenero.some(genero => padroniza(item.genero).includes(genero));
+
+          // Verificar tamanho
+          const tamanhoMatch = termosTamanho.length === 0 || 
+            termosTamanho.some(tamanho => padroniza(item.tamanho).includes(tamanho));
+
+          return itemMatch && generoMatch && tamanhoMatch;
+        });
+
+        // Retorna a grade apenas se tiver itens válidos, mas só com os itens filtrados
+        if (itensFiltrados.length === 0) return null;
+
+        return { ...grade, tamanhosQuantidades: itensFiltrados };
+      })
+      .filter((grade): grade is GradesRomaneio => grade !== null);
+
+    // Ordenar por número da escola
+    return filtradas.sort((a, b) => {
+      const numA = parseInt(padroniza(a.numeroEscola), 10) || 0;
+      const numB = parseInt(padroniza(b.numeroEscola), 10) || 0;
+      return numA - numB;
+    });
+  }
 
   const tamanhosPadrao = new Set([
     "00", "01", "02", "04", "06", "08", "10", "12", "14", "16",
@@ -350,6 +564,65 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
     "xgg", "eg", "egg", "eg/lg", "exg", "g1", "g2", "g3"
   ]);
 
+  // ✅ NOVO: Busca normal melhorada
+  if (searchConfig.tipo === 'normal') {
+    const termo = searchConfig.termo;
+    
+    // ✅ CORRIGIDO: Se é um número puro (como "01"), buscar apenas em escola e número
+    const isNumericSearch = /^\d+$/.test(termo);
+    
+    const filtradas = grades
+      .map((grade) => {
+        let gradeMatch = false;
+        
+        if (isNumericSearch) {
+          // Para busca numérica, buscar apenas em escola e número (não em data)
+          const numeroEscolaStr = padroniza(grade.numeroEscola).padStart(2, '0');
+          const escolaStr = padroniza(grade.escola);
+          
+          gradeMatch = numeroEscolaStr.includes(termo.padStart(2, '0')) || 
+                      escolaStr.includes(termo);
+        } else {
+          // Para busca de texto, buscar em todos os campos da grade
+          const camposGrade = [
+            padroniza(grade.escola),
+            padroniza(grade.numeroEscola),
+            padroniza(grade.update)
+          ];
+          
+          gradeMatch = camposGrade.some(campo => campo.includes(termo));
+        }
+        
+        // Se é match da grade (escola/número/data), retorna grade completa
+        if (gradeMatch) {
+          return grade;
+        }
+        
+        // Senão, buscar nos itens e filtrar apenas os que fazem match
+        const itensFiltrados = grade.tamanhosQuantidades.filter(item => [
+          padroniza(item.item),
+          padroniza(item.genero),
+          padroniza(item.tamanho)
+        ].some(campo => campo.includes(termo)));
+
+        // Se encontrou itens, retorna grade com apenas esses itens
+        if (itensFiltrados.length > 0) {
+          return { ...grade, tamanhosQuantidades: itensFiltrados };
+        }
+
+        return null;
+      })
+      .filter((grade): grade is GradesRomaneio => grade !== null);
+
+    // Ordenar por número da escola
+    return filtradas.sort((a, b) => {
+      const numA = parseInt(padroniza(a.numeroEscola), 10) || 0;
+      const numB = parseInt(padroniza(b.numeroEscola), 10) || 0;
+      return numA - numB;
+    });
+  }
+
+  // Fallback para busca legacy (não deveria chegar aqui)
   const matchCampo = (valor: string) => valor.includes(termoBusca);
 
   // Pré-filtro direto: busca simples
@@ -376,7 +649,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
   const termosTexto = termos.filter(t => !tamanhosPadrao.has(t));
 
   return grades
-    .map((grade) => {
+    .filter((grade) => {
       const camposGerais = [
         padroniza(grade.escola),
         padroniza(grade.numeroEscola),
@@ -391,9 +664,10 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
         camposGerais.some(campo => campo.includes(termo))
       );
 
-      if (!contemTodosTextos) return null;
+      if (!contemTodosTextos) return false;
 
-      const itensFiltrados = grade.tamanhosQuantidades.filter((item) => {
+      // ✅ CORRIGIDO: Apenas verificar se tem itens válidos, sem modificar
+      const temItensValidos = grade.tamanhosQuantidades.some((item) => {
         const nome = padroniza(item.item);
         const tamanho = padroniza(item.tamanho);
         const genero = padroniza(item.genero);
@@ -405,11 +679,8 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
         return matchTamanho && matchItemGenero;
       });
 
-      if (itensFiltrados.length === 0) return null;
-
-      return { ...grade, tamanhosQuantidades: itensFiltrados };
-    })
-    .filter((grade): grade is GradesRomaneio => grade !== null);
+      return temItensValidos;
+    });
 }
 /**
  * Função que retorna a cor do texto e o estado de desativação para a tela de escolas,
