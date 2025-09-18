@@ -559,7 +559,7 @@ export default function PageEntExcel({ expedicaoDataB }: PageEntExcelProps) {
                 focus:ring-slate-500/50 focus:border-transparent"
         >
             <Truck size={14} className="lg:w-4 lg:h-4" />
-            <span className="hidden sm:inline pl-2">Entrgas</span>
+            <span className="hidden sm:inline pl-2">Entregas</span>
             <span className="sm:hidden pl-2">Entregas</span>
         </button>
     );

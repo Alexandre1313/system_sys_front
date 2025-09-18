@@ -793,7 +793,7 @@ export default function PageExcelNewfaltas({ expedicaoDataB }: PageExcelNewfalta
         >
             <Download size={14} className="lg:w-4 lg:h-4" />
             <span className="hidden sm:inline pl-2">Faltas Total</span>
-            <span className="sm:hidden pl-2">faltas</span>
+            <span className="sm:hidden pl-2">Faltas</span>
         </button>
     );
 }
