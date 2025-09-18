@@ -54,13 +54,13 @@ export default function GradeComponent(props: GradeComponentProps) {
     const btnRef2 = useRef<HTMLButtonElement>(null);
 
     // Adiciona o evento de keydown quando o componente for montado
-    useEffect(() => {       
+    useEffect(() => {
         const handleGlobalKeyDown = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
                 if (btnRef.current) {
                     btnRef.current.click(); // Simula o clique no botão
                 }
-            }          
+            }
             if (event.key === "ArrowDown") {
                 event.preventDefault(); // evita scroll da página
                 btnRef1.current?.click();
@@ -91,7 +91,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             // Atualizar itemSelecionado local com os dados atualizados do formData
             setItemSelecionado(props.formData.ITEM_SELECIONADO);
         }
-    }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);    
+    }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -767,17 +767,24 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                     {/* Header */}
                     <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
-                        <div className="flex items-center justify-between max-w-7xl mx-auto p-2 lg:p-3">
+                        <div className="flex items-center justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3">
                             <div className="text-left">
-                                <div>
-                                    <h1 className="text-xl lg:text-4xl font-bold text-rose-400">
-                                        {`${props.grade.id}`}
-                                    </h1>
+                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
+                                 rounded-md min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
+                                    <Link href={`/caixas_por_grade/${String(props.grade.id)}`} target="_blank"
+                                                className="flex items-center justify-start gap-x-2"
+                                    >
+                                        <h1 className="text-xl lg:text-4xl font-bold text-rose-400">
+                                            {`${props.grade.id}`}
+                                        </h1>
+                                        <ExternalLink className={`${colorLinkExternal}`} size={12} />
+                                    </Link>
                                     <p className="text-sm text-emerald-400 font-medium">GRADE ID</p>
                                 </div>
                             </div>
                             <div className="text-left">
-                                <div>
+                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3 rounded-md
+                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
                                     <h1 className="text-xl lg:text-4xl font-bold text-zinc-300">
                                         {`${props.escola?.numeroEscola}`}
                                     </h1>
@@ -785,8 +792,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
                             </div>
                             <div className="text-left">
-                                <div>
-                                    <h1 className="text-xl lg:text-4xl font-bold text-red-500">
+                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3 rounded-md
+                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
+                                    <h1 className={`text-xl lg:text-4xl font-bold ${props.grade.gradeCaixas.length === 0 ? 'text-slate-700': 'text-red-500'}`}>
                                         {`${props.grade.gradeCaixas.length}`}
                                     </h1>
                                     {props.grade.gradeCaixas.length > 1 && (
