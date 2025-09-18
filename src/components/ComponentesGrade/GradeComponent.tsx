@@ -770,7 +770,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         <div className="flex items-center justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3">
                             <div className="text-left">
                                 <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
-                                 rounded-md min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
+                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
                                     <Link href={`/caixas_por_grade/${String(props.grade.id)}`} target="_blank"
                                                 className="flex items-center justify-start gap-x-2"
                                     >
@@ -783,8 +783,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
                             </div>
                             <div className="text-left">
-                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3 rounded-md
-                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
+                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
+                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
                                     <h1 className="text-xl lg:text-4xl font-bold text-zinc-300">
                                         {`${props.escola?.numeroEscola}`}
                                     </h1>
@@ -792,7 +792,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
                             </div>
                             <div className="text-left">
-                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3 rounded-md
+                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3 rounded-ee-3xl rounded-ss-3xl
                                 min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
                                     <h1 className={`text-xl lg:text-4xl font-bold ${props.grade.gradeCaixas.length === 0 ? 'text-slate-700': 'text-red-500'}`}>
                                         {`${props.grade.gradeCaixas.length}`}
