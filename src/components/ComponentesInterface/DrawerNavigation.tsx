@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { User, UserCheck, X, Home, Folder, BookOpen, LogOut, Monitor, MapPin } from "react-feather";
+import { User, UserCheck, X, Folder, BookOpen, LogOut, Monitor, MapPin } from "react-feather";
 
 export interface DrawerNavigationProps {
     isOpen: boolean;
