@@ -563,7 +563,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     <span className={`text-slate-400 text-sm px-2 py-1 rounded ${colorGenero}`}>{genero}</span>
                                                     <div className="flex items-center space-x-2">
                                                         <span className="text-slate-500 text-sm">Tam:</span>
-                                                        <span className="text-purple-400 font-medium text-[20px] bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
+                                                        <span className="text-yellow-200 font-medium text-[20px] lg:text-[23px] bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -572,23 +572,23 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <div className="grid grid-cols-2 gap-[0.10rem] mb-4">
                                                 <div className="bg-slate-900/50 rounded-lg p-3 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Previsto</p>
-                                                    <p className="text-yellow-400 text-base font-semibold">{convertMilharFormat(quantidade)}</p>
+                                                    <p className="text-yellow-400 text-base lg:text-xl font-extralight">{convertMilharFormat(quantidade)}</p>
                                                 </div>
                                                 <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Expedido</p>
-                                                    <p className={`text-base font-semibold ${isCompleted ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                                    <p className={`text-base lg:text-xl font-extralight ${isCompleted ? 'text-emerald-400' : 'text-slate-300'}`}>
                                                         {convertMilharFormat(quantidadeExpedida)}
                                                     </p>
                                                 </div>
                                                 <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Estoque</p>
-                                                    <p className={`text-base font-semibold ${colorEstoque}`}>
+                                                    <p className={`text-base font-extralight ${colorEstoque}`}>
                                                         {convertMilharFormat(estoque!)}
                                                     </p>
                                                 </div>
                                                 <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">À Expedir</p>
-                                                    <p className={`text-base font-semibold ${quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
+                                                    <p className={`text-base lg:text-xl font-extralight ${quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
                                                         }`}>
                                                         {convertMilharFormat(quantidade - quantidadeExpedida)}
                                                     </p>
@@ -881,7 +881,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
                                             labelName={`GÊNERO`} color={`text-zinc-400`} />
                                         <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                            labelName={`TAMANHO`} color={`text-zinc-400`} />
+                                            labelName={`TAMANHO`} color={`text-yellow-200`} />
                                         <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                             labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
                                     </div>
@@ -900,10 +900,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             labelName={`PREVISTO`} color={`text-yellow-400`} />
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                             labelName={`EXPEDIDO`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
-                                            bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'bg-emerald-400/10' : 'bg-transparent'}`} />
+                                            bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
                                         <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                             labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
-                                            bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'bg-blue-400/10' : 'bg-transparent'}`} />
+                                            bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
                                     </div>
 
                                     {/* Special Fields */}
