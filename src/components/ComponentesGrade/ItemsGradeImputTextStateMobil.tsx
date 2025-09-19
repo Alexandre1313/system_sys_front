@@ -32,7 +32,7 @@ export default function ItemGradeInputTextStateMobil(props: ItemGradeInputTextSt
         <div className="flex flex-col items-start justify-center gap-y-3 w-full">
             <label
                 htmlFor={`${labelName}-input`}
-                className={`flex ${props.labelposition ? props.labelposition: 'justify-end'} w-full text-[13px]
+                className={`flex ${props.labelposition ? props.labelposition: 'justify-end'} w-full text-[10px]
                 ${props.labelColor ? props.labelColor: 'text-zinc-500'} tracking-[2px]`}
             >
                 {props.labelName}
@@ -41,7 +41,7 @@ export default function ItemGradeInputTextStateMobil(props: ItemGradeInputTextSt
                 className={`flex p-2 ${props.maxWhidth ? props.maxWhidth: 'w-full'} text-left ${props.txtSize ? props.txtSize: 'text-[15px]'}
                 ${props.bgBackGround ? props.bgBackGround : 'bg-trans'}
                 ${props.isFocus ? props.isFocus: 'outline-none  pointer-events-none'} 
-                rounded-md  border h-[40px] grade-input-responsive ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
+                rounded-md  border h-[25px] grade-input-responsive ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
                 ${props.valueColor ? props.valueColor: 'text-green-400'} 
                 placeholder:text-[rgba(333,333,333,0.1)] ${props.height ? props.height: ''}
                 ${props.colorBorder ? props.colorBorder: 'border-gray-700'}`}
