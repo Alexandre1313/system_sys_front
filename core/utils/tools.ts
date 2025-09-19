@@ -682,6 +682,7 @@ function filtrarGradesPorPrioridade(grades: GradesRomaneio[], busca: string): Gr
       return temItensValidos;
     });
 }
+
 /**
  * Função que retorna a cor do texto e o estado de desativação para a tela de escolas,
  * com base nas propriedades das grades recebidas.
