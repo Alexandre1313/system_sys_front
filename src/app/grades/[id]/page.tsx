@@ -417,7 +417,6 @@ export default function Grades() {
     
     const tamanhoCol1 = 1 + extraPorColuna + (sobra >= 1 ? 1 : 0);
     const tamanhoCol2 = 1 + extraPorColuna + (sobra >= 2 ? 1 : 0);
-    const tamanhoCol3 = 1 + extraPorColuna;
     
     primeiraParte = filteredGrades.slice(0, tamanhoCol1);
     segundaParte = filteredGrades.slice(tamanhoCol1, tamanhoCol1 + tamanhoCol2);
