@@ -228,7 +228,7 @@ export default function Expedition() {
 
     return (
         <PageWithDrawer
-            sectionName={escolaData?.nome && escolaData.nome.length > 25 ? escolaData.nome.substring(0, 25) + "..." : (escolaData?.nome || 'Corte de Grades')}
+            sectionName={escolaData?.nome && escolaData.nome.length > 25 ? escolaData.nome.substring(0, 20) + "..." : (escolaData?.nome || 'Corte de Grades')}
             currentPage="expedition"
             projectName={escolaData?.nome}
             projectId={escolaData?.id}
