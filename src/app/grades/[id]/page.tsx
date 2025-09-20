@@ -396,11 +396,33 @@ export default function Grades() {
     return grade.status !== 'DESPACHADA' || !isMoreThanOneDayAgo(updateDate);
   });
 
-  // Calculando a divisão em 3 partes
-  const terco = Math.ceil(filteredGrades.length / 3);
-  const primeiraParte = filteredGrades.slice(0, terco);
-  const segundaParte = filteredGrades.slice(terco, terco * 2);
-  const terceiraParte = filteredGrades.slice(terco * 2);
+  // Calculando a divisão em 3 partes - distribuição otimizada para preencher linha superior primeiro
+  const totalGrades = filteredGrades.length;
+  
+  // Lógica específica: preencher primeiro a linha superior (3 colunas) antes da inferior
+  // Ex: 4 grades = 1+1+1+1 (nas 3 colunas superiores e 1 na coluna 1 inferior)
+  //     5 grades = 2+1+1+1 (2 na col1, 1 na col2, 1 na col3, 1 na col1 inferior)
+  let primeiraParte, segundaParte, terceiraParte;
+  
+  if (totalGrades <= 3) {
+    // Com 3 ou menos grades, distribui uma por coluna
+    primeiraParte = filteredGrades.slice(0, Math.min(1, totalGrades));
+    segundaParte = filteredGrades.slice(1, Math.min(2, totalGrades));
+    terceiraParte = filteredGrades.slice(2, Math.min(3, totalGrades));
+  } else {
+    // Com mais de 3 grades, preenche primeiro as 3 colunas, depois distribui o resto
+    const gradesRestantes = totalGrades - 3;
+    const extraPorColuna = Math.floor(gradesRestantes / 3);
+    const sobra = gradesRestantes % 3;
+    
+    const tamanhoCol1 = 1 + extraPorColuna + (sobra >= 1 ? 1 : 0);
+    const tamanhoCol2 = 1 + extraPorColuna + (sobra >= 2 ? 1 : 0);
+    const tamanhoCol3 = 1 + extraPorColuna;
+    
+    primeiraParte = filteredGrades.slice(0, tamanhoCol1);
+    segundaParte = filteredGrades.slice(tamanhoCol1, tamanhoCol1 + tamanhoCol2);
+    terceiraParte = filteredGrades.slice(tamanhoCol1 + tamanhoCol2);
+  }
 
   return (
     <PageWithDrawer
