@@ -19,8 +19,16 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
     const { logout, user } = useAuth();
     const router = useRouter();
     const [isClient, setIsClient] = useState<boolean>(false);
+    const [hasBeenOpened, setHasBeenOpened] = useState<boolean>(false);
 
     useEffect(() => { setIsClient(true) }, []);
+
+    // Track first opening to optimize animations
+    useEffect(() => {
+        if (isOpen && !hasBeenOpened) {
+            setHasBeenOpened(true);
+        }
+    }, [isOpen, hasBeenOpened]);
 
     const handlerLogout = () => {
         if (isClient) {
@@ -52,7 +60,7 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
         <>
             {/* Backdrop */}
             <div 
-                className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+                className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ease-out ${
                     isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
                 onClick={onClose}
@@ -63,6 +71,11 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
                 className={`fixed top-0 left-0 h-full w-72 max-w-[80vw] bg-slate-900/95 backdrop-blur-md border-r border-slate-700 z-50 transform transition-transform duration-300 ease-out ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
+                style={{
+                    transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+                    backfaceVisibility: 'hidden',
+                    perspective: '1000px',
+                }}
             >
                 <div className="flex flex-col h-full">
                     {/* Header */}
