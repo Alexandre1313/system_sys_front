@@ -486,29 +486,29 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <p className="text-emerald-400 text-sm lg:text-right font-medium lg:pl-16 -mt-1">{itensFiltrados.length} ITE{itensFiltrados.length !== 1 ? 'NS' : 'M'} ENCONTRADO{itensFiltrados.length !== 1 ? 'S' : ''}</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative z-10 flex-1 overflow-auto flex items-start justify-center" style={{ marginTop: '115px', paddingBottom: '80px' }}>
-                        <div className="max-w-7xl mx-auto p-6 lg:pt-3">
-                            {/* Search Bar */}
-                            <div className="flex justify-center mb-8 w-full lg:pt-0">
-                                <div className="flex-1 relative max-w-[500px]">
+                            {/* Search Bar - Positioned over content with proper spacing (Mobile & Desktop) */}
+                            <div className="absolute top-[130px] lg:top-[110px] left-1/2 transform -translate-x-1/2 z-30 w-[90%] max-w-[500px] px-2 lg:px-4">
+                                <div className="relative">
                                     <Search
-                                        size={18}
-                                        className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none"
+                                        size={16}
+                                        className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none lg:w-[18px] lg:h-[18px]"
                                         strokeWidth={1.5}
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Buscar escola..."
-                                        className="w-full h-12 lg:h-12 pl-10 lg:pl-12 pr-4 bg-slate-700/50 border border-slate-600 rounded-lg lg:rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm lg:text-base"
+                                        placeholder="Filtrar -> 1º Tam, 2º Gênero, 3º Item"
+                                        className="w-full h-10 lg:h-12 pl-9 lg:pl-12 pr-3 lg:pr-4 bg-slate-800/95 backdrop-blur-lg border border-slate-600 rounded-lg lg:rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm lg:text-base shadow-2xl shadow-slate-900/50"
                                         value={busca}
                                         onChange={(e) => setBusca(e.target.value.toLowerCase())}
                                     />
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Content - Responsive spacing for mobile and desktop */}
+                    <div className="relative z-10 flex-1 overflow-auto flex items-start justify-center pt-[60px] lg:pt-[64px]" style={{ marginTop: '100px', paddingBottom: '80px' }}>
+                        <div className="max-w-7xl mx-auto p-6 lg:pt-3">
                             {/* Items Grid */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {itensFiltrados.map((itemGrade, index) => {
