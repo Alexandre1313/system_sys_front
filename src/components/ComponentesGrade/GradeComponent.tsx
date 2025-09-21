@@ -446,7 +446,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                            justify-center space-x-2 hover:scale-105 text-[13px]`}
                     >
                         <Eye size={18} className="mr-2" />
-                        {uniqueItems.length < 2 ? 'VER ITEM': 'VER ITENS'}                     
+                        {uniqueItems.length < 2 ? 'VER ITEM' : 'VER ITENS'}
                     </button>
                 </div>
             </div>
@@ -789,7 +789,14 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                         {/* Header */}
                         <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
-                            <div className="flex items-center justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3">
+                            <div className="flex items-start justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3">
+                                <div className="text-left">
+                                    <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
+                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
+                                        <p className="text-sm text-white font-medium truncate">{`${props.escola.projeto?.nome}`}</p>
+                                        <p className="text-sm text-emerald-400 font-medium truncate">{`${`PROJETO`}`}</p>
+                                    </div>
+                                </div>
                                 <div className="text-left">
                                     <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
                                 min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
@@ -820,7 +827,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             {`${props.grade.gradeCaixas.length}`}
                                         </h1>
                                         {props.grade.gradeCaixas.length > 1 && (
-                                            <p className="text-sm text-emerald-400 font-medium">VOLUMES CONSOLIDADOS</p>
+                                            <p className="text-sm text-emerald-400 font-medium">VOLUMES JÁ CONSOLIDADOS</p>
                                         )}
                                         {props.grade.gradeCaixas.length === 1 && (
                                             <p className="text-sm text-emerald-400 font-medium">VOLUME CONSOLIDADO</p>
@@ -835,10 +842,10 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                         {/* Content */}
                         <div className="relative z-10 flex-1 overflow-auto" style={{ marginTop: '80px' }}>
-                            <div className="max-w-7xl mx-auto p-6">
+                            <div className="max-w-[92rem] mx-auto p-6">
 
                                 {/* Actions Bar */}
-                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-8">
+                                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-6">
                                     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
 
                                         {/* Action Buttons */}
@@ -900,17 +907,24 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <div className="space-y-4">
                                             <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
                                                 labelName={`ITEM`} color={`text-zinc-400`} />
-                                            <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                                labelName={`GÊNERO`} color={`text-zinc-400`} />
-                                            <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                                labelName={`TAMANHO`} color={`text-yellow-200`} />
-                                            <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                                labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
+                                            <div className="grid grid-cols-2 gap-4">
+
+                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
+                                                    labelName={`GÊNERO`} color={`text-zinc-400`} />
+                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
+                                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
+                                                    labelName={`TAMANHO`} color={`text-yellow-200`} />
+                                                <ItemsGradeInputText value={`${props.grade.status === 'PRONTA' ? 'EM ANDAMENTO' : 'FINALIZADA'}`}
+                                                    labelName={`GRADE STATUS`} color={`text-zinc-400`} />
+                                            </div>
                                         </div>
                                     </div>
 
                                     {/* Right Column - Expedition Control */}
-                                    <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
+                                    <div className="bg-[#181818]/20 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6">
                                         <div className="flex items-center space-x-2 mb-4">
                                             <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
                                             <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
@@ -930,18 +944,12 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                                         {/* Special Fields */}
                                         <div className="space-y-4">
-                                            <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
-                                                formData={props.formData} setFormData={props.setFormData}
-                                                isReadOnly={true}
-                                                valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
-                                                height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                                <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
                                                     formData={props.formData} setFormData={props.setFormData}
-                                                    isReadOnly={true} maxWhidth={`w-full`}
-                                                    valueColor={`text-zinc-400`}
-                                                    labelposition={`justify-start`}
-                                                    positionn={`text-left`} />
+                                                    isReadOnly={true}
+                                                    valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
+                                                    height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
                                                 <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     isReadOnly={true}
@@ -949,17 +957,27 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
                                                     height={`h-[80px]`} />
                                             </div>
-                                            <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
-                                                formData={props.formData} setFormData={props.setFormData}
-                                                txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
-                                                inputRef={props.inputRef}
-                                                isFocuss={props.isFocus}
-                                                placeholder={`Mantenha o cursor aqui...`}
-                                                isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
-                                            focus:ring focus:ring-emerald-500`}
-                                                labelColor={`text-emerald-500`}
-                                                positionn={`text-left`}
-                                                labelposition={`justify-start`} />
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                                <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                                    formData={props.formData} setFormData={props.setFormData}
+                                                    isReadOnly={true} maxWhidth={`w-full`}
+                                                    valueColor={`text-zinc-400`}
+                                                    labelposition={`justify-start`}
+                                                    positionn={`text-left`} />
+                                                <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
+                                                    formData={props.formData} setFormData={props.setFormData}
+                                                    txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
+                                                    inputRef={props.inputRef}
+                                                    isFocuss={props.isFocus}
+                                                    placeholder={`Mantenha o cursor aqui...`}
+                                                    isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
+                                                              focus:ring focus:ring-emerald-500`}
+                                                    labelColor={`text-emerald-500`}
+                                                    positionn={`text-left`}
+                                                    labelposition={`justify-start`} />
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
