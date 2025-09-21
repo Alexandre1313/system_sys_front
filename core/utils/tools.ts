@@ -100,8 +100,8 @@ function convertMilharFormatKG(peso: number): string {
  */
 function convertMilharFormatCUB(cubagem: number): string {
   return `${cubagem.toLocaleString('pt-BR', {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   })} m³`
 }
 

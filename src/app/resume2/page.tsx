@@ -185,7 +185,7 @@ export default function ConsultaStatusGrades() {
             </div>
 
             {/* Controles de Filtro */}
-            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
+            <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 sm:gap-3 lg:gap-4 items-stretch">
 
                 {/* Status */}
@@ -199,7 +199,7 @@ export default function ConsultaStatusGrades() {
                     <option value="DESPACHADA">Despachadas</option>
                     <option value="PRONTA">Prontas</option>
                     <option value="TODAS">Todas</option>
-                    <option value="IMPRESSA">-----</option>
+                    {'<option value="IMPRESSA">-----</option>'}
                   </select>
                 </div>
 
@@ -256,7 +256,7 @@ export default function ConsultaStatusGrades() {
 
             {/* Botões de Ação - Compactos */}
             {data && (
-              <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg mt-3 lg:mt-4">
+              <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg mt-3 lg:mt-4">
                 <h3 className="text-sm lg:text-base font-semibold text-white mb-3 flex items-center space-x-2">
                   <FileText size={16} className="text-blue-400" />
                   <span>Relatórios e Ações</span>
@@ -287,146 +287,152 @@ export default function ConsultaStatusGrades() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 pt-4 lg:pt-[21rem] pb-8 sm:px-6 lg:px-8">
+      <div className="px-4 pt-4 lg:pt-[19.85rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-[1370px] mx-auto">
 
           {/* Estatísticas Resumidas */}
           <div className="grid grid-cols-1 gap-4 mb-6">
             {/* Estatísticas Totais */}
-            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-0">
+            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg mb-0">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <BarChart size={18} className="text-green-400" />
                 <span>Estatísticas Totais</span>
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Previsto T</p>
-                  <p className="text-cyan-500 text-base lg:text-lg font-bold">{filtered.previstoT}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Previsto</p>
+                  <p className="text-cyan-500 text-base lg:text-xl font-extralight">{filtered.previstoT}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos T</p>
-                  <p className="text-emerald-500 text-base lg:text-lg font-bold">{filtered.expedidosT}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos</p>
+                  <p className="text-emerald-500 text-base lg:text-xl font-extralight">{filtered.expedidosT}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir T</p>
-                  <p className="text-orange-500 text-base lg:text-lg font-bold">{filtered.aExpedirT}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir</p>
+                  <p className="text-orange-500 text-base lg:text-xl font-extralight">{filtered.aExpedirT}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Grades T</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.gradesT}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesT}</p>
+                </div>
+                {status !== 'PRONTA' && (
+                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                    <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
+                    <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasT}</p>
+                  </div>
+                )}
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.cubagemT}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas T</p>
-                  <p className="text-purple-500 text-base lg:text-lg font-bold">{filtered.escolasAtendidasT}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.pesoT}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total T</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.cubagemT}</p>
-                </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total T</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.pesoT}</p>
-                </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Volumes T</p>
-                  <p className="text-red-500 text-base lg:text-lg font-bold">{filtered.volumes}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Volumes</p>
+                  <p className="text-red-500 text-base lg:text-xl font-extralight">{filtered.volumes}</p>
                 </div>
                 {tipo === 'T' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3 sm:col-span-2 lg:col-span-1">
-                    <p className="text-slate-400 text-xs lg:text-sm">Perc. Erros T</p>
-                    <p className="text-yellow-500 text-base lg:text-lg font-bold">{filtered.percErr}</p>
+                    <p className="text-slate-400 text-xs lg:text-sm">Perc. Erros</p>
+                    <p className="text-yellow-500 text-base lg:text-xl font-extralight">{filtered.percErr}</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Estatísticas Normais */}
-            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
+            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <Package size={18} className="text-blue-400" />
                 <span>Estatísticas Normais</span>
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Previsto N</p>
-                  <p className="text-cyan-500 text-base lg:text-lg font-bold">{filtered.previstoN}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Previsto</p>
+                  <p className="text-cyan-500 text-base lg:text-xl font-extralight">{filtered.previstoN}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos N</p>
-                  <p className="text-emerald-500 text-base lg:text-lg font-bold">{filtered.expedidos}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos</p>
+                  <p className="text-emerald-500 text-base lg:text-xl font-extralight">{filtered.expedidos}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir N</p>
-                  <p className="text-orange-500 text-base lg:text-lg font-bold">{filtered.aExpedir}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir</p>
+                  <p className="text-orange-500 text-base lg:text-xl font-extralight">{filtered.aExpedir}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Grades N</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.gradesValidas}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesValidas}</p>
+                </div>
+                {status !== "PRONTA" && (
+                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                    <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
+                    <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasN}</p>
+                  </div>
+                )}
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.cubagemN}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas N</p>
-                  <p className="text-purple-500 text-base lg:text-lg font-bold">{filtered.escolasAtendidasN}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.pesoN}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total N</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.cubagemN}</p>
-                </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total N</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.pesoN}</p>
-                </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Volumes N</p>
-                  <p className="text-red-500 text-base lg:text-lg font-bold">{filtered.volumesN}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Volumes</p>
+                  <p className="text-red-500 text-base lg:text-xl font-extralight">{filtered.volumesN}</p>
                 </div>
               </div>
             </div>
 
             {/* Estatísticas Reposição */}
-            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg mb-6">
+            <div className="bg-slate-800/20 lg:bg-slate-800/20 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg mb-6">
               <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
                 <Settings size={18} className="text-purple-400" />
                 <span>Estatísticas Reposição</span>
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Previsto R</p>
-                  <p className="text-cyan-500 text-base lg:text-lg font-bold">{filtered.prevRepo}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Previsto</p>
+                  <p className="text-cyan-500 text-base lg:text-xl font-extralight">{filtered.prevRepo}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos R</p>
-                  <p className="text-emerald-500 text-base lg:text-lg font-bold">{filtered.expRepo}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Expedidos</p>
+                  <p className="text-emerald-500 text-base lg:text-xl font-extralight">{filtered.expRepo}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir R</p>
-                  <p className="text-orange-500 text-base lg:text-lg font-bold">{filtered.aExpRepo}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">À Expedir</p>
+                  <p className="text-orange-500 text-base lg:text-xl font-extralight">{filtered.aExpRepo}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Grades R</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.gradesRepo}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesRepo}</p>
+                </div>
+                {status !== 'PRONTA' && (
+                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                    <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
+                    <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasR}</p>
+                  </div>
+                )}
+                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.cubagemR}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas R</p>
-                  <p className="text-purple-500 text-base lg:text-lg font-bold">{filtered.escolasAtendidasR}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total</p>
+                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.pesoR}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Cub. Total R</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.cubagemR}</p>
-                </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Peso Total R</p>
-                  <p className="text-white text-base lg:text-lg font-bold">{filtered.pesoR}</p>
-                </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
-                  <p className="text-slate-400 text-xs lg:text-sm">Volumes R</p>
-                  <p className="text-red-500 text-base lg:text-lg font-bold">{filtered.volumesR}</p>
+                  <p className="text-slate-400 text-xs lg:text-sm">Volumes</p>
+                  <p className="text-red-500 text-base lg:text-xl font-extralight">{filtered.volumesR}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Tabela de Grades */}
-          <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-5 shadow-lg">
+          <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg">
             <h3 className="text-base lg:text-xl font-semibold text-white mb-3 flex items-center space-x-2">
               <Package size={18} className="text-green-400" />
               <span>Grades</span>
