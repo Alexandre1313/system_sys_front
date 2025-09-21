@@ -80,24 +80,19 @@ export default function ResumoExpedicaoComEscola() {
     }
   };
 
-  const handleGerarPdf = async () => {
-    try {    
-      gerarPDFExpedicaoComEscola(resumo);
-    } catch (error) {
-      console.error('Erro ao gerar PDF:', error);
-      setError('Erro ao gerar PDF. Tente novamente.');
-    }
+  const handleGerarPdf = () => {
+    gerarPDFExpedicaoComEscola(resumo);
   };
 
-  // Configurações de largura das colunas
+  // Configurações de largura das colunas - mais flexível em mobile
   const colWidths = {
-    projeto: 'w-[18%] min-w-[100px]',
-    data: 'w-[12%] min-w-[85px]',
-    item: 'w-[24%] min-w-[130px]',
-    genero: 'w-[8%] min-w-[65px]',
-    tamanho: 'w-[8%] min-w-[70px]',
-    previsto: 'w-[15%] min-w-[100px]',
-    expedido: 'w-[15%] min-w-[100px]',
+    projeto: 'w-auto lg:w-[16%] min-w-[100px] lg:min-w-[90px]',
+    data: 'w-auto lg:w-[12%] min-w-[85px] lg:min-w-[80px]',
+    item: 'w-auto lg:w-[18%] min-w-[140px] lg:min-w-[110px]',
+    genero: 'w-auto lg:w-[10%] min-w-[70px] lg:min-w-[60px]',
+    tamanho: 'w-auto lg:w-[10%] min-w-[75px] lg:min-w-[65px]',
+    previsto: 'w-auto lg:w-[17%] min-w-[90px] lg:min-w-[85px]',
+    expedido: 'w-auto lg:w-[17%] min-w-[90px] lg:min-w-[85px]',
   };
 
   const alignClass = 'text-left';
@@ -209,10 +204,8 @@ export default function ResumoExpedicaoComEscola() {
         <div className="max-w-[1370px] mx-auto">
 
           {loading && (
-            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl shadow-lg p-8">
-              <div className="flex items-center justify-center w-full h-64">
-                <IsLoading />
-              </div>
+            <div className="flex items-center justify-center w-full h-64">
+              <IsLoading />
             </div>
           )}
 
@@ -240,38 +233,38 @@ export default function ResumoExpedicaoComEscola() {
                 <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl shadow-lg overflow-hidden">
 
                   {/* Tabela Responsiva */}
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full border-collapse">
+                  <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-800">
+                    <table className="min-w-[700px] lg:w-full table-auto lg:table-fixed border-collapse text-xs sm:text-sm lg:text-base">
                       {/* Cabeçalho sticky */}
                       <thead className="sticky top-0 z-20 bg-slate-800/95 backdrop-blur-sm border-b border-slate-700">
                         <tr className="text-slate-300 bg-slate-700/50">
-                          <th className={`${colWidths.projeto} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                          <th className={`${colWidths.projeto} p-2 sm:p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
                             <div className="flex items-center space-x-1 lg:space-x-2">
                               <Package size={12} className="lg:w-4 lg:h-4 text-blue-400" />
                               <span className="hidden sm:inline">Projeto</span>
                               <span className="sm:hidden">Proj</span>
                             </div>
                           </th>
-                          <th className={`${colWidths.data} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                          <th className={`${colWidths.data} p-2 sm:p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
                             <div className="flex items-center space-x-1 lg:space-x-2">
                               <Calendar size={12} className="lg:w-4 lg:h-4 text-purple-400" />
                               <span>Data</span>
                             </div>
                           </th>
-                          <th className={`${colWidths.item} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                          <th className={`${colWidths.item} p-2 sm:p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
                             <div className="flex items-center space-x-1 lg:space-x-2">
                               <FileText size={12} className="lg:w-4 lg:h-4 text-green-400" />
                               <span>Item</span>
                             </div>
                           </th>
-                          <th className={`${colWidths.genero} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                          <th className={`${colWidths.genero} p-2 sm:p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
                             <div className="flex items-center space-x-1 lg:space-x-2">
                               <Hash size={12} className="lg:w-4 lg:h-4 text-orange-400" />
                               <span className="hidden sm:inline">Gênero</span>
                               <span className="sm:hidden">Gen</span>
                             </div>
                           </th>
-                          <th className={`${colWidths.tamanho} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                          <th className={`${colWidths.tamanho} p-2 sm:p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
                             <div className="flex items-center space-x-1 lg:space-x-2">
                               <Hash size={12} className="lg:w-4 lg:h-4 text-cyan-400" />
                               <span className="hidden sm:inline">Tamanho</span>
@@ -320,72 +313,72 @@ export default function ResumoExpedicaoComEscola() {
                                   : 'bg-slate-800/20 hover:bg-slate-800/40'
                               }`;
 
-                              if (isEscolaHeader) rowStyle = 'bg-blue-600/20 text-blue-400 font-medium border-l-4 border-blue-500';
-                              if (isTotalEscola) rowStyle = 'bg-yellow-600/20 text-yellow-400 font-medium border-l-4 border-yellow-500';
-                              if (isTotal) rowStyle = 'bg-green-600/20 text-green-400 font-medium border-l-4 border-green-500';
-                              if (isStatus) rowStyle = 'bg-blue-600/20 text-blue-400 font-medium border-l-4 border-blue-500';
+                              if (isEscolaHeader) rowStyle = 'bg-blue-500/30 text-blue-200 font-semibold border-l-4 border-blue-400 shadow-sm';
+                              if (isTotalEscola) rowStyle = 'bg-amber-500/30 text-amber-200 font-semibold border-l-4 border-amber-400 shadow-sm';
+                              if (isTotal) rowStyle = 'bg-emerald-500/30 text-emerald-200 font-semibold border-l-4 border-emerald-400 shadow-sm';
+                              if (isStatus) rowStyle = 'bg-indigo-500/30 text-indigo-200 font-semibold border-l-4 border-indigo-400 shadow-sm';
                               if (isTotalGeral) rowStyle = 'bg-orange-600/20 text-white font-medium text-xl';
                               if (isTotalGeral) return null;
 
                               return (
                                 <tr key={`${i}-${j}-${k}`} className={`border-b border-slate-700/30 ${rowStyle}`}>
-                                  <td className={`${colWidths.projeto} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
+                                  <td className={`${colWidths.projeto} p-2 sm:p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
                                     {isTotal || isTotalGeral || isStatus || isEscolaHeader || isTotalEscola ? '' : (
-                                      <span className="text-blue-300 truncate block" title={grupo.projectname}>
+                                      <span className="text-blue-300 block lg:truncate break-words lg:break-normal whitespace-nowrap sm:whitespace-normal" title={grupo.projectname}>
                                         {grupo.projectname}
                                       </span>
                                     )}
                                   </td>
-                                  <td className={`${colWidths.data} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
+                                  <td className={`${colWidths.data} p-2 sm:p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
                                     {isTotal || isTotalGeral || isStatus || isEscolaHeader || isTotalEscola ? '' : (
                                       <span className="text-purple-300 font-mono" title={formatarData(row.data || '')}>
                                         {formatarData(row.data || '')}
                                       </span>
                                     )}
                                   </td>
-                                  <td className={`${colWidths.item} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
+                                  <td className={`${colWidths.item} p-2 sm:p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
                                     <span className={`${
-                                      isEscolaHeader ? 'text-blue-300 font-semibold' : 
-                                      isTotalEscola ? 'text-yellow-300 font-semibold' : 
-                                      isTotal ? 'text-green-300 font-semibold' : 
-                                      isStatus ? 'text-blue-300 font-semibold' : 
-                                      'text-white'
-                                    } truncate block`} title={row.item}>
+                                      isEscolaHeader ? 'text-blue-100 font-bold' : 
+                                      isTotalEscola ? 'text-amber-100 font-bold' : 
+                                      isTotal ? 'text-emerald-100 font-bold' : 
+                                      isStatus ? 'text-indigo-100 font-bold' : 
+                                      'text-slate-100'
+                                    } block lg:truncate break-words lg:break-normal whitespace-nowrap sm:whitespace-normal`} title={row.item}>
                                       {row.item}
                                     </span>
                                   </td>
-                                  <td className={`${colWidths.genero} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
+                                  <td className={`${colWidths.genero} p-2 sm:p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
                                     {!isTotal && !isTotalGeral && !isStatus && !isEscolaHeader && !isTotalEscola && (
                                       <span className="text-orange-300 truncate block" title={row.genero}>
                                         {row.genero}
                                       </span>
                                     )}
                                   </td>
-                                  <td className={`${colWidths.tamanho} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
+                                  <td className={`${colWidths.tamanho} p-2 sm:p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
                                     {!isTotal && !isTotalGeral && !isStatus && !isEscolaHeader && !isTotalEscola && (
                                       <span className="text-cyan-300 font-medium truncate block" title={row.tamanho}>
                                         {row.tamanho}
                                       </span>
                                     )}
                                   </td>
-                                  <td className={`${colWidths.previsto} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-mono`}>
+                                  <td className={`${colWidths.previsto} p-2 sm:p-3 lg:p-4 text-right text-xs lg:text-sm xl:text-base font-mono`}>
                                     {!isTotal && !isTotalGeral && !isStatus && !isEscolaHeader && !isTotalEscola ? (
                                       <span className="text-yellow-300 font-semibold" title={convertMilharFormat(row.previsto)}>
                                         {convertMilharFormat(row.previsto)}
                                       </span>
                                     ) : (isTotal || isTotalEscola) && row.previsto > 0 ? (
-                                      <span className={`${isTotalEscola ? 'text-yellow-300' : 'text-green-300'} font-semibold`} title={convertMilharFormat(row.previsto)}>
+                                      <span className={`${isTotalEscola ? 'text-amber-100 font-bold' : 'text-emerald-100 font-bold'} font-mono`} title={convertMilharFormat(row.previsto)}>
                                         {convertMilharFormat(row.previsto)}
                                       </span>
                                     ) : null}
                                   </td>
-                                  <td className={`${colWidths.expedido} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-mono`}>
+                                  <td className={`${colWidths.expedido} p-2 sm:p-3 lg:p-4 text-right text-xs lg:text-sm xl:text-base font-mono`}>
                                     {!isTotal && !isTotalGeral && !isStatus && !isEscolaHeader && !isTotalEscola ? (
                                       <span className="text-emerald-300 font-semibold" title={convertMilharFormat(row.expedido)}>
                                         {convertMilharFormat(row.expedido)}
                                       </span>
                                     ) : (isTotal || isTotalEscola) && row.expedido > 0 ? (
-                                      <span className={`${isTotalEscola ? 'text-yellow-300' : 'text-green-300'} font-semibold`} title={convertMilharFormat(row.expedido)}>
+                                      <span className={`${isTotalEscola ? 'text-amber-100 font-bold' : 'text-emerald-100 font-bold'} font-mono`} title={convertMilharFormat(row.expedido)}>
                                         {convertMilharFormat(row.expedido)}
                                       </span>
                                     ) : null}
@@ -409,10 +402,10 @@ export default function ResumoExpedicaoComEscola() {
                                 <span className="text-sm lg:text-base whitespace-nowrap flex-shrink-0">TOTAL GERAL:</span>
                               </div>
                             </td>
-                            <td className={`${colWidths.previsto} p-3 lg:p-4`}>
+                            <td className={`${colWidths.previsto} p-3 lg:p-4 text-right`}>
                               <span className="text-yellow-200 font-mono text-sm lg:text-base">{convertMilharFormat(prev)}</span>
                             </td>
-                            <td className={`${colWidths.expedido} p-3 lg:p-4`}>
+                            <td className={`${colWidths.expedido} p-3 lg:p-4 text-right`}>
                               <span className="text-emerald-200 font-mono text-sm lg:text-base">{convertMilharFormat(exp)}</span>
                             </td>
                           </tr>
