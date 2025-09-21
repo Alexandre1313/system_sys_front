@@ -14,7 +14,11 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
             className={`group block w-full ${statusClass.desactiv ? "pointer-events-none cursor-not-allowed" : ""}`}
         >
             <div className={`${statusClass.statusClassBg} rounded-xl p-4 transition-all duration-300 
-                             transform hover:scale-[1.02] ${statusClass.desactiv ? "opacity-40" : ""}`}>
+                             transform hover:scale-[1.02] ${statusClass.desactiv ? "opacity-40" : ""} will-change-transform`}
+                 style={{
+                     backfaceVisibility: 'hidden',
+                     transform: 'translateZ(0)' // Force hardware acceleration
+                 }}>
                 <div className="flex items-center space-x-4">
                     {/* School Number */}
                     <div className="flex-shrink-0">

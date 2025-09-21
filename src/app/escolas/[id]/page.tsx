@@ -4,9 +4,9 @@ import EscolaComponent from '@/components/ComponentesEscola/EscolaComponent';
 import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { getProjetosComEscolas } from '@/hooks_api/api';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Search, Grid, List, Home } from 'react-feather';
 import useSWR from 'swr';
 import { Projeto } from '../../../../core';
@@ -43,6 +43,18 @@ export default function Escolas() {
             document.title = `${projeto.nome} - ESCOLAS`;
         }
     }, [projeto]);
+
+    // Filter schools with memoization for better performance - must be before all conditional returns
+    const escolasOrdenadas = useMemo(() => {
+        if (!projeto?.escolas) return [];
+        
+        const escolasFiltradas = projeto.escolas.filter((escola) =>
+            escola.nome.toLowerCase().includes(busca.toLowerCase()) || 
+            escola.numeroEscola.toString().includes(busca)
+        );
+        
+        return escolasFiltradas;
+    }, [projeto?.escolas, busca]);
 
     // Se a chave não é válida
     if (id === undefined) {
@@ -108,12 +120,6 @@ export default function Escolas() {
         );
     }
 
-    // Filter schools
-    const escolasFiltradas = projeto.escolas.filter((escola) =>
-        escola.nome.toLowerCase().includes(busca) || escola.numeroEscola.toString().includes(busca)
-    );
-
-    const escolasOrdenadas = escolasFiltradas;
 
     return (
         <PageWithDrawer
@@ -218,24 +224,34 @@ export default function Escolas() {
                     {escolasOrdenadas.length > 0 ? (
                         <div className={
                             viewMode === 'grid'
-                                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6"
-                                : "grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 lg:gap-6"
-                        }>
-                            {escolasOrdenadas.map((escola, index) => (
-                                <motion.div
-                                    key={escola.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{
-                                        duration: 0.2,
-                                        delay: index * 0.02,
-                                        ease: "easeOut"
-                                    }}
-                                    className="animate-fade-in"
-                                >
-                                    <EscolaComponent escola={escola} />
-                                </motion.div>
-                            ))}
+                                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents"
+                                : "grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 lg:gap-6 will-change-contents"
+                        } style={{
+                            contain: 'layout style paint' // CSS containment for better performance
+                        }}>
+                            <AnimatePresence mode="wait">
+                                {escolasOrdenadas.map((escola, index) => (
+                                    <motion.div
+                                        key={escola.id}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{
+                                            duration: 0.15,
+                                            delay: Math.min(index * 0.008, 0.2), // Delay ainda menor
+                                            ease: [0.25, 0.46, 0.45, 0.94] // Curva de animação mais suave
+                                        }}
+                                        className="animate-fade-in will-change-transform"
+                                        style={{
+                                            backfaceVisibility: 'hidden',
+                                            transform: 'translateZ(0)', // Force hardware acceleration
+                                            willChange: 'transform, opacity'
+                                        }}
+                                    >
+                                        <EscolaComponent escola={escola} />
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
                         </div>
                     ) : (
                         <div className="text-center py-12 lg:py-16">
