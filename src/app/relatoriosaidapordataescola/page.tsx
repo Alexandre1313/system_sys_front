@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { ExpedicaoResumoPDGrouped } from '../../../core';
-// Importação dinâmica do PDF será feita apenas quando necessário
 import ProjectSelect from '@/components/componentesRomaneios/preojectSelect';
 import { getProjectsPDataSaidasComEscola } from '@/hooks_api/api';
 import RemessaSelect from '@/components/componentesRomaneios/RemessaSelect';
@@ -10,6 +9,7 @@ import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { convertMilharFormat } from '../../../core/utils/tools';
 import { BarChart, FileText, Search, Download, Calendar, Package, Hash, Home } from 'react-feather';
+import { gerarPDFExpedicaoComEscola } from '../../../core/create_pdfs/pdfMakeGenertor';
 
 const fetcherSaidasPProjetoEDataComEscola = async (
   projectId: string,
@@ -81,9 +81,7 @@ export default function ResumoExpedicaoComEscola() {
   };
 
   const handleGerarPdf = async () => {
-    try {
-      // Importação dinâmica do pdfMake apenas quando necessário
-      const { gerarPDFExpedicaoComEscola } = await import('../../../core/create_pdfs/pdfMakeGenertor');
+    try {    
       gerarPDFExpedicaoComEscola(resumo);
     } catch (error) {
       console.error('Erro ao gerar PDF:', error);
