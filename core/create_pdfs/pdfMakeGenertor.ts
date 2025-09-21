@@ -19,15 +19,38 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
   const now = new Date();
   const formattedDateTime = formatDateTime(now);
 
-  // Cabeçalho da tabela
+  // 🎨 Paleta de cores moderna e profissional
+  const COLORS = {
+    // Status - cores mais suaves e intuitivas
+    DESPACHADA: { bg: '#e3f2fd', text: '#1565c0', border: '#2196f3' },
+    EXPEDIDA: { bg: '#e8f5e8', text: '#2e7d32', border: '#4caf50' },
+    PRONTA: { bg: '#fff3e0', text: '#ef6c00', border: '#ff9800' },
+    
+    // Hierarquia visual
+    PROJECT_HEADER: '#37474f',
+    SCHOOL_HEADER: '#eceff1',
+    DATE_SEPARATOR: '#f5f5f5',
+    
+    // Totais com gradiente sutil
+    TOTAL_SCHOOL: '#fff8e1',
+    TOTAL_DATE: '#e8f5e8',
+    TOTAL_GENERAL: '#e1f5fe',
+    
+    // Estados de diferença
+    NEGATIVE_DIFF: '#ffebee',
+    POSITIVE_DIFF: '#e8f5e8',
+    NEUTRAL: '#fafafa'
+  };
+
+  // 📋 Cabeçalho da tabela com design moderno
   const headers = [
-    { text: 'Data', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Item', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Gênero', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Tamanho', bold: true, fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Previsto', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Expedido', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] },
-    { text: 'Diferença', bold: true, alignment: 'right', fontSize: 9, margin: [0, 1, 0, 1] }
+    { text: 'Data', bold: true, fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' },
+    { text: 'Item', bold: true, fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' },
+    { text: 'Gênero', bold: true, fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' },
+    { text: 'Tamanho', bold: true, fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' },
+    { text: 'Previsto', bold: true, alignment: 'right', fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' },
+    { text: 'Expedido', bold: true, alignment: 'right', fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' },
+    { text: 'Diferença', bold: true, alignment: 'right', fontSize: 10, margin: [0, 3, 0, 3], fillColor: '#546e7a', color: 'white' }
   ];
 
   const body: any[] = [];
@@ -70,35 +93,34 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
       if (isStatusHeader) {
         const statusText = statusRow?.item || '';
 
-        // Define cor de fundo baseado no status
-        let fillColor = '#d0d0d0';  // cor padrão
-        let fillOpacity = 0.3;
+        // 🎨 Define cores modernas baseadas no status
+        let statusColors = { bg: COLORS.NEUTRAL, text: '#616161' };
 
         if (statusText.toUpperCase().includes('DESPACHADA')) {
-          fillColor = '#0000ff';  // azul
+          statusColors = { bg: COLORS.DESPACHADA.bg, text: COLORS.DESPACHADA.text };
         } else if (statusText.toUpperCase().includes('EXPEDIDA')) {
-          fillColor = '#008000';  // verde
+          statusColors = { bg: COLORS.EXPEDIDA.bg, text: COLORS.EXPEDIDA.text };
         } else if (statusText.toUpperCase().includes('PRONTA')) {
-          fillColor = '#FFFF00';
+          statusColors = { bg: COLORS.PRONTA.bg, text: COLORS.PRONTA.text };
         }
 
         function traduzirStatus(status: string): string {
           const cleanStatus = status.replace('STATUS:', '').trim().toUpperCase();
           switch (cleanStatus) {
             case 'DESPACHADA':
-              return 'REMETIDO AO CLIENTE - DESPACHADA';
+              return '🚚 REMETIDO AO CLIENTE - DESPACHADA';
             case 'EXPEDIDA':
-              return 'FINALIZADO - AGUARDANDO ENVIO';
+              return '📦 FINALIZADO - AGUARDANDO ENVIO';
             case 'PRONTA':
-              return 'EM ANDAMENTO';
+              return '⚙️ EM ANDAMENTO';
             default:
               return status;
           }
         }
 
-        // Linha em branco antes do status
+        // ✨ Linha separadora elegante antes do status
         body.push([
-          { text: '', colSpan: 7, margin: [0, 3, 0, 3], fillColor: '#f3f3f3' },
+          { text: '', colSpan: 7, margin: [0, 2, 0, 2], fillColor: COLORS.DATE_SEPARATOR },
           null,
           null,
           null,
@@ -107,16 +129,16 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
           null
         ]);
 
-        // Linha de status destacada
+        // 🏷️ Linha de status com design moderno
         body.push([
           {
             text: traduzirStatus(statusText),
             colSpan: 7,
-            fontSize: 9,
+            fontSize: 10,
             bold: true,
-            fillColor,
-            fillOpacity,
-            margin: [0, 4, 0, 4],
+            fillColor: statusColors.bg,
+            color: statusColors.text,
+            margin: [0, 5, 0, 5],
           },
           null,
           null,
@@ -140,16 +162,18 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
         let diff = item.expedido - item.previsto;
 
         if (isEscolaHeader) {
-          // Linha destacada para escola
+          // 🏫 Linha destacada para escola com design moderno
+          const escolaText = item.item?.replace('ESCOLA:', '🏫') || '';
           body.push([
             { text: '', margin: [0, 1, 0, 1] },
             {
-              text: item.item,
+              text: escolaText,
               colSpan: 6,
               bold: true,
-              fontSize: 9,
-              fillColor: '#e8f4fd', // azul claro
-              margin: [0, 3, 0, 3]
+              fontSize: 10,
+              fillColor: COLORS.SCHOOL_HEADER,
+              color: '#37474f',
+              margin: [0, 4, 0, 4]
             },
             null,
             null,
@@ -158,21 +182,32 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
             null
           ]);
         } else if (isSubtotal || isTotalGeral || isTotalData || isTotalEscola) {
-          // Linha total/subtotal com destaque
-          let bgColor = '#bbbbbb'; // cinza padrão
-          if (isTotalData) bgColor = '#d4edda'; // verde claro para total da data
-          if (isTotalEscola) bgColor = '#fff3cd'; // amarelo claro para total da escola
+          // 📊 Linha total/subtotal com design moderno
+          let bgColor = COLORS.NEUTRAL;
+          let textPrefix = '📄 ';
+          
+          if (isTotalGeral) {
+            bgColor = COLORS.TOTAL_GENERAL;
+            textPrefix = '📋 ';
+          } else if (isTotalData) {
+            bgColor = COLORS.TOTAL_DATE;
+            textPrefix = '📅 ';
+          } else if (isTotalEscola) {
+            bgColor = COLORS.TOTAL_SCHOOL;
+            textPrefix = '🏫 ';
+          }
 
           if (isTotalEscola) {
             // Para Total da Escola, mesclar as 4 primeiras células para evitar quebra de linha
             body.push([
               {
-                text: item.item,
+                text: textPrefix + item.item,
                 colSpan: 4,
                 bold: true,
                 fontSize: 9,
                 fillColor: bgColor,
-                margin: [0, 2, 0, 2]
+                color: '#37474f',
+                margin: [0, 3, 0, 3]
               },
               null,
               null,
@@ -204,16 +239,17 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
               }
             ]);
           } else {
-            // Para outros totais, manter o formato original
+            // Para outros totais, com design aprimorado
             body.push([
               { text: '', margin: [0, 1, 0, 1] },
               { text: '' },
               {
-                text: item.item,
+                text: textPrefix + item.item,
                 bold: true,
                 fontSize: 9,
                 fillColor: bgColor,
-                margin: [0, 2, 0, 2]
+                color: '#37474f',
+                margin: [0, 3, 0, 3]
               },
               { text: '', fillColor: bgColor },
               {
@@ -244,32 +280,43 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
             ]);
           }
         } else {
-          // Linhas normais de itens
+          // ✨ Linhas normais de itens com design aprimorado
+          let diffBgColor = COLORS.NEUTRAL;
+          let diffTextColor = '#616161';
+          
+          if (diff < 0) {
+            diffBgColor = COLORS.NEGATIVE_DIFF;
+            diffTextColor = '#d32f2f';
+          } else if (diff > 0) {
+            diffBgColor = COLORS.POSITIVE_DIFF;
+            diffTextColor = '#2e7d32';
+          }
+
           body.push([
-            { text: formatDateSP(item.data) || '', fontSize: 8, margin: [0, 1, 0, 1] },
-            { text: item.item, fontSize: 8, margin: [0, 1, 0, 1] },
-            { text: item.genero, fontSize: 8, margin: [0, 1, 0, 1] },
-            { text: item.tamanho, fontSize: 8, margin: [0, 1, 0, 1] },
+            { text: formatDateSP(item.data) || '', fontSize: 8, margin: [0, 2, 0, 2] },
+            { text: item.item, fontSize: 8, margin: [0, 2, 0, 2] },
+            { text: item.genero, fontSize: 8, margin: [0, 2, 0, 2] },
+            { text: item.tamanho, fontSize: 8, margin: [0, 2, 0, 2], alignment: 'center' },
             {
               text: item.previsto.toString(),
               alignment: 'right',
               fontSize: 8,
-              margin: [0, 1, 0, 1]
+              margin: [0, 2, 0, 2]
             },
             {
               text: item.expedido.toString(),
               alignment: 'right',
               fontSize: 8,
-              margin: [0, 1, 0, 1]
+              margin: [0, 2, 0, 2]
             },
             {
-              text: diff === 0 ? '' : diff.toString(),
+              text: diff === 0 ? '—' : diff.toString(),
               alignment: 'right',
-              bold: true,
-              fontSize: 9,
-              fillColor: '#bbbbbb',
-              margin: [0, 1, 0, 1],
-              color: diff < 0 ? 'red' : diff === 0 ? 'transparent' : 'black'
+              bold: diff !== 0,
+              fontSize: 8,
+              fillColor: diffBgColor,
+              color: diffTextColor,
+              margin: [0, 2, 0, 2]
             }
           ]);
         }

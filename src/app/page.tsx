@@ -34,7 +34,7 @@ export default function Home() {
               SYS
             </h1>
             <span className="text-2xl sm:text-4xl lg:text-6xl font-bold text-blue-400 ml-2">E</span>
-            <span className="text-xl sm:text-3xl lg:text-5xl font-medium text-slate-300 ml-0">XPED</span>
+            <span className="text-xl sm:text-3xl lg:text-5xl font-medium text-slate-300 ml-0">XPED</span>          
           </div>
           <p className="text-slate-400 text-sm sm:text-base max-w-md mx-auto">
             Sistema para gestão de expedição e logística
@@ -140,14 +140,7 @@ export default function Home() {
                   <h3 className="text-white font-medium text-sm mb-1">Relatório Saída</h3>
                   <p className="text-slate-400 text-xs">Saídas por data</p>
                 </div>
-              </Link>
-
-              <Link href="/relatoriosaidapordataescola" className="group">
-                <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1">Relatório por Escola</h3>
-                  <p className="text-slate-400 text-xs">Saídas agrupadas por escola</p>
-                </div>
-              </Link>
+              </Link>              
 
               <Link href="/" className="group hidden">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
@@ -156,14 +149,14 @@ export default function Home() {
                 </div>
               </Link>
 
-              <Link href="/" className="group hidden">
+               <Link href="/" className="group hidden">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
                   <h3 className="text-white font-medium text-sm mb-1"></h3>
                   <p className="text-slate-400 text-xs"></p>
                 </div>
               </Link>
 
-              <Link href="/" className="group hidden">
+               <Link href="/" className="group hidden">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
                   <h3 className="text-white font-medium text-sm mb-1"></h3>
                   <p className="text-slate-400 text-xs"></p>
