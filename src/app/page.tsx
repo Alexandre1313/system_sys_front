@@ -142,10 +142,10 @@ export default function Home() {
                 </div>
               </Link>              
 
-              <Link href="/" className="group hidden">
+              <Link href="/relatoriosaidapordataescola" className="group">
                 <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
-                  <h3 className="text-white font-medium text-sm mb-1"></h3>
-                  <p className="text-slate-400 text-xs"></p>
+                  <h3 className="text-white font-medium text-sm mb-1">Relatório Saída P/ Escola</h3>
+                  <p className="text-slate-400 text-xs">Saídas por data e escola</p>
                 </div>
               </Link>
 
