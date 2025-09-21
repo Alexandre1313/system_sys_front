@@ -200,11 +200,7 @@ export default function ResumoExpedicaoComEscola() {
       <div className="px-4 pt-4 lg:pt-[13.1rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-[1370px] mx-auto">
 
-          {loading && (
-            <div className="flex items-center justify-center w-full h-64">
-              <IsLoading />
-            </div>
-          )}
+          {loading && <IsLoading />}
 
           {!loading && buscou && (
             <div className="w-full">

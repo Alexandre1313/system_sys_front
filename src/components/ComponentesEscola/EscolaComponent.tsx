@@ -57,10 +57,23 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                     )}
                 </div>
 
-                {/* Progress Bar (if needed) */}
-                {!statusClass.desactiv && (
-                    <div className="mt-3 w-full bg-slate-700 rounded-full h-1">
-                        <div className="bg-gradient-to-r from-emerald-500 to-blue-600 h-1 rounded-full" style={{ width: `${escola.percentualProgresso}%` }}></div>
+                {/* Progress Bar */}
+                {!statusClass.desactiv && escola.percentualProgresso !== undefined && (
+                    <div className="mt-4">
+                        <div className="flex items-center space-x-3">
+                            {/* Progress Bar */}
+                            <div className="flex-1 bg-slate-700/50 rounded-full h-2 overflow-hidden">
+                                <div 
+                                    className="bg-gradient-to-r from-emerald-500 to-blue-600 h-full rounded-full transition-all duration-500 ease-out" 
+                                    style={{ width: `${Math.min(100, Math.max(0, escola.percentualProgresso))}%` }}
+                                ></div>
+                            </div>
+                            
+                            {/* Percentage */}
+                            <span className="text-emerald-400 text-xs font-medium flex-shrink-0">
+                                {Math.round(escola.percentualProgresso || 0)}%
+                            </span>
+                        </div>
                     </div>
                 )}
             </div>

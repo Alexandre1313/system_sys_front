@@ -155,7 +155,7 @@ export default function Escolas() {
                         </div>
 
                         {/* Barra de Pesquisa e Controles - Layout Flat */}
-                        <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-3 shadow-lg">
+                        <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-2 shadow-lg">
                             <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
 
                                 {/* Barra de Pesquisa */}
@@ -202,7 +202,7 @@ export default function Escolas() {
             </div>
 
             {/* Conteúdo Principal - Com Espaçamento Ajustado */}
-            <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
+            <div className="px-4 pt-4 lg:pt-[13.5rem] pb-8 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
 
                     {/* Contador de Resultados - Apenas no Mobile */}

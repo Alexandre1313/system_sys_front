@@ -2,10 +2,10 @@ import { Loader } from "react-feather";
 
 export default function IsLoading() {
     return (
-        <div className="relative flex items-center justify-center px-4 py-8">
+        <div className="fixed inset-0 flex items-center justify-center px-4 z-50">
             {/* Loading Card */}
             <div className="relative z-10 text-center">
-                <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 sm:p-12 shadow-lg">
+                <div className="bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 sm:p-12 shadow-2xl">
                     {/* Loading Icon */}
                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Loader size={32} className="text-white animate-rotate" strokeWidth={2} />
