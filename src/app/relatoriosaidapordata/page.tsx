@@ -178,7 +178,7 @@ export default function ResumoExpedicao() {
 
             {/* Controles de Filtro */}
             <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 lg:gap-4 items-center">
 
                 {/* Projeto */}
                 <div className="flex-1">
@@ -203,7 +203,7 @@ export default function ResumoExpedicao() {
                   </select>
                 </div>
 
-                {/* Botões de Ação */}
+                {/* Botão Resumido */}
                 <div className="flex-1">
                   <button
                     onClick={handleBuscarResum}
@@ -211,10 +211,12 @@ export default function ResumoExpedicao() {
                     className={`w-full bg-slate-600 hover:bg-slate-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2 ${loading ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
                   >
                     <Search size={14} className="lg:w-4 lg:h-4" />
-                    <span>{loading ? 'Carregando...' : 'Resumido'}</span>
+                    <span className="hidden sm:inline">{loading ? 'Carregando...' : 'Resumido'}</span>
+                    <span className="sm:hidden">Resum</span>
                   </button>
                 </div>
 
+                {/* Botão Completo */}
                 <div className="flex-1">
                   <button
                     onClick={handleBuscar}
@@ -222,33 +224,31 @@ export default function ResumoExpedicao() {
                     className={`w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2 ${loading ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
                   >
                     <Search size={14} className="lg:w-4 lg:h-4" />
-                    <span>{loading ? 'Carregando...' : 'Completo'}</span>
+                    <span className="hidden sm:inline">{loading ? 'Carregando...' : 'Completo'}</span>
+                    <span className="sm:hidden">Comp</span>
+                  </button>
+                </div>
+
+                {/* Botão de PDF */}
+                <div className="flex-1">
+                  <button
+                    onClick={() => gerarPDFExpedicao(resumo)}
+                    disabled={resumo.length === 0 || loading}
+                    className={`w-full bg-green-600 hover:bg-green-700 text-white rounded-lg px-3 py-2 text-xs lg:text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-1 lg:space-x-2 ${resumo.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  >
+                    <Download size={14} className="lg:w-4 lg:h-4" />
+                    <span className="hidden sm:inline">Gerar PDF</span>
+                    <span className="sm:hidden">PDF</span>
                   </button>
                 </div>
               </div>
             </div>
-
-            {/* Botão de PDF */}
-            {resumo.length > 0 && (
-              <div className="bg-slate-800/30 lg:bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl p-3 lg:p-4 shadow-lg mt-3 lg:mt-4">
-                <div className="flex items-center justify-center">
-                  <button
-                    onClick={() => gerarPDFExpedicao(resumo)}
-                    disabled={resumo.length === 0 || loading}
-                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 text-sm lg:text-base font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
-                  >
-                    <Download size={18} className="lg:w-5 lg:h-5" />
-                    <span>Gerar PDF</span>
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 pt-4 lg:pt-[21rem] pb-8 sm:px-6 lg:px-8">
+      <div className="px-4 pt-4 lg:pt-[13.2rem] pb-8 sm:px-6 lg:px-8">
         <div className="max-w-[1370px] mx-auto">
 
           {loading && (
