@@ -13,7 +13,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
             target={'_GRADES'}
             className={`group block w-full ${statusClass.desactiv ? "pointer-events-none cursor-not-allowed" : ""}`}
         >
-            <div className={`${statusClass.statusClassBg} rounded-xl p-4 transition-all duration-300 
+            <div className={`${statusClass.statusClassBg} rounded-xl p-3 transition-all duration-300 
                              transform hover:scale-[1.02] ${statusClass.desactiv ? "opacity-40" : ""} will-change-transform`}
                  style={{
                      backfaceVisibility: 'hidden',
@@ -66,7 +66,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
                     <div className="mt-4">
                         <div className="flex items-center space-x-3">
                             {/* Progress Bar */}
-                            <div className="flex-1 bg-slate-700/50 rounded-full h-2 overflow-hidden">
+                            <div className="flex-1 bg-slate-700/50 rounded-full h-1 overflow-hidden">
                                 <div 
                                     className="bg-gradient-to-r from-emerald-500 to-blue-600 h-full rounded-full transition-all duration-500 ease-out" 
                                     style={{ width: `${Math.min(100, Math.max(0, escola.percentualProgresso))}%` }}
