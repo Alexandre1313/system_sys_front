@@ -146,7 +146,7 @@ export default function Ranking() {
             </div>
 
             {/* Conteúdo Principal */}
-            <div className="px-4 pt-4 lg:pt-[15rem] pb-8 sm:px-6 lg:px-8">
+            <div className="px-4 pt-4 lg:pt-[13.35rem] pb-8 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     
                     {/* Loading State */}

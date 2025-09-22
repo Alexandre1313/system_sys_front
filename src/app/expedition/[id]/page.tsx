@@ -187,9 +187,9 @@ export default function Expedition() {
         setIdGradeSelecionada(id);
     }
 
-    // Verifica se a grade pode ser ajustada: deve ser PRONTA e ter pelo menos 1 item expedido
+    // Verifica se a grade pode ser ajustada: deve ser PENDENTE e ter pelo menos 1 item expedido
     const podeAjustarGrade = (grade: any) => {
-        return grade.status === "PRONTA" && grade.itensGrade?.some((item: any) => item.quantidadeExpedida > 0);
+        return grade.status === "PENDENTE" && grade.itensGrade?.some((item: any) => item.quantidadeExpedida > 0);
     };
 
     const handlerAjustaGrade = async (gradeId: string) => {
@@ -312,7 +312,7 @@ export default function Expedition() {
                                             <p className="text-xs text-amber-400 uppercase tracking-wide">Para Cortar</p>
                                             <p className="text-xl font-semibold text-amber-300">
                                                 {escolaData?.grades
-                                                    .filter(grade => grade.status === 'PRONTA')
+                                                    .filter(grade => grade.status === 'PENDENTE')
                                                     .reduce((sum, grade) => {
                                                         return sum + grade.itensGrade.reduce((acc, item) => {
                                                             if (item.quantidadeExpedida === 0) {
@@ -387,7 +387,7 @@ export default function Expedition() {
                                         <p className="text-xs text-amber-400 uppercase tracking-wide">P/ Cortar</p>
                                         <p className="text-xl font-semibold text-amber-300">
                                             {escolaData?.grades
-                                                .filter(grade => grade.status === 'PRONTA')
+                                                .filter(grade => grade.status === 'PENDENTE')
                                                 .reduce((sum, grade) => {
                                                     return sum + grade.itensGrade.reduce((acc, item) => {
                                                         if (item.quantidadeExpedida === 0) {
@@ -875,7 +875,7 @@ export default function Expedition() {
                                                         </div>
 
                                                         <div className="flex items-center space-x-2">
-                                                            <div className={`w-2.5 h-2.5 rounded-full ${gradeInfo.status === 'PRONTA' ? 'bg-blue-400' :
+                                                            <div className={`w-2.5 h-2.5 rounded-full ${gradeInfo.status === 'PENDENTE' ? 'bg-blue-400' :
                                                                 gradeInfo.status === 'EXPEDIDA' ? 'bg-emerald-400' :
                                                                     gradeInfo.status === 'DESPACHADA' ? 'bg-purple-400' :
                                                                         'bg-slate-400'
@@ -901,7 +901,7 @@ export default function Expedition() {
                                                         <div className="space-y-1">
                                                             <div className="flex items-center space-x-2 text-xs">
                                                                 <div className="w-1 h-1 bg-emerald-400 rounded-full"></div>
-                                                                <span className="text-slate-300">Apenas grades PRONTAS com itens expedidos</span>
+                                                                <span className="text-slate-300">Apenas grades pendentes com itens expedidos</span>
                                                             </div>
                                                             <div className="flex items-center space-x-2 text-xs">
                                                                 <div className="w-1 h-1 bg-red-400 rounded-full"></div>

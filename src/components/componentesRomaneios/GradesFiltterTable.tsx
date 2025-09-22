@@ -86,7 +86,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
               <div className="space-y-4">
 
                 {/* Checkbox no topo */}
-                {(status === 'EXPEDIDA' || status === 'PRONTA') && (
+                {(status === 'EXPEDIDA' || status === 'PENDENTE') && (
                   <div className="flex items-center justify-center w-6 h-6">
                     <label className="relative cursor-pointer">
                       <input
@@ -135,7 +135,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
                     <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Nº da Escola</p>
-                    {status === 'PRONTA' ? (
+                    {status === 'PENDENTE' ? (
                       <Link href={`/expedition/${grade.escolaId}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-cyan-300 hover:text-cyan-200 transition-colors">
                         <span>{grade.numeroEscola}</span>
                         <ExternalLink className={`${colorLinkExternal}`}  size={12} />

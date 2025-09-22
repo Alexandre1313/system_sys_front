@@ -42,7 +42,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
       },
       'EXPEDIDA': {
         bg: 'bg-yellow-500/20',
-        text: 'Pronta para envio',
+        text: 'Pendente para envio',
         title: 'Situação',
         color: 'text-yellow-400'
       },

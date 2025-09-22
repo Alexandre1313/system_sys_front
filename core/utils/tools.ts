@@ -698,7 +698,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     EXPEDIDA: 'EXPEDIDA',
     DESPACHADA: 'DESPACHADA',
     REPOSICAO: 'REPOSICAO',
-    PRONTA: 'PRONTA',
+    PENDENTE: 'PENDENTE',
   };
 
   const COLORS = {
@@ -739,11 +739,11 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
 
   const todasDespachadas = grades.every(g => g.status === STATUS.DESPACHADA);
   const todasExpedidasOuDespachadas = grades.every(g => g.status === STATUS.EXPEDIDA || g.status === STATUS.DESPACHADA);
-  const todasProntasNaoIniciadas = grades.every(g => g.status === STATUS.PRONTA && !g.iniciada);
-  const umaProntaNaoIniciada = grades.some(g => g.status === STATUS.PRONTA && !g.iniciada);
-  const umaProntaIniciada = grades.some(g => g.status === STATUS.PRONTA && g.iniciada);
-  const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && !g.iniciada);
-  const repoInit = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PRONTA && g.iniciada);
+  const todasPENDENTEsNaoIniciadas = grades.every(g => g.status === STATUS.PENDENTE && !g.iniciada);
+  const umaPENDENTENaoIniciada = grades.some(g => g.status === STATUS.PENDENTE && !g.iniciada);
+  const umaPENDENTEIniciada = grades.some(g => g.status === STATUS.PENDENTE && g.iniciada);
+  const repo = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PENDENTE && !g.iniciada);
+  const repoInit = grades.some((g) => normalize(g.tipo) === STATUS.REPOSICAO && g.status === STATUS.PENDENTE && g.iniciada);
   const umaExpedida = grades.some(g => g.status === STATUS.EXPEDIDA);
 
   if (repo) {
@@ -765,7 +765,7 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     statusClassBg = BGCOLORS.emerald;
     statusClassBgGrad = BGCOLORSGRAD.emerald;
     desactiv = false;
-  } else if (todasProntasNaoIniciadas) {
+  } else if (todasPENDENTEsNaoIniciadas) {
     statusClass = COLORS.slate;
     statusClassBg = BGCOLORS.slate;
     statusClassBgGrad = BGCOLORSGRAD.slate;
@@ -776,12 +776,12 @@ function analyzerStatus(grades: Grade[]): { desactiv: boolean, statusClass: stri
     statusClassBgGrad = BGCOLORSGRAD.cyan500;
     desactiv = false;
   }
-  else if (umaProntaIniciada) {
+  else if (umaPENDENTEIniciada) {
     statusClass = COLORS.cyan;
     statusClassBg = BGCOLORS.cyan;
     statusClassBgGrad = BGCOLORSGRAD.cyan;
     desactiv = false;
-  } else if (umaProntaNaoIniciada) {
+  } else if (umaPENDENTENaoIniciada) {
     statusClass = COLORS.slate;
     statusClassBg = BGCOLORS.slate;
     statusClassBgGrad = BGCOLORSGRAD.slate;

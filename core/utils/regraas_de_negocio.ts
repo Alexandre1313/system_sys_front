@@ -356,7 +356,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
     if (totalExpedido === 0) {
         return null;
     }
-    return caixa; // Retorna a caixa pronta para inserção no banco
+    return caixa; // Retorna a caixa PENDENTE para inserção no banco
 }
 
 // ✅ NOVA FUNÇÃO: Zerar quantidades APÓS confirmar a caixa

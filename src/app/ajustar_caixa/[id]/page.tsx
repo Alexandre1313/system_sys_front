@@ -48,7 +48,7 @@ export default function AjustarCaixa() {
           }));
           setCaixa(caixaData);
           setItensComOriginal(itensComOriginalQty);
-          setCaixaStatusBoolean(caixaData.status === 'PRONTA' ? false : true);
+          setCaixaStatusBoolean(caixaData.status === 'PENDENTE' ? false : true);
           if (caixaData && caixaData.caixaNumber) {
             document.title = `CAIXA Nº ${padStart(caixaData.caixaNumber, 2, '0')}`;
           }
@@ -183,7 +183,7 @@ export default function AjustarCaixa() {
           );
 
           setCaixa({ ...refreshedBox });
-          setCaixaStatusBoolean(refreshedBox.status === 'PRONTA' ? false : true);
+          setCaixaStatusBoolean(refreshedBox.status === 'PENDENTE' ? false : true);
 
           setMsg('CAIXA ALTERADA COM SUCESSO!');
           setMsg1('CONFIRA AS QUANTIDADES');

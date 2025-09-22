@@ -197,7 +197,7 @@ export default function ConsultaStatusGradesPP() {
                   >
                     <option value="EXPEDIDA">Expedidas</option>
                     <option value="DESPACHADA">Despachadas</option>
-                    <option value="PRONTA">Prontas</option>
+                    <option value="PENDENTE">Pendentes</option>
                     <option value="TODAS">Todas</option>
                     {'<option value="IMPRESSA">-----</option>'}
                   </select>
@@ -315,7 +315,7 @@ export default function ConsultaStatusGradesPP() {
                   <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesT}</p>
                 </div>
-                {status !== 'PRONTA' && (
+                {status !== 'PENDENTE' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
                     <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasT}</p>
@@ -365,7 +365,7 @@ export default function ConsultaStatusGradesPP() {
                   <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesValidas}</p>
                 </div>
-                {status !== 'PRONTA' && (
+                {status !== 'PENDENTE' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
                     <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasN}</p>
@@ -409,7 +409,7 @@ export default function ConsultaStatusGradesPP() {
                   <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesRepo}</p>
                 </div>
-                {status !== 'PRONTA' && (
+                {status !== 'PENDENTE' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
                     <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasR}</p>

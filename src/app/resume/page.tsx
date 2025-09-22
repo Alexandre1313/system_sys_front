@@ -88,7 +88,7 @@ export default function ConsultaStatusGrades() {
           >
             <option value="EXPEDIDA">EXPEDIDAS</option>
             <option value="DESPACHADA">DESPACHADAS</option>
-            <option value="PRONTA">PRONTAS</option>
+            <option value="PENDENTE">PENDENTES</option>
             <option value="IMPRESSA">IMPRESSAS</option>
             <option value="TODAS">TODAS</option>
           </select>

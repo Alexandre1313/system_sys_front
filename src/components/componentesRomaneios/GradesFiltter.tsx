@@ -205,7 +205,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   const statusBorders: any = {
     EXPEDIDA: 'border-green-600',
     DESPACHADA: 'border-blue-500',
-    PRONTA: 'border-gray-500',
+    PENDENTE: 'border-gray-500',
     IMPRESSA: 'border-purple-400',
     TODAS: 'border-pink-500',
   };
@@ -214,7 +214,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
   const statusBackgrounds: any = {
     EXPEDIDA: 'bg-green-600 bg-opacity-[1%]',
     DESPACHADA: 'bg-blue-600 bg-opacity-[1%]',
-    PRONTA: 'bg-gray-300 bg-opacity-[1%]',
+    PENDENTE: 'bg-gray-300 bg-opacity-[1%]',
     IMPRESSA: 'bg-purple-600 bg-opacity-[1%]',
     TODAS: 'bg-gray-800 bg-opacity-[1%]',
   };
@@ -278,14 +278,14 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
                     <span className="text-red-500 pl-3 font-normal text-lg">{`${grade.tipo ? grade.tipo : ''}`}</span>
                   </h3>
                   <p className="text-green-600 uppercase text-xl">Escola: {grade.escola}
-                    {grade.status === "PRONTA" && (
+                    {grade.status === "PENDENTE" && (
                       <Link href={`/expedition/${grade.escolaId}`}  target="_blank">
                         <button type='button' className={`text-orange-400 ml-5 p-[0.05rem] px-6 border border-orange-400 rounded-md hover:bg-orange-400 hover:text-black cursor-pointer`}>
                           Nº {grade.numeroEscola}
                         </button>
                       </Link>
                     )}
-                     {grade.status !== "PRONTA" && (
+                     {grade.status !== "PENDENTE" && (
                       <Link className={`pointer-events-none`} href={`/expedition/${grade.escolaId}`}  target="_blank">
                         <button type='button' className={`text-orange-400 ml-5 p-[0.05rem] px-6 border border-orange-400 rounded-md hover:bg-orange-400 hover:text-black cursor-pointer`}>
                           Nº {grade.numeroEscola}
@@ -400,7 +400,7 @@ export default function GradesFilter({ stat, expedicaoData, setDesp }: GradeFilt
               {stat === 'TODAS' && (
                 <>
                   <p className={`uppercase`}>ESCOLAS ATENDIDAS:<span className='text-emerald-500 text-2xl pl-5'>{convertMilharFormat(escolasEntregues.length)}</span></p>
-                  <p className={`uppercase`}>ESCOLAS PRONTAS PARA ENVIO:<span className='text-blue-500 text-2xl pl-5'>{convertMilharFormat(escolasParaEnvio.length)}</span></p>
+                  <p className={`uppercase`}>ESCOLAS PENDENTES PARA ENVIO:<span className='text-blue-500 text-2xl pl-5'>{convertMilharFormat(escolasParaEnvio.length)}</span></p>
                 </>
               )}
               {stat !== 'TODAS' && (
