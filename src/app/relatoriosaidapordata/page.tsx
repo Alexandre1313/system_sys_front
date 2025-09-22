@@ -42,16 +42,13 @@ const fetcherSaidasPProjetoEDataResum = async (
 // Função para formatar data
 const formatarData = (dataString: string): string => {
   if (!dataString) return '';
-  
+
   try {
-    const data = new Date(dataString);
-    if (isNaN(data.getTime())) return dataString;
-    
-    return data.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+    // pega só a parte da data
+    const [dataParte] = dataString.split(' ');
+    const [ano, mes, dia] = dataParte.split('-');
+
+    return `${dia}/${mes}/${ano}`;
   } catch {
     return dataString;
   }
@@ -347,12 +344,11 @@ export default function ResumoExpedicao() {
 
                               // Determina se é linha par ou ímpar para efeito zebrado
                               const isEvenRow = (i + j + k) % 2 === 0;
-                              
-                              let rowStyle = `transition-all duration-200 ${
-                                isEvenRow 
-                                  ? 'bg-slate-700/20 hover:bg-slate-700/40' 
+
+                              let rowStyle = `transition-all duration-200 ${isEvenRow
+                                  ? 'bg-slate-700/20 hover:bg-slate-700/40'
                                   : 'bg-slate-800/20 hover:bg-slate-800/40'
-                              }`;
+                                }`;
 
                               if (isTotal) rowStyle = 'bg-green-600/20 text-green-400 font-medium border-l-4 border-green-500';
                               if (isStatus) rowStyle = 'bg-blue-600/20 text-blue-400 font-medium border-l-4 border-blue-500';

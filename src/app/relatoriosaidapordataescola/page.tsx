@@ -28,16 +28,13 @@ const fetcherSaidasPProjetoEDataComEscola = async (
 // Função para formatar data
 const formatarData = (dataString: string): string => {
   if (!dataString) return '';
-  
+
   try {
-    const data = new Date(dataString);
-    if (isNaN(data.getTime())) return dataString;
-    
-    return data.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+    // pega só a parte da data
+    const [dataParte] = dataString.split(' ');
+    const [ano, mes, dia] = dataParte.split('-');
+
+    return `${dia}/${mes}/${ano}`;
   } catch {
     return dataString;
   }
@@ -291,7 +288,7 @@ export default function ResumoExpedicaoComEscola() {
                               const isEscolaHeader = row.item?.startsWith('ESCOLA:');
                               const isTotalEscola = row.item?.startsWith('Total ') && !isTotal && row.item !== 'Total Geral' && row.item !== 'Total da Data';
                               isTotalGeral = row.item === 'Total Geral';
-                              
+
                               if (isTotalGeral) {
                                 prev = row.previsto;
                                 exp = row.expedido;
@@ -299,12 +296,11 @@ export default function ResumoExpedicaoComEscola() {
 
                               // Determina se é linha par ou ímpar para efeito zebrado
                               const isEvenRow = (i + j + k) % 2 === 0;
-                              
-                              let rowStyle = `transition-all duration-200 ${
-                                isEvenRow 
-                                  ? 'bg-slate-700/20 hover:bg-slate-700/40' 
+
+                              let rowStyle = `transition-all duration-200 ${isEvenRow
+                                  ? 'bg-slate-700/20 hover:bg-slate-700/40'
                                   : 'bg-slate-800/20 hover:bg-slate-800/40'
-                              }`;
+                                }`;
 
                               if (isEscolaHeader) rowStyle = 'bg-blue-500/30 text-blue-200 font-semibold border-l-4 border-blue-400 shadow-sm';
                               if (isTotalEscola) rowStyle = 'bg-amber-500/30 text-amber-200 font-semibold border-l-4 border-amber-400 shadow-sm';
@@ -330,13 +326,12 @@ export default function ResumoExpedicaoComEscola() {
                                     )}
                                   </td>
                                   <td className={`${colWidths.item} p-2 sm:p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
-                                    <span className={`${
-                                      isEscolaHeader ? 'text-blue-100 font-bold' : 
-                                      isTotalEscola ? 'text-amber-100 font-bold' : 
-                                      isTotal ? 'text-emerald-100 font-bold' : 
-                                      isStatus ? 'text-indigo-100 font-bold' : 
-                                      'text-slate-100'
-                                    } block lg:truncate break-words lg:break-normal whitespace-nowrap sm:whitespace-normal`} title={row.item}>
+                                    <span className={`${isEscolaHeader ? 'text-blue-100 font-bold' :
+                                        isTotalEscola ? 'text-amber-100 font-bold' :
+                                          isTotal ? 'text-emerald-100 font-bold' :
+                                            isStatus ? 'text-indigo-100 font-bold' :
+                                              'text-slate-100'
+                                      } block lg:truncate break-words lg:break-normal whitespace-nowrap sm:whitespace-normal`} title={row.item}>
                                       {row.item}
                                     </span>
                                   </td>
