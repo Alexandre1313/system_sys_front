@@ -63,7 +63,7 @@ export default function EscolaComponent({ escola }: EscolaComponentProps) {
 
                 {/* Progress Bar */}
                 {!statusClass.desactiv && escola.percentualProgresso !== undefined && (
-                    <div className="mt-4">
+                    <div className="mt-[0.30rem]">
                         <div className="flex items-center space-x-3">
                             {/* Progress Bar */}
                             <div className="flex-1 bg-slate-700/50 rounded-full h-1 overflow-hidden">
