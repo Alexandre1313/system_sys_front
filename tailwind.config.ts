@@ -62,6 +62,8 @@ const config: Config = {
     'bg-emerald-400/10',
     'bg-blue-400/10',
     'bg-transparent',
+
+    'text-red-500',
   ],
 
   theme: {

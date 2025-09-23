@@ -17,7 +17,7 @@ export default function ItemsProjects({ onClick, item, index, embalagemId, itemT
   const itemBarcode = itemSelect.barcode;
   const itemTamId = itemSelect.id;
   const bgColor = index % 2 === 0 ? `bg-slate-700/20` : ``;
-  
+
   return (
     <div
       onClick={() => onClick(item, embalagemId, itemTamanhoId)}
@@ -49,6 +49,15 @@ export default function ItemsProjects({ onClick, item, index, embalagemId, itemT
           <span className="text-slate-500 text-xs lg:text-sm font-medium">Gênero:</span>
           <span className="text-slate-300 text-xs lg:text-sm group-hover:text-emerald-400 transition-colors duration-300">
             {itemGenero}
+          </span>
+        </div>
+        {/* Gênero */}
+        <div className="flex items-center space-x-2">
+          <span className="text-slate-500 text-xs lg:text-sm font-medium">Estoque:</span>
+          <span className={`text-xs lg:text-sm group-hover:text-emerald-400 transition-colors duration-300`}
+            style={{ color: item.estoque < 0 ? '#F56565' : '#CBD5E1' }}
+          >
+            {item.estoque}
           </span>
         </div>
       </div>
