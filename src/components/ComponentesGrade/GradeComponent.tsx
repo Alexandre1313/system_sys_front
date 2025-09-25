@@ -330,7 +330,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Main Grade Card - Clean Modern Design */}
-            <div className={`group lg:max-w-[320px] bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer ${total === totalExpedido
+            <div className={`group lg:max-w-[320px] bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-4 transition-all duration-300 transform hover:scale-[1.007] hover:shadow-xl cursor-pointer ${total === totalExpedido
                 ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
                 : totalExpedido > 0
                     ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
@@ -529,7 +529,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
                                             key={index}
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
-                                                duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer min-w-[295px]
+                                                duration-300 transform hover:scale-[1.015] hover:shadow-xl cursor-pointer min-w-[295px]
                                                 ${isCompleted
                                                     ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
                                                     : isPartial
