@@ -14,7 +14,7 @@ interface CaixaCardProps {
 }
 
 const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState('0px');
 
@@ -63,47 +63,56 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
     <div className="bg-slate-800/50 border border-slate-700 rounded-xl shadow-lg overflow-hidden">
       {/* Header da Caixa */}
       <div 
-        className="p-4 cursor-pointer hover:bg-slate-700/30 transition-all duration-300"
+        className="p-2 lg:p-4 cursor-pointer hover:bg-slate-700/30 transition-all duration-300"
         onClick={toggleOpen}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4 min-w-0 flex-1">
-            <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-              <Package size={20} className="text-white" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-1">
-                <h3 className="text-base lg:text-lg font-semibold text-slate-200 break-words">
-                  {caixa.projeto} - GRADE ID {caixa.gradeId}
-                </h3>
-                <span className="px-2 py-1 bg-slate-700/50 border border-slate-600 rounded-lg text-xs text-slate-300 mt-1 sm:mt-0 flex-shrink-0">
-                  #{caixa.gradeId}
-                </span>
+        <div className="flex items-start justify-between">
+          {/* Número da Caixa - Destaque Principal */}
+          <div className="flex items-start space-x-2 lg:space-x-4 min-w-0 flex-1">
+            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-emerald-500 via-blue-600 to-purple-600 rounded-lg lg:rounded-2xl p-1.5 lg:p-2 shadow-2xl border border-emerald-400/30 flex-shrink-0 min-w-[45px] lg:min-w-[100px]">
+              <div className="text-sm lg:text-3xl font-black text-white drop-shadow-lg">
+                #{caixa.caixaNumber}
               </div>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm text-slate-400">
-                <div className="flex items-center space-x-1">
-                  <Users size={14} />
-                  <span className="break-words">{caixa.escolaCaixa} ({caixa.escolaNumber})</span>
+              <div className="text-[7px] lg:text-sm text-emerald-100 font-medium mt-0.5 lg:mt-1">
+                CAIXA
+              </div>
+            </div>
+            
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-col space-y-0.5 lg:space-y-2">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-3">
+                  <h3 className="text-xs lg:text-xl font-bold text-slate-200 truncate leading-tight">
+                    {caixa.projeto}
+                  </h3>
+                  <span className="px-1.5 py-0.5 lg:px-3 lg:py-1 bg-slate-700/50 border border-slate-600 rounded text-[9px] lg:text-xs text-slate-300 w-fit mt-0.5 lg:mt-0">
+                    Grade #{caixa.gradeId}
+                  </span>
                 </div>
-                <div className="flex items-center space-x-1 mt-1 sm:mt-0">
-                  <Package size={14} />
-                  <span className="text-cyan-400 font-semibold">Caixa #{caixa.caixaNumber}</span>
+                <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-4 text-[10px] lg:text-sm text-slate-400 space-y-0.5 lg:space-y-0">
+                  <div className="flex items-center space-x-1 lg:space-x-2 min-w-0">
+                    <Users size={10} className="lg:w-4 lg:h-4 flex-shrink-0" />
+                    <span className="font-medium text-[10px] lg:text-sm truncate">{caixa.escolaCaixa}</span>
+                  </div>
+                  <div className="flex items-center space-x-1 lg:space-x-2">
+                    <span className="text-slate-500 hidden lg:block">•</span>
+                    <span className="text-slate-300 text-[10px] lg:text-sm">Escola #{caixa.escolaNumber}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-3 flex-shrink-0">
+          <div className="flex flex-col items-start space-y-1 lg:space-y-2 flex-shrink-0">
             {/* Estatísticas Rápidas */}
-            <div className="text-right">
-              <div className="text-xl lg:text-2xl font-bold text-emerald-400">{caixa.qtyCaixa}</div>
-              <div className="text-xs text-slate-400">Itens</div>
+            <div className="text-center bg-slate-700/30 rounded-lg px-1.5 py-1 lg:px-3 lg:py-2 border border-slate-600">
+              <div className="text-base lg:text-3xl font-bold text-emerald-400">{caixa.qtyCaixa}</div>
+              <div className="text-[8px] lg:text-xs text-slate-400 font-medium">{caixa.qtyCaixa === 1 ? 'ITEM' : 'ITENS'}</div>
             </div>
             
             {/* Toggle */}
             <ChevronDown
-              size={20}
-              className={`text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+              size={14}
+              className={`lg:w-5 lg:h-5 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
             />
           </div>
         </div>
@@ -153,7 +162,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                         <span className="text-sm font-medium text-slate-200 break-words">
                           {item.itemName}
                         </span>
-                        <span className="px-2 py-1 bg-slate-600/50 border border-slate-500 rounded text-xs text-slate-300 mt-1 sm:mt-0 flex-shrink-0">
+                        <span className="px-2 py-1 bg-slate-600/50 border border-slate-500 rounded text-xs text-slate-300 mt-1 sm:mt-0 w-fit">
                           {item.itemGenero}
                         </span>
                       </div>

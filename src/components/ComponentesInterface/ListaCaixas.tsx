@@ -20,9 +20,16 @@ const ListaCaixas = ({ caixas, setTotalGrade }: ListaCaixasProps) => {
     setTotalGrade!(total, totalItems);
   }, [caixas, setTotalGrade]);
 
+  // Ordenar caixas do maior para o menor número
+  const caixasOrdenadas = [...caixas].sort((a, b) => {
+    const numA = parseInt(a.caixaNumber || '0');
+    const numB = parseInt(b.caixaNumber || '0');
+    return numB - numA; // Ordem decrescente (maior para menor)
+  });
+
   return (
     <div className="w-full space-y-4">
-      {caixas.map((caixa, index) => (
+      {caixasOrdenadas.map((caixa, index) => (
         <div
           key={index}
           className="animate-fade-in"
