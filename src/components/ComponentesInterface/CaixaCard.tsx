@@ -188,7 +188,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                   target="_AJUSTE"
                   className="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                    text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300
-                    flex items-center justify-center space-x-2 hover:scale-105 pointer-events-none cursor-not-allowed"
+                    flex items-center justify-center space-x-2 hover:scale-105"
                 >
                   <Package size={16} />
                   <span>AJUSTAR CAIXA</span>
