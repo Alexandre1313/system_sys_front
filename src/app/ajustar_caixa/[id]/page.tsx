@@ -201,17 +201,17 @@ export default function AjustarCaixa() {
           setModalType('exclusao');
           setMsg('CAIXA EXCLUÍDA COM SUCESSO!');
           setMsg1((newBox as any).mensagem);
-          
+
           // Limpar dados da caixa
           setCaixa(null);
           setItensComOriginal([]);
           setCaixaStatusBoolean(true);
-          
+
           // Redirecionar após um tempo
           setTimeout(() => {
             window.location.href = '/';
           }, 2000);
-          
+
           return;
         }
 
@@ -220,7 +220,7 @@ export default function AjustarCaixa() {
         if (refreshedBox) {
           // Atualizar os itens com as quantidades originais resetadas
           const itensAtualizados = refreshedBox.itens.map((item: any) => ({
-              ...item,
+            ...item,
             originalQty: item.itemQty, // Resetar originalQty para a nova quantidade
           }));
 
@@ -276,7 +276,7 @@ export default function AjustarCaixa() {
           <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20 lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700">
             <div className="px-4 pt-16 pb-3 lg:pt-6 lg:pb-4 sm:px-6 lg:px-8">
               <div className="max-w-7xl mx-auto">
-                
+
                 {/* Header Compacto */}
                 <div className="flex items-center justify-between mb-3 lg:mb-4">
                   <div className="flex items-center space-x-3 lg:space-x-4 min-w-0">
@@ -305,11 +305,10 @@ export default function AjustarCaixa() {
                         <span className="px-2 py-1 bg-emerald-400/20 border border-emerald-400/40 rounded-full text-xs text-emerald-400 font-semibold">
                           #{caixa.caixaNumber}
                         </span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          caixa.status === 'EXPEDIDA' ? 'bg-emerald-400/20 text-emerald-400' :
-                          caixa.status === 'DESPACHADA' ? 'bg-blue-400/20 text-blue-400' :
-                          'bg-slate-400/20 text-slate-400'
-                        }`}>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${caixa.status === 'EXPEDIDA' ? 'bg-emerald-400/20 text-emerald-400' :
+                            caixa.status === 'DESPACHADA' ? 'bg-blue-400/20 text-blue-400' :
+                              'bg-slate-400/20 text-slate-400'
+                          }`}>
                           {caixa.status}
                         </span>
                       </div>
@@ -352,15 +351,15 @@ export default function AjustarCaixa() {
                     </div>
                   </div>
                 </div>
-            </div>
+              </div>
             </div>
           </div>
 
           {/* Conteúdo Principal */}
-          <div className="px-4 pt-4 lg:pt-[15rem] pb-20 lg:pb-8 sm:px-6 lg:px-8">
+          <div className="px-4 pt-4 lg:pt-[15rem] pb-20 lg:pb-24 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
 
-          {/* Lista de Itens */}
+              {/* Lista de Itens */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2 mb-4">
                   <Package size={20} className="text-slate-400" />
@@ -373,33 +372,33 @@ export default function AjustarCaixa() {
                 {/* Desktop Table */}
                 <div className="hidden lg:block overflow-x-auto">
                   <table className="w-full bg-slate-800/50 border border-slate-700 rounded-xl overflow-hidden table-fixed">
-              <thead>
+                    <thead>
                       <tr className="bg-slate-700/50 text-slate-300">
                         <th className="w-64 p-4 text-left font-medium">Item</th>
-                        <th className="w-20 p-4 text-center font-medium">Tamanho</th>
-                        <th className="w-32 p-4 text-center font-medium">Quantidade</th>
-                        <th className="w-24 p-4 text-center font-medium">Status</th>
+                        <th className="w-20 p-4 text-left font-medium">Tamanho</th>
+                        <th className="w-32 p-4 text-left font-medium">Quantidade</th>
+                        <th className="w-24 p-4 text-left font-medium">Status</th>
                         <th className="w-36 p-4 text-left font-medium">Última Atualização</th>
-                </tr>
-              </thead>
-              <tbody>
-                {itensComOriginal.map((item, idx) => (
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {itensComOriginal.map((item, idx) => (
                         <tr key={item.id} className="border-t border-slate-700 hover:bg-slate-700/30 transition-colors">
-                          <td className="p-4">
+                          <td className="p-4 text-left">
                             <div className="flex flex-col">
                               <span className="text-slate-200 font-medium">{item.itemName}</span>
                               <span className="text-slate-400 text-sm">{item.itemGenero}</span>
                             </div>
                           </td>
-                          <td className="p-4 text-center">
-                            <div className="w-16 flex justify-center">
-                              <span className="px-2 py-1 bg-slate-600/50 border border-slate-500 rounded text-xs text-cyan-400 font-medium whitespace-nowrap">
+                          <td className="p-4 text-left">
+                            <div className="w-16 flex justify-start">
+                              <span className="px-2 py-1 bg-slate-600/50 border border-slate-500 rounded text-lg text-cyan-400 font-extralight whitespace-nowrap">
                                 {item.itemTam}
                               </span>
                             </div>
-                    </td>
-                          <td className="p-4">
-                            <div className="flex items-center justify-center space-x-2 w-full">
+                          </td>
+                          <td className="p-4 text-left">
+                            <div className="flex items-center justify-start space-x-2 w-full">
                               <div className="flex items-center border border-slate-600/30 rounded-lg overflow-hidden">
                                 <button
                                   disabled={caixaStatusBoolean}
@@ -409,21 +408,21 @@ export default function AjustarCaixa() {
                                 >
                                   <span className="text-slate-300 font-bold text-base">−</span>
                                 </button>
-                      <input
-                        disabled={caixaStatusBoolean}
+                                <input
+                                  disabled={caixaStatusBoolean}
                                   type="text"
                                   inputMode="numeric"
                                   pattern="[0-9]*"
-                        value={item.itemQty}
-                        onChange={(e) =>
+                                  value={item.itemQty}
+                                  onChange={(e) =>
                                     handleInputChange(idx, e.target.value, caixa.status)
-                        }
-                        onBlur={() => handleInputBlur(idx)}
+                                  }
+                                  onBlur={() => handleInputBlur(idx)}
                                   className={`w-14 h-10 px-1 py-1 text-center font-bold text-lg transition-all duration-300 border-0 bg-transparent
-                                            ${item.itemQty !== item.originalQty 
-                                              ? 'text-yellow-400' 
-                                              : 'text-emerald-400'
-                                            } 
+                                            ${item.itemQty !== item.originalQty
+                                      ? 'text-yellow-400'
+                                      : 'text-emerald-400'
+                                    } 
                                            focus:outline-none
                                            disabled:opacity-50 disabled:cursor-not-allowed`}
                                 />
@@ -445,8 +444,8 @@ export default function AjustarCaixa() {
                               </div>
                             </div>
                           </td>
-                          <td className="p-4 text-center">
-                            <div className="w-20 flex justify-center">
+                          <td className="p-4 text-left">
+                            <div className="w-20 flex justify-start">
                               {item.itemQty !== item.originalQty ? (
                                 <span className="px-2 py-1 bg-yellow-400/20 border border-yellow-400/50 rounded text-xs text-yellow-400 font-medium whitespace-nowrap">
                                   MODIFICADO
@@ -457,23 +456,22 @@ export default function AjustarCaixa() {
                                 </span>
                               )}
                             </div>
-                    </td>
-                          <td className="p-4 text-slate-400 text-sm">{item.updatedAt}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                          </td>
+                          <td className="p-4 text-slate-400 text-sm text-left">{item.updatedAt}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 {/* Mobile Cards */}
                 <div className="lg:hidden space-y-3">
                   {itensComOriginal.map((item, idx) => (
-                    <div key={item.id} className={`bg-slate-800/50 border-2 rounded-2xl p-4 transition-all duration-300 ${
-                      item.itemQty !== item.originalQty 
-                        ? 'border-yellow-400/60 bg-yellow-400/5 shadow-lg shadow-yellow-400/10' 
+                    <div key={item.id} className={`bg-slate-800/50 border-[0.0317rem] rounded-2xl p-4 transition-all duration-300 ${item.itemQty !== item.originalQty
+                        ? 'border-yellow-400/60 bg-yellow-400/5 shadow-lg shadow-yellow-400/10'
                         : 'border-slate-700'
-                    }`}>
-                      
+                      }`}>
+
                       {/* Header Compacto */}
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1 min-w-0">
@@ -488,7 +486,7 @@ export default function AjustarCaixa() {
                           <div className="flex items-center space-x-2">
                             <span className="text-xs text-slate-400">{item.itemGenero}</span>
                             <span className="w-1 h-1 bg-slate-500 rounded-full"></span>
-                            <span className="px-2 py-0.5 bg-cyan-400/20 border border-cyan-400/40 rounded-full text-xs text-cyan-400 font-medium">
+                            <span className="px-2 py-0.5 bg-cyan-400/20 border border-cyan-400/40 rounded-full text-[0.7rem] text-cyan-400 font-extralight">
                               {item.itemTam}
                             </span>
                           </div>
@@ -504,12 +502,12 @@ export default function AjustarCaixa() {
                             <button
                               disabled={caixaStatusBoolean}
                               onClick={() => handleChange(idx, Math.max(0, item.itemQty - 1), caixa.status)}
-                              className={`w-10 h-10 bg-slate-600 hover:bg-red-600 border-2 border-slate-500 hover:border-red-500 rounded-lg flex items-center justify-center transition-all duration-300
+                              className={`w-10 h-10 bg-slate-600 hover:bg-red-600 border-0 border-slate-500 hover:border-red-500 rounded-lg flex items-center justify-center transition-all duration-300
                                         ${caixaStatusBoolean ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}`}
                             >
-                              <span className="text-white font-bold text-lg">−</span>
+                              <span className="text-white font-bold text-lg">&#45;</span>
                             </button>
-                            
+
                             {/* Input da Quantidade */}
                             <input
                               disabled={caixaStatusBoolean}
@@ -521,39 +519,38 @@ export default function AjustarCaixa() {
                                 handleInputChange(idx, e.target.value, caixa.status)
                               }
                               onBlur={() => handleInputBlur(idx)}
-                              className={`w-20 h-10 px-2 rounded-lg border-2 text-center font-bold text-base transition-all duration-300 bg-transparent
-                                        ${item.itemQty !== item.originalQty 
-                                          ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400' 
-                                          : 'border-emerald-400 bg-emerald-400/10 text-emerald-400'
-                                        } 
+                              className={`w-20 h-10 px-2 rounded-lg border-[0.0317rem] text-center font-bold text-base transition-all duration-300 bg-transparent
+                                        ${item.itemQty !== item.originalQty
+                                  ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                                  : 'border-emerald-400 bg-emerald-400/10 text-emerald-400'
+                                } 
                                        focus:outline-none
                                        disabled:opacity-50 disabled:cursor-not-allowed`}
                             />
-                            
+
                             {/* Botão Aumentar */}
                             <button
                               disabled={caixaStatusBoolean}
                               onClick={() => handleChange(idx, Math.min(item.originalQty, item.itemQty + 1), caixa.status)}
-                              className={`w-10 h-10 bg-slate-600 hover:bg-green-600 border-2 border-slate-500 hover:border-green-500 rounded-lg flex items-center justify-center transition-all duration-300
+                              className={`w-10 h-10 bg-slate-600 hover:bg-green-600 border-0 border-slate-500 hover:border-green-500 rounded-lg flex items-center justify-center transition-all duration-300
                                         ${caixaStatusBoolean ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}`}
                             >
-                              <span className="text-white font-bold text-lg">+</span>
+                              <span className="text-white font-bold text-lg">&#43;</span>
                             </button>
                           </div>
-                          
+
                           {/* Diferença - Sempre Visível */}
                           <div className="flex justify-center">
-                            <span className={`text-sm font-bold px-3 py-1 rounded-full ${
-                              item.itemQty > item.originalQty 
-                                ? 'text-green-400 bg-green-400/20' 
+                            <span className={`text-sm font-bold px-3 py-1 rounded-full ${item.itemQty > item.originalQty
+                                ? 'text-green-400 bg-green-400/20'
                                 : item.itemQty < item.originalQty
-                                ? 'text-red-400 bg-red-400/20'
-                                : 'text-slate-400 bg-slate-400/20'
-                            }`}>
+                                  ? 'text-red-400 bg-red-400/20'
+                                  : 'text-slate-400 bg-slate-400/20'
+                              }`}>
                               {item.itemQty > item.originalQty ? '+' : ''}{item.itemQty - item.originalQty}
                             </span>
                           </div>
-                          
+
                           {/* Informação Original - Pequena */}
                           <div className="text-xs text-slate-500">
                             Original: {item.originalQty}
@@ -565,11 +562,10 @@ export default function AjustarCaixa() {
                       <div className="mt-3 pt-3 border-t border-slate-700">
                         <div className="flex items-center justify-between text-xs text-slate-500">
                           <span>Atualizado: {item.updatedAt}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            item.itemQty !== item.originalQty 
-                              ? 'bg-yellow-400/20 text-yellow-400' 
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.itemQty !== item.originalQty
+                              ? 'bg-yellow-400/20 text-yellow-400'
                               : 'bg-emerald-400/20 text-emerald-400'
-                          }`}>
+                            }`}>
                             {item.itemQty !== item.originalQty ? 'ALTERADO' : 'ORIGINAL'}
                           </span>
                         </div>
@@ -615,18 +611,17 @@ export default function AjustarCaixa() {
                       <div className="lg:text-left text-center">
                         <span className="text-slate-400 text-xs lg:text-sm">Diferença:</span>
                         <div className="flex items-center space-x-2">
-                          <span className={`text-2xl font-bold ${
-                            totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
+                          <span className={`text-2xl font-bold ${totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
                               ? 'text-green-400'
                               : totalQuantidade < itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
-                              ? 'text-red-400'
-                              : 'text-slate-400'
-                          }`}>
-                            {totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0) 
+                                ? 'text-red-400'
+                                : 'text-slate-400'
+                            }`}>
+                            {totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
                               ? `+${totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)}`
                               : totalQuantidade < itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
-                              ? `-${Math.abs(totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0))}`
-                              : '0'
+                                ? `-${Math.abs(totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0))}`
+                                : '0'
                             }
                           </span>
                           <span className="text-slate-400 text-sm">
@@ -643,7 +638,7 @@ export default function AjustarCaixa() {
                       <div className="flex items-center justify-center space-x-2">
                         <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
                         <span className="text-yellow-400 text-sm font-medium">
-                          {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length} 
+                          {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length}
                           {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length === 1 ? ' item' : ' itens'} modificado{itensComOriginal.filter(item => item.itemQty !== item.originalQty).length === 1 ? '' : 's'}
                         </span>
                       </div>
@@ -660,10 +655,10 @@ export default function AjustarCaixa() {
               onClick={handleSaveStepOne}
               disabled={caixaStatusBoolean || !houveAlteracao}
               className={`flex items-center space-x-2 px-6 py-2.5 lg:px-6 lg:py-3 rounded-xl font-semibold shadow-2xl transition-all duration-300 transform hover:scale-105 
-                         ${caixaStatusBoolean || !houveAlteracao 
-                           ? 'bg-slate-600 text-slate-400 cursor-not-allowed opacity-50' 
-                           : 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white'
-                         }`}
+                         ${caixaStatusBoolean || !houveAlteracao
+                  ? 'bg-slate-600 text-slate-400 cursor-not-allowed opacity-50'
+                  : 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white'
+                }`}
             >
               <Save size={16} className="lg:w-4 lg:h-4" />
               <span className="text-xs lg:text-base whitespace-nowrap">Salvar Alterações</span>
@@ -706,7 +701,7 @@ export default function AjustarCaixa() {
               {modalType === 'error' && <AlertTriangle size={48} className="text-red-400" />}
               {modalType === 'exclusao' && <Package size={48} className="text-blue-400" />}
             </motion.div>
-            
+
             <div className="flex flex-col text-center w-full items-center justify-center">
               <h2 className="text-base font-bold text-slate-200 mb-3">
                 {modalType === 'confirm' && 'Alteração de Caixa'}
@@ -720,19 +715,19 @@ export default function AjustarCaixa() {
               <p className="text-slate-400 text-xs mb-4">
                 {msg1}
               </p>
-              
+
               <div className="flex flex-col w-full items-center justify-center gap-2">
                 {modalType === 'confirm' ? (
                   <>
-                <button
-                  onClick={handleSaveStepTwo}
+                    <button
+                      onClick={handleSaveStepTwo}
                       className="w-full h-10 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
-                >
+                    >
                       <Save size={14} />
                       <span className="text-xs">Confirmar</span>
-                </button>
-                <button
-                  onClick={handleSaveStepOne}
+                    </button>
+                    <button
+                      onClick={handleSaveStepOne}
                       className="w-full h-10 px-3 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
                     >
                       <X size={14} />
@@ -742,16 +737,15 @@ export default function AjustarCaixa() {
                 ) : (
                   <button
                     onClick={handleSaveStepOne}
-                    className={`w-full h-10 px-3 font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
-                      modalType === 'success' ? 'bg-emerald-600 hover:bg-emerald-500 text-white' :
-                      modalType === 'error' ? 'bg-red-600 hover:bg-red-500 text-white' :
-                      modalType === 'exclusao' ? 'bg-blue-600 hover:bg-blue-500 text-white' :
-                      'bg-slate-600 hover:bg-slate-500 text-white'
-                    }`}
+                    className={`w-full h-10 px-3 font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 ${modalType === 'success' ? 'bg-emerald-600 hover:bg-emerald-500 text-white' :
+                        modalType === 'error' ? 'bg-red-600 hover:bg-red-500 text-white' :
+                          modalType === 'exclusao' ? 'bg-blue-600 hover:bg-blue-500 text-white' :
+                            'bg-slate-600 hover:bg-slate-500 text-white'
+                      }`}
                   >
                     <Package size={14} />
                     <span className="text-xs">OK</span>
-                </button>
+                  </button>
                 )}
               </div>
             </div>
