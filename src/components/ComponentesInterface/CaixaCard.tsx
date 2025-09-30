@@ -188,7 +188,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                   target="_AJUSTE"
                   className="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                    text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300
-                    flex items-center justify-center space-x-2 hover:scale-105"
+                    flex items-center justify-center space-x-2 hover:scale-100"
                 >
                   <Package size={16} />
                   <span>AJUSTAR CAIXA</span>
@@ -196,7 +196,9 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                 
                 {/* Botão ETIQUETAS integrado no card */}
                 <div className="flex-1">
-                  {printEti([caixa], '')}
+                  {printEti([caixa], `flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
+                   text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300
+                    flex items-center justify-center space-x-2 gap-x-3 hover:scale-100 w-full`)}
                 </div>
               </div>
             </div>

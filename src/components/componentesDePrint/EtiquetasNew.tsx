@@ -1,5 +1,6 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import Caixa from '../../../core/interfaces/Caixa';
+import { CreditCard } from 'react-feather';
 
 export interface EtiquetaNewProps {
     etiquetas: Caixa[];
@@ -263,7 +264,8 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
         <button
             type="button"
             onClick={gerarPDF}
-            className={classNew}>
+            className={classNew}>   
+            <CreditCard size={16}/>             
             ETIQUETAS
         </button>
     );
