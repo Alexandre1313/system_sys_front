@@ -579,39 +579,40 @@ export default function AjustarCaixa() {
                 </div>
 
                 {/* Resumo da Caixa */}
-                <div className="bg-slate-700/50 border border-slate-600 rounded-xl p-4">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="bg-slate-700/50 border border-slate-600 rounded-xl p-2 px-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {/* Total Atual */}
-                    <div className="flex items-center justify-between lg:justify-center">
-                      <div className="text-left">
+                    <div className="flex items-center justify-center lg:justify-center">
+                      <div className="lg:text-left text-center">
                         <span className="text-slate-400 text-xs lg:text-sm">Total Atual:</span>
                         <div className="flex items-center space-x-2">
                           <span className="text-2xl font-bold text-yellow-400">{totalQuantidade}</span>
                           <span className="text-slate-400 text-sm">
-                            {totalQuantidade === 1 ? 'unidade' : 'unidades'}
+                            {totalQuantidade === 1 ? 'un.' : 'unid.'}
                           </span>
                         </div>
                       </div>
                     </div>
 
                     {/* Total Original */}
-                    <div className="flex items-center justify-between lg:justify-center">
-                      <div className="text-left">
+                    <div className="flex items-center justify-center lg:justify-center">
+                      <div className="lg:text-left text-center">
                         <span className="text-slate-400 text-xs lg:text-sm">Total Original:</span>
                         <div className="flex items-center space-x-2">
                           <span className="text-2xl font-bold text-emerald-400">
                             {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)}
                           </span>
                           <span className="text-slate-400 text-sm">
-                            {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0) === 1 ? 'unidade' : 'unidades'}
+                            {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0) === 1 ? 'un.' : 'unid.'}
                           </span>
                         </div>
                       </div>
                     </div>
 
                     {/* Diferença */}
-                    <div className="flex items-center justify-between lg:justify-center">
-                      <div className="text-left">
+                    <div className="flex items-center justify-center lg:justify-center col-span-2 lg:col-span-1 
+                    border-t-[1px] lg:border-t-[0px] md:col-span-1 md:border-t-[0px] pt-2 md:pt-0 lg:pt-0 border-slate-600">
+                      <div className="lg:text-left text-center">
                         <span className="text-slate-400 text-xs lg:text-sm">Diferença:</span>
                         <div className="flex items-center space-x-2">
                           <span className={`text-2xl font-bold ${
@@ -654,7 +655,7 @@ export default function AjustarCaixa() {
           </div>
 
           {/* Botão Fixo */}
-          <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+          <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
             <button
               onClick={handleSaveStepOne}
               disabled={caixaStatusBoolean || !houveAlteracao}
