@@ -91,8 +91,8 @@ const ModalEncGrade: React.FC<ModalEncGradeProps> = ({ isOpen, message, onClose,
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="bg-white p-4 lg:p-8 rounded-md shadow-md lg:min-w-[400px] min-w-[90%] lg:min-h-[300px] min-h-[60%] gap-y-4 
-                flex flex-col items-center justify-between m-4 lg:m-8"
+                className="bg-white p-4 lg:p-8 rounded-md shadow-md lg:min-w-[400px] min-w-[90%] lg:min-h-[250px] min-h-[20%] gap-y-4 
+                flex flex-col items-center justify-center m-4 lg:m-8"
             >
                 <h2 className="text-3xl text-black font-semibold">
                     <Loader
