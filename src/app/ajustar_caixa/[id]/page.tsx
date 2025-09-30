@@ -306,8 +306,8 @@ export default function AjustarCaixa() {
                           #{caixa.caixaNumber}
                         </span>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${caixa.status === 'EXPEDIDA' ? 'bg-emerald-400/20 text-emerald-400' :
-                            caixa.status === 'DESPACHADA' ? 'bg-blue-400/20 text-blue-400' :
-                              'bg-slate-400/20 text-slate-400'
+                          caixa.status === 'DESPACHADA' ? 'bg-blue-400/20 text-blue-400' :
+                            'bg-slate-400/20 text-slate-400'
                           }`}>
                           {caixa.status}
                         </span>
@@ -356,11 +356,81 @@ export default function AjustarCaixa() {
           </div>
 
           {/* Conteúdo Principal */}
-          <div className="px-4 pt-4 lg:pt-[15rem] pb-20 lg:pb-24 sm:px-6 lg:px-8">
+          <div className="px-4 pt-1 lg:pt-[15rem] pb-20 lg:pb-24 sm:px-6 lg:px-8">
+
             <div className="max-w-7xl mx-auto">
 
+              {/* Resumo da Caixa */}
+              <div className="bg-slate-700/90 border border-slate-800 rounded-xl p-2 px-4 sticky lg:top-60 top-0">
+                <div className="grid grid-cols-3 lg:grid-cols-3 gap-1">
+                  {/* Total Atual */}
+                  <div className="flex items-center justify-center lg:justify-center">
+                    <div className="lg:text-left text-center">
+                      <span className="text-slate-400 text-xs lg:text-sm">Total Atual:</span>
+                      <div className="flex items-center space-x-2 justify-center lg:justify-center">
+                        <span className="lg:text-2xl font-extralight text-yellow-400">{totalQuantidade}</span>
+                        <span className="text-slate-400 text-sm">
+                          {totalQuantidade === 1 ? '' : ''}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Total Original */}
+                  <div className="flex items-center justify-center lg:justify-center">
+                    <div className="lg:text-left text-center">
+                      <span className="text-slate-400 text-xs lg:text-sm">Total Original:</span>
+                      <div className="flex items-center space-x-2 justify-center lg:justify-center">
+                        <span className="lg:text-2xl font-extralight text-emerald-400">
+                          {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)}
+                        </span>
+                        <span className="text-slate-400 text-sm">
+                          {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0) === 1 ? '' : ''}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Diferença */}
+                  <div className="flex items-center justify-center lg:justify-center col-span-1 lg:col-span-1 
+                    lg:border-t-[0px] md:col-span-1 md:border-t-[0px] pt-0 md:pt-0 lg:pt-0 border-slate-600">
+                    <div className="lg:text-left text-center">
+                      <span className="text-slate-400 text-xs lg:text-sm">Diferença:</span>
+                      <div className="flex items-center space-x-2 justify-center lg:justify-center">
+                        <span className={`lg:text-2xl font-extralight ${totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
+                          ? 'text-green-400'
+                          : totalQuantidade < itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
+                            ? 'text-red-400'
+                            : 'text-slate-400'
+                          }`}>
+                          {totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
+                            ? `+${totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)}`
+                            : totalQuantidade < itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
+                              ? `-${Math.abs(totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0))}`
+                              : '0'
+                          }
+                        </span>
+                        <span className="text-slate-400 text-sm">
+                          {Math.abs(totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)) === 1 ? '' : ''}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Indicador de Alterações */}
+                <div className="mt-4 pt-4 border-t border-slate-600">
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
+                    <span className="text-slate-400 text-sm font-medium">
+                      {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length}
+                      {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length === 1 ? ' item' : ' itens'} modificado{itensComOriginal.filter(item => item.itemQty !== item.originalQty).length === 1 ? '' : 's'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               {/* Lista de Itens */}
-              <div className="space-y-4">
+              <div className="space-y-4 mt-4">
                 <div className="flex items-center space-x-2 mb-4">
                   <Package size={20} className="text-slate-400" />
                   <h2 className="text-lg lg:text-xl font-semibold text-slate-200">Itens da Caixa</h2>
@@ -406,7 +476,7 @@ export default function AjustarCaixa() {
                                   className={`px-3 py-2 bg-slate-700 hover:bg-slate-600 border-r border-slate-600/30 transition-colors
                                             ${caixaStatusBoolean ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                                 >
-                                  <span className="text-slate-300 font-bold text-base">−</span>
+                                  <span className="text-slate-300 font-bold text-base">&#45;</span>
                                 </button>
                                 <input
                                   disabled={caixaStatusBoolean}
@@ -418,7 +488,7 @@ export default function AjustarCaixa() {
                                     handleInputChange(idx, e.target.value, caixa.status)
                                   }
                                   onBlur={() => handleInputBlur(idx)}
-                                  className={`w-14 h-10 px-1 py-1 text-center font-bold text-lg transition-all duration-300 border-0 bg-transparent
+                                  className={`w-16 h-10 px-1 py-1 text-center font-extralight text-lg transition-all duration-300 border-0 bg-transparent
                                             ${item.itemQty !== item.originalQty
                                       ? 'text-yellow-400'
                                       : 'text-emerald-400'
@@ -432,7 +502,7 @@ export default function AjustarCaixa() {
                                   className={`px-3 py-2 bg-slate-700 hover:bg-slate-600 border-l border-slate-600/30 transition-colors
                                             ${caixaStatusBoolean ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                                 >
-                                  <span className="text-slate-300 font-bold text-base">+</span>
+                                  <span className="text-slate-300 font-bold text-base">&#43;</span>
                                 </button>
                               </div>
                               <div className="w-12 flex justify-center">
@@ -468,8 +538,8 @@ export default function AjustarCaixa() {
                 <div className="lg:hidden space-y-3">
                   {itensComOriginal.map((item, idx) => (
                     <div key={item.id} className={`bg-slate-800/50 border-[0.0317rem] rounded-2xl p-4 transition-all duration-300 ${item.itemQty !== item.originalQty
-                        ? 'border-yellow-400/60 bg-yellow-400/5 shadow-lg shadow-yellow-400/10'
-                        : 'border-slate-700'
+                      ? 'border-yellow-400/60 bg-yellow-400/5 shadow-lg shadow-yellow-400/10'
+                      : 'border-slate-700'
                       }`}>
 
                       {/* Header Compacto */}
@@ -519,7 +589,7 @@ export default function AjustarCaixa() {
                                 handleInputChange(idx, e.target.value, caixa.status)
                               }
                               onBlur={() => handleInputBlur(idx)}
-                              className={`w-20 h-10 px-2 rounded-lg border-[0.0317rem] text-center font-bold text-base transition-all duration-300 bg-transparent
+                              className={`w-20 h-10 px-2 rounded-lg border-[0.0317rem] text-center font-extralight text-base transition-all duration-300 bg-transparent
                                         ${item.itemQty !== item.originalQty
                                   ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
                                   : 'border-emerald-400 bg-emerald-400/10 text-emerald-400'
@@ -542,10 +612,10 @@ export default function AjustarCaixa() {
                           {/* Diferença - Sempre Visível */}
                           <div className="flex justify-center">
                             <span className={`text-sm font-bold px-3 py-1 rounded-full ${item.itemQty > item.originalQty
-                                ? 'text-green-400 bg-green-400/20'
-                                : item.itemQty < item.originalQty
-                                  ? 'text-red-400 bg-red-400/20'
-                                  : 'text-slate-400 bg-slate-400/20'
+                              ? 'text-green-400 bg-green-400/20'
+                              : item.itemQty < item.originalQty
+                                ? 'text-red-400 bg-red-400/20'
+                                : 'text-slate-400 bg-slate-400/20'
                               }`}>
                               {item.itemQty > item.originalQty ? '+' : ''}{item.itemQty - item.originalQty}
                             </span>
@@ -563,8 +633,8 @@ export default function AjustarCaixa() {
                         <div className="flex items-center justify-between text-xs text-slate-500">
                           <span>Atualizado: {item.updatedAt}</span>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.itemQty !== item.originalQty
-                              ? 'bg-yellow-400/20 text-yellow-400'
-                              : 'bg-emerald-400/20 text-emerald-400'
+                            ? 'bg-yellow-400/20 text-yellow-400'
+                            : 'bg-emerald-400/20 text-emerald-400'
                             }`}>
                             {item.itemQty !== item.originalQty ? 'ALTERADO' : 'ORIGINAL'}
                           </span>
@@ -572,78 +642,6 @@ export default function AjustarCaixa() {
                       </div>
                     </div>
                   ))}
-                </div>
-
-                {/* Resumo da Caixa */}
-                <div className="bg-slate-700/50 border border-slate-600 rounded-xl p-2 px-4">
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
-                    {/* Total Atual */}
-                    <div className="flex items-center justify-center lg:justify-center">
-                      <div className="lg:text-left text-center">
-                        <span className="text-slate-400 text-xs lg:text-sm">Total Atual:</span>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-2xl font-bold text-yellow-400">{totalQuantidade}</span>
-                          <span className="text-slate-400 text-sm">
-                            {totalQuantidade === 1 ? 'un.' : 'unid.'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Total Original */}
-                    <div className="flex items-center justify-center lg:justify-center">
-                      <div className="lg:text-left text-center">
-                        <span className="text-slate-400 text-xs lg:text-sm">Total Original:</span>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-2xl font-bold text-emerald-400">
-                            {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)}
-                          </span>
-                          <span className="text-slate-400 text-sm">
-                            {itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0) === 1 ? 'un.' : 'unid.'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Diferença */}
-                    <div className="flex items-center justify-center lg:justify-center col-span-2 lg:col-span-1 
-                    border-t-[1px] lg:border-t-[0px] md:col-span-1 md:border-t-[0px] pt-2 md:pt-0 lg:pt-0 border-slate-600">
-                      <div className="lg:text-left text-center">
-                        <span className="text-slate-400 text-xs lg:text-sm">Diferença:</span>
-                        <div className="flex items-center space-x-2">
-                          <span className={`text-2xl font-bold ${totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
-                              ? 'text-green-400'
-                              : totalQuantidade < itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
-                                ? 'text-red-400'
-                                : 'text-slate-400'
-                            }`}>
-                            {totalQuantidade > itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
-                              ? `+${totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)}`
-                              : totalQuantidade < itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)
-                                ? `-${Math.abs(totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0))}`
-                                : '0'
-                            }
-                          </span>
-                          <span className="text-slate-400 text-sm">
-                            {Math.abs(totalQuantidade - itensComOriginal.reduce((sum, item) => sum + item.originalQty, 0)) === 1 ? 'item' : 'itens'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Indicador de Alterações */}
-                  {houveAlteracao && (
-                    <div className="mt-4 pt-4 border-t border-slate-600">
-                      <div className="flex items-center justify-center space-x-2">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                        <span className="text-yellow-400 text-sm font-medium">
-                          {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length}
-                          {itensComOriginal.filter(item => item.itemQty !== item.originalQty).length === 1 ? ' item' : ' itens'} modificado{itensComOriginal.filter(item => item.itemQty !== item.originalQty).length === 1 ? '' : 's'}
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -738,9 +736,9 @@ export default function AjustarCaixa() {
                   <button
                     onClick={handleSaveStepOne}
                     className={`w-full h-10 px-3 font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 ${modalType === 'success' ? 'bg-emerald-600 hover:bg-emerald-500 text-white' :
-                        modalType === 'error' ? 'bg-red-600 hover:bg-red-500 text-white' :
-                          modalType === 'exclusao' ? 'bg-blue-600 hover:bg-blue-500 text-white' :
-                            'bg-slate-600 hover:bg-slate-500 text-white'
+                      modalType === 'error' ? 'bg-red-600 hover:bg-red-500 text-white' :
+                        modalType === 'exclusao' ? 'bg-blue-600 hover:bg-blue-500 text-white' :
+                          'bg-slate-600 hover:bg-slate-500 text-white'
                       }`}
                   >
                     <Package size={14} />
