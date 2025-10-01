@@ -173,7 +173,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                     </div>
                     <div className="text-right flex-shrink-0">
                       <div className="text-lg font-bold text-emerald-400">{item.itemQty}</div>
-                      <div className="text-xs text-slate-400">unidades</div>
+                      <div className="text-xs text-slate-400">{item.itemQty === 1 ? 'unidade': 'unidades'}</div>
                     </div>
                   </div>
                 </div>
