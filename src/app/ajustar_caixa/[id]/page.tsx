@@ -287,7 +287,7 @@ export default function AjustarCaixa() {
                       <h1 className="text-lg lg:text-2xl xl:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-600 truncate">
                         Ajustar Caixa
                       </h1>
-                      <p className="text-slate-400 text-xs lg:text-sm truncate">Caixa #{caixa.caixaNumber}</p>
+                      <p className="text-slate-400 text-xs lg:text-sm truncate">Caixa {caixa.caixaNumber.padStart(2, '0')}</p>
                     </div>
                   </div>
                 </div>
@@ -303,7 +303,7 @@ export default function AjustarCaixa() {
                       </div>
                       <div className="flex items-center space-x-2 ml-3">
                         <span className="px-2 py-1 bg-emerald-400/20 border border-emerald-400/40 rounded-full text-xs text-emerald-400 font-semibold">
-                          #{caixa.caixaNumber}
+                          {caixa.caixaNumber.padStart(2, '0')}
                         </span>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${caixa.status === 'EXPEDIDA' ? 'bg-emerald-400/20 text-emerald-400' :
                           caixa.status === 'DESPACHADA' ? 'bg-blue-400/20 text-blue-400' :
@@ -342,7 +342,7 @@ export default function AjustarCaixa() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-slate-400 text-sm">Nº Caixa:</span>
-                        <span className="text-emerald-400 text-sm font-bold">#{caixa.caixaNumber}</span>
+                        <span className="text-emerald-400 text-sm font-bold">{caixa.caixaNumber.padStart(2, '0')}</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-slate-400 text-sm">Status:</span>

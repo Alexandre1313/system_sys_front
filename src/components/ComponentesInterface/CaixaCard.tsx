@@ -62,22 +62,22 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
   return (
     <div className="bg-slate-800/50 border border-slate-700 rounded-xl shadow-lg overflow-hidden">
       {/* Header da Caixa */}
-      <div 
+      <div
         className="p-2 lg:p-4 cursor-pointer hover:bg-slate-700/30 transition-all duration-300"
         onClick={toggleOpen}
       >
         <div className="flex items-start justify-between">
           {/* Número da Caixa - Destaque Principal */}
           <div className="flex items-start space-x-2 lg:space-x-4 min-w-0 flex-1">
-            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-emerald-500 via-blue-600 to-purple-600 rounded-lg lg:rounded-2xl p-1.5 lg:p-2 shadow-2xl border border-emerald-400/30 flex-shrink-0 min-w-[45px] lg:min-w-[100px]">
-              <div className="text-sm lg:text-3xl font-black text-white drop-shadow-lg">
-                #{caixa.caixaNumber}
-              </div>
+            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-emerald-500 via-blue-600 to-purple-600 rounded-lg lg:rounded-xl p-1.5 lg:p-1 shadow-2xl border border-emerald-400/30 flex-shrink-0 min-w-[45px] lg:min-w-[100px]">
               <div className="text-[7px] lg:text-sm text-emerald-100 font-medium mt-0.5 lg:mt-1">
-                CAIXA
+                CAIXA Nº
+              </div>
+              <div className="text-sm lg:text-3xl font-black text-white drop-shadow-lg">
+                {caixa.caixaNumber?.padStart(2, '0')}
               </div>
             </div>
-            
+
             <div className="min-w-0 flex-1">
               <div className="flex flex-col space-y-0.5 lg:space-y-2">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-3">
@@ -101,14 +101,14 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex flex-col items-start space-y-1 lg:space-y-2 flex-shrink-0">
             {/* Estatísticas Rápidas */}
             <div className="text-center bg-slate-700/30 rounded-lg px-1.5 py-1 lg:px-3 lg:py-2 border border-slate-600">
               <div className="text-base lg:text-3xl font-bold text-emerald-400">{caixa.qtyCaixa}</div>
               <div className="text-[8px] lg:text-xs text-slate-400 font-medium">{caixa.qtyCaixa === 1 ? 'ITEM' : 'ITENS'}</div>
             </div>
-            
+
             {/* Toggle */}
             <ChevronDown
               size={14}
@@ -149,10 +149,10 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                 <span>Itens da Caixa</span>
               </h4>
             </div>
-            
+
             <div className="space-y-2">
               {caixa.caixaItem.map((item: CaixaItem, index: number) => (
-                <div 
+                <div
                   key={`${item.id}-${index}`}
                   className="bg-slate-700/30 border border-slate-600 rounded-lg p-3 hover:bg-slate-700/50 transition-all duration-200"
                 >
@@ -193,7 +193,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                   <Package size={16} />
                   <span>AJUSTAR CAIXA</span>
                 </Link>
-                
+
                 {/* Botão ETIQUETAS integrado no card */}
                 <div className="flex-1">
                   {printEti([caixa], `flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
