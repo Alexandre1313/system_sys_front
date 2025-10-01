@@ -63,10 +63,10 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
     <div className="bg-slate-800/50 border border-slate-700 rounded-xl shadow-lg overflow-hidden">
       {/* Header da Caixa */}
       <div
-        className="p-2 lg:p-4 cursor-pointer hover:bg-slate-700/30 transition-all duration-300"
+        className="p-2 lg:p-2 lg:px-4 cursor-pointer hover:bg-slate-700/30 transition-all duration-300"
         onClick={toggleOpen}
       >
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           {/* Número da Caixa - Destaque Principal */}
           <div className="flex items-start space-x-2 lg:space-x-4 min-w-0 flex-1">
             <div className="flex flex-col items-center justify-center bg-gradient-to-br from-emerald-500 via-blue-600 to-purple-600 rounded-lg lg:rounded-xl p-1.5 lg:p-1 shadow-2xl border border-emerald-400/30 flex-shrink-0 min-w-[45px] lg:min-w-[100px]">
@@ -102,10 +102,10 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
             </div>
           </div>
 
-          <div className="flex flex-col items-start space-y-1 lg:space-y-2 flex-shrink-0">
+          <div className="flex flex-col items-center space-y-1 lg:space-y-1 flex-shrink-0">
             {/* Estatísticas Rápidas */}
             <div className="text-center bg-slate-700/30 rounded-lg px-1.5 py-1 lg:px-3 lg:py-2 border border-slate-600">
-              <div className="text-base lg:text-3xl font-bold text-emerald-400">{caixa.qtyCaixa}</div>
+              <div className="text-base lg:text-2xl font-bold text-yellow-400">{caixa.qtyCaixa}</div>
               <div className="text-[8px] lg:text-xs text-slate-400 font-medium">{caixa.qtyCaixa === 1 ? 'ITEM' : 'ITENS'}</div>
             </div>
 
