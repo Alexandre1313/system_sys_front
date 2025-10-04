@@ -4,6 +4,817 @@ export default function Home() {
   return (
     <div className="min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800
      relative flex flex-col w-full justify-between">
+      {/* Background Icons - Random scattered expedition/logistics icons */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.08]">
+        {/* Truck 1 */}
+        <div 
+          className="absolute w-12 h-12 lg:w-16 lg:h-16"
+          style={{
+            top: '12%',
+            left: '6%',
+            transform: 'rotate(15deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Package 1 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-12 lg:h-12"
+          style={{
+            top: '22%',
+            right: '10%',
+            transform: 'rotate(-20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
+            <path d="M12 2v20"/>
+            <path d="M20 6.5L12 11l-8-4.5"/>
+          </svg>
+        </div>
+        
+        {/* Pallet */}
+        <div 
+          className="absolute w-10 h-10 lg:w-14 lg:h-14"
+          style={{
+            top: '40%',
+            left: '3%',
+            transform: 'rotate(30deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="18" width="20" height="4"/>
+            <rect x="2" y="14" width="20" height="2"/>
+            <rect x="2" y="10" width="20" height="2"/>
+            <rect x="2" y="6" width="20" height="2"/>
+            <rect x="2" y="2" width="20" height="2"/>
+            <path d="M8 2v16"/>
+            <path d="M16 2v16"/>
+          </svg>
+        </div>
+        
+        {/* Label/Tag */}
+        <div 
+          className="absolute w-6 h-6 lg:w-10 lg:h-10"
+          style={{
+            top: '58%',
+            right: '6%',
+            transform: 'rotate(-15deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <path d="M7 7h.01"/>
+          </svg>
+        </div>
+        
+        {/* Container */}
+        <div 
+          className="absolute w-8 h-8 lg:w-12 lg:h-12"
+          style={{
+            top: '72%',
+            left: '12%',
+            transform: 'rotate(25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <path d="M2 10h20"/>
+            <path d="M8 6V2"/>
+            <path d="M16 6V2"/>
+            <path d="M12 14v4"/>
+          </svg>
+        </div>
+        
+        {/* Forklift */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '32%',
+            left: '82%',
+            transform: 'rotate(-35deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="16" width="8" height="6"/>
+            <path d="M11 16v-4h4l3-3v7"/>
+            <circle cx="6" cy="19" r="1"/>
+            <circle cx="18" cy="19" r="1"/>
+            <path d="M15 9l-3-3h-4v3"/>
+          </svg>
+        </div>
+        
+        {/* Package 2 */}
+        <div 
+          className="absolute w-12 h-12 lg:w-16 lg:h-16"
+          style={{
+            top: '6%',
+            left: '72%',
+            transform: 'rotate(10deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
+            <path d="M12 22.08V12"/>
+          </svg>
+        </div>
+        
+        {/* Truck 2 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '82%',
+            right: '18%',
+            transform: 'rotate(-25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Warehouse */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '52%',
+            left: '88%',
+            transform: 'rotate(20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <path d="M9 22V12h6v10"/>
+            <path d="M9 12h6"/>
+          </svg>
+        </div>
+        
+        {/* Shipment Box */}
+        <div 
+          className="absolute w-12 h-12 lg:w-14 lg:h-14"
+          style={{
+            top: '68%',
+            left: '42%',
+            transform: 'rotate(-10deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
+            <path d="M12 22.08V12"/>
+          </svg>
+        </div>
+        
+        {/* Barcode Scanner */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '18%',
+            left: '35%',
+            transform: 'rotate(45deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21v-4"/>
+            <path d="M16 21v-4"/>
+            <path d="M12 21v-4"/>
+            <path d="M4 8h16"/>
+            <path d="M4 12h16"/>
+          </svg>
+        </div>
+        
+        {/* Conveyor Belt */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '38%',
+            right: '35%',
+            transform: 'rotate(-30deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="8" width="20" height="8" rx="1"/>
+            <path d="M6 8v8"/>
+            <path d="M18 8v8"/>
+            <circle cx="6" cy="12" r="2"/>
+            <circle cx="18" cy="12" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Clipboard */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '62%',
+            left: '28%',
+            transform: 'rotate(35deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="2"/>
+            <path d="M9 12h6"/>
+            <path d="M9 16h6"/>
+            <path d="M9 20h6"/>
+          </svg>
+        </div>
+        
+        {/* Scale */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '28%',
+            left: '55%',
+            transform: 'rotate(-15deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2v20"/>
+            <path d="M6 6l6-4 6 4"/>
+            <path d="M6 18l6 4 6-4"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        
+        {/* Map Pin */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '48%',
+            right: '25%',
+            transform: 'rotate(20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        
+        {/* Package 3 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '78%',
+            left: '65%',
+            transform: 'rotate(-40deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
+            <path d="M12 2v20"/>
+            <path d="M20 6.5L12 11l-8-4.5"/>
+          </svg>
+        </div>
+        
+        {/* Truck 3 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '15%',
+            right: '45%',
+            transform: 'rotate(25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Box Stack */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '45%',
+            left: '75%',
+            transform: 'rotate(-20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="8" width="18" height="12" rx="1"/>
+            <rect x="3" y="4" width="18" height="8" rx="1"/>
+            <rect x="3" y="16" width="18" height="4" rx="1"/>
+            <path d="M12 4v16"/>
+          </svg>
+        </div>
+        
+        {/* Delivery Van */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '65%',
+            right: '50%',
+            transform: 'rotate(15deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="1" y="3" width="15" height="13"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+            <path d="M9 8h6"/>
+          </svg>
+        </div>
+        
+        {/* Package 4 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '35%',
+            left: '95%',
+            transform: 'rotate(-25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
+            <path d="M12 22.08V12"/>
+          </svg>
+        </div>
+        
+        {/* Cargo Ship */}
+        <div 
+          className="absolute w-12 h-12 lg:w-14 lg:h-14"
+          style={{
+            top: '8%',
+            left: '25%',
+            transform: 'rotate(-5deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M2 18h20"/>
+            <path d="M4 14l2-8h12l2 8"/>
+            <path d="M8 14v4"/>
+            <path d="M16 14v4"/>
+            <path d="M6 10h12"/>
+          </svg>
+        </div>
+        
+        {/* Pallet 2 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '25%',
+            left: '45%',
+            transform: 'rotate(50deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="18" width="20" height="4"/>
+            <rect x="2" y="14" width="20" height="2"/>
+            <rect x="2" y="10" width="20" height="2"/>
+            <rect x="2" y="6" width="20" height="2"/>
+            <rect x="2" y="2" width="20" height="2"/>
+            <path d="M8 2v16"/>
+            <path d="M16 2v16"/>
+          </svg>
+        </div>
+        
+        {/* Box 5 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '42%',
+            left: '15%',
+            transform: 'rotate(-60deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div>
+        
+        {/* Truck 4 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '58%',
+            left: '85%',
+            transform: 'rotate(40deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Label 2 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '72%',
+            left: '25%',
+            transform: 'rotate(-10deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <path d="M7 7h.01"/>
+          </svg>
+        </div>
+        
+        {/* Package 5 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '85%',
+            left: '55%',
+            transform: 'rotate(30deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
+            <path d="M12 2v20"/>
+            <path d="M20 6.5L12 11l-8-4.5"/>
+          </svg>
+        </div>
+        
+        {/* Warehouse 2 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '12%',
+            right: '30%',
+            transform: 'rotate(-45deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <path d="M9 22V12h6v10"/>
+            <path d="M9 12h6"/>
+          </svg>
+        </div>
+        
+        {/* Container 2 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '38%',
+            left: '60%',
+            transform: 'rotate(25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <path d="M2 10h20"/>
+            <path d="M8 6V2"/>
+            <path d="M16 6V2"/>
+            <path d="M12 14v4"/>
+          </svg>
+        </div>
+        
+        {/* Forklift 2 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '68%',
+            right: '15%',
+            transform: 'rotate(-35deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="16" width="8" height="6"/>
+            <path d="M11 16v-4h4l3-3v7"/>
+            <circle cx="6" cy="19" r="1"/>
+            <circle cx="18" cy="19" r="1"/>
+            <path d="M15 9l-3-3h-4v3"/>
+          </svg>
+        </div>
+        
+        {/* Box 6 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '22%',
+            left: '90%',
+            transform: 'rotate(15deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div>
+        
+        {/* Package 6 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '48%',
+            left: '35%',
+            transform: 'rotate(-20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
+            <path d="M12 22.08V12"/>
+          </svg>
+        </div>
+        
+        {/* Truck 5 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '75%',
+            left: '8%',
+            transform: 'rotate(60deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Pallet 3 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '35%',
+            right: '8%',
+            transform: 'rotate(-50deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="18" width="20" height="4"/>
+            <rect x="2" y="14" width="20" height="2"/>
+            <rect x="2" y="10" width="20" height="2"/>
+            <rect x="2" y="6" width="20" height="2"/>
+            <rect x="2" y="2" width="20" height="2"/>
+            <path d="M8 2v16"/>
+            <path d="M16 2v16"/>
+          </svg>
+        </div>
+        
+        {/* Box 7 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '62%',
+            left: '50%',
+            transform: 'rotate(45deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div>
+        
+        {/* Package 7 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '18%',
+            left: '65%',
+            transform: 'rotate(-25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
+            <path d="M12 2v20"/>
+            <path d="M20 6.5L12 11l-8-4.5"/>
+          </svg>
+        </div>
+        
+        {/* Container 3 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '52%',
+            right: '40%',
+            transform: 'rotate(20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <path d="M2 10h20"/>
+            <path d="M8 6V2"/>
+            <path d="M16 6V2"/>
+            <path d="M12 14v4"/>
+          </svg>
+        </div>
+        
+        {/* Truck 6 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '88%',
+            left: '75%',
+            transform: 'rotate(-15deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Label 3 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '32%',
+            left: '80%',
+            transform: 'rotate(35deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <path d="M7 7h.01"/>
+          </svg>
+        </div>
+        
+        {/* Box 8 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '78%',
+            right: '30%',
+            transform: 'rotate(-40deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div>
+        
+        {/* Package 8 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '42%',
+            left: '20%',
+            transform: 'rotate(-60deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
+            <path d="M12 22.08V12"/>
+          </svg>
+        </div>
+        
+        {/* Warehouse 3 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '68%',
+            left: '90%',
+            transform: 'rotate(25deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <path d="M9 22V12h6v10"/>
+            <path d="M9 12h6"/>
+          </svg>
+        </div>
+        
+        {/* Forklift 3 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '15%',
+            left: '50%',
+            transform: 'rotate(-30deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="16" width="8" height="6"/>
+            <path d="M11 16v-4h4l3-3v7"/>
+            <circle cx="6" cy="19" r="1"/>
+            <circle cx="18" cy="19" r="1"/>
+            <path d="M15 9l-3-3h-4v3"/>
+          </svg>
+        </div>
+        
+        {/* Container 4 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '55%',
+            left: '70%',
+            transform: 'rotate(50deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <path d="M2 10h20"/>
+            <path d="M8 6V2"/>
+            <path d="M16 6V2"/>
+            <path d="M12 14v4"/>
+          </svg>
+        </div>
+        
+        {/* Box 9 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '82%',
+            left: '35%',
+            transform: 'rotate(-20deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div>
+        
+        {/* Package 9 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '25%',
+            right: '20%',
+            transform: 'rotate(40deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
+            <path d="M12 2v20"/>
+            <path d="M20 6.5L12 11l-8-4.5"/>
+          </svg>
+        </div>
+        
+        {/* Truck 7 */}
+        <div 
+          className="absolute w-10 h-10 lg:w-12 lg:h-12"
+          style={{
+            top: '58%',
+            left: '10%',
+            transform: 'rotate(-45deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        {/* Pallet 4 */}
+        <div 
+          className="absolute w-8 h-8 lg:w-10 lg:h-10"
+          style={{
+            top: '38%',
+            left: '40%',
+            transform: 'rotate(60deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="18" width="20" height="4"/>
+            <rect x="2" y="14" width="20" height="2"/>
+            <rect x="2" y="10" width="20" height="2"/>
+            <rect x="2" y="6" width="20" height="2"/>
+            <rect x="2" y="2" width="20" height="2"/>
+            <path d="M8 2v16"/>
+            <path d="M16 2v16"/>
+          </svg>
+        </div>
+        
+        {/* Box 10 */}
+        <div 
+          className="absolute w-6 h-6 lg:w-8 lg:h-8"
+          style={{
+            top: '72%',
+            right: '10%',
+            transform: 'rotate(30deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div>
+      </div>
+      
       {/* Background Pattern */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
