@@ -266,6 +266,11 @@ export default function GradeComponent(props: GradeComponentProps) {
         setItemSelecionado(null);
     };
 
+    // Verificar se há caixas para gerar (itens com quantidade na caixa atual > 0)
+    const temCaixasParaGerar = props.grade.itensGrade?.some(item => 
+        (item.qtyPCaixa || 0) > 0
+    );
+
     const handlerItemGrade = () => {
         if (itemSelecionado) {
             setMmodalModifyGradeItemOpen(true);
@@ -740,9 +745,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         </button>
                                         <button
                                             onClick={props.OpenModalGerarCaixa}
-                                            className="flex flex-1  px-4 py-2 bg-yellow-600 hover:bg-yellow-500
-                                             text-white font-medium rounded-lg transition-all duration-300
-                                              transform hover:scale-105 h-6 justify-center items-center"
+                                            className={`flex flex-1 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300
+                                              transform hover:scale-105 h-6 justify-center items-center
+                                              ${temCaixasParaGerar 
+                                                ? 'bg-green-600 hover:bg-green-500 btn-ripple' 
+                                                : 'bg-yellow-600 hover:bg-yellow-500'
+                                              }`}
                                         >
                                             <Box size={15} />
                                         </button>
@@ -886,7 +894,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <button
                                                 ref={btnRef}
                                                 onClick={props.OpenModalGerarCaixa}
-                                                className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+                                                className={`flex items-center space-x-2 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                                  ${temCaixasParaGerar 
+                                                    ? 'bg-green-600 hover:bg-green-500 btn-ripple' 
+                                                    : 'bg-yellow-600 hover:bg-yellow-500'
+                                                  }`}
                                             >
                                                 <Box size={19} />
                                                 <span>FECHAR CAIXA</span>
