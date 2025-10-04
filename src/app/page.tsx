@@ -1,19 +1,35 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   return (
     <div className="min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800
-     relative flex flex-col w-full justify-between">
+     relative flex flex-col w-full justify-between overflow-hidden">
+      {/* 3D Perspective Container */}
+      <div className="fixed inset-0 pointer-events-none" style={{ perspective: '600px' }}>
+      </div>
       {/* Background Icons - Random scattered expedition/logistics icons */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.08]">
+      <div className="fixed inset-0 opacity-[0.08] transform-gpu pointer-events-none" style={{ 
+        transform: `translateZ(-200px) scale(0.8) translateY(${scrollY * 0.3}px)` 
+      }}>
         {/* Truck 1 */}
         <div 
-          className="absolute w-12 h-12 lg:w-16 lg:h-16"
+          className="absolute w-12 h-12 lg:w-16 lg:h-16 cursor-pointer hover:opacity-50 transition-opacity duration-300"
           style={{
-            top: '12%',
-            left: '6%',
+            top: '5%',
+            left: '2%',
             transform: 'rotate(15deg)'
           }}
+          onClick={() => console.log('Truck clicked!')}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
             <path d="M1 3h15v13H1z"/>
@@ -25,12 +41,13 @@ export default function Home() {
         
         {/* Package 1 */}
         <div 
-          className="absolute w-8 h-8 lg:w-12 lg:h-12"
+          className="absolute w-8 h-8 lg:w-12 lg:h-12 cursor-pointer hover:opacity-50 transition-opacity duration-300"
           style={{
-            top: '22%',
-            right: '10%',
+            top: '15%',
+            right: '3%',
             transform: 'rotate(-20deg)'
           }}
+          onClick={() => console.log('Package clicked!')}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
             <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
@@ -43,8 +60,8 @@ export default function Home() {
         <div 
           className="absolute w-10 h-10 lg:w-14 lg:h-14"
           style={{
-            top: '40%',
-            left: '3%',
+            top: '85%',
+            left: '1%',
             transform: 'rotate(30deg)'
           }}
         >
@@ -63,8 +80,8 @@ export default function Home() {
         <div 
           className="absolute w-6 h-6 lg:w-10 lg:h-10"
           style={{
-            top: '58%',
-            right: '6%',
+            top: '95%',
+            right: '2%',
             transform: 'rotate(-15deg)'
           }}
         >
@@ -78,8 +95,8 @@ export default function Home() {
         <div 
           className="absolute w-8 h-8 lg:w-12 lg:h-12"
           style={{
-            top: '72%',
-            left: '12%',
+            top: '45%',
+            left: '1%',
             transform: 'rotate(25deg)'
           }}
         >
@@ -96,8 +113,8 @@ export default function Home() {
         <div 
           className="absolute w-6 h-6 lg:w-8 lg:h-8"
           style={{
-            top: '32%',
-            left: '82%',
+            top: '25%',
+            left: '97%',
             transform: 'rotate(-35deg)'
           }}
         >
@@ -813,13 +830,139 @@ export default function Home() {
             <path d="M9 9h6v6H9z"/>
           </svg>
         </div>
+        
+        {/* Additional scattered icons */}
+        <div 
+          className="absolute w-4 h-4 lg:w-6 lg:h-6 cursor-pointer hover:opacity-50 transition-opacity duration-300"
+          style={{
+            top: '8%',
+            left: '50%',
+            transform: 'rotate(45deg)'
+          }}
+          onClick={() => console.log('Icon clicked!')}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/>
+            <path d="M12 2v20"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hover:opacity-50 transition-opacity duration-300"
+          style={{
+            top: '35%',
+            left: '95%',
+            transform: 'rotate(-60deg)'
+          }}
+          onClick={() => console.log('Icon clicked!')}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M1 3h15v13H1z"/>
+            <path d="M16 8h4l3 6v4h-7v-10z"/>
+            <circle cx="5" cy="19" r="2"/>
+            <circle cx="19" cy="19" r="2"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-3 h-3 lg:w-5 lg:h-5"
+          style={{
+            top: '60%',
+            left: '98%',
+            transform: 'rotate(75deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="18" width="20" height="4"/>
+            <rect x="2" y="14" width="20" height="2"/>
+            <rect x="2" y="10" width="20" height="2"/>
+            <rect x="2" y="6" width="20" height="2"/>
+            <rect x="2" y="2" width="20" height="2"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-4 h-4 lg:w-6 lg:h-6"
+          style={{
+            top: '90%',
+            left: '50%',
+            transform: 'rotate(-45deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-3 h-3 lg:w-5 lg:h-5"
+          style={{
+            top: '10%',
+            left: '75%',
+            transform: 'rotate(90deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-4 h-4 lg:w-6 lg:h-6"
+          style={{
+            top: '75%',
+            left: '25%',
+            transform: 'rotate(-30deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <path d="M2 10h20"/>
+            <path d="M8 6V2"/>
+            <path d="M16 6V2"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-3 h-3 lg:w-5 lg:h-5"
+          style={{
+            top: '50%',
+            left: '5%',
+            transform: 'rotate(120deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <path d="M9 22V12h6v10"/>
+          </svg>
+        </div>
+        
+        <div 
+          className="absolute w-4 h-4 lg:w-6 lg:h-6"
+          style={{
+            top: '20%',
+            left: '25%',
+            transform: 'rotate(-75deg)'
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-full h-full text-slate-400">
+            <rect x="3" y="16" width="8" height="6"/>
+            <path d="M11 16v-4h4l3-3v7"/>
+            <circle cx="6" cy="19" r="1"/>
+            <circle cx="18" cy="19" r="1"/>
+          </svg>
+        </div>
       </div>
       
       {/* Background Pattern */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none transform-gpu" style={{ 
+        transform: `translateZ(-150px) scale(1.1) translateY(${scrollY * 0.2}px)` 
+      }}></div>
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none transform-gpu" style={{ 
+        transform: `translateZ(-100px) scale(1.05) translateY(${scrollY * 0.1}px)` 
+      }}></div>
       {/* Header */}
-      <header className="relative z-10 w-full px-4 py-4 sm:px-6 lg:px-8">
+      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg flex items-center justify-center">
@@ -838,20 +981,21 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-start px-4 py-8 sm:px-6 lg:px-8">
+      <main className="relative z-30 flex-1 flex flex-col items-center justify-start px-4 py-8 sm:px-6 lg:px-8">
         {/* Logo Section */}
         <div>
           <div className="text-center mb-8 sm:mb-12">
-            <div className="flex items-center justify-center mb-4">
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600">
+            <div className="flex items-center justify-center mb-4 transform-gpu">
+              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 transform hover:scale-105 hover:rotate-1 transition-all duration-500 cursor-default">
                 SYS
               </h1>
-              <span className="text-2xl sm:text-4xl lg:text-6xl font-bold text-blue-400 ml-2">E</span>
-              <span className="text-xl sm:text-3xl lg:text-5xl font-medium text-slate-300 ml-0">XPED</span>
+              <span className="text-2xl sm:text-4xl lg:text-6xl font-bold text-blue-400 ml-2 transform hover:scale-110 hover:rotate-3 transition-all duration-500 cursor-default">E</span>
+              <span className="text-xl sm:text-3xl lg:text-5xl font-medium text-slate-300 ml-0 transform hover:scale-105 hover:-rotate-1 transition-all duration-500 cursor-default">XPED</span>
             </div>
-            <p className="text-slate-400 text-sm sm:text-base max-w-md mx-auto">
+            <p className="text-slate-400 text-sm sm:text-base max-w-md mx-auto transform hover:scale-105 transition-all duration-300 cursor-default">
               Sistema para gestão de expedição e logística
             </p>
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-blue-500/5 to-purple-500/5 rounded-full blur-3xl transform scale-150 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
           </div>
 
           {/* Navigation Grid */}
@@ -861,50 +1005,54 @@ export default function Home() {
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Operações Principais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <Link href="/projetos" className="group">
-                  <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 rounded-xl p-4 sm:p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl border border-emerald-500/20">
+                  <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-emerald-500/20 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Expedição</h3>
-                      <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
                         <span className="text-white text-xs">📦</span>
                       </div>
                     </div>
                     <p className="text-emerald-100 text-xs sm:text-sm opacity-90">Gestão de expedições</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
 
                 <Link href="/entradas_embalagem" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Embalagem</h3>
-                      <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
                         <span className="text-blue-400 text-xs">📋</span>
                       </div>
                     </div>
                     <p className="text-slate-400 text-xs sm:text-sm">Controle de estoque</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
 
                 <Link href="/graf" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:-rotate-y-6 transform-gpu relative z-50">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Gráficos</h3>
-                      <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
                         <span className="text-purple-400 text-xs">📊</span>
                       </div>
                     </div>
                     <p className="text-slate-400 text-xs sm:text-sm">Análises e métricas</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
 
                 <Link href="/estoques" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:-rotate-y-6 transform-gpu relative z-50">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Movimentações</h3>
-                      <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
                         <span className="text-orange-400 text-xs">📈</span>
                       </div>
                     </div>
                     <p className="text-slate-400 text-xs sm:text-sm">Análise de estoque</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
               </div>
@@ -915,28 +1063,28 @@ export default function Home() {
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Relatórios e Análises</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <Link href="/rankingusers" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <h3 className="text-white font-medium text-sm mb-1">Ranking</h3>
                     <p className="text-slate-400 text-xs">Performance dos usuários</p>
                   </div>
                 </Link>
 
                 <Link href="/resume2" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <h3 className="text-white font-medium text-sm mb-1">Relatórios PK</h3>
                     <p className="text-slate-400 text-xs">Relatórios por Kits ou peças avulsas</p>
                   </div>
                 </Link>
 
                 <Link href="/resumepp" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <h3 className="text-white font-medium text-sm mb-1">Relatórios PP</h3>
                     <p className="text-slate-400 text-xs">Relatórios somente por peças avulsas</p>
                   </div>
                 </Link>
 
                 <Link href="/caixas_por_grade_m" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <h3 className="text-white font-medium text-sm mb-1">Etiquetas/Grade</h3>
                     <p className="text-slate-400 text-xs">Impressão de etiquetas por grade</p>
                   </div>
@@ -949,14 +1097,14 @@ export default function Home() {
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Ferramentas Adicionais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <Link href="/relatoriosaidapordata" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <h3 className="text-white font-medium text-sm mb-1">Relatório Saída</h3>
                     <p className="text-slate-400 text-xs">Saídas por data</p>
                   </div>
                 </Link>
 
                 <Link href="/relatoriosaidapordataescola" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 transform hover:scale-105 border border-slate-700">
+                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
                     <h3 className="text-white font-medium text-sm mb-1">Relatório Saída P/ Escola</h3>
                     <p className="text-slate-400 text-xs">Saídas por data e escola</p>
                   </div>

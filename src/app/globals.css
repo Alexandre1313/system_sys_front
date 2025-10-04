@@ -235,3 +235,46 @@ select option:checked {
   background-size: 1rem;
   padding-right: 2.5rem;
 }
+
+/* 3D Effects Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-gpu {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.rotate-3d-x-15 {
+  transform: rotateX(15deg);
+}
+
+.rotate-3d-x-20 {
+  transform: rotateX(20deg);
+}
+
+.rotate-3d-x-25 {
+  transform: rotateX(25deg);
+}
+
+.rotate-3d-x-30 {
+  transform: rotateX(30deg);
+}
+
+.rotate-3d-y-15 {
+  transform: rotateY(15deg);
+}
+
+.rotate-3d-y-20 {
+  transform: rotateY(20deg);
+}
+
+.rotate-3d-y-25 {
+  transform: rotateY(25deg);
+}
+
+.rotate-3d-y-30 {
+  transform: rotateY(30deg);
+}
+
