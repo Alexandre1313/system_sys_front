@@ -2,7 +2,7 @@ import { Loader } from "react-feather";
 
 export default function IsLoading() {
     return (
-        <div className="fixed inset-0 flex items-center justify-center px-4 z-50">
+        <div className="fixed inset-0 flex items-center justify-center px-4 z-50 bg-slate-800/90 backdrop-blur-sm">
             {/* Loading Card */}
             <div className="relative z-10 text-center">
                 <div className="bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 sm:p-12 shadow-2xl">

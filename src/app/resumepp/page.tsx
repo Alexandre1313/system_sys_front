@@ -299,44 +299,44 @@ export default function ConsultaStatusGradesPP() {
                 <span>Estatísticas Totais</span>
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-cyan-500/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Previsto</p>
-                  <p className="text-cyan-500 text-base lg:text-xl font-extralight">{filtered.previstoT}</p>
+                  <p className="text-cyan-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.previstoT}</p>
                 </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-emerald-500/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Expedidos</p>
-                  <p className="text-emerald-500 text-base lg:text-xl font-extralight">{filtered.expedidosT}</p>
+                  <p className="text-emerald-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.expedidosT}</p>
                 </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-orange-500/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">À Expedir</p>
-                  <p className="text-orange-500 text-base lg:text-xl font-extralight">{filtered.aExpedirT}</p>
+                  <p className="text-orange-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.aExpedirT}</p>
                 </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-white/20 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
-                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesT}</p>
+                  <p className="text-white text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.gradesT}</p>
                 </div>
                 {status !== 'PENDENTE' && (
-                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                  <div className="bg-purple-500/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
-                    <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasT}</p>
+                    <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasT}</p>
                   </div>
                 )}
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-white/20 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Cub. Total</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.cubagemT}</p>
                 </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-white/20 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Peso Total</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.pesoT}</p>
                 </div>
-                <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                <div className="bg-red-500/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Volumes</p>
-                  <p className="text-red-500 text-base lg:text-xl font-extralight">{filtered.volumes}</p>
+                  <p className="text-red-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.volumes}</p>
                 </div>
                 {tipo === 'T' && (
-                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3 sm:col-span-2 lg:col-span-1">
+                  <div className="bg-yellow-500/30 rounded-lg p-2 lg:p-3 sm:col-span-2 lg:col-span-1">
                     <p className="text-slate-400 text-xs lg:text-sm">Perc. Erros</p>
-                    <p className="text-yellow-500 text-base lg:text-xl font-extralight">{filtered.percErr}</p>
+                    <p className="text-yellow-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.percErr}</p>
                   </div>
                 )}
               </div>
@@ -351,24 +351,24 @@ export default function ConsultaStatusGradesPP() {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Previsto</p>
-                  <p className="text-cyan-500 text-base lg:text-xl font-extralight">{filtered.previstoN}</p>
+                  <p className="text-cyan-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.previstoN}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Expedidos</p>
-                  <p className="text-emerald-500 text-base lg:text-xl font-extralight">{filtered.expedidos}</p>
+                  <p className="text-emerald-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.expedidos}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">À Expedir</p>
-                  <p className="text-orange-500 text-base lg:text-xl font-extralight">{filtered.aExpedir}</p>
+                  <p className="text-orange-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.aExpedir}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
-                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesValidas}</p>
+                  <p className="text-white text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.gradesValidas}</p>
                 </div>
                 {status !== 'PENDENTE' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
-                    <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasN}</p>
+                    <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasN}</p>
                   </div>
                 )}
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
@@ -381,7 +381,7 @@ export default function ConsultaStatusGradesPP() {
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Volumes</p>
-                  <p className="text-red-500 text-base lg:text-xl font-extralight">{filtered.volumesN}</p>
+                  <p className="text-red-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.volumesN}</p>
                 </div>
               </div>
             </div>
@@ -395,24 +395,24 @@ export default function ConsultaStatusGradesPP() {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Previsto</p>
-                  <p className="text-cyan-500 text-base lg:text-xl font-extralight">{filtered.prevRepo}</p>
+                  <p className="text-cyan-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.prevRepo}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Expedidos</p>
-                  <p className="text-emerald-500 text-base lg:text-xl font-extralight">{filtered.expRepo}</p>
+                  <p className="text-emerald-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.expRepo}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">À Expedir</p>
-                  <p className="text-orange-500 text-base lg:text-xl font-extralight">{filtered.aExpRepo}</p>
+                  <p className="text-orange-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.aExpRepo}</p>
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Grades</p>
-                  <p className="text-white text-base lg:text-xl font-extralight">{filtered.gradesRepo}</p>
+                  <p className="text-white text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.gradesRepo}</p>
                 </div>
                 {status !== 'PENDENTE' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
-                    <p className="text-purple-500 text-base lg:text-xl font-extralight">{filtered.escolasAtendidasR}</p>
+                    <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasR}</p>
                   </div>
                 )}
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
@@ -425,7 +425,7 @@ export default function ConsultaStatusGradesPP() {
                 </div>
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Volumes</p>
-                  <p className="text-red-500 text-base lg:text-xl font-extralight">{filtered.volumesR}</p>
+                  <p className="text-red-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.volumesR}</p>
                 </div>
               </div>
             </div>
@@ -463,15 +463,15 @@ export default function ConsultaStatusGradesPP() {
 
       {/* Modal de Confirmação */}
       {filtered.ids.length > 0 && modalStatus && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-8">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center min-h-dvh p-4 pt-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-slate-800/95 backdrop-blur-sm border border-slate-600 rounded-2xl p-4 lg:p-6 shadow-2xl max-w-md w-full"
+            className="bg-slate-800/95 backdrop-blur-sm border border-slate-600 rounded-2xl p-4 lg:p-6 shadow-2xl max-w-md lg:max-w-3xl w-full max-h-[90vh] flex flex-col"
           >
-            <div className="flex flex-col items-center text-center space-y-3">
+            <div className="flex flex-col items-center text-center space-y-3 flex-1 min-h-0">
               <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
                 <AlertTriangle size={24} className="text-red-400" />
               </div>
@@ -480,43 +480,43 @@ export default function ConsultaStatusGradesPP() {
                 <h2 className="text-lg lg:text-xl font-bold text-white">
                   Mudança de Status
                 </h2>
-                <p className="text-slate-400 text-xs lg:text-sm">
+                <p className="text-slate-400 text-xs lg:text-xl">
                   {message}
                 </p>
               </div>
 
-              <div className="bg-slate-700/30 rounded-lg p-3 w-full">
-                <p className="text-slate-300 text-xs font-medium mb-2">
+              <div className="bg-slate-700/30 rounded-lg p-3 w-full flex-1 min-h-0 flex flex-col">
+                <p className="text-slate-300 text-xs lg:text-xl font-medium mb-2 flex-shrink-0">
                   Grades IDs Afetados:
                 </p>
-                <div className="flex flex-wrap gap-1 justify-center">
+                <div className="flex flex-wrap gap-1 justify-center overflow-y-auto flex-1 min-h-0">
                   {filtered.ids.map((id, index) => (
-                    <span key={index} className="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-xs font-mono">
+                    <span key={index} className="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-2xl font-mono">
                       {id}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <p className="text-slate-300 text-xs font-medium">
+              <div className="space-y-1 flex-shrink-0">
+                <p className="text-slate-300 text-xs lg:text-xl font-medium">
                   Deseja mesmo alterar o status das grades?
                 </p>
-                <p className="text-red-400 text-xs">
+                <p className="text-red-400 text-xs lg:text-xl">
                   A operação não poderá ser revertida
                 </p>
               </div>
 
-              <div className="flex space-x-2 w-full">
+              <div className="flex space-x-2 w-full flex-shrink-0">
                 <button
                   onClick={() => ajustarStatus(filtered.ids)}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg px-3 py-2 text-xs lg:text-xl font-medium transition-colors duration-200"
                 >
                   Ajustar
                 </button>
                 <button
                   onClick={fecharModalAjustStatus}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200"
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-lg px-3 py-2 text-xs lg:text-xl font-medium transition-colors duration-200"
                 >
                   Cancelar
                 </button>
