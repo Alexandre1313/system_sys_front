@@ -900,7 +900,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
                                                   }`}
                                             >
-                                                <Box size={19} />
+                                                <Box size={29} />
                                                 <span>FECHAR CAIXA</span>
                                             </button>
                                         </div>
