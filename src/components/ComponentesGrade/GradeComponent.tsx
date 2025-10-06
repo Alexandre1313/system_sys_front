@@ -943,7 +943,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <h3 className={`text-lg font-semibold text-white`}>Controle de Expedição</h3>
                                             </div>
                                              <div className={`flex items-center space-x-2`}>                                                
-                                                <h3 className={`text-lg font-semibold text-emerald-900`}>{temCaixasParaGerar ? 'Caixa em aberto' : ''}</h3>
+                                                <h3 className={`text-lg font-semibold text-green-500`}>{temCaixasParaGerar ? 'Caixa em aberto' : ''}</h3>
                                             </div>
                                         </div>
 
