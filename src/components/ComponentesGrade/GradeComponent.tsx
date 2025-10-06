@@ -267,7 +267,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     };
 
     // Verificar se há caixas para gerar (itens com quantidade na caixa atual > 0)
-    const temCaixasParaGerar = props.grade.itensGrade?.some(item => 
+    const temCaixasParaGerar = props.grade.itensGrade?.some(item =>
         (item.qtyPCaixa || 0) > 0
     );
 
@@ -747,10 +747,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             onClick={props.OpenModalGerarCaixa}
                                             className={`flex flex-1 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300
                                               transform hover:scale-105 h-6 justify-center items-center
-                                              ${temCaixasParaGerar 
-                                                ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer' 
-                                                : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
-                                              }`}
+                                              ${temCaixasParaGerar
+                                                    ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
+                                                    : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
+                                                }`}
                                         >
                                             <Box size={15} />
                                         </button>
@@ -894,11 +894,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <button
                                                 ref={btnRef}
                                                 onClick={props.OpenModalGerarCaixa}
-                                                className={`flex items-center space-x-2 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
-                                                  ${temCaixasParaGerar 
-                                                    ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer' 
-                                                    : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
-                                                  }`}
+                                                className={`flex items-center space-x-2 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
+                                                  ${temCaixasParaGerar
+                                                        ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
+                                                        : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
+                                                    }`}
                                             >
                                                 <Box size={29} />
                                                 <span>FECHAR CAIXA</span>
@@ -936,10 +936,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     {/* Right Column - Expedition Control */}
-                                    <div className="bg-[#181818]/20 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6">
-                                        <div className="flex items-center space-x-2 mb-4">
-                                            <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
-                                            <h3 className="text-lg font-semibold text-white">Controle de Expedição</h3>
+                                    <div className={`bg-[#181818]/20 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6`}>
+                                        <div className="flex items-center justify-between space-x-2 mb-4">
+                                            <div className={`flex items-center space-x-2`}>
+                                                <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
+                                                <h3 className={`text-lg font-semibold text-white`}>Controle de Expedição</h3>
+                                            </div>
+                                             <div className={`flex items-center space-x-2`}>                                                
+                                                <h3 className={`text-lg font-semibold text-emerald-900`}>{temCaixasParaGerar ? 'Caixa em aberto' : ''}</h3>
+                                            </div>
                                         </div>
 
                                         {/* Quantities in Row */}
