@@ -413,71 +413,121 @@ const processarQtdParaEstoque = (
     setModalMessage: (message: string) => void,
     setModalOpenCodeInvalid: (open: boolean) => void,
 ) => {
-    // Verifica se o valor contém apenas números (0-9)
-    const isNumeric = /^[0-9]*$/.test(value);
-
-    // Se o valor não for numérico, mantém o campo com o valor digitado
-    if (!isNumeric) {
-        // Não alterar o estado para limpar o campo
-        return; // Sai da função, nada mais é executado
-    }
+    // Aceita apenas caracteres válidos: números, + e -
+    if (!/^[0-9+\-]*$/.test(value)) return;
 
     const itemCodigo = formData.ITEM_SELECIONADO?.barcode;
+    const quantidadeContabilizadaAtual = Number(formData.QUANTIDADECONTABILIZADA || 0);
 
-    // Atualiza o CODDEBARRASLEITURA com o valor digitado
+    // Atualiza o campo com o valor digitado
     setFormData((prevData: any) => ({
         ...prevData,
-        LEITURADOCODDEBARRAS: value, // Sempre atualiza para o valor digitado
+        LEITURADOCODDEBARRAS: value,
     }));
 
-    if (value.length === 5 && value != '99999') {
-        if (selectedEmbalagem) {
-            if (value === itemCodigo) {
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1),
-                    LEITURADOCODDEBARRAS: '',
-                }));
-            } else {
-                // Se o código não corresponder, podemos exibir uma mensagem no modal
-                setModalMessage('Código de barras inválido para o item em questão, verifique');
-                setModalOpenCodeInvalid(true);
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    LEITURADOCODDEBARRAS: '',
-                    // limpa o campo aqui
-                }));
-            }
-        } else {
-            // Se a embalagem nao estiver setada
+    // 1. Entrada manual para adicionar quantidade (+XXXX, 5 caracteres, 4 dígitos) - VERIFICAR PRIMEIRO
+    if (/^\+\d{4}$/.test(value) && value.length === 5) {
+        if (!selectedEmbalagem) {
             setModalMessage('Por favor, selecione o embalador');
             setModalOpenCodeInvalid(true);
             setFormData((prevData: any) => ({
                 ...prevData,
                 LEITURADOCODDEBARRAS: '',
-                // limpa o campo aqui
+            }));
+            return;
+        }
+
+        const nnn = parseInt(value.substring(1), 10);
+        setFormData((prevData: any) => ({
+            ...prevData,
+            QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn),
+            LEITURADOCODDEBARRAS: '',
+        }));
+        return;
+    }
+
+    // 2. Entrada manual para remover quantidade (-XXXX, 5 caracteres, 4 dígitos)
+    if (/^\-\d{4}$/.test(value) && value.length === 5) {
+        if (!selectedEmbalagem) {
+            setModalMessage('Por favor, selecione o embalador');
+            setModalOpenCodeInvalid(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                LEITURADOCODDEBARRAS: '',
+            }));
+            return;
+        }
+
+        const nnn = parseInt(value.substring(1), 10);
+        
+        if (quantidadeContabilizadaAtual === 0) {
+            setModalMessage('Nenhuma quantidade contabilizada para remover!');
+            setModalOpenCodeInvalid(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                LEITURADOCODDEBARRAS: '',
+            }));
+            return;
+        }
+
+        // Remove até o máximo disponível
+        const remover = Math.min(nnn, quantidadeContabilizadaAtual);
+        setFormData((prevData: any) => ({
+            ...prevData,
+            QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) - remover),
+            LEITURADOCODDEBARRAS: '',
+        }));
+        return;
+    }
+
+    // 3. Código especial 999990000 (incremento manual com código especial - 9 caracteres, 4 dígitos finais)
+    if (/^99999\d{4}$/.test(value) && value.length === 9) {
+        if (!selectedEmbalagem) {
+            setModalMessage('Por favor, selecione o embalador');
+            setModalOpenCodeInvalid(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                LEITURADOCODDEBARRAS: '',
+            }));
+            return;
+        }
+
+        const nnn = parseInt(value.substring(5), 10);
+        setFormData((prevData: any) => ({
+            ...prevData,
+            QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn),
+            LEITURADOCODDEBARRAS: '',
+        }));
+        return;
+    }
+
+    // 4. Código de barras normal (5 dígitos) - VERIFICAR POR ÚLTIMO
+    if (value.length === 5 && value !== '99999') {
+        if (!selectedEmbalagem) {
+            setModalMessage('Por favor, selecione o embalador');
+            setModalOpenCodeInvalid(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                LEITURADOCODDEBARRAS: '',
+            }));
+            return;
+        }
+
+        if (value === itemCodigo) {
+            setFormData((prevData: any) => ({
+                ...prevData,
+                QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + 1),
+                LEITURADOCODDEBARRAS: '',
+            }));
+        } else {
+            setModalMessage('Código de barras não pertence ao item em questão, por favor verifique!');
+            setModalOpenCodeInvalid(true);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                LEITURADOCODDEBARRAS: '',
             }));
         }
-    } else {
-        if (value.length === 9 && value.substring(0, 5) === '99999' && user?.id === 1) {
-            let nnn = parseInt(value.substring(5));
-            if (selectedEmbalagem) {
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    QUANTIDADECONTABILIZADA: String(Number(prevData.QUANTIDADECONTABILIZADA) + nnn), // Incrementa QUANTIDADELIDA
-                    LEITURADOCODDEBARRAS: '',
-                }));
-            } else {
-                // Se a embalagem nao estiver setada
-                setModalMessage('Por favor, selecione o embalador');
-                setModalOpenCodeInvalid(true);
-                setFormData((prevData: any) => ({
-                    ...prevData,
-                    LEITURADOCODDEBARRAS: '',
-                    // limpa o campo aqui
-                }));
-            }
-        }
+        return;
     }
 };
 

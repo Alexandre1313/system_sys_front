@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { AlertTriangle, X } from 'react-feather';
 
 interface ModalProps {
@@ -18,6 +18,27 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
     }
     return '/error1.mp3'; // Som padrão
   };
+
+  // Memoiza a função handleKeyDown para evitar recriações desnecessárias
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Previne comportamento padrão
+      event.stopPropagation(); // Impede propagação para outros elementos
+      onClose(); // Fecha o modal quando pressionar Enter
+    }
+  }, [onClose]);
+
+  // Adicionar evento de teclado APENAS quando o modal estiver aberto
+  useEffect(() => {
+    if (!isOpen) return; // Não adiciona listener se modal estiver fechado
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Limpeza do evento ao desmontar o componente
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, handleKeyDown]);
 
   useEffect(() => {
     if (isOpen) {

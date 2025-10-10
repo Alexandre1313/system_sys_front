@@ -23,11 +23,16 @@ export default function BotaoEstoqueContabilizacion(props: BotaoEstoqueContabili
         <button
             type="button"
             onClick={props.updateStockEndEntryInput}  // Use a função onClick passada via props
-            className={`px-4 py-4 ${bgColor} ${textColor} font-medium rounded-md flex text-[13px] w-[215px]
-                items-center justify-center gap-x-3 ${bgHoverColor}
-                ${bgHoverColor} transition duration-500`}
+            className={`px-3 lg:px-4 py-2 lg:py-3 ${bgColor} ${textColor} font-semibold rounded-lg lg:rounded-md 
+                flex items-center justify-center gap-x-2 lg:gap-x-3 ${bgHoverColor}
+                transition duration-500 w-full lg:w-[215px] h-10 lg:h-[45px] text-xs lg:text-[13px]`}
         >
-            <RotateCcw className={props.IsOpenStock ? 'animate-rotate': ''} size={props.iconSize} color={arrowColor} strokeWidth={strokeWidth} /> {props.stringButtton}
+            <RotateCcw 
+                className={`w-3.5 h-3.5 lg:w-5 lg:h-5 ${props.IsOpenStock ? 'animate-rotate' : ''}`}
+                color={arrowColor} 
+                strokeWidth={strokeWidth} 
+            /> 
+            <span>{props.stringButtton}</span>
         </button>
     )
 }

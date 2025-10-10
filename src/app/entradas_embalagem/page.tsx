@@ -147,7 +147,8 @@ export default function EntradasEmbalagem() {
   }
 
   const mutationStock = () => {
-    swrMutateStock();
+    swrMutateStock(); // Atualiza os totais de produção
+    swrMutateItems(); // Atualiza os itens do projeto (reflete o novo estoque nos cards)
   }
 
   const handleItemClick = (item: ProjectItems['itensProject'][0], embalagemId: number | undefined,

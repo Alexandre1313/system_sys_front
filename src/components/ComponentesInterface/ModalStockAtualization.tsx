@@ -119,7 +119,7 @@ const ModalStockAtualization: React.FC<ModalStockAtualizationProps> = ({ isOpenS
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="bg-slate-800/95 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl 
-            w-full max-w-[98%] sm:max-w-[600px] lg:max-w-[700px] shadow-2xl overflow-hidden"
+            w-full max-w-[80%] sm:max-w-[600px] lg:max-w-[700px] shadow-2xl overflow-hidden"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-slate-900/50 to-slate-800/50 border-b border-slate-700 px-3 lg:px-6 py-2 lg:py-4">

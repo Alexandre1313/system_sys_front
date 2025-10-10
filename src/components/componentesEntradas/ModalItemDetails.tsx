@@ -22,7 +22,7 @@ interface ModalItemDetailsProps {
 
 const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setFormData, isOpen, item, embalagem, IsOpenStock,
     onClose, updateStockEndEntryInput }) => {
-    
+
     const embNotSelect = embalagem ? 'text-emerald-400' : 'text-red-400'
     const qtyTotalEmb = totals?.quantidadeTotalEmbalagem ? totals.quantidadeTotalEmbalagem : '0';
     const qtyTotalDiaItem = totals?.quantidadeTotalItem ? totals.quantidadeTotalItem : '0';
@@ -38,82 +38,110 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                         className="bg-slate-800/95 backdrop-blur-sm border border-slate-700 rounded-xl lg:rounded-2xl w-full 
-                        max-w-[98%] lg:max-w-[85%] xl:max-w-[1400px] max-h-[96vh] overflow-hidden
+                        max-w-[98%] lg:max-w-[85%] xl:max-w-[1400px] max-h-[83vh] overflow-hidden
                         flex flex-col shadow-2xl"
                     >
                         {/* Header do Modal */}
-                        <div className="bg-gradient-to-r from-slate-900/50 to-slate-800/50 border-b border-slate-700 px-3 lg:px-6 py-2 lg:py-4">
+                        <div className="bg-gradient-to-r from-slate-900/50 to-slate-800/50 border-b border-slate-700 px-2 lg:px-6 py-1.5 lg:py-4">
                             <div className="flex items-center space-x-2 lg:space-x-3">
-                                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg lg:rounded-xl flex items-center justify-center">
-                                    <Package size={16} className="lg:w-5 lg:h-5 text-white" />
+                                <div className="w-7 h-7 lg:w-10 lg:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg lg:rounded-xl flex items-center justify-center">
+                                    <Package size={14} className="lg:w-5 lg:h-5 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-base lg:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                                    <h2 className="text-sm lg:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
                                         Detalhes do Item
                                     </h2>
-                                    <p className="text-slate-400 text-[10px] lg:text-sm hidden sm:block">Entrada de estoque e contabilização</p>
+                                    <p className="text-slate-400 text-[9px] lg:text-sm hidden sm:block">Entrada de estoque e contabilização</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Conteúdo Principal - Responsivo */}
                         <div className="flex-1 overflow-y-auto overflow-x-hidden">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6 p-3 lg:p-6 max-w-full">
-                                
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-6 p-2 lg:p-6 max-w-full">
+
+                                <div className="min-w-0 w-full">
+                                    <ItemsEntryImputTextState
+                                        labelName={'LEITURA DO CÓD DE BARRAS'}
+                                        formData={formData}
+                                        setFormData={setFormData}
+                                        txtSize={`text-base lg:text-xl`}
+                                        placeholder={`Mantenha o cursor aqui...`}
+                                        isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
+                                                        focus:ring focus:ring-emerald-500`}
+                                        labelColor={`text-emerald-500`}
+                                    />
+                                </div>
+
+                                {/* Botão Atualizar Estoque */}
+                                <div className="flex justify-end">
+                                    <BotaoEstoqueContabilizacion
+                                        bgColor={`bg-green-600`}
+                                        bgHoverColor={`hover:bg-green-500`}
+                                        textColor={`text-white`}
+                                        strokeWidth={2}
+                                        iconColor={`#fff`}
+                                        iconSize={20}
+                                        IsOpenStock={IsOpenStock}
+                                        stringButtton={`ATUALIZAR ESTOQUE`}
+                                        updateStockEndEntryInput={updateStockEndEntryInput}
+                                    />
+                                </div>
+
                                 {/* Coluna Esquerda - Informações do Item */}
-                                <div className="space-y-3 lg:space-y-6 min-w-0">
+                                <div className="space-y-2 lg:space-y-6 min-w-0">
                                     
                                     {/* Embalador */}
-                                    <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-3 lg:p-4">
-                                        <div className="flex items-center space-x-3 mb-3">
-                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${embalagem ? 'bg-emerald-500/20' : 'bg-red-500/20'}`}>
-                                                <User size={16} className={embNotSelect} />
+                                    <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-2 lg:p-4">
+                                        <div className="flex items-center space-x-2 lg:space-x-3 mb-1.5 lg:mb-3">
+                                            <div className={`w-6 h-6 lg:w-8 lg:h-8 rounded-lg flex items-center justify-center ${embalagem ? 'bg-emerald-500/20' : 'bg-red-500/20'}`}>
+                                                <User size={14} className={`lg:w-4 lg:h-4 ${embNotSelect}`} />
                                             </div>
-                                            <span className="text-slate-400 text-sm lg:text-base font-medium">EMBALADOR</span>
+                                            <span className="text-slate-400 text-xs lg:text-base font-medium">EMBALADOR</span>
                                         </div>
-                                        <p className={`text-lg lg:text-xl font-bold ${embNotSelect} pl-11`}>
+                                        <p className={`text-sm lg:text-xl font-bold ${embNotSelect} pl-8 lg:pl-11`}>
                                             {embalagem?.nome || 'NÃO SELECIONADO'}
                                         </p>
                                     </div>
 
                                     {/* Informações Principais do Item */}
-                                    <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-3 lg:p-4 space-y-2 lg:space-y-4">
-                                        <div className="flex items-center space-x-2 pb-3 border-b border-slate-700">
-                                            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                            <h3 className="text-slate-300 font-semibold text-sm lg:text-base">Informações do Item</h3>
+                                    <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-2 lg:p-4 space-y-1.5 lg:space-y-4">
+                                        <div className="flex items-center space-x-2 pb-1.5 lg:pb-3 border-b border-slate-700">
+                                            <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-blue-400 rounded-full"></div>
+                                            <h3 className="text-slate-300 font-semibold text-xs lg:text-base">Informações do Item</h3>
                                         </div>
 
-                                        <div className="space-y-3">
+                                        <div className="space-y-1.5 lg:space-y-3">
                                             {/* Projeto */}
-                                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                                                <span className="text-slate-500 text-xs lg:text-sm font-medium min-w-[100px]">PROJETO:</span>
-                                                <span className="text-slate-300 text-sm lg:text-base font-medium">{formData.PROJETO}</span>
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3">
+                                                <span className="text-slate-500 text-[9px] lg:text-sm font-medium min-w-[80px] lg:min-w-[100px]">PROJETO:</span>
+                                                <span className="text-slate-300 text-xs lg:text-base font-medium">{formData.PROJETO}</span>
                                             </div>
 
                                             {/* Item */}
-                                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                                                <span className="text-slate-500 text-xs lg:text-sm font-medium min-w-[100px]">ITEM:</span>
-                                                <span className="text-slate-300 text-sm lg:text-base font-medium">{item.nome}</span>
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3">
+                                                <span className="text-slate-500 text-[9px] lg:text-sm font-medium min-w-[80px] lg:min-w-[100px]">ITEM:</span>
+                                                <span className="text-slate-300 text-xs lg:text-base font-medium">{item.nome}</span>
                                             </div>
 
                                             {/* Gênero */}
-                                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                                                <span className="text-slate-500 text-xs lg:text-sm font-medium min-w-[100px]">GÊNERO:</span>
-                                                <span className="text-slate-300 text-sm lg:text-base">{item.genero}</span>
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3">
+                                                <span className="text-slate-500 text-[9px] lg:text-sm font-medium min-w-[80px] lg:min-w-[100px]">GÊNERO:</span>
+                                                <span className="text-slate-300 text-xs lg:text-base">{item.genero}</span>
                                             </div>
 
                                             {/* Tamanho */}
-                                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                                                <span className="text-slate-500 text-xs lg:text-sm font-medium min-w-[100px]">TAMANHO:</span>
-                                                <span className="text-yellow-400 text-base lg:text-lg font-semibold">{item.tamanho}</span>
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3">
+                                                <span className="text-slate-500 text-[9px] lg:text-sm font-medium min-w-[80px] lg:min-w-[100px]">TAMANHO:</span>
+                                                <span className="text-yellow-400 text-sm lg:text-lg font-semibold">{item.tamanho}</span>
                                             </div>
 
                                             {/* Composição (se existir) */}
                                             {item.composicao && (
-                                                <div className="pt-2">
-                                                    <span className="text-slate-500 text-xs lg:text-sm font-medium mb-2 block">COMPOSIÇÃO:</span>
-                                                    <div className="bg-slate-800/50 rounded-lg p-3 border-l-4 border-blue-500">
-                                                        <ul className="space-y-1.5">
+                                                <div className="pt-1 lg:pt-2">
+                                                    <span className="text-slate-500 text-[9px] lg:text-sm font-medium mb-1 lg:mb-2 block">COMPOSIÇÃO:</span>
+                                                    <div className="bg-slate-800/50 rounded-lg p-1.5 lg:p-3 border-l-2 lg:border-l-4 border-blue-500">
+                                                        <ul className="space-y-0.5 lg:space-y-1.5">
                                                             {item.composicao
                                                                 .split(',')
                                                                 .map((componente: string) => componente.trim())
@@ -124,8 +152,8 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                                                 })
                                                                 .sort((a, b) => b.quantidade - a.quantidade)
                                                                 .map(({ quantidade, nome }) => (
-                                                                    <li key={nome} className="text-slate-300 text-xs lg:text-sm flex items-center">
-                                                                        <span className="text-blue-400 font-semibold mr-2 min-w-[30px]">{quantidade}</span>
+                                                                    <li key={nome} className="text-slate-300 text-[10px] lg:text-sm flex items-center">
+                                                                        <span className="text-blue-400 font-semibold mr-1.5 lg:mr-2 min-w-[20px] lg:min-w-[30px]">{quantidade}</span>
                                                                         <span>{nome}</span>
                                                                     </li>
                                                                 ))}
@@ -144,36 +172,25 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                                     <p className="text-slate-300 text-sm lg:text-base font-mono pl-6">{item.barcode}</p>
                                                 </div>
                                             </div>
-
-                                            {/* Estoque */}
-                                            <div className="pt-2">
-                                                <div className="bg-yellow-500/10 rounded-lg p-3 border border-yellow-500/30">
-                                                    <div className="flex items-center space-x-2 mb-1">
-                                                        <Box size={16} className="text-yellow-500" />
-                                                        <span className="text-slate-400 text-xs lg:text-sm font-medium">ESTOQUE ATUAL</span>
-                                                    </div>
-                                                    <p className="text-yellow-400 text-xl lg:text-2xl font-bold pl-6">{qtyEstoque}</p>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Coluna Direita - Controles e Entrada */}
-                                <div className="space-y-3 lg:space-y-6 min-w-0">
+                                <div className="space-y-2 lg:space-y-6 min-w-0">
                                     
                                     {/* Totalizadores */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4 min-w-0 items-start">
-                                        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-3 lg:p-4 min-w-0 overflow-hidden h-full">
-                                            <div className="min-w-0 w-full max-w-full [&_input]:!min-w-0 [&_input]:!w-full [&_label]:!min-h-[48px] [&_label]:!flex [&_label]:!items-center">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-4 min-w-0 items-start">
+                                        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-1.5 lg:p-4 min-w-0 overflow-hidden h-full">
+                                            <div className="min-w-0 w-full max-w-full [&_input]:!min-w-0 [&_input]:!w-full [&_label]:!min-h-[36px] lg:[&_label]:!min-h-[48px] [&_label]:!flex [&_label]:!items-center">
                                                 <ItemsEntryImputText 
                                                     labelName={'CONTABILIZADO TOTAL (NO DIA)'}
                                                     value={String(qtyTotalEmb)} 
                                                 />
                                             </div>
                                         </div>
-                                        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-3 lg:p-4 min-w-0 overflow-hidden h-full">
-                                            <div className="min-w-0 w-full max-w-full [&_input]:!min-w-0 [&_input]:!w-full [&_label]:!min-h-[48px] [&_label]:!flex [&_label]:!items-center">
+                                        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg lg:rounded-xl p-1.5 lg:p-4 min-w-0 overflow-hidden h-full">
+                                            <div className="min-w-0 w-full max-w-full [&_input]:!min-w-0 [&_input]:!w-full [&_label]:!min-h-[36px] lg:[&_label]:!min-h-[48px] [&_label]:!flex [&_label]:!items-center">
                                                 <ItemsEntryImputText 
                                                     labelName={'CONTABILIZADO TOTAL (DO ITEM)'}
                                                     value={String(qtyTotalDiaItem)} 
@@ -190,56 +207,40 @@ const ModalItemDetails: FC<ModalItemDetailsProps> = ({ totals, formData, setForm
                                         </div>
 
                                         <div className="min-w-0 w-full">
-                                            <ItemsEntryImputTextStateBlock 
+                                            <ItemsEntryImputTextStateBlock
                                                 labelName={'QUANTIDADE CONTABILIZADA'}
-                                                formData={formData} 
+                                                formData={formData}
                                                 setFormData={setFormData}
-                                                isReadOnly={true} 
+                                                isReadOnly={true}
                                             />
                                         </div>
-                                        
-                                        <div className="min-w-0 w-full">
-                                            <ItemsEntryImputTextState 
-                                                labelName={'LEITURA DO CÓD DE BARRAS'}
-                                                formData={formData} 
-                                                setFormData={setFormData}
-                                                txtSize={`text-base lg:text-xl`}
-                                                placeholder={`Mantenha o cursor aqui...`}
-                                                isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
-                                                        focus:ring focus:ring-emerald-500`}
-                                                labelColor={`text-emerald-500`} 
-                                            />
-                                        </div>
-                                    </div>
 
-                                    {/* Botão Atualizar Estoque */}
-                                    <div className="flex justify-end">
-                                        <BotaoEstoqueContabilizacion
-                                            bgColor={`bg-green-600`}
-                                            bgHoverColor={`hover:bg-green-500`}
-                                            textColor={`text-white`}
-                                            strokeWidth={2}
-                                            iconColor={`#fff`}
-                                            iconSize={20}
-                                            IsOpenStock={IsOpenStock}
-                                            stringButtton={`ATUALIZAR ESTOQUE`}
-                                            updateStockEndEntryInput={updateStockEndEntryInput}
-                                        />
+                                        {/* Estoque */}
+                                        <div className="pt-2">
+                                            <div className="bg-yellow-500/10 rounded-lg p-3 border border-yellow-500/30">
+                                                <div className="flex items-center space-x-2 mb-1">
+                                                    <Box size={16} className="text-yellow-500" />
+                                                    <span className="text-slate-400 text-xs lg:text-sm font-medium">ESTOQUE ATUAL</span>
+                                                </div>
+                                                <p className="text-yellow-400 text-xl lg:text-2xl font-bold pl-6">{qtyEstoque}</p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Footer - Botão Voltar */}
-                        <div className="bg-slate-900/50 border-t border-slate-700 px-3 lg:px-6 py-3 lg:py-4">
+                        <div className="bg-slate-900/50 border-t border-slate-700 px-2 lg:px-6 py-2 lg:py-4">
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="w-full lg:w-auto px-4 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold 
+                                className="w-full lg:w-auto px-3 lg:px-4 py-2 lg:py-3 bg-red-600 hover:bg-red-500 text-white font-semibold 
                                 rounded-lg lg:rounded-xl transition-all duration-300 transform hover:scale-105
-                                flex items-center justify-center space-x-2 text-sm lg:text-base"
+                                flex items-center justify-center space-x-2 text-xs lg:text-base h-10 lg:h-auto"
                             >
-                                <X size={18} />
+                                <X size={14} className="lg:w-[18px] lg:h-[18px]" />
                                 <span>VOLTAR</span>
                             </button>
                         </div>
