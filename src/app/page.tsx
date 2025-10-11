@@ -2,23 +2,73 @@
 
 import Link from "next/link";
 import { useEffect, useState } from 'react';
+import { Clock, User, Wifi } from 'react-feather';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [currentTime, setCurrentTime] = useState('');
+  const [userName, setUserName] = useState('');
+  const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Update time every second
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+
+    // Get user from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setUserName(user.nome || user.username || 'Usuário');
+      } catch {
+        setUserName('Usuário');
+      }
+    }
+
+    // Monitor online status
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800
-     relative flex flex-col w-full justify-between overflow-hidden">
+    <div className="min-h-[100dvh] bg-slate-950 relative flex flex-col w-full justify-between overflow-hidden">
+      {/* Grid Pattern */}
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-[0.03]"></div>
+      
+      {/* Gradient Overlay */}
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"></div>
+      
+      {/* Accent Glow Top Right */}
+      <div className="fixed top-0 right-0 w-[800px] h-[800px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none"
+           style={{ transform: `translateY(${scrollY * -0.1}px)` }}></div>
+      
+      {/* Accent Glow Bottom Left */}
+      <div className="fixed bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"
+           style={{ transform: `translateY(${scrollY * 0.05}px)` }}></div>
+
       {/* 3D Perspective Container */}
       <div className="fixed inset-0 pointer-events-none" style={{ perspective: '600px' }}>
       </div>
       {/* Background Icons - Random scattered expedition/logistics icons */}
-      <div className="fixed inset-0 opacity-[0.08] transform-gpu pointer-events-none" style={{ 
+      <div className="fixed inset-0 opacity-[0.04] transform-gpu pointer-events-none" style={{ 
         transform: `translateZ(-200px) scale(0.8) translateY(${scrollY * 0.3}px)` 
       }}>
         {/* Truck 1 */}
@@ -954,18 +1004,11 @@ export default function Home() {
         </div>
       </div>
       
-      {/* Background Pattern */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none transform-gpu" style={{ 
-        transform: `translateZ(-150px) scale(1.1) translateY(${scrollY * 0.2}px)` 
-      }}></div>
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none transform-gpu" style={{ 
-        transform: `translateZ(-100px) scale(1.05) translateY(${scrollY * 0.1}px)` 
-      }}></div>
       {/* Header */}
-      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8">
+      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8 bg-slate-900/30 backdrop-blur-sm border-b border-slate-800/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/20">
               <span className="text-white font-bold text-sm sm:text-base">S</span>
             </div>
             <div className="text-white">
@@ -973,9 +1016,31 @@ export default function Home() {
               <p className="text-xs sm:text-sm text-slate-400">Sistema de Expedição</p>
             </div>
           </div>
-          <div className="hidden sm:flex items-center space-x-2 text-xs text-slate-400">
-            <span>v2.1.1</span>
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          
+          {/* Dynamic Info */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            {/* User Info */}
+            {userName && (
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 backdrop-blur-md rounded-lg border border-slate-700/40">
+                <User size={14} className="text-emerald-400" />
+                <span className="text-sm text-slate-300">{userName}</span>
+              </div>
+            )}
+            
+            {/* Time */}
+            {currentTime && (
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 backdrop-blur-md rounded-lg border border-slate-700/40">
+                <Clock size={14} className="text-blue-400" />
+                <span className="text-sm text-slate-300">{currentTime}</span>
+              </div>
+            )}
+            
+            {/* Status */}
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 backdrop-blur-md rounded-lg border border-slate-700/40">
+              <Wifi size={14} className={isOnline ? 'text-green-400' : 'text-red-400'} />
+              <span className="hidden sm:inline text-xs text-slate-300">{isOnline ? 'Online' : 'Offline'}</span>
+              <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+            </div>
           </div>
         </div>
       </header>
@@ -1004,55 +1069,55 @@ export default function Home() {
             <div className="mb-8">
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Operações Principais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <Link href="/projetos" className="group">
-                  <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-emerald-500/20 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/projetos" className="group animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                  <div className="bg-gradient-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-md hover:from-emerald-500/90 hover:to-emerald-600/90 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-emerald-500/30 hover:border-emerald-400/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Expedição</h3>
-                      <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                      <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-white text-xs">📦</span>
                       </div>
                     </div>
                     <p className="text-emerald-100 text-xs sm:text-sm opacity-90">Gestão de expedições</p>
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
 
-                <Link href="/entradas_embalagem" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/entradas_embalagem" className="group animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <div className="bg-slate-800/70 backdrop-blur-md hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-blue-500/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Embalagem</h3>
-                      <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                      <div className="w-8 h-8 bg-blue-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-blue-400 text-xs">📋</span>
                       </div>
                     </div>
-                    <p className="text-slate-400 text-xs sm:text-sm">Controle de estoque</p>
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <p className="text-slate-300 text-xs sm:text-sm">Controle de estoque</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
 
-                <Link href="/graf" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:-rotate-y-6 transform-gpu relative z-50">
+                <Link href="/graf" className="group animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                  <div className="bg-slate-800/70 backdrop-blur-md hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-purple-500/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Gráficos</h3>
-                      <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                      <div className="w-8 h-8 bg-purple-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-purple-400 text-xs">📊</span>
                       </div>
                     </div>
-                    <p className="text-slate-400 text-xs sm:text-sm">Análises e métricas</p>
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <p className="text-slate-300 text-xs sm:text-sm">Análises e métricas</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
 
-                <Link href="/estoques" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:-rotate-y-6 transform-gpu relative z-50">
+                <Link href="/estoques" className="group animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                  <div className="bg-slate-800/70 backdrop-blur-md hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-orange-500/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Movimentações</h3>
-                      <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                      <div className="w-8 h-8 bg-orange-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-orange-400 text-xs">📈</span>
                       </div>
                     </div>
-                    <p className="text-slate-400 text-xs sm:text-sm">Análise de estoque</p>
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <p className="text-slate-300 text-xs sm:text-sm">Análise de estoque</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </Link>
               </div>
@@ -1062,31 +1127,31 @@ export default function Home() {
             <div className="mb-8">
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Relatórios e Análises</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <Link href="/rankingusers" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/rankingusers" className="group animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Ranking</h3>
-                    <p className="text-slate-400 text-xs">Performance dos usuários</p>
+                    <p className="text-slate-300 text-xs">Performance dos usuários</p>
                   </div>
                 </Link>
 
-                <Link href="/resume2" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/resume2" className="group animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatórios PK</h3>
-                    <p className="text-slate-400 text-xs">Relatórios por Kits ou peças avulsas</p>
+                    <p className="text-slate-300 text-xs">Relatórios por Kits ou peças avulsas</p>
                   </div>
                 </Link>
 
-                <Link href="/resumepp" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/resumepp" className="group animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatórios PP</h3>
-                    <p className="text-slate-400 text-xs">Relatórios somente por peças avulsas</p>
+                    <p className="text-slate-300 text-xs">Relatórios somente por peças avulsas</p>
                   </div>
                 </Link>
 
-                <Link href="/caixas_por_grade_m" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/caixas_por_grade_m" className="group animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Etiquetas/Grade</h3>
-                    <p className="text-slate-400 text-xs">Impressão de etiquetas por grade</p>
+                    <p className="text-slate-300 text-xs">Impressão de etiquetas por grade</p>
                   </div>
                 </Link>
               </div>
@@ -1096,17 +1161,17 @@ export default function Home() {
             <div>
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Ferramentas Adicionais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <Link href="/relatoriosaidapordata" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/relatoriosaidapordata" className="group animate-fade-in-up" style={{ animationDelay: '0.9s' }}>
+                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatório Saída</h3>
-                    <p className="text-slate-400 text-xs">Saídas por data</p>
+                    <p className="text-slate-300 text-xs">Saídas por data</p>
                   </div>
                 </Link>
 
-                <Link href="/relatoriosaidapordataescola" className="group">
-                  <div className="bg-slate-800 hover:bg-slate-700 rounded-xl p-4 transition-all duration-300 border border-slate-700 hover:-rotate-3 hover:rotate-y-6 transform-gpu relative z-50">
+                <Link href="/relatoriosaidapordataescola" className="group animate-fade-in-up" style={{ animationDelay: '1s' }}>
+                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatório Saída P/ Escola</h3>
-                    <p className="text-slate-400 text-xs">Saídas por data e escola</p>
+                    <p className="text-slate-300 text-xs">Saídas por data e escola</p>
                   </div>
                 </Link>
 
