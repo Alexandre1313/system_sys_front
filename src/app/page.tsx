@@ -1005,7 +1005,7 @@ export default function Home() {
       </div>
       
       {/* Header */}
-      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8 bg-slate-900/30 backdrop-blur-sm border-b border-slate-800/50">
+      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8 bg-slate-900 sm:bg-slate-900/30 sm:backdrop-blur-sm border-b border-slate-800/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/20">
@@ -1021,7 +1021,7 @@ export default function Home() {
           <div className="flex items-center gap-3 sm:gap-4">
             {/* User Info */}
             {userName && (
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 backdrop-blur-md rounded-lg border border-slate-700/40">
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md rounded-lg border border-slate-700/40">
                 <User size={14} className="text-emerald-400" />
                 <span className="text-sm text-slate-300">{userName}</span>
               </div>
@@ -1029,14 +1029,14 @@ export default function Home() {
             
             {/* Time */}
             {currentTime && (
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 backdrop-blur-md rounded-lg border border-slate-700/40">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md rounded-lg border border-slate-700/40">
                 <Clock size={14} className="text-blue-400" />
                 <span className="text-sm text-slate-300">{currentTime}</span>
               </div>
             )}
             
             {/* Status */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/60 backdrop-blur-md rounded-lg border border-slate-700/40">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md rounded-lg border border-slate-700/40">
               <Wifi size={14} className={isOnline ? 'text-green-400' : 'text-red-400'} />
               <span className="hidden sm:inline text-xs text-slate-300">{isOnline ? 'Online' : 'Offline'}</span>
               <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
@@ -1070,7 +1070,7 @@ export default function Home() {
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Operações Principais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <Link href="/projetos" className="group animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-                  <div className="bg-gradient-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-md hover:from-emerald-500/90 hover:to-emerald-600/90 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-emerald-500/30 hover:border-emerald-400/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                  <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 sm:from-emerald-600/90 sm:to-emerald-700/90 sm:backdrop-blur-md hover:from-emerald-500 hover:to-emerald-600 sm:hover:from-emerald-500/90 sm:hover:to-emerald-600/90 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-emerald-500/30 hover:border-emerald-400/50 relative z-50 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Expedição</h3>
                       <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
@@ -1083,10 +1083,10 @@ export default function Home() {
                 </Link>
 
                 <Link href="/entradas_embalagem" className="group animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                  <div className="bg-slate-800/70 backdrop-blur-md hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-blue-500/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/70 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-blue-500/50 relative z-50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Embalagem</h3>
-                      <div className="w-8 h-8 bg-blue-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
+                      <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-blue-400 text-xs">📋</span>
                       </div>
                     </div>
@@ -1096,10 +1096,10 @@ export default function Home() {
                 </Link>
 
                 <Link href="/graf" className="group animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-                  <div className="bg-slate-800/70 backdrop-blur-md hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-purple-500/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/70 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-purple-500/50 relative z-50 hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Gráficos</h3>
-                      <div className="w-8 h-8 bg-purple-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
+                      <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-purple-400 text-xs">📊</span>
                       </div>
                     </div>
@@ -1109,10 +1109,10 @@ export default function Home() {
                 </Link>
 
                 <Link href="/estoques" className="group animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                  <div className="bg-slate-800/70 backdrop-blur-md hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-orange-500/50 transform-gpu relative z-50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/70 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/70 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-slate-700/50 hover:border-orange-500/50 relative z-50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-white font-semibold text-sm sm:text-base">Movimentações</h3>
-                      <div className="w-8 h-8 bg-orange-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center transition-transform duration-300">
+                      <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center transition-transform duration-300">
                         <span className="text-orange-400 text-xs">📈</span>
                       </div>
                     </div>
@@ -1128,28 +1128,28 @@ export default function Home() {
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Relatórios e Análises</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <Link href="/rankingusers" className="group animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Ranking</h3>
                     <p className="text-slate-300 text-xs">Performance dos usuários</p>
                   </div>
                 </Link>
 
                 <Link href="/resume2" className="group animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatórios PK</h3>
                     <p className="text-slate-300 text-xs">Relatórios por Kits ou peças avulsas</p>
                   </div>
                 </Link>
 
                 <Link href="/resumepp" className="group animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
-                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatórios PP</h3>
                     <p className="text-slate-300 text-xs">Relatórios somente por peças avulsas</p>
                   </div>
                 </Link>
 
                 <Link href="/caixas_por_grade_m" className="group animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Etiquetas/Grade</h3>
                     <p className="text-slate-300 text-xs">Impressão de etiquetas por grade</p>
                   </div>
@@ -1162,14 +1162,14 @@ export default function Home() {
               <h2 className="text-slate-300 text-sm font-medium mb-4 px-4">Ferramentas Adicionais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <Link href="/relatoriosaidapordata" className="group animate-fade-in-up" style={{ animationDelay: '0.9s' }}>
-                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatório Saída</h3>
                     <p className="text-slate-300 text-xs">Saídas por data</p>
                   </div>
                 </Link>
 
                 <Link href="/relatoriosaidapordataescola" className="group animate-fade-in-up" style={{ animationDelay: '1s' }}>
-                  <div className="bg-slate-800/60 backdrop-blur-md hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 transform-gpu relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
+                  <div className="bg-slate-800 sm:bg-slate-800/60 sm:backdrop-blur-md hover:bg-slate-700 sm:hover:bg-slate-700/60 rounded-xl p-4 transition-all duration-300 border border-slate-700/40 hover:border-slate-500/60 relative z-50 hover:shadow-[0_0_20px_rgba(148,163,184,0.15)]">
                     <h3 className="text-white font-medium text-sm mb-1">Relatório Saída P/ Escola</h3>
                     <p className="text-slate-300 text-xs">Saídas por data e escola</p>
                   </div>
@@ -1195,7 +1195,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 w-full px-4 py-6 sm:px-6 lg:px-8 border-t border-slate-800">
+      <footer className="relative w-full px-4 py-6 sm:px-6 lg:px-8 border-t border-slate-800">
         <div className="text-center">
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-4 text-xs sm:text-sm">
             <Link href="/resume" className="text-slate-400 hover:text-white transition-colors">
