@@ -132,19 +132,7 @@ export default function ConsultaStatusGrades() {
         return [...prevSelected, id];
       }
     });
-  };
-
-  const tam = (gradesIDS: number[]): string => {
-    if(gradesIDS.length <= 10){
-      return '500'
-    }else if(gradesIDS.length > 10 && gradesIDS.length <= 25){
-      return '800'
-    }else if(gradesIDS.length > 25 && gradesIDS.length <= 40){
-      return '900'
-    }else{
-      return '1100'
-    }
-  }
+  }; 
 
   const filtered = getResumo(status, dataFiltered);
 
@@ -482,13 +470,9 @@ export default function ConsultaStatusGrades() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-slate-800/95 backdrop-blur-sm border border-slate-600 rounded-2xl p-4 lg:p-6
-                        shadow-2xl max-w-md w-full max-h-[90vh] flex flex-col"
-            style={{
-              maxWidth: window.innerWidth >= 1024 ? `${tam(filtered.ids)}px` : undefined,
-              minWidth: window.innerWidth >= 1024 ? `${tam(filtered.ids)}px` : undefined,
-            }}
-            >
+            className="bg-slate-800/95 backdrop-blur-sm border border-slate-600 rounded-2xl p-4 lg:p-6 shadow-2xl lg:max-w-[950px]
+                        max-w-md w-full max-h-[90vh] flex flex-col lg:min-w-[500px]"
+          >
             <div className="flex flex-col items-center text-center space-y-3 flex-1 min-h-0">
               <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
                 <AlertTriangle size={24} className="text-red-400" />
