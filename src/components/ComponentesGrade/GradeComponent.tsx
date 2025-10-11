@@ -929,7 +929,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <div className="grid grid-cols-2 gap-4">
                                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
                                                     labelName={`TAMANHO`} color={`text-yellow-200`} />
-                                                <ItemsGradeInputText value={`${props.grade.status === 'PENDENTE' ? 'EM ANDAMENTO' : 'FINALIZADA'}`}
+                                                <ItemsGradeInputText value={props.grade.status}
                                                     labelName={`GRADE STATUS`} color={`text-zinc-400`} />
                                             </div>
                                         </div>
