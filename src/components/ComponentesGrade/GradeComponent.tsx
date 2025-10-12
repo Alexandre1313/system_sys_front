@@ -921,7 +921,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <div className="grid grid-cols-2 gap-4">
 
                                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                                    labelName={`GÊNERO`} color={`text-zinc-400`} />
+                                                    labelName={`GÊNERO`} color={`text-zinc-400`}
+                                                    bgColor={
+                                                        itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
+                                                            ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
+                                                            : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
+                                                                ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
+                                                                : 'rgba(51, 65, 85, 0.3)'    // neutro
+                                                    } />
                                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                                     labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
                                             </div>
@@ -941,7 +948,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
                                                 <h3 className={`text-lg font-semibold text-white`}>Controle de Expedição</h3>
                                             </div>
-                                             <div className={`flex items-center space-x-2`}>                                                
+                                            <div className={`flex items-center space-x-2`}>
                                                 <h3 className={`text-lg font-semibold text-green-500`}>{temCaixasParaGerar ? 'Caixa em aberto' : ''}</h3>
                                             </div>
                                         </div>
