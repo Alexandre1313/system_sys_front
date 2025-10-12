@@ -15,7 +15,6 @@ import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
-
 export interface GradeComponentProps {
     grade: Grade;
     escola: Escola;
