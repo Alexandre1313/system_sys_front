@@ -924,10 +924,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     labelName={`GÊNERO`} color={`text-zinc-400`}
                                                     bgColor={
                                                         itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
-                                                            ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
+                                                            ? 'rgba(30, 58, 138, 0.5)'   // azul masculino
                                                             : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
-                                                                ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
-                                                                : 'rgba(51, 65, 85, 0.3)'    // neutro
+                                                                ? 'rgba(136, 19, 55, 0.5)'   // rosa feminino
+                                                                : 'rgba(51, 65, 85, 0.5)'    // neutro
                                                     } />
                                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                                     labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
