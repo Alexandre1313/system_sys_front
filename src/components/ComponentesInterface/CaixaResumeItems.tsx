@@ -8,9 +8,9 @@ export default function CaixaResume({ caixaItem }: CaixaResumeItemsProps) {
     // Calcula o total de itemQty antes de renderizar o JSX
     const total = caixaItem?.reduce((acc, item) => acc + (item?.itemQty || 0), 0) || 0;
     return (
-        <div className="flex flex-col min-w-[100%] lg:max-h-[50vh] lg:gap-y-3 gap-y-1 overflow-scroll max-h-[17vh]">
+        <div className="flex flex-col min-w-[100%] lg:max-h-[50vh] lg:gap-y-3 gap-y-1 overflow-scroll max-h-[35vh]">
             {caixaItem && caixaItem.map((item, index) => (
-                <div key={index} className="flex flex-col w-full justify-start items-center gap-x-2 px-3">
+                <div key={index} className="flex flex-col w-full justify-start items-center gap-x-2 px-3 border-b border-slate-200">
                     <div className="lg:flex hidden lg:flex-row w-full justify-start items-center gap-x-2">
                         <span className="lg:text-xl text-black font-bold">{item?.itemName}</span>
                         <span className="lg:text-xl text-black font-bold">{`-`}</span>
@@ -23,15 +23,15 @@ export default function CaixaResume({ caixaItem }: CaixaResumeItemsProps) {
                         <span className="lg:text-xl text-sm text-black font-bold">{`${item?.itemGenero} - TAM: ${item?.itemTam}`}</span>
                     </div>
                     <div className="flex flex-row w-full justify-start items-center gap-x-2 pt-2">
-                        <span className="lg:text-xl text-sm text-black font-bold">{item?.itemQty}</span>
-                        <span className="lg:text-xl text-sm text-black font-bold">{item?.itemQty === 1 ? `UNIDADE` : `UNIDADES`}</span>
+                        <span className="lg:text-xl text-sm text-red-500 font-bold">{item?.itemQty}</span>
+                        <span className="lg:text-xl text-sm text-zinc-500 font-bold">{item?.itemQty === 1 ? `UNIDADE` : `UNIDADES`}</span>
                     </div>
                 </div>
             ))}
             <div className="flex flex-row w-full justify-start items-center gap-x-2 p-3">
-                <span className="lg:text-xl text-sm text-black font-bold">{`TOTAL:`}</span>
-                <span className="lg:text-xl text-sm text-black font-bold">{total}</span>
-                <span className="lg:text-xl text-sm text-black font-bold">{total === 1 ? `UNIDADE` : `UNIDADES`}</span>
+                <span className="lg:text-2xl text-xl text-black font-bold">{`TOTAL:`}</span>
+                <span className="lg:text-2xl text-xl text-blue-900 font-bold">{total}</span>
+                <span className="lg:text-2xl text-xl text-zinc-500 font-bold">{total === 1 ? `UNIDADE` : `UNIDADES`}</span>
             </div>
         </div>
     );
