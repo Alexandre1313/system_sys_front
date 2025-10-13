@@ -190,11 +190,23 @@ body {
 
 /* Select Global Styles - Dark Theme */
 select {
+  /* Firefox-specific fixes */
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  
   background-color: rgb(51 65 85 / 0.5) !important;
   border: 1px solid rgb(71 85 105) !important;
   color: rgb(203 213 225) !important;
   border-radius: 0.5rem !important;
   transition: all 0.3s ease !important;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem !important;
+  
+  /* Custom arrow - works in both Chrome and Firefox */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgb(203 213 225)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.75rem center !important;
+  background-size: 1rem !important;
 }
 
 select:focus {
@@ -224,7 +236,7 @@ select option:checked {
   color: rgb(255 255 255) !important;
 }
 
-/* Custom arrow for selects */
+/* Custom arrow for selects (legacy class) */
 .no-arrow {
   -webkit-appearance: none;
   -moz-appearance: none;
