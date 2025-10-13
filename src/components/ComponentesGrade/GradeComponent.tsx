@@ -334,7 +334,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Main Grade Card - Clean Modern Design */}
-            <div className={`group lg:max-w-[320px] bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-4 transition-all duration-300 transform hover:scale-[1.007] hover:shadow-xl cursor-pointer ${total === totalExpedido
+            <div className={`group lg:max-w-[320px] bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-4 transition-all duration-300 transform hover:shadow-xl cursor-pointer ${total === totalExpedido
                 ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
                 : totalExpedido > 0
                     ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
@@ -447,7 +447,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         onClick={abrirTela}
                         className={`${statusClass} flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                          text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
-                           justify-center space-x-2 hover:scale-105 text-[13px]`}
+                           justify-center space-x-2 hover:scale-100 text-[13px]`}
                     >
                         <Eye size={18} className="mr-2" />
                         {uniqueItems.length < 2 ? 'VER ITEM' : 'VER ITENS'}
@@ -470,7 +470,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <button
                                     onClick={fecharTela}
                                     className="flex items-center space-x-2 px-2 lg:px-4 py-2 bg-emerald-600 hover:bg-emerald-500
-                                     text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                     text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                        absolute top-14 lg:top-4 left-[0.6rem]"
                                 >
                                     <ArrowLeft size={20} />
@@ -533,7 +533,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
                                             key={index}
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
-                                                duration-300 transform hover:scale-[1.015] hover:shadow-xl cursor-pointer min-w-[295px]
+                                                duration-300 transform hover:scale-[1.0] hover:shadow-xl cursor-pointer min-w-[295px]
                                                 ${isCompleted
                                                     ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
                                                     : isPartial
@@ -720,7 +720,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             onClick={fecharTelaExped}
                                             className="flex flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500
                                              text-white font-medium rounded-lg transition-all duration-300
-                                              transform hover:scale-105 h-6 justify-center items-center"
+                                              transform hover:scale-100 h-6 justify-center items-center"
                                         >
                                             <ArrowLeft size={15} />
                                         </button>
@@ -729,7 +729,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 onClick={handlerItemGrade}
                                                 className={`flex flex-1 px-4 py-2 bg-green-700 hover:bg-green-600
                                              text-white font-medium rounded-lg transition-all duration-300
-                                              transform hover:scale-105 h-6 justify-center items-center`}
+                                              transform hover:scale-100 h-6 justify-center items-center`}
                                             >
                                                 <Plus size={15} />
                                             </button>
@@ -738,14 +738,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             onClick={props.handleFormDataChangeDecresc}
                                             className="flex flex-1 px-4 py-2 bg-blue-800 hover:bg-blue-700
                                              text-white font-medium rounded-lg transition-all duration-300
-                                              transform hover:scale-105 h-6 justify-center items-center"
+                                              transform hover:scale-100 h-6 justify-center items-center"
                                         >
                                             <Minus size={15} />
                                         </button>
                                         <button
                                             onClick={props.OpenModalGerarCaixa}
                                             className={`flex flex-1 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300
-                                              transform hover:scale-105 h-6 justify-center items-center
+                                              transform hover:scale-100 h-6 justify-center items-center
                                               ${temCaixasParaGerar
                                                     ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
                                                     : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
@@ -861,7 +861,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 ref={btnRef1}
                                                 onClick={fecharTelaExped}
                                                 className={`flex items-center space-x-2 px-2 py-2 bg-emerald-600 hover:bg-emerald-500
-                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                              min-w-[70px] justify-center`}
                                             >
                                                 <ArrowLeft size={19} />
@@ -870,7 +870,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <button
                                                 onClick={handlerItemGrade}
                                                 className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
-                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105
+                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                              min-w-[50px] justify-center ${props?.userId === 1 ? 'pointer-events-auto cursor-pointer opacity-100' :
                                                         'pointer-events-none cursor-not-allowed opacity-30'}`}
                                             >
@@ -881,7 +881,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 onClick={props.handleFormDataChangeDecresc}
                                                 className="flex items-center justify-center px-2 py-2 bg-blue-800
                                              hover:bg-blue-700 text-white font-medium rounded-lg transition-all
-                                              duration-300 transform hover:scale-105 min-w-[50px]"
+                                              duration-300 transform hover:scale-100 min-w-[50px]"
                                             >
                                                 <Minus size={19} />
                                                 <span className="hidden"></span>

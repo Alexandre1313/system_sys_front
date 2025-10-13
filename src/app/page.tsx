@@ -1005,9 +1005,11 @@ export default function Home() {
       </div>
       
       {/* Header */}
-      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-800/50">
+      <header className="relative z-20 w-full px-4 py-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-800/50 overflow-hidden">
+        {/* Brushed metal effect - horizontal lines */}
+        <div className="absolute inset-0 opacity-70 pointer-events-none brushed-metal"></div>
         {/* Metallic shine effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-700/10 to-transparent opacity-50 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-500/30 to-transparent opacity-80 pointer-events-none"></div>
         <div className="relative flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/20">
@@ -1197,9 +1199,11 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-20 w-full px-4 py-6 sm:px-6 lg:px-8 border-t border-slate-800 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
+      <footer className="relative z-20 w-full px-4 py-6 sm:px-6 lg:px-8 border-t border-slate-800 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+        {/* Brushed metal effect - horizontal lines */}
+        <div className="absolute inset-0 opacity-70 pointer-events-none brushed-metal"></div>
         {/* Metallic shine effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-700/10 to-transparent opacity-50 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-500/30 to-transparent opacity-80 pointer-events-none"></div>
         <div className="relative text-center">
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-4 text-xs sm:text-sm">
             <Link href="/resume" className="text-slate-400 hover:text-white transition-colors">
