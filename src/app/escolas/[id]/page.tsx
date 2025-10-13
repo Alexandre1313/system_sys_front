@@ -1,7 +1,6 @@
 "use client";
 
 import EscolaComponent from '@/components/ComponentesEscola/EscolaComponent';
-import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { getProjetosComEscolas } from '@/hooks_api/api';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,7 +27,7 @@ export default function Escolas() {
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
     // Usando SWR para buscar os dados do projeto e escolas
-    const { data: projeto, error, isValidating } = useSWR<Projeto>(
+    const { data: projeto, error } = useSWR<Projeto>(
         id !== undefined ? id : null,
         fetcher, {
         refreshInterval: 2 * 60 * 60 * 1000, // Atualiza a cada 2 horas
@@ -73,10 +72,8 @@ export default function Escolas() {
         );
     }
 
-    // Loading state
-    if (isValidating) {
-        return <IsLoading />
-    }
+    // Aguarda dados carregarem antes de renderizar
+    if (!projeto) return null;
 
     // Error state
     if (error) {

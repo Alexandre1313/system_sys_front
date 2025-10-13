@@ -1,6 +1,5 @@
 'use client';
 
-import IsLoading from "@/components/ComponentesInterface/IsLoading";
 import PageWithDrawer from "@/components/ComponentesInterface/PageWithDrawer";
 import { ajust, getGradesPorEscolasByItems } from "@/hooks_api/api";
 import { motion, AnimatePresence } from "framer-motion";
@@ -198,9 +197,8 @@ export default function Expedition() {
         swrMutate();
     }
 
-    if (!data && !error) {
-        return <IsLoading />
-    }
+    // Aguarda dados carregarem antes de renderizar
+    if (!data) return null;
 
     if (error) {
         return (

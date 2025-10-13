@@ -2,7 +2,6 @@
 
 import Etiquetas from '@/components/componentesDePrint/Etiquetas';
 import GradeComponent from '@/components/ComponentesGrade/GradeComponent';
-import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import Modal from '@/components/ComponentesInterface/modal';
 import ModalEncGrade from '@/components/ComponentesInterface/ModalEncGrade';
 import ModalGerarCaixa from '@/components/ComponentesInterface/ModalGerarCaixa';
@@ -352,9 +351,8 @@ export default function Grades() {
     revalidateOnReconnect: false
   });
 
-  if (!data && !error) {
-    return <IsLoading />
-  }
+  // Aguarda dados carregarem antes de renderizar
+  if (!data) return null;
 
   if (error) {
     return (

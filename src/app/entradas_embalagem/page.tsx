@@ -4,7 +4,6 @@ import ItemsProjects from '@/components/componentesEntradas/ItemsProjects';
 import ModalItemDetails from '@/components/componentesEntradas/ModalItemDetails';
 import SelectedEntries from '@/components/componentesEntradas/SelectedEntries';
 import SelectedEntriesEmb from '@/components/componentesEntradas/SelectedEntriesEmb';
-import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import Modal from '@/components/ComponentesInterface/modal';
 import ModalCancel from '@/components/ComponentesInterface/modalCancel';
 import ModalEmbCad from '@/components/ComponentesInterface/ModalEmbCad';
@@ -87,7 +86,7 @@ export default function EntradasEmbalagem() {
   };
 
   // Carregar todos os dados da produção da embalagem usando SWR
-  const { error: errorSumsTotal, isValidating: isValidatingSumsTotal, mutate: swrMutateStock } = useSWR(
+  const { error: errorSumsTotal, mutate: swrMutateStock } = useSWR(
     isModalOpen && embalagemId && itemTamanhoId ? [embalagemId, itemTamanhoId] : null,
     () => fetcherTotalsProd(embalagemId!, itemTamanhoId!),
     {
@@ -101,19 +100,19 @@ export default function EntradasEmbalagem() {
   );
 
   // Carregar todos os projetos usando SWR
-  const { data: projetos, error: errorProjetos, isValidating: isValidatingProjetos } = useSWR<ProjetosSimp[]>('projetos', fetcherProjects, {
+  const { data: projetos, error: errorProjetos } = useSWR<ProjetosSimp[]>('projetos', fetcherProjects, {
     revalidateOnFocus: false,
     refreshInterval: 5 * 60 * 60 * 1000,
   });
 
   // Carregar todas as embalagens usando SWR
-  const { data: embalagens, error: errorEmbalagens, isValidating: isValidatingEmbalagens, mutate: swrMutate } = useSWR<Embalagem[] | null | undefined>('embalagens', fetcherEmb, {
+  const { data: embalagens, error: errorEmbalagens, mutate: swrMutate } = useSWR<Embalagem[] | null | undefined>('embalagens', fetcherEmb, {
     revalidateOnFocus: false,
     refreshInterval: 5 * 60 * 60 * 1000,
   });
 
   // Carregar itens do projeto selecionado usando SWR
-  const { data: projectItems, error: errorItems, isValidating: isValidatingItems, mutate: swrMutateItems } = useSWR(
+  const { data: projectItems, error: errorItems, mutate: swrMutateItems } = useSWR(
     selectedProjectId ? String(selectedProjectId) : null,
     () => fetcherItems(+selectedProjectId!),
     {
@@ -232,8 +231,8 @@ export default function EntradasEmbalagem() {
     setExpandedNome(prev => (prev === nome ? null : nome));
   };
 
-  if (isValidatingProjetos && !isValidatingItems && !isValidatingEmbalagens && !isValidatingSumsTotal) return <IsLoading />;
-
+  // Loading é tratado pelo loading.tsx global do Next.js
+  
   if (errorProjetos || errorItems || errorEmbalagens || errorSumsTotal) {
     return (
       <PageWithDrawer sectionName="Erro" currentPage="entradas_embalagem">
