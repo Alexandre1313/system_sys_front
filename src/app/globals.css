@@ -219,21 +219,48 @@ select:hover {
   border-color: rgb(100 116 139) !important;
 }
 
-/* Option styles for dark theme */
+/* Option styles for dark theme - Firefox */
 select option {
-  background-color: rgb(51 65 85) !important;
-  color: rgb(203 213 225) !important;
+  background-color: rgb(51, 65, 85) !important;
+  color: rgb(203, 213, 225) !important;
   padding: 0.5rem !important;
-  border: none !important;
+}
+
+/* Firefox-specific option styles */
+@-moz-document url-prefix() {
+  select option {
+    background-color: rgb(51, 65, 85) !important;
+    color: rgb(203, 213, 225) !important;
+  }
+  
+  select option:hover,
+  select option:focus {
+    background-color: rgb(71, 85, 105) !important;
+    color: rgb(255, 255, 255) !important;
+  }
+  
+  select option:checked {
+    background-color: rgb(16, 185, 129) !important;
+    color: rgb(255, 255, 255) !important;
+  }
+}
+
+/* Chrome/Edge/Safari option styles */
+select option {
+  background: rgb(51, 65, 85);
+  color: rgb(203, 213, 225);
 }
 
 select option:hover {
-  background-color: rgb(71 85 105) !important;
+  background: rgb(71, 85, 105);
+  color: rgb(255, 255, 255);
 }
 
-select option:checked {
-  background-color: rgb(16 185 129) !important;
-  color: rgb(255 255 255) !important;
+select option:checked,
+select option:active {
+  background: linear-gradient(rgb(16, 185, 129), rgb(16, 185, 129));
+  background-color: rgb(16, 185, 129);
+  color: rgb(255, 255, 255);
 }
 
 /* Custom arrow for selects (legacy class) */
