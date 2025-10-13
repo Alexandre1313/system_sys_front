@@ -683,7 +683,7 @@ export default function AjustarCaixa() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="bg-slate-800 border border-slate-700 p-4 rounded-2xl shadow-2xl w-full max-w-[320px] flex flex-col items-center justify-center"
+            className="bg-slate-800 border border-slate-700 p-4 rounded-2xl shadow-2xl w-full max-w-[320px] lg:max-w-[650px] flex flex-col items-center justify-center"
           >
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
@@ -701,37 +701,37 @@ export default function AjustarCaixa() {
             </motion.div>
 
             <div className="flex flex-col text-center w-full items-center justify-center">
-              <h2 className="text-base font-bold text-slate-200 mb-3">
+              <h2 className="text-base font-bold text-slate-200 mb-3 lg:text-2xl">
                 {modalType === 'confirm' && 'Alteração de Caixa'}
                 {modalType === 'success' && 'Sucesso'}
                 {modalType === 'error' && 'Erro'}
                 {modalType === 'exclusao' && 'Caixa Excluída'}
               </h2>
-              <p className="text-slate-300 text-xs mb-2 leading-relaxed">
+              <p className="text-slate-300 text-xs lg:text-xl mb-2 leading-relaxed">
                 {msg}
               </p>
-              <p className="text-slate-400 text-xs mb-4">
+              <p className="text-slate-400 text-xs lg:text-xl mb-4">
                 {msg1}
               </p>
 
               <div className="flex flex-col w-full items-center justify-center gap-2">
                 {modalType === 'confirm' ? (
-                  <>
+                  <div className={`flex flex-col lg:flex-row w-full gap-4`}>
                     <button
                       onClick={handleSaveStepTwo}
                       className="w-full h-10 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
                     >
                       <Save size={14} />
-                      <span className="text-xs">Confirmar</span>
+                      <span className="text-xs lg:text-xl">Confirmar</span>
                     </button>
                     <button
                       onClick={handleSaveStepOne}
                       className="w-full h-10 px-3 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
                     >
                       <X size={14} />
-                      <span className="text-xs">Cancelar</span>
+                      <span className="text-xs lg:text-xl">Cancelar</span>
                     </button>
-                  </>
+                  </div>
                 ) : (
                   <button
                     onClick={handleSaveStepOne}
@@ -742,7 +742,7 @@ export default function AjustarCaixa() {
                       }`}
                   >
                     <Package size={14} />
-                    <span className="text-xs">OK</span>
+                    <span className="text-xs lg:text-xl">OK</span>
                   </button>
                 )}
               </div>
