@@ -4,7 +4,7 @@ export default function Loading() {
             <div className="text-center">
                 {/* Loading Icon */}
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-white border-t-transparent rounded-full animate-rotate"></div>
                 </div>
 
                 {/* Loading Text */}
@@ -17,7 +17,7 @@ export default function Loading() {
 
                 {/* Progress Bar */}
                 <div className="mt-6 w-64 mx-auto bg-slate-800 rounded-full h-2 overflow-hidden relative">
-                    <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full animate-loading-bar"></div>
+                    <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full animate-loadingBar"></div>
                 </div>
             </div>
         </div>
