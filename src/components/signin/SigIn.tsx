@@ -5,7 +5,7 @@ import { siginn } from '@/hooks_api/api'; // Função que chama o backend para p
 import bcrypt from 'bcryptjs';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 
 export default function SigIn() {
@@ -16,11 +16,6 @@ export default function SigIn() {
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();  // Agora usamos o hook useRouter
-    const [isClient, setIsClient] = useState(false); // Estado para verificar se o componente foi montado
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,12 +28,14 @@ export default function SigIn() {
         }
 
         try {
-            const user = await siginn({ email, password });
+            // Primeiro, buscar o usuário apenas pelo email
+            const user = await siginn({ email, password: '' }); // Enviamos senha vazia
 
             if (!user) {
-                throw new Error('Credenciais inválidas');
+                throw new Error('Usuário não encontrado');
             }
 
+            // Verificar a senha no frontend
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 throw new Error('Senha inválida');
@@ -49,10 +46,8 @@ export default function SigIn() {
             login(user);
             setError(null);
 
-            // Redireciona para a raiz após o login, mas só no lado do cliente
-            if (isClient) {
-                router.push('/');
-            }
+            // Redireciona para a raiz após o login
+            router.push('/');
         } catch (error: any) {
             setError(error.message || 'Erro ao tentar fazer login');
         } finally {
@@ -189,7 +184,7 @@ export default function SigIn() {
                         <span className="text-slate-500 text-xs">Sistema Online</span>
                     </div>
                     <p className="text-slate-500 text-xs">
-                        © {new Date().getFullYear()} SYS EXPED - Sistema de Expedição. Todos os direitos reservados.
+                        © {new Date().getFullYear()} - SYS EXPED - All rights reserved.
                     </p>
                 </div>
             </div>
