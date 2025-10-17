@@ -672,7 +672,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             isReadOnly={true} maxWhidth={`w-full`}
                                             valueColor={`text-zinc-400`}
                                             labelposition={`justify-start`}
-                                            positionn={`text-left`} />
+                                            positionn={`text-left`}
+                                            tot={String(totalGrade)} />
                                         <ItemsGradeInputTextMobil value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                             bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
                                             labelName={`À EXPEDIR`}
@@ -987,7 +988,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     isReadOnly={true} maxWhidth={`w-full`}
                                                     valueColor={`text-zinc-400`}
                                                     labelposition={`justify-start`}
-                                                    positionn={`text-left`} />
+                                                    positionn={`text-left`} 
+                                                    tot={String(totalGrade)}/>
                                                 <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
