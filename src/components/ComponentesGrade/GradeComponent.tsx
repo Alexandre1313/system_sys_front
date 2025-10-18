@@ -14,7 +14,6 @@ import ItemGradeInputTextStateBarMobil from "./ItemsGradeImputTextStateBarMobil"
 import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { color } from "framer-motion";
 
 export interface GradeComponentProps {
     grade: Grade;
