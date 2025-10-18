@@ -116,7 +116,17 @@ export default function GradeComponent(props: GradeComponentProps) {
         ).values()
     );
 
-    const labelVolum = props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA';
+    const volms = (): string[] => {
+        if(props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA'){
+            return ['Consolidados', 'Encerrado'];
+        }else if(props.grade.gradeCaixas.length === 0){
+            return ['Não iniciado', 'Primeira Caixa'];
+        }else{
+            return ['Parciais', 'Próxima Caixa'];
+        }
+    }
+
+    //const labelVolum = props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA';
 
     const abrirTela = () => {
         setMostrarTela(true);
@@ -368,16 +378,19 @@ export default function GradeComponent(props: GradeComponentProps) {
                 {/* Critical Expedition Information */}
                 <div className="grid grid-cols-2 gap-[0.10rem] mb-2">
                     {/* Escola */}
-                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola</p>
-                        <p className="text-blue-400 text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight">#{props.escola?.numeroEscola}</p>
+                    <div className="bg-slate-800/20 rounded-xl p-2 text-center border border-slate-700/50 flex flex-col
+                     items-center justify-start" style={{ boxShadow: 'inset 7px 7px 15px 1px rgba(0,0,0,0.15)' }}>
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola nº</p>
+                        <div className="flex w-12 h-12 justify-center items-center p-2 pt-[0.77rem] pl-[0.70rem] 
+                        bg-gradient-to-r from-cyan-950 to-cyan-700 rounded-full text-white text-lg lg:text-[1.220rem]
+                         font-extralight"  style={{ boxShadow: '1px 1px 30px 1px rgba(0,0,0,0.4)' }}>{props.escola?.numeroEscola}</div>
                     </div>
 
                     {/* Volumes */}
                     <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Volumes</p>
                         <p className="text-purple-400 text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{props.grade.gradeCaixas.length}</p>
-                        <p className="text-xs text-slate-500 mt-1">{labelVolum ? 'Consolidados' : 'Parciais'}</p>
+                        <p className="text-xs text-slate-500 mt-1">{volms()[0]}</p>
                     </div>
                 </div>
 
@@ -413,8 +426,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                         </p>
                     </div>
                     <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Próxima Caixa</p>
-                        <p className="text-orange-400 text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{props.grade.gradeCaixas.length + 1}</p>
+                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">{volms()[1]}</p>
+                        <p className="text-orange-400 text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{total === totalExpedido ? 'X': (props.grade.gradeCaixas.length + 1)}</p>
                     </div>
                 </div>
 
