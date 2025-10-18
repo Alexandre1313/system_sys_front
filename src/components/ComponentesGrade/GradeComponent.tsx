@@ -381,7 +381,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <div className="bg-slate-800/20 rounded-xl p-2 text-center border border-slate-700/50 flex flex-col
                      items-center justify-start" style={{ boxShadow: 'inset 7px 7px 15px 1px rgba(0,0,0,0.15)' }}>
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola nº</p>
-                        <div className="flex w-12 h-12 justify-center items-center p-2 pt-[0.77rem] pl-[0.70rem] rounded-full text-white text-lg lg:text-[1.220rem]
+                        <div className="flex w-12 h-12 justify-center items-center p-2 pt-[0.77rem] pl-[0.01rem] rounded-full text-white text-lg lg:text-[1.220rem]
                         font-extralight"  style={{ boxShadow: '1px 1px 30px 1px rgba(0,0,0,0.4)', background: `${volms()[2]}`}}>
                             {props.escola?.numeroEscola}</div>
                     </div>
