@@ -439,24 +439,22 @@ export default function Grades() {
               Grades
             </h1>
             <div className="flex items-center lg:flex-row flex-col justify-center text-slate-400 text-sm lg:text-lg">
-              <span className='text-center'>{escola?.projeto?.nome}</span>             
-            </div>
-            <div className="flex items-center lg:flex-row flex-col justify-center text-slate-400 text-sm lg:text-lg">
-              <span className='text-center'>{escola?.nome}</span>
+              <span className='text-center truncate'>{escola?.nome}</span>
               <span className='hidden lg:flex lg:pr-2 lg:pl-2'>•</span>
-              <span className="text-center">ESCOLA # {escola?.numeroEscola}</span>
+              <span className='text-center'>{escola?.projeto?.nome}</span>
             </div>
             <div className="flex items-center justify-center">
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+              <div className="w-16 h-px lg:h-[2px] bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
               <span>{filteredGrades.length} grade{filteredGrades.length !== 1 ? 's' : ''}</span>
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+              <div className="w-16 h-px lg:h-[2px] bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
             </div>
           </div>
 
           {/* Grades Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-8 lg:pt-[9.5rem]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-2 lg:pt-[8.2rem]
+          mt-[-0.1rem] lg:mt-0 pb-4 items-start justify-center">
             {/* Primeira Coluna */}
-            <div className="space-y-4">
+            <div className="space-y-4 flex justify-center items-start">
               {primeiraParte.map((grade) => (
                 <GradeComponent
                   key={grade.id}
@@ -484,7 +482,7 @@ export default function Grades() {
             </div>
 
             {/* Segunda Coluna */}
-            <div className="space-y-4">
+            <div className="space-y-4 flex justify-center items-start">
               {segundaParte.map((grade) => (
                 <GradeComponent
                   key={grade.id}
@@ -512,7 +510,7 @@ export default function Grades() {
             </div>
 
             {/* Terceira Coluna */}
-            <div className="space-y-4">
+            <div className="space-y-4 flex justify-center items-start">
               {terceiraParte.map((grade) => (
                 <GradeComponent
                   key={grade.id}
