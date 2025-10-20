@@ -402,7 +402,7 @@ export default function Grades() {
       projectId={escola?.projeto?.id as number}
     >
       <div className="px-6 pt-5 lg:pt20 pb-4 sm:px-6 lg:px-8 flex justify-center items-start lg:flex-row flex-col">
-        <div className="max-w-6xl mx-auto flex justify-center items-start lg:flex-row flex-col">
+        <div className="max-w-9xl mx-auto flex justify-center items-start lg:flex-row flex-col">
           {/* Page Header */}
           <div className="lg:fixed lg:top-0 lg:left-0 lg:right-0 lg:z-20
                          lg:bg-slate-900/95 lg:backdrop-blur-sm lg:border-b lg:border-slate-700 
@@ -426,7 +426,7 @@ export default function Grades() {
           {/* Grades Grid - Responsivo */}
           <div className="lg:pt-[8.2rem] mt-[-0.1rem] lg:mt-0 pb-4">
             {/* Grid responsivo: 1 coluna no mobile, 3 colunas no desktop */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 justify-items-center">
               {filteredGrades.map((grade) => (
                 <GradeComponent
                   key={grade.id}
