@@ -158,6 +158,7 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
         const isTotalData = item.item === 'Total da Data';
         const isEscolaHeader = item.item?.startsWith('ESCOLA:');
         const isTotalEscola = item.item?.startsWith('Total ') && !isTotalGeral && !isTotalData;
+        const isTotalStatus = item.item?.startsWith('📊 Total '); // ✅ NOVO: Total por status
 
         let diff = item.expedido - item.previsto;
 
@@ -181,7 +182,7 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
             null,
             null
           ]);
-        } else if (isSubtotal || isTotalGeral || isTotalData || isTotalEscola) {
+        } else if (isSubtotal || isTotalGeral || isTotalData || isTotalEscola || isTotalStatus) {
           // 📊 Linha total/subtotal com design moderno
           let bgColor = COLORS.NEUTRAL;
           let textPrefix = '📄 ';
@@ -195,9 +196,12 @@ export function gerarPDFExpedicaoComEscola(resumo: ExpedicaoResumoPDGrouped[]) {
           } else if (isTotalEscola) {
             bgColor = COLORS.TOTAL_SCHOOL;
             textPrefix = '🏫 ';
+          } else if (isTotalStatus) {
+            bgColor = '#f3e5f5'; // ✅ NOVO: Cor roxa para total por status
+            textPrefix = '📊 ';
           }
 
-          if (isTotalEscola) {
+          if (isTotalEscola || isTotalStatus) {
             // Para Total da Escola, mesclar as 4 primeiras células para evitar quebra de linha
             body.push([
               {
@@ -505,9 +509,10 @@ export function gerarPDFExpedicao(resumo: ExpedicaoResumoPDGrouped[]) {
       dataGroup.items.forEach(item => {
         const isSubtotal = item.item === 'Total';
         const isTotalGeral = item.item === 'Total Geral';
+        const isTotalStatus = item.item?.startsWith('📊 Total '); // ✅ NOVO: Total por status
         let diff = item.expedido - item.previsto;
 
-        if (isSubtotal || isTotalGeral) {
+        if (isSubtotal || isTotalGeral || isTotalStatus) {
           // Linha total/subtotal com destaque
           body.push([
             { text: '', margin: [0, 1, 0, 1] },

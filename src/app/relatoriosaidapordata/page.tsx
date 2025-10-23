@@ -128,6 +128,7 @@ export default function ResumoExpedicao() {
     tamanho: 'w-[10%] min-w-[120px]',
     previsto: 'w-[10%] min-w-[90px]',
     expedido: 'w-[10%] min-w-[90px]',
+    diferenca: 'w-[10%] min-w-[90px]', // ✅ NOVO: Coluna de diferença
   };
 
   const alignClass = 'text-left';
@@ -326,6 +327,13 @@ export default function ResumoExpedicao() {
                               <span className="sm:hidden">Exp</span>
                             </div>
                           </th>
+                          <th className={`${colWidths.diferenca} p-3 lg:p-4 text-left text-xs lg:text-sm xl:text-base font-semibold`}>
+                            <div className="flex items-center space-x-1 lg:space-x-2">
+                              <BarChart size={12} className="lg:w-4 lg:h-4 text-red-400" />
+                              <span className="hidden sm:inline">Diferença</span>
+                              <span className="sm:hidden">Diff</span>
+                            </div>
+                          </th>
                         </tr>
                       </thead>
 
@@ -336,6 +344,7 @@ export default function ResumoExpedicao() {
                             dataGroup.items.map((row, k) => {
                               const isTotal = row.item === 'Total';
                               const isStatus = row.item.startsWith('STATUS:');
+                              const isTotalStatus = row.item?.startsWith('📊 Total '); // ✅ NOVO: Total por status
                               isTotalGeral = row.item === 'Total Geral';
                               if (isTotalGeral) {
                                 prev = row.previsto;
@@ -352,39 +361,40 @@ export default function ResumoExpedicao() {
 
                               if (isTotal) rowStyle = 'bg-green-600/20 text-green-400 font-medium border-l-4 border-green-500';
                               if (isStatus) rowStyle = 'bg-blue-600/20 text-blue-400 font-medium border-l-4 border-blue-500';
+                              if (isTotalStatus) rowStyle = 'bg-purple-600/20 text-purple-400 font-bold border-l-4 border-purple-500 shadow-lg'; // ✅ NOVO
                               if (isTotalGeral) rowStyle = 'bg-orange-600/20 text-white font-medium text-xl';
                               if (isTotalGeral) return null;
 
                               return (
                                 <tr key={`${i}-${j}-${k}`} className={`border-b border-slate-700/30 ${rowStyle}`}>
                                   <td className={`${colWidths.projeto} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
-                                    {isTotal || isTotalGeral || isStatus ? '' : (
+                                    {isTotal || isTotalGeral || isStatus || isTotalStatus ? '' : (
                                       <span className="text-blue-300 truncate block" title={grupo.projectname}>
                                         {grupo.projectname}
                                       </span>
                                     )}
                                   </td>
                                   <td className={`${colWidths.data} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
-                                    {isTotal || isTotalGeral || isStatus ? '' : (
+                                    {isTotal || isTotalGeral || isStatus || isTotalStatus ? '' : (
                                       <span className="text-purple-300 font-mono" title={formatarData(row.data || '')}>
                                         {formatarData(row.data || '')}
                                       </span>
                                     )}
                                   </td>
                                   <td className={`${colWidths.item} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-medium`}>
-                                    <span className={`${isTotal ? 'text-green-300 font-semibold' : isStatus ? 'text-blue-300 font-semibold' : 'text-white'} truncate block`} title={row.item}>
+                                    <span className={`${isTotal ? 'text-green-300 font-semibold' : isStatus ? 'text-blue-300 font-semibold' : isTotalStatus ? 'text-purple-300 font-bold text-lg' : 'text-white'} truncate block`} title={row.item}>
                                       {row.item}
                                     </span>
                                   </td>
                                   <td className={`${colWidths.genero} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
-                                    {!isTotal && !isTotalGeral && !isStatus && (
+                                    {!isTotal && !isTotalGeral && !isStatus && !isTotalStatus && (
                                       <span className="text-orange-300 truncate block" title={row.genero}>
                                         {row.genero}
                                       </span>
                                     )}
                                   </td>
                                   <td className={`${colWidths.tamanho} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base`}>
-                                    {!isTotal && !isTotalGeral && !isStatus && (
+                                    {!isTotal && !isTotalGeral && !isStatus && !isTotalStatus && (
                                       <span className="text-cyan-300 font-medium truncate block" title={row.tamanho}>
                                         {row.tamanho}
                                       </span>
@@ -412,6 +422,17 @@ export default function ResumoExpedicao() {
                                       </span>
                                     ) : null}
                                   </td>
+                                  <td className={`${colWidths.diferenca} p-3 lg:p-4 ${alignClass} text-xs lg:text-sm xl:text-base font-mono`}>
+                                    {!isTotal && !isTotalGeral && !isStatus && !isTotalStatus ? (
+                                      <span className={`font-semibold ${row.expedido - row.previsto < 0 ? 'text-red-300' : row.expedido - row.previsto > 0 ? 'text-green-300' : 'text-yellow-300'}`} title={convertMilharFormat(row.expedido - row.previsto)}>
+                                        {convertMilharFormat(row.expedido - row.previsto)}
+                                      </span>
+                                    ) : (isTotal || isTotalStatus) && (row.previsto > 0 || row.expedido > 0) ? (
+                                      <span className={`font-semibold ${row.expedido - row.previsto < 0 ? 'text-red-300' : row.expedido - row.previsto > 0 ? 'text-green-300' : 'text-yellow-300'}`} title={convertMilharFormat(row.expedido - row.previsto)}>
+                                        {convertMilharFormat(row.expedido - row.previsto)}
+                                      </span>
+                                    ) : null}
+                                  </td>
                                 </tr>
                               );
                             })
@@ -436,6 +457,9 @@ export default function ResumoExpedicao() {
                             </td>
                             <td className={`${colWidths.expedido} p-3 lg:p-4`}>
                               <span className="text-emerald-200 font-mono text-sm lg:text-base">{convertMilharFormat(exp)}</span>
+                            </td>
+                            <td className={`${colWidths.diferenca} p-3 lg:p-4`}>
+                              <span className={`font-mono text-sm lg:text-base ${exp - prev < 0 ? 'text-red-200' : exp - prev > 0 ? 'text-green-200' : 'text-yellow-200'}`}>{convertMilharFormat(exp - prev)}</span>
                             </td>
                           </tr>
                         )}
