@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { User, UserCheck, X, Folder, BookOpen, LogOut, Monitor, MapPin } from "react-feather";
+import { User, UserCheck, X, Folder, BookOpen, LogOut, Monitor, MapPin, Inbox, BarChart2, RefreshCcw, FileText } from "react-feather";
 
 export interface DrawerNavigationProps {
     isOpen: boolean;
@@ -59,18 +59,16 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
     return (
         <>
             {/* Backdrop */}
-            <div 
-                className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ease-out ${
-                    isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                }`}
+            <div
+                className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ease-out ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
                 onClick={onClose}
             />
 
             {/* Drawer */}
-            <div 
-                className={`fixed top-0 left-0 h-full w-72 max-w-[80vw] bg-slate-900/95 backdrop-blur-md border-r border-slate-700 z-50 transform transition-transform duration-300 ease-out ${
-                    isOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
+            <div
+                className={`fixed top-0 left-0 h-full w-72 max-w-[80vw] bg-slate-900/95 backdrop-blur-md border-r border-slate-700 z-50 transform transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                    }`}
                 style={{
                     transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
                     backfaceVisibility: 'hidden',
@@ -100,6 +98,7 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
                     </div>
 
                     {/* Current Page Info */}
+
                     {(projectName || sectionName) && (
                         <div className="p-3 bg-slate-800/50 border-b border-slate-700">
                             <div className="text-center">
@@ -119,8 +118,8 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
 
                     {/* Navigation */}
                     <nav className="flex-1 p-4 space-y-2 sm:overflow-visible overflow-y-auto">
-                        <Link 
-                            href="/" 
+                        <Link
+                            href="/"
                             onClick={onClose}
                             className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
                         >
@@ -128,25 +127,79 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
                             <span className="text-sm text-slate-300 group-hover:text-white">Página Inicial</span>
                         </Link>
 
-                        <Link 
-                            href="/projetos" 
+                        <Link
+                            href="/projetos"
                             onClick={onClose}
                             className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
                         >
-                            <Folder size={16} className="text-slate-400 group-hover:text-emerald-400" />
-                            <span className="text-sm text-slate-300 group-hover:text-white">Projetos</span>
+                            <Folder size={16} className="text-emerald-400 group-hover:text-slate-400" />
+                            <span className="text-sm text-emerald-300 group-hover:text-white">Projetos</span>
                         </Link>
 
                         {currentPage === 'grades' && typeof projectId === 'number' && (
-                            <Link 
-                                href={`/escolas/${projectId}`} 
+                            <Link
+                                href={`/escolas/${projectId}`}
                                 onClick={onClose}
                                 className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
                             >
-                                <MapPin size={16} className="text-slate-400 group-hover:text-emerald-400" />
-                                <span className="text-sm text-slate-300 group-hover:text-white">Escolas</span>
+                                <MapPin size={16} className="text-yellow-400 group-hover:text-slate-400" />
+                                <span className="text-sm text-yellow-300 group-hover:text-white">Escolas</span>
                             </Link>
                         )}
+
+                        <Link
+                            href="/entradas_embalagem"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <Inbox size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Embalagem</span>
+                        </Link>
+
+                        <Link
+                            href="/rankingusers"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <BarChart2 size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Ranking</span>
+                        </Link>
+
+                        <Link
+                            href="/estoques"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <RefreshCcw size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Movimentações</span>
+                        </Link>
+
+                        <Link
+                            href="/resume2"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <FileText size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Relatório PK</span>
+                        </Link>
+
+                        <Link
+                            href="/caixas_por_grade_m"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <FileText size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Etiquetas/Grade</span>
+                        </Link>
+
+                        <Link
+                            href="/relatoriosaidapordataescola"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <FileText size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Relatório saída p/ Escola</span>
+                        </Link>
 
                         {projectName && (
                             <div className="pt-3 border-t border-slate-700">
