@@ -7,14 +7,15 @@ import ModalEncGrade from '@/components/ComponentesInterface/ModalEncGrade';
 import ModalGerarCaixa from '@/components/ComponentesInterface/ModalGerarCaixa';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { useAuth } from '@/contexts/AuthContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { getGradesPorEscolas } from '@/hooks_api/api';
-import { useParams } from 'next/navigation';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
 import Caixa from '../../../../core/interfaces/Caixa';
-import { criarCaixa, zerarQuantidadesCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert } from '../../../../core/utils/regraas_de_negocio';
-import { useRouter } from 'next/navigation';
+import { criarCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert, zerarQuantidadesCaixa } from '../../../../core/utils/regraas_de_negocio';
+import { limitSTR } from '../../../../core/utils/tools';
 
 const fetcher = async (id: number) => {
   console.log('Fetching data for id:', id);
@@ -38,6 +39,8 @@ export default function Grades() {
   const [modalGerarCaixaOpen, setModalGerarCaixaOpen] = useState<boolean>(false);
   const [isPend, setIsPend] = useState<boolean | null>(null);
   const [caixa, setCaixa] = useState<Caixa | null>(null);
+
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!id) return;
@@ -412,9 +415,9 @@ export default function Grades() {
               Grades
             </h1>
             <div className="flex items-center lg:flex-row flex-col justify-center text-slate-400 text-sm lg:text-lg text-center">
-              <span className='text-center truncate max-w-full'>{escola?.nome}</span>
+              <span className='text-center truncate max-w-full'>{isMobile ? limitSTR(escola?.nome) ?? '': escola?.nome}</span>
               <span className='hidden lg:flex lg:pr-2 lg:pl-2'>•</span>
-              <span className='text-center truncate max-w-full'>{escola?.projeto?.nome}</span>
+              <span className='text-center truncate max-w-full'>{isMobile ? limitSTR(escola?.projeto?.nome ?? ''): escola?.projeto?.nome}</span>
             </div>
             <div className="flex items-center justify-center w-full">
               <div className="w-16 h-px lg:h-[2px] bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
@@ -436,6 +439,7 @@ export default function Grades() {
                   isPend={isPend}
                   inputRef={inputRef}
                   userId={user?.id}
+                  isMobile={isMobile}
                   isFocus={isFocus}
                   handleFormDataChangeDecresc={handleFormDataChangeDecresc}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}

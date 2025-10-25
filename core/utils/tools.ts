@@ -812,6 +812,13 @@ function formatarTituloRanking(titulo?: string | null): string {
   return `${nomesMeses[indiceMes]} de ${ano}`;
 }
 
+function limitSTR(s: string): string {
+  if(s.length <= 39) {
+    return s;
+  }  
+  return `${s.substring(0, 35)}...`;
+}
+
 /**
  * Módulo de utilitários para manipulação de dados, formatação e configurações de rede.
  * Exporta funções para normalização, formatação de números, ordenação, análise de status,
@@ -820,5 +827,6 @@ function formatarTituloRanking(titulo?: string | null): string {
 export {
   analyzerStatus, concat, converPercentualFormat,
   convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG, convertSPTime,
-  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, colorLinkExternal, sizeOrders, formatarTituloRanking
+  filtrarGradesPorPrioridade, getResumo, ip, normalize, port, colorLinkExternal, sizeOrders,
+  formatarTituloRanking, limitSTR
 };

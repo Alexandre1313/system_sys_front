@@ -13,7 +13,6 @@ import Link from "next/link";
 import ItemGradeInputTextStateBarMobil from "./ItemsGradeImputTextStateBarMobil";
 import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
-import { useIsMobile } from "@/hooks/useIsMobile";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -22,6 +21,7 @@ export interface GradeComponentProps {
     isPend: boolean | null;
     inputRef: React.RefObject<HTMLInputElement>;
     userId?: number | undefined | null;
+    isMobile: boolean;
     isFocus: () => void;
     handlerOpnEncGradeMoodify: () => void
     setFormData: (key: string, value: string) => void
@@ -44,9 +44,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
-    const [busca, setBusca] = useState<string>('');
-
-    const isMobile = useIsMobile();
+    const [busca, setBusca] = useState<string>('');   
 
     const btnRef = useRef<HTMLButtonElement>(null);
     const btnRef1 = useRef<HTMLButtonElement>(null);
@@ -642,7 +640,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             )}
 
             {/* Modal 3: Expedition Control Mobile */}
-            {mostrarTelaExped && itemSelecionado && isMobile && (
+            {mostrarTelaExped && itemSelecionado && props.isMobile && (
                 <div className="fixed lg:hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
@@ -806,7 +804,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             {/* Modal 2: Expedition Control */}
             {
-                mostrarTelaExped && itemSelecionado && !isMobile && (
+                mostrarTelaExped && itemSelecionado && !props.isMobile && (
                     <div className="fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
                         {/* Background Patterns */}
                         <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
