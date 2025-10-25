@@ -342,7 +342,8 @@ export default function GradeComponent(props: GradeComponentProps) {
     return (
         <>
             {/* Main Grade Card - Clean Modern Design */}
-            <div className={`group max-w-[300px] lg:max-w-[320px] lg:min-w-[319px] bg-slate-800/50 backdrop-blur-sm border rounded-2xl p-4 transition-all duration-300 transform hover:shadow-xl cursor-pointer ${total === totalExpedido
+            <div className={`group max-w-[300px] lg:max-w-[320px] lg:min-w-[319px] bg-slate-800/50 backdrop-blur-sm
+            h-fit border rounded-2xl p-4 transition-all duration-300 transform hover:shadow-xl cursor-pointer ${total === totalExpedido
                 ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
                 : totalExpedido > 0
                     ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
