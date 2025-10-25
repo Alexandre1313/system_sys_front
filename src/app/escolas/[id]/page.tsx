@@ -24,14 +24,14 @@ const fetcher = async (id: number): Promise<Projeto> => {
 export default function Escolas() {
     const { id } = useParams();
     const [busca, setBusca] = useState<string>('');
-    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [viewMode, setViewMode] = useState<'grid' | 'grid1' | 'list'>('grid1');
 
     // Usando SWR para buscar os dados do projeto e escolas
     const { data: projeto, error } = useSWR<Projeto>(
         id !== undefined ? id : null,
         fetcher, {
-        refreshInterval: 2 * 60 * 60 * 1000, // Atualiza a cada 2 horas
-        revalidateOnFocus: false,
+        refreshInterval: 3 * 60 * 1000, // Atualiza a cada 2 horas
+        revalidateOnFocus: true,
         onError: (err) => {
             console.error('SWR Error:', err);
         }
@@ -188,6 +188,15 @@ export default function Escolas() {
                                     >
                                         <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
                                     </button>
+                                      <button
+                                        onClick={() => setViewMode('grid1')}
+                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid1'
+                                                ? 'bg-emerald-600 text-white shadow-lg'
+                                                : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                            }`}
+                                    >
+                                        <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
+                                    </button>
                                     <button
                                         onClick={() => setViewMode('list')}
                                         className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'list'
@@ -206,7 +215,7 @@ export default function Escolas() {
 
             {/* Conteúdo Principal - Com Espaçamento Ajustado */}
             <div className="px-4 pt-4 lg:pt-[13.5rem] pb-8 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-[98rem] mx-auto">
 
                     {/* Contador de Resultados - Apenas no Mobile */}
                     <div className="lg:hidden flex items-center justify-center mb-7">
@@ -219,13 +228,10 @@ export default function Escolas() {
 
                     {/* Lista/Grid de Escolas */}
                     {escolasOrdenadas.length > 0 ? (
-                        <div className={
-                            viewMode === 'grid'
-                                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents"
-                                : "grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 lg:gap-6 will-change-contents"
-                        } style={{
-                            contain: 'layout style paint' // CSS containment for better performance
-                        }}>
+                        <div className={viewMode === 'grid' ? 'grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-12 xl:grid-cols-12 gap-4 lg:gap-6 will-change-contents' 
+                            : viewMode === 'grid1' ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents'
+                            : "grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6 will-change-contents"} 
+                            style={{contain: 'layout style paint'}}>
                             <AnimatePresence mode="wait">
                                 {escolasOrdenadas.map((escola, index) => (
                                     <motion.div
@@ -245,7 +251,7 @@ export default function Escolas() {
                                             willChange: 'transform, opacity'
                                         }}
                                     >
-                                        <EscolaComponent escola={escola} />
+                                        <EscolaComponent escola={escola} viewMode={viewMode} />
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
