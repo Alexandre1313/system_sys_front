@@ -34,11 +34,14 @@ export default function EscolaComponent({ escola, viewMode }: EscolaComponentPro
                     {/* Círculo de progresso SVG - sempre renderizado */}
                     <svg 
                         className={`absolute inset-0 w-full h-full ${!statusClass.desactiv && escola.percentualProgresso !== undefined ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                        viewBox="0 0 65 65"
+                        viewBox="0 0 130 130"
                         style={{
                             willChange: 'opacity',
                             backfaceVisibility: 'hidden',
-                            transform: 'translate3d(0, 0, 0) rotate(-90deg)' // Começa no topo (12h), sentido horário
+                            transform: 'translate3d(0, 0, 0) rotate(-90deg)', // Começa no topo (12h), sentido horário
+                            shapeRendering: 'geometricPrecision',
+                            WebkitFontSmoothing: 'antialiased',
+                            imageRendering: '-webkit-optimize-contrast'
                         }}
                     >
                         <defs>
@@ -46,27 +49,35 @@ export default function EscolaComponent({ escola, viewMode }: EscolaComponentPro
                                 <stop offset="0%" stopColor="#10b981" stopOpacity="0.6" />
                                 <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.6" />
                             </linearGradient>
+                            <filter id={`shadow-${escola.id}`} x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" />
+                            </filter>
                         </defs>
                         {/* Círculo de fundo (cinza) */}
                         <circle
-                            cx="32.5"
-                            cy="32.5"
-                            r="28"
+                            cx="65"
+                            cy="65"
+                            r="56"
                             fill="none"
                             stroke="rgba(71, 85, 105, 0.25)"
-                            strokeWidth="5"
+                            strokeWidth="10"
+                            strokeLinejoin="round"
+                            strokeLinecap="round"
+                            filter={`url(#shadow-${escola.id})`}
                         />
                         {/* Círculo de progresso (colorido) */}
                         <circle
-                            cx="32.5"
-                            cy="32.5"
-                            r="28"
+                            cx="65"
+                            cy="65"
+                            r="56"
                             fill="none"
                             stroke={`url(#gradient-${escola.id})`}
-                            strokeWidth="5"
+                            strokeWidth="10"
                             strokeLinecap="round"
-                            strokeDasharray={`${2 * Math.PI * 28}`}
-                            strokeDashoffset={`${2 * Math.PI * 28 * (1 - (Math.min(100, Math.max(0, escola.percentualProgresso || 0)) / 100))}`}
+                            strokeLinejoin="round"
+                            strokeDasharray={`${2 * Math.PI * 56}`}
+                            strokeDashoffset={`${2 * Math.PI * 56 * (1 - (Math.min(100, Math.max(0, escola.percentualProgresso || 0)) / 100))}`}
+                            filter={`url(#shadow-${escola.id})`}
                         />
                     </svg>
                     
