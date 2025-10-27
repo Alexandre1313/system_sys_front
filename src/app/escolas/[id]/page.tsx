@@ -228,7 +228,7 @@ export default function Escolas() {
 
                     {/* Lista/Grid de Escolas */}
                     {escolasOrdenadas.length > 0 ? (
-                        <div className={viewMode === 'grid' ? 'grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-12 xl:grid-cols-12 gap-4 lg:gap-6 will-change-contents' 
+                        <div className={viewMode === 'grid' ? 'grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-[repeat(16,minmax(0,1fr))] xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-4 lg:gap-6 will-change-contents' 
                             : viewMode === 'grid1' ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents'
                             : "grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6 will-change-contents"} 
                             style={{contain: 'layout style paint'}}>
