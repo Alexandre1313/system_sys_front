@@ -1,7 +1,6 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { Eye } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
-import { opacity } from 'pdfkit';
 
 export interface EtiquetaProps {
     etiquetas: Caixa[];
