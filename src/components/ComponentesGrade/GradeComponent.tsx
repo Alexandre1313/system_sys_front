@@ -34,7 +34,7 @@ export interface GradeComponentProps {
     setModalMessage: (message: string) => void;
     setModalOpen: (open: boolean) => void;
     mutate: () => void;
-    printEti: (etiquetas: Caixa[]) => JSX.Element
+    printEti: (etiquetas: Caixa[], isprint: boolean) => JSX.Element
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
@@ -114,13 +114,13 @@ export default function GradeComponent(props: GradeComponentProps) {
         ).values()
     );
 
-    const volms = (): string[] => {
+    const volms = (): any[] => {
         if(props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA'){
-            return ['Consolidados', 'Encerrado', 'linear-gradient(to bottom right, #047857, #022c22)', '#475569'];
+            return ['Consolidados', 'Encerrado', 'linear-gradient(to bottom right, #047857, #022c22)', '#475569', true];
         }else if(props.grade.gradeCaixas.length === 0){
-            return ['Não iniciado', 'Primeira Caixa', 'linear-gradient(to bottom right, #0e7490, #083344)', '#475569'];
+            return ['Não iniciado', 'Primeira Caixa', 'linear-gradient(to bottom right, #0e7490, #083344)', '#475569', false];
         }else{
-            return ['Parciais', 'Próxima Caixa', 'linear-gradient(to bottom right, #a16207, #422006)', '#fb923c'];
+            return ['Parciais', 'Próxima Caixa', 'linear-gradient(to bottom right, #a16207, #422006)', '#fb923c', false];
         }
     }
 
@@ -136,7 +136,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const oneExpedida = props.grade.status === "EXPEDIDA" || props.grade.status === "DESPACHADA";
     const desativado = oneExpedida;
 
-    const statusClass = desativado ? "pointer-events-none opacity-20" : "";
+    const statusClass = desativado ? "opacity-[0.2] cursor-not-allowed" : "";
 
     const fecharTela = () => {
         setMostrarTela(false);
@@ -293,7 +293,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         }
     };
 
-    const print = () => { return props.printEti(props.grade.gradeCaixas) }
+    const print = () => { return props.printEti(props.grade.gradeCaixas, volms()[4]) }
 
     const termos = busca.split(/\s+/);
 
@@ -460,10 +460,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {print()}
                     <button
                         type="button"
+                        disabled={volms()[4]} 
                         onClick={abrirTela}
                         className={`${statusClass} flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
-                         text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
-                           justify-center space-x-2 hover:scale-100 text-[13px]`}
+                        text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
+                        justify-center space-x-2 hover:scale-100 text-[13px]`}
                     >
                         <Eye size={18} className="mr-2" />
                         {uniqueItems.length < 2 ? 'VER ITEM' : 'VER ITENS'}

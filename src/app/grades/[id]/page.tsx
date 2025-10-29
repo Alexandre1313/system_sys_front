@@ -344,8 +344,8 @@ export default function Grades() {
     return differenceInDays > 1;
   };
 
-  const printEti = (etiquetas: Caixa[]) => {
-    return (<Etiquetas etiquetas={etiquetas} />)
+  const printEti = (etiquetas: Caixa[], isprint: boolean) => {
+    return (<Etiquetas etiquetas={etiquetas} isprint={isprint} />)
   }
 
   // Usando SWR para buscar dados da escola e suas grades

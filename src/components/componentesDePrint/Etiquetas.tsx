@@ -1,12 +1,34 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { Eye } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
+import { opacity } from 'pdfkit';
 
 export interface EtiquetaProps {
     etiquetas: Caixa[];
+    isprint?: boolean;
 }
 
-const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
+const Etiquetas = ({ etiquetas, isprint }: EtiquetaProps) => {
+    const styles = isprint ? {
+        backgroundColor: 'rgba(4, 120, 87, 0.3)',    // emerald-700
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'rgba(5, 150, 105, 1)',         // emerald-600
+        color: 'rgba(110, 231, 183, 1)',             // emerald-300
+        hoverBg: 'rgba(5, 150, 105, 0.4)',           // emerald-600
+        cursor: 'pointer' as const,
+        opacity: 1
+    } : {
+        backgroundColor: 'rgba(51, 65, 85, 1)',      // slate-700
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'rgba(71, 85, 105, 1)',         // slate-600
+        color: 'rgba(203, 213, 225, 1)',             // slate-300
+        hoverBg: 'rgba(71, 85, 105, 1)',             // slate-600
+        cursor: 'not-allowed' as const,              // ✅ vai funcionar
+        opacity: 0.2                                 // ✅ número, não string
+    };
+
     function concatString(nj: string, ne: string, nae: string): string {
         let description = '';
         if (nj) {
@@ -280,10 +302,22 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
     return (
         <button
             type="button"
+            disabled={!isprint} 
             onClick={gerarPDF}
-            className={`flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
-                         text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
-                           justify-center space-x-2 hover:scale-100 text-[13px]`}>
+            className={`flex-1 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
+                justify-center space-x-2 hover:scale-100 text-[13px]`}
+            style={{
+                backgroundColor: styles.backgroundColor,
+                borderWidth: styles.borderWidth,
+                borderStyle: styles.borderStyle,
+                borderColor: styles.borderColor,
+                color: styles.color,                
+                cursor: styles.cursor,
+                opacity: styles.opacity
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = styles.hoverBg}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = styles.backgroundColor}
+        >
             <Eye className="mr-2" size={18} strokeWidth={2} /> ETIQUETAS
         </button>
     );
