@@ -251,11 +251,30 @@ const Etiquetas = ({ etiquetas }: EtiquetaProps) => {
 
         });
 
-        // Salva e exibe o PDF
+        // Salva e exibe o PDF com impressão automática
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes.slice().buffer], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+
+        // Criar iframe oculto
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = url;
+
+        // Quando carregar, abrir impressão
+        iframe.onload = function () {
+            if (iframe.contentWindow) {
+                iframe.contentWindow.print();
+
+                // Limpar após fechar a impressão
+                iframe.contentWindow.addEventListener('afterprint', () => {
+                    document.body.removeChild(iframe);
+                    URL.revokeObjectURL(url);
+                });
+            }
+        };
+
+        document.body.appendChild(iframe);
     };
 
     return (
