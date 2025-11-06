@@ -347,8 +347,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                 ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
                 : totalExpedido > 0
                     ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
-                    : 'border-slate-700 hover:border-blue-600 hover:shadow-blue-600/20'
-                }`}>
+                    : 'border-blue-600 hover:border-blue-500 hover:shadow-blue-500/20'
+                }`}
+                style={{ background: `${total === totalExpedido ? 'rgba(16, 185, 129, 0.05)' : totalExpedido > 0 ? 'rgba(234, 179, 8, 0.05)': 'rgba(59, 130, 246, 0.05)'}` }}
+                >
 
                 {/* Header with Status and Grade ID */}
                 <div className="flex items-center justify-between mb-4">
@@ -377,7 +379,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 {/* Critical Expedition Information */}
                 <div className="grid grid-cols-2 gap-[0.10rem] mb-2">
                     {/* Escola */}
-                    <div className="bg-slate-800/20 rounded-xl p-2 text-center border border-slate-700/50 flex flex-col
+                    <div className="bg-slate-800/10 rounded-xl p-2 text-center border border-slate-700/50 flex flex-col
                      items-center justify-start" style={{ boxShadow: 'inset 7px 7px 15px 1px rgba(0,0,0,0.15)' }}>
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola nº</p>
                         <div className="flex w-12 h-12 justify-center items-center p-2 pt-[0.77rem] pl-[0.55rem] rounded-full text-white text-lg lg:text-[1.220rem]
@@ -386,7 +388,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </div>
 
                     {/* Volumes */}
-                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/10 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Volumes</p>
                         <p className="text-purple-400 text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{props.grade.gradeCaixas.length}</p>
                         <p className="text-xs text-slate-500 mt-1">{volms()[0]}</p>
@@ -407,24 +409,24 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                 {/* Statistics Grid */}
                 <div className="grid grid-cols-2 gap-[0.10rem] mb-6">
-                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/10 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Previsto</p>
                         <p className="text-yellow-400 text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{convertMilharFormat(totalGrade || 0)}</p>
                     </div>
-                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/10 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Expedido</p>
                         <p className={`text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${total === totalExpedido ? 'text-emerald-400' : 'text-slate-300'}`}>
                             {convertMilharFormat(totalExpedido)}
                         </p>
                     </div>
-                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/10 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">À Expedir</p>
                         <p className={`text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${totalAExpedir > 0 ? 'text-blue-400' : 'text-slate-400'
                             }`}>
                             {convertMilharFormat(totalAExpedir)}
                         </p>
                     </div>
-                    <div className="bg-slate-900/50 rounded-xl p-2 text-center border border-slate-700/50">
+                    <div className="bg-slate-900/10 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">{volms()[1]}</p>
                         <p className="text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight"
                         style={{color: `${volms()[3]}`}}
@@ -442,7 +444,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </h3>
                     <div className="space-y-2">
                         {uniqueItems.slice(0, 5).map((it, index) => (
-                            <div key={index} className="flex items-center justify-between py-1.5 px-2 bg-slate-900/30 rounded-lg">
+                            <div key={index} className="flex items-center justify-between py-1.5 px-2 bg-slate-900/20 rounded-lg">
                                 <span className="text-white text-sm font-medium truncate flex-1 mr-2">{it.nome}</span>
                                 <span className="text-slate-400 text-sm bg-slate-800/50 px-2 py-1 rounded">{it.genero}</span>
                             </div>
@@ -555,8 +557,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
                                                     : isPartial
                                                         ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
-                                                        : 'border-slate-700 hover:border-blue-500 hover:shadow-blue-500/20'
+                                                        : 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20'
                                                 }`}
+                                                style={{ background: `${isCompleted ? 'rgba(16, 185, 129, 0.05)' : isPartial ? 'rgba(234, 179, 8, 0.05)': 'rgba(59, 130, 246, 0.05)'}` }}
                                         >
                                             {/* Status Badge */}
                                             <div className="flex items-center justify-between mb-4">
@@ -592,23 +595,23 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                                             {/* Stats Grid */}
                                             <div className="grid grid-cols-2 gap-[0.10rem] mb-4">
-                                                <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
+                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Previsto</p>
                                                     <p className="text-yellow-400 text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{convertMilharFormat(quantidade)}</p>
                                                 </div>
-                                                <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
+                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Expedido</p>
                                                     <p className={`text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${isCompleted ? 'text-emerald-400' : 'text-slate-300'}`}>
                                                         {convertMilharFormat(quantidadeExpedida)}
                                                     </p>
                                                 </div>
-                                                <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
+                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Estoque</p>
                                                     <p className={`text-base font-extralight ${colorEstoque}`}>
                                                         {convertMilharFormat(estoque!)}
                                                     </p>
                                                 </div>
-                                                <div className="bg-slate-900/50 rounded-lg p-2 text-center border border-slate-700/50">
+                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">À Expedir</p>
                                                     <p className={`text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
                                                         }`}>
@@ -618,7 +621,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
 
                                             {/* Barcode */}
-                                            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
+                                            <div className="bg-slate-900/10 rounded-lg p-3 border border-slate-700/50">
                                                 <div className="flex items-center space-x-2 mb-2">
                                                     <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider font-medium">Código de Barras</p>
