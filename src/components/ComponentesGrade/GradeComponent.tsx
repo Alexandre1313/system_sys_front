@@ -560,7 +560,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                         : 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20'
                                                 }`}
                                                 style={{ background: `${isCompleted ? 'rgba(16, 185, 129, 0.05)' : isPartial ? 'rgba(234, 179, 8, 0.05)': 'rgba(59, 130, 246, 0.05)'}`,
-                                                pointerEvents:  `${isCompleted ? 'none': 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`}}
+                                                pointerEvents:  `${isCompleted ? 'auto': 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`}}
                                         >
                                             {/* Status Badge */}
                                             <div className="flex items-center justify-between mb-4">
