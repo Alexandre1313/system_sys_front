@@ -633,7 +633,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             {/* Click to Expand Indicator */}
                                             <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-center">
                                                 <span className="text-slate-500 text-xs group-hover:text-slate-300 transition-colors duration-300">
-                                                    {isCompleted ? 'Encerrado': 'Clique para expedição →'}
+                                                    {isCompleted ? 'Encerrado': isPartial ? 'Continuar expedição →':'Iniciar expedição →'}
                                                 </span>
                                             </div>
                                         </div>
