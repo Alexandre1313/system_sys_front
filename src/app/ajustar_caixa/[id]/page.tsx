@@ -208,10 +208,7 @@ export default function AjustarCaixa() {
           setCaixaStatusBoolean(true);
 
           // Redirecionar após um tempo
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 2000);
-
+          setTimeout(() => { window.location.href = `/grades/${caixa.escolaId}`;}, 2000);
           return;
         }
 
