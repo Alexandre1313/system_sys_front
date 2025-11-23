@@ -12,8 +12,7 @@ export default function EscolaComponent({ escola, viewMode }: EscolaComponentPro
     return (
         viewMode === 'grid' ? (
             <Link
-                href={!statusClass.desactiv ? `/grades/${escola.id}` : "#"}
-                target={'_GRADES'}
+                href={!statusClass.desactiv ? `/grades/${escola.id}` : "#"}                
                 className={`group flex items-center justify-center w-full ${statusClass.desactiv ? "pointer-events-none cursor-not-allowed" : ""}`}
             >
                 <div className="relative h-[65px] w-[65px] rounded-full overflow-hidden transform hover:scale-[1.02] will-change-transform"
@@ -93,8 +92,7 @@ export default function EscolaComponent({ escola, viewMode }: EscolaComponentPro
             </Link>
         ) : (
             <Link
-                href={!statusClass.desactiv ? `/grades/${escola.id}` : "#"}
-                target={'_GRADES'}
+                href={!statusClass.desactiv ? `/grades/${escola.id}` : "#"}                
                 className={`group block w-full ${statusClass.desactiv ? "pointer-events-none cursor-not-allowed" : ""}`}
             >
                 <div className={`${statusClass.statusClassBg} rounded-xl p-3 

@@ -1,5 +1,7 @@
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Search, ArrowLeft, Plus, Minus, Box, Eye, ExternalLink } from "react-feather";
+import { ArrowLeft, Box, ExternalLink, Eye, Minus, Plus, Search } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
@@ -7,12 +9,11 @@ import { colorLinkExternal, convertMilharFormat } from "../../../core/utils/tool
 import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
-import ItemsGradeInputText from './ItemsGradeInputText';
-import ItemsGradeTextArea from "./ItemsGradeTextArea";
-import Link from "next/link";
 import ItemGradeInputTextStateBarMobil from "./ItemsGradeImputTextStateBarMobil";
 import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
+import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
+import ItemsGradeTextArea from "./ItemsGradeTextArea";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -44,7 +45,9 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
-    const [busca, setBusca] = useState<string>('');   
+    const [busca, setBusca] = useState<string>('');
+
+    const router = useRouter();
 
     const btnRef = useRef<HTMLButtonElement>(null);
     const btnRef1 = useRef<HTMLButtonElement>(null);
@@ -59,8 +62,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                 }
             }
             if (event.key === "ArrowDown") {
-                event.preventDefault(); // evita scroll da página
+                event.preventDefault(); 
                 btnRef1.current?.click();
+            }
+            if (event.key === "ArrowUp") {
+                event.preventDefault();
+                router.push(`/escolas/${props.escola.projetoId}`);
             }
         };
 
@@ -115,11 +122,11 @@ export default function GradeComponent(props: GradeComponentProps) {
     );
 
     const volms = (): any[] => {
-        if(props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA'){
+        if (props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA') {
             return ['Consolidados', 'Encerrado', 'linear-gradient(to bottom right, #047857, #022c22)', '#475569', true];
-        }else if(props.grade.gradeCaixas.length === 0){
+        } else if (props.grade.gradeCaixas.length === 0) {
             return ['Não iniciado', 'Primeira Caixa', 'linear-gradient(to bottom right, #0e7490, #083344)', '#475569', false];
-        }else{
+        } else {
             return ['Parciais', 'Próxima Caixa', 'linear-gradient(to bottom right, #a16207, #422006)', '#fb923c', false];
         }
     }
@@ -253,13 +260,13 @@ export default function GradeComponent(props: GradeComponentProps) {
             grade: gradeAtualizada
         }
 
-        console.log("🔍 abrirTelaExped - Grade isolada:", {
-            gradeId: grade.id,
-            nome: itemAtualizado?.itemTamanho?.item?.nome,
-            quantidadeExpedida: itemAtualizado.quantidadeExpedida,
-            qtyPCaixa: itemAtualizado.qtyPCaixa,
-            isCount: itemAtualizado.isCount
-        });
+        // console.log("🔍 abrirTelaExped - Grade isolada:", {
+        //     gradeId: grade.id,
+        //     nome: itemAtualizado?.itemTamanho?.item?.nome,
+        //     quantidadeExpedida: itemAtualizado.quantidadeExpedida,
+        //     qtyPCaixa: itemAtualizado.qtyPCaixa,
+        //     isCount: itemAtualizado.isCount
+        // });
 
         setItemSelecionado(itemAtualizado);
         props.handleItemSelecionado(itemAtualizado)
@@ -344,13 +351,13 @@ export default function GradeComponent(props: GradeComponentProps) {
             {/* Main Grade Card - Clean Modern Design */}
             <div className={`group max-w-[300px] lg:max-w-[320px] lg:min-w-[319px] bg-slate-800/50 backdrop-blur-sm
             h-fit border rounded-2xl p-4 transition-all duration-300 transform hover:shadow-xl cursor-pointer ${total === totalExpedido
-                ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
-                : totalExpedido > 0
-                    ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
-                    : 'border-blue-600 hover:border-blue-500 hover:shadow-blue-500/20'
+                    ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
+                    : totalExpedido > 0
+                        ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
+                        : 'border-blue-600 hover:border-blue-500 hover:shadow-blue-500/20'
                 }`}
-                style={{ background: `${total === totalExpedido ? 'rgba(16, 185, 129, 0.05)' : totalExpedido > 0 ? 'rgba(234, 179, 8, 0.05)': 'rgba(59, 130, 246, 0.05)'}` }}
-                >
+                style={{ background: `${total === totalExpedido ? 'rgba(16, 185, 129, 0.05)' : totalExpedido > 0 ? 'rgba(234, 179, 8, 0.05)' : 'rgba(59, 130, 246, 0.05)'}` }}
+            >
 
                 {/* Header with Status and Grade ID */}
                 <div className="flex items-center justify-between mb-4">
@@ -383,7 +390,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                      items-center justify-start" style={{ boxShadow: 'inset 7px 7px 15px 1px rgba(0,0,0,0.15)' }}>
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">Escola nº</p>
                         <div className="flex w-12 h-12 justify-center items-center p-2 pt-[0.77rem] pl-[0.55rem] rounded-full text-white text-lg lg:text-[1.220rem]
-                        font-extralight"  style={{ boxShadow: '1px 1px 30px 1px rgba(0,0,0,0.4)', background: `${volms()[2]}`}}>
+                        font-extralight"  style={{ boxShadow: '1px 1px 30px 1px rgba(0,0,0,0.4)', background: `${volms()[2]}` }}>
                             {props.escola?.numeroEscola}</div>
                     </div>
 
@@ -429,9 +436,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <div className="bg-slate-900/10 rounded-xl p-2 text-center border border-slate-700/50">
                         <p className="text-slate-400 text-xs uppercase tracking-wider mb-2 font-medium">{volms()[1]}</p>
                         <p className="text-lg lg:text-[1.620rem] lg:leading-[1.5] font-extralight"
-                        style={{color: `${volms()[3]}`}}
+                            style={{ color: `${volms()[3]}` }}
                         >
-                            {total === totalExpedido ? 'X': (props.grade.gradeCaixas.length + 1)}
+                            {total === totalExpedido ? 'X' : (props.grade.gradeCaixas.length + 1)}
                         </p>
                     </div>
                 </div>
@@ -462,7 +469,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     {print()}
                     <button
                         type="button"
-                        disabled={volms()[4]} 
+                        disabled={volms()[4]}
                         onClick={abrirTela}
                         className={`${statusClass} flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                         text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
@@ -559,8 +566,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                         ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
                                                         : 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20'
                                                 }`}
-                                                style={{ background: `${isCompleted ? 'rgba(16, 185, 129, 0.05)' : isPartial ? 'rgba(234, 179, 8, 0.05)': 'rgba(59, 130, 246, 0.05)'}`,
-                                                pointerEvents:  `${isCompleted ? 'auto': 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`}}
+                                            style={{
+                                                background: `${isCompleted ? 'rgba(16, 185, 129, 0.05)' : isPartial ? 'rgba(234, 179, 8, 0.05)' : 'rgba(59, 130, 246, 0.05)'}`,
+                                                pointerEvents: `${isCompleted ? 'auto' : 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`
+                                            }}
                                         >
                                             {/* Status Badge */}
                                             <div className="flex items-center justify-between mb-4">
@@ -633,7 +642,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             {/* Click to Expand Indicator */}
                                             <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-center">
                                                 <span className="text-slate-500 text-xs group-hover:text-slate-300 transition-colors duration-300">
-                                                    {isCompleted ? 'Encerrado': isPartial ? 'Continuar expedição →':'Iniciar expedição →'}
+                                                    {isCompleted ? 'Encerrado' : isPartial ? 'Continuar expedição →' : 'Iniciar expedição →'}
                                                 </span>
                                             </div>
                                         </div>
@@ -782,7 +791,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     <div className="grid grid-cols-2 gap-[0.50rem] mb-0">
                                         <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
                                             min-w-[100%] max-w-[100%] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
-                                            <Link href={`/caixas_por_grade/${String(props.grade.id)}`} target="_blank">
+                                            <Link href={`/caixas_por_grade/${String(props.grade.id)}`}>
 
                                                 <p className="text-slate-400 text-xs uppercase tracking-wider mb-0">GRADE ID</p>
                                                 <p className={`text-base font-semibold gap-x-1 text-rose-400 flex items-center justify-center`}>
@@ -829,7 +838,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <div className="text-left">
                                     <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
                                 min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
-                                        <Link href={`/caixas_por_grade/${String(props.grade.id)}`} target="_blank"
+                                        <Link href={`/caixas_por_grade/${String(props.grade.id)}`}
                                             className="flex items-center justify-start gap-x-2"
                                         >
                                             <h1 className="text-xl lg:text-4xl font-bold text-rose-400">
@@ -1009,8 +1018,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     isReadOnly={true} maxWhidth={`w-full`}
                                                     valueColor={`text-zinc-400`}
                                                     labelposition={`justify-start`}
-                                                    positionn={`text-left`} 
-                                                    tot={String(totalGrade)}/>
+                                                    positionn={`text-left`}
+                                                    tot={String(totalGrade)} />
                                                 <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
