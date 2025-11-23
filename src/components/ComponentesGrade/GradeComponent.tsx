@@ -54,6 +54,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const btnRef2 = useRef<HTMLButtonElement>(null);
 
     // Adiciona o evento de keydown quando o componente for montado
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const handleGlobalKeyDown = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
