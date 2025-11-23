@@ -53,8 +53,15 @@ export default function GradeComponent(props: GradeComponentProps) {
     const btnRef1 = useRef<HTMLButtonElement>(null);
     const btnRef2 = useRef<HTMLButtonElement>(null);
 
-    // Adiciona o evento de keydown quando o componente for montado
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // refs para manter os valores atualizados sem re-registrar o listener
+    const projetoIdRef = useRef(props.escola.projetoId);
+    const pushRef = useRef<(path: string) => void>(() => { });
+
+    // atualiza os refs quando os valores mudarem
+    useEffect(() => { projetoIdRef.current = props.escola.projetoId; }, [props.escola.projetoId]);
+    useEffect(() => { pushRef.current = (path: string) => router.push(path); }, [router]);
+
+    // Adiciona o evento de keydown quando o componente for montado   
     useEffect(() => {
         const handleGlobalKeyDown = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
@@ -63,12 +70,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                 }
             }
             if (event.key === "ArrowDown") {
-                event.preventDefault(); 
+                event.preventDefault();
                 btnRef1.current?.click();
             }
             if (event.key === "ArrowUp") {
                 event.preventDefault();
-                router.push(`/escolas/${props.escola.projetoId}`);
+                pushRef.current(`/escolas/${projetoIdRef.current}`);
             }
         };
 
