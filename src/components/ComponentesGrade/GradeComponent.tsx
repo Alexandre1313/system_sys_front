@@ -51,7 +51,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const btnRef = useRef<HTMLButtonElement>(null);
     const btnRef1 = useRef<HTMLButtonElement>(null);
-    const btnRef2 = useRef<HTMLButtonElement>(null);
+    const btnRef2 = useRef<HTMLButtonElement>(null);    
 
     // refs para manter os valores atualizados sem re-registrar o listener
     const projetoIdRef = useRef(props.escola.projetoId);
@@ -86,7 +86,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         return () => {
             window.removeEventListener("keydown", handleGlobalKeyDown);
         };
-    }, []); // Esse useEffect é executado uma vez quando o componente é montado
+    }, []); // Esse useEffect é executado uma vez quando o componente é montado   
 
     useEffect(() => {
         const total = props?.grade?.itensGrade?.reduce((totini, itemGrade) => {
@@ -565,7 +565,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     return (
                                         <div
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
-                                            key={index}
+                                            key={index}                                            
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
                                                 duration-300 transform hover:scale-[1.0] hover:shadow-xl cursor-pointer min-w-[295px]
                                                 ${isCompleted

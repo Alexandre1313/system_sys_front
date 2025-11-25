@@ -24,12 +24,12 @@ const fetcher = async (id: number) => {
 };
 
 export default function Grades() {
+  const { user } = useAuth();
   const { id } = useParams();
-
-  const router = useRouter();
-
+  const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement>(null);
-  const modalJaAberto = useRef(false);
+  const modalJaAberto = useRef(false);  
+  const router = useRouter(); 
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -38,9 +38,15 @@ export default function Grades() {
   const [modalGerarCaixaMessage, setModalGerarCaixaMessage] = useState<string>('');
   const [modalGerarCaixaOpen, setModalGerarCaixaOpen] = useState<boolean>(false);
   const [isPend, setIsPend] = useState<boolean | null>(null);
-  const [caixa, setCaixa] = useState<Caixa | null>(null);
-
-  const isMobile = useIsMobile();
+  const [caixa, setCaixa] = useState<Caixa | null>(null); 
+  const [formData, setFormData] = useState<FormData>({
+    CODDEBARRASLEITURA: '',
+    ITEM_SELECIONADO: null,
+    ESCOLA_GRADE: null,
+    QUANTIDADELIDA: '0',
+    QUANTIDADENACAIXAATUAL: '0',
+    NUMERODACAIXA: '',
+  });
 
   useEffect(() => {
     if (!id) return;
@@ -63,21 +69,7 @@ export default function Grades() {
     };
 
     return () => channel.close();
-  }, [id, router]);
-
-  // ✅ REMOVIDO: useEffect que verificava caixa pendente baseado no ID da escola
-  // A verificação agora é feita apenas quando uma grade é selecionada através de verificarCaixaPendente()
-
-  const { user } = useAuth();
-
-  const [formData, setFormData] = useState<FormData>({
-    CODDEBARRASLEITURA: '',
-    ITEM_SELECIONADO: null,
-    ESCOLA_GRADE: null,
-    QUANTIDADELIDA: '0',
-    QUANTIDADENACAIXAATUAL: '0',
-    NUMERODACAIXA: '',
-  });
+  }, [id, router]);   
 
   // ✅ CORREÇÃO: Verificar caixa pendente - SEMPRE mostrar se existir
   const verificarCaixaPendente = useCallback(() => {
