@@ -10,7 +10,9 @@ const colorLinkExternal = "text-gray-400";
 /**
  * Endereço IP do servidor local.
  */
-const ip = "192.168.1.169";
+//const ip = "192.168.1.169";
+const ip = "192.168.0.169";
+
 
 /**
  * Porta utilizada pelo servidor.
