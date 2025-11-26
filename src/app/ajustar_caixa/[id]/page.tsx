@@ -4,9 +4,9 @@ import IsLoading from '@/components/ComponentesInterface/IsLoading';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { getCaixaParaAjuste, modificarCaixa } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { padStart } from 'pdf-lib';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AlertTriangle, Package, Edit3, Save, X } from 'react-feather';
 import { CaixaAjuste } from '../../../../core';
 
@@ -21,6 +21,7 @@ const fechBoxAjust = async (box: CaixaAjuste): Promise<CaixaAjuste | null | { st
 
 export default function AjustarCaixa() {
   const { id } = useParams();
+  const router = useRouter()
 
   // Estado original da caixa (sem originalQty)
   const [caixa, setCaixa] = useState<CaixaAjuste | null>(null);
@@ -65,6 +66,56 @@ export default function AjustarCaixa() {
     };
     fetchData();
   }, [id]);
+
+  // refs para manter os valores atualizados sem re-registrar o listener
+  const btnRef8 = useRef<HTMLButtonElement>(null); // abrir modal
+  const btnRef9 = useRef<HTMLButtonElement>(null); // confirm
+  const btnRef10 = useRef<HTMLButtonElement>(null);// cancelar
+  const btnRef11 = useRef<HTMLButtonElement>(null);// ok
+  const projetoIdRef = useRef(caixa?.projetoId);
+  const escolaIdRef = useRef(caixa?.escolaId);
+  const pushRef = useRef<(path: string) => void>(() => { });
+  const openModalRef = useRef(openModal);
+
+  // atualiza os refs quando os valores mudarem
+  useEffect(() => { projetoIdRef.current = caixa?.projetoId; }, [caixa?.projetoId]);
+  useEffect(() => { escolaIdRef.current = caixa?.escolaId; }, [caixa?.escolaId]);
+  useEffect(() => { pushRef.current = (path: string) => router.push(path); }, [router]);  
+  useEffect(() => { openModalRef.current = openModal; }, [openModal]);
+
+  // Adiciona o evento de keydown quando o componente for montado   
+  useEffect(() => {
+    const handleGlobalKeyDownPageAjust = (event: KeyboardEvent) => {
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        pushRef.current(`/escolas/${projetoIdRef.current}`);
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        btnRef8.current?.click();
+      }
+      if (event.key === "ArrowRight" && openModalRef.current) {
+        event.preventDefault();
+        btnRef9.current?.click();
+      }
+      if (event.key === "ArrowDown" && openModalRef.current) {
+        event.preventDefault();
+        btnRef10.current?.click();
+      }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        pushRef.current(`/grades/${escolaIdRef.current}`);
+      }
+    };
+
+    // Adiciona o evento para o evento global de keydown
+    window.addEventListener("keydown", handleGlobalKeyDownPageAjust);
+
+    // Limpa o evento quando o componente for desmontado
+    return () => {
+      window.removeEventListener("keydown", handleGlobalKeyDownPageAjust);
+    };
+  }, []);
 
   /*const handleChange = (index: number, rawValue: number, status: string) => {
     if (!caixa) return;
@@ -208,7 +259,7 @@ export default function AjustarCaixa() {
           setCaixaStatusBoolean(true);
 
           // Redirecionar após um tempo
-          setTimeout(() => { window.location.href = `/grades/${caixa.escolaId}`;}, 2000);
+          setTimeout(() => { window.location.href = `/grades/${caixa.escolaId}`; }, 2000);
           return;
         }
 
@@ -647,6 +698,7 @@ export default function AjustarCaixa() {
           {/* Botão Fixo */}
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
             <button
+              ref={btnRef8}
               onClick={handleSaveStepOne}
               disabled={caixaStatusBoolean || !houveAlteracao}
               className={`flex items-center space-x-2 px-6 py-2.5 lg:px-6 lg:py-3 rounded-xl font-semibold shadow-2xl transition-all duration-300 transform hover:scale-105 
@@ -715,6 +767,7 @@ export default function AjustarCaixa() {
                 {modalType === 'confirm' ? (
                   <div className={`flex flex-col lg:flex-row w-full gap-4`}>
                     <button
+                      ref={btnRef9}
                       onClick={handleSaveStepTwo}
                       className="w-full h-10 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
                     >
@@ -722,6 +775,7 @@ export default function AjustarCaixa() {
                       <span className="text-xs lg:text-xl">Confirmar</span>
                     </button>
                     <button
+                      ref={btnRef10}
                       onClick={handleSaveStepOne}
                       className="w-full h-10 px-3 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
                     >
@@ -731,8 +785,9 @@ export default function AjustarCaixa() {
                   </div>
                 ) : (
                   <button
+                    ref={btnRef11}
                     onClick={handleSaveStepOne}
-                    className={`w-full h-10 px-3 font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 ${modalType === 'success' ? 'bg-emerald-600 hover:bg-emerald-500 text-white' :
+                    className={`w-full lg:w-[70%] h-10 px-3 font-medium rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 ${modalType === 'success' ? 'bg-emerald-600 hover:bg-emerald-500 text-white' :
                       modalType === 'error' ? 'bg-red-600 hover:bg-red-500 text-white' :
                         modalType === 'exclusao' ? 'bg-blue-600 hover:bg-blue-500 text-white' :
                           'bg-slate-600 hover:bg-slate-500 text-white'
