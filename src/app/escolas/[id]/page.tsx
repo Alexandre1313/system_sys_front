@@ -46,12 +46,12 @@ export default function Escolas() {
     // Filter schools with memoization for better performance - must be before all conditional returns
     const escolasOrdenadas = useMemo(() => {
         if (!projeto?.escolas) return [];
-        
+
         const escolasFiltradas = projeto.escolas.filter((escola) =>
-            escola.nome.toLowerCase().includes(busca.toLowerCase()) || 
+            escola.nome.toLowerCase().includes(busca.toLowerCase()) ||
             escola.numeroEscola.toString().includes(busca)
         );
-        
+
         return escolasFiltradas;
     }, [projeto?.escolas, busca]);
 
@@ -73,7 +73,35 @@ export default function Escolas() {
     }
 
     // Aguarda dados carregarem antes de renderizar
-    if (!projeto) return null;
+    if (!projeto) {
+        return (
+            <PageWithDrawer sectionName="Loading" currentPage="escolas">
+                <div className="flex items-center justify-center min-h-[100dvh] px-4">
+                    <div className="relative z-10 max-w-md w-full">
+                        <div className="text-center">
+                            {/* Loading Icon */}
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 border-4 border-white border-t-transparent rounded-full animate-rotate"></div>
+                            </div>
+
+                            {/* Loading Text */}
+                            <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4">
+                                Carregando...
+                            </h2>
+                            <p className="text-slate-400 text-sm sm:text-base">
+                                Aguarde enquanto carregamos os dados
+                            </p>
+
+                            {/* Progress Bar */}
+                            <div className="mt-6 w-64 mx-auto bg-slate-800 rounded-full h-2 overflow-hidden relative">
+                                <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full animate-loadingBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </PageWithDrawer>
+        );
+    }
 
     // Error state
     if (error) {
@@ -116,7 +144,6 @@ export default function Escolas() {
             </PageWithDrawer>
         );
     }
-
 
     return (
         <PageWithDrawer
@@ -182,17 +209,17 @@ export default function Escolas() {
                                     <button
                                         onClick={() => setViewMode('grid')}
                                         className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid'
-                                                ? 'bg-emerald-600 text-white shadow-lg'
-                                                : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                            ? 'bg-emerald-600 text-white shadow-lg'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
                                             }`}
                                     >
                                         <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
                                     </button>
-                                      <button
+                                    <button
                                         onClick={() => setViewMode('grid1')}
                                         className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid1'
-                                                ? 'bg-emerald-600 text-white shadow-lg'
-                                                : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                            ? 'bg-emerald-600 text-white shadow-lg'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
                                             }`}
                                     >
                                         <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
@@ -200,8 +227,8 @@ export default function Escolas() {
                                     <button
                                         onClick={() => setViewMode('list')}
                                         className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'list'
-                                                ? 'bg-emerald-600 text-white shadow-lg'
-                                                : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                            ? 'bg-emerald-600 text-white shadow-lg'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
                                             }`}
                                     >
                                         <List size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
@@ -228,10 +255,10 @@ export default function Escolas() {
 
                     {/* Lista/Grid de Escolas */}
                     {escolasOrdenadas.length > 0 ? (
-                        <div className={viewMode === 'grid' ? 'grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-[repeat(16,minmax(0,1fr))] xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-4 lg:gap-6 will-change-contents' 
+                        <div className={viewMode === 'grid' ? 'grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-[repeat(16,minmax(0,1fr))] xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-4 lg:gap-6 will-change-contents'
                             : viewMode === 'grid1' ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents'
-                            : "grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6 will-change-contents"} 
-                            style={{contain: 'layout style paint'}}>
+                                : "grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6 will-change-contents"}
+                            style={{ contain: 'layout style paint' }}>
                             <AnimatePresence mode="wait">
                                 {escolasOrdenadas.map((escola, index) => (
                                     <motion.div
