@@ -60,11 +60,11 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
   const statusInfo = getStatusInfo(String(caixa.grade?.status), String(caixa.grade?.updatedAt), String(caixa.grade?.createdAt));
 
   return (
-    <div className="bg-slate-800/50 border border-slate-700 rounded-xl shadow-lg overflow-hidden">
+    <div className="bg-slate-800/50 border border-slate-700 rounded-xl shadow-lg overflow-hidden" tabIndex={0} >
       {/* Header da Caixa */}
       <div
         className="p-2 lg:p-2 lg:px-4 cursor-pointer hover:bg-slate-700/30 transition-all duration-300"
-        onClick={toggleOpen}
+        onClick={toggleOpen}        
       >
         <div className="flex items-center justify-between">
           {/* Número da Caixa - Destaque Principal */}
@@ -173,7 +173,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
                     </div>
                     <div className="text-right flex-shrink-0">
                       <div className="text-lg font-bold text-emerald-400">{item.itemQty}</div>
-                      <div className="text-xs text-slate-400">{item.itemQty === 1 ? 'unidade': 'unidades'}</div>
+                      <div className="text-xs text-slate-400">{item.itemQty === 1 ? 'unidade' : 'unidades'}</div>
                     </div>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
             <div className="mt-4 pt-4 border-t border-slate-700">
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  href={`/ajustar_caixa/${caixa.id}`}                 
+                  href={`/ajustar_caixa/${caixa.id}`}
                   className="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                    text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300
                     flex items-center justify-center space-x-2 hover:scale-100"
@@ -204,7 +204,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
