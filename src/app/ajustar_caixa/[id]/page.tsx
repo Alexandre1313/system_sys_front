@@ -94,7 +94,7 @@ export default function AjustarCaixa() {
         event.preventDefault();
         pushRef.current(`/escolas/${projetoIdRef.current}`);
       }
-      if (event.key === "Space") {
+      if (event.code === "Comma") {
         event.preventDefault();
         pushRef.current(`/caixas_por_grade/${gradeIdRef.current}`);
       }

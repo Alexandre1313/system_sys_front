@@ -78,14 +78,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                 event.preventDefault();
                 pushRef.current(`/escolas/${projetoIdRef.current}`);
             }          
-            if (event.key === "-" || event.code === "Minus") {
+            if (event.code === "Period") {
                 event.preventDefault();
                 btnRef13.current?.click();
-            }           
-            if (event.code === "NumpadSubtract") {
-                event.preventDefault();
-                btnRef13.current?.click();
-            }
+            }            
         };
 
         // Adiciona o evento para o evento global de keydown
