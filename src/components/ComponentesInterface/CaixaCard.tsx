@@ -184,8 +184,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
             <div className="mt-4 pt-4 border-t border-slate-700">
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  href={`/ajustar_caixa/${caixa.id}`}
-                  target="_AJUSTE"
+                  href={`/ajustar_caixa/${caixa.id}`}                 
                   className="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                    text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300
                     flex items-center justify-center space-x-2 hover:scale-100"
