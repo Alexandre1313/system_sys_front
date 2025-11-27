@@ -51,7 +51,8 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const btnRef = useRef<HTMLButtonElement>(null);
     const btnRef1 = useRef<HTMLButtonElement>(null);
-    const btnRef2 = useRef<HTMLButtonElement>(null);    
+    const btnRef2 = useRef<HTMLButtonElement>(null);
+    const btnRef13 = useRef<HTMLButtonElement>(null);
 
     // refs para manter os valores atualizados sem re-registrar o listener
     const projetoIdRef = useRef(props.escola.projetoId);
@@ -76,6 +77,14 @@ export default function GradeComponent(props: GradeComponentProps) {
             if (event.key === "ArrowUp") {
                 event.preventDefault();
                 pushRef.current(`/escolas/${projetoIdRef.current}`);
+            }          
+            if (event.key === "-" || event.code === "Minus") {
+                event.preventDefault();
+                btnRef13.current?.click();
+            }           
+            if (event.code === "NumpadSubtract") {
+                event.preventDefault();
+                btnRef13.current?.click();
             }
         };
 
@@ -565,7 +574,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     return (
                                         <div
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
-                                            key={index}                                            
+                                            key={index}
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
                                                 duration-300 transform hover:scale-[1.0] hover:shadow-xl cursor-pointer min-w-[295px]
                                                 ${isCompleted
@@ -917,6 +926,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <span className="hidden"></span>
                                             </button>
                                             <button
+                                                ref={btnRef13}
                                                 onClick={props.handleFormDataChangeDecresc}
                                                 className="flex items-center justify-center px-2 py-2 bg-blue-800
                                              hover:bg-blue-700 text-white font-medium rounded-lg transition-all

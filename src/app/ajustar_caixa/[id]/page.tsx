@@ -72,15 +72,19 @@ export default function AjustarCaixa() {
   const btnRef9 = useRef<HTMLButtonElement>(null); // confirm
   const btnRef10 = useRef<HTMLButtonElement>(null);// cancelar
   const btnRef11 = useRef<HTMLButtonElement>(null);// ok
+  //const btnRef12 = useRef<HTMLButtonElement>(null);// +
+  //const btnRef13 = useRef<HTMLButtonElement>(null);// -  
   const projetoIdRef = useRef(caixa?.projetoId);
+  const gradeIdRef = useRef(caixa?.gradeId);
   const escolaIdRef = useRef(caixa?.escolaId);
   const pushRef = useRef<(path: string) => void>(() => { });
   const openModalRef = useRef(openModal);
 
   // atualiza os refs quando os valores mudarem
   useEffect(() => { projetoIdRef.current = caixa?.projetoId; }, [caixa?.projetoId]);
+  useEffect(() => { gradeIdRef.current = caixa?.gradeId; }, [caixa?.gradeId]);
   useEffect(() => { escolaIdRef.current = caixa?.escolaId; }, [caixa?.escolaId]);
-  useEffect(() => { pushRef.current = (path: string) => router.push(path); }, [router]);  
+  useEffect(() => { pushRef.current = (path: string) => router.push(path); }, [router]);
   useEffect(() => { openModalRef.current = openModal; }, [openModal]);
 
   // Adiciona o evento de keydown quando o componente for montado   
@@ -89,6 +93,10 @@ export default function AjustarCaixa() {
       if (event.key === "ArrowUp") {
         event.preventDefault();
         pushRef.current(`/escolas/${projetoIdRef.current}`);
+      }
+      if (event.key === "Space") {
+        event.preventDefault();
+        pushRef.current(`/caixas_por_grade/${gradeIdRef.current}`);
       }
       if (event.key === "ArrowLeft") {
         event.preventDefault();
@@ -106,6 +114,26 @@ export default function AjustarCaixa() {
         event.preventDefault();
         pushRef.current(`/grades/${escolaIdRef.current}`);
       }
+      /* + da fileira superior (Shift + =)
+      if (event.key === "+" || event.code === "Equal") {
+        event.preventDefault();
+        btnRef12.current?.click();
+      }
+      // - da fileira superior
+      if (event.key === "-" || event.code === "Minus") {
+        event.preventDefault();
+        btnRef13.current?.click();
+      }
+      // + do teclado numérico
+      if (event.code === "NumpadAdd") {
+        event.preventDefault();
+        btnRef12.current?.click();
+      }
+      // - do teclado numérico
+      if (event.code === "NumpadSubtract") {
+        event.preventDefault();
+        btnRef13.current?.click();
+      }*/
     };
 
     // Adiciona o evento para o evento global de keydown
@@ -519,6 +547,7 @@ export default function AjustarCaixa() {
                             <div className="flex items-center justify-start space-x-2 w-full">
                               <div className="flex items-center border border-slate-600/30 rounded-lg overflow-hidden">
                                 <button
+                                  //ref={btnRef13}
                                   disabled={caixaStatusBoolean}
                                   onClick={() => handleChange(idx, Math.max(0, item.itemQty - 1), caixa.status)}
                                   className={`px-3 py-2 bg-slate-700 hover:bg-slate-600 border-r border-slate-600/30 transition-colors
@@ -545,6 +574,7 @@ export default function AjustarCaixa() {
                                            disabled:opacity-50 disabled:cursor-not-allowed`}
                                 />
                                 <button
+                                  //ref={btnRef12}
                                   disabled={caixaStatusBoolean}
                                   onClick={() => handleChange(idx, Math.min(item.originalQty, item.itemQty + 1), caixa.status)}
                                   className={`px-3 py-2 bg-slate-700 hover:bg-slate-600 border-l border-slate-600/30 transition-colors
