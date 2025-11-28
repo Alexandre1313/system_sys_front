@@ -175,7 +175,7 @@ const processarCodigoDeBarras = (
                 
                 // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
             } else {
-                setModalMessage('Quantidade já atendida para o item em questão!');
+                setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
                 setModalOpen(true);
                 setFormData((prevData: any) => ({
                     ...prevData,
@@ -183,7 +183,7 @@ const processarCodigoDeBarras = (
                 }));
             }
         } else {
-            setModalMessage('Código de barras não pertence ao item em questão, por favor verifique!');
+            setModalMessage('Código de barras não pertence a este item, por favor verifique!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -211,7 +211,7 @@ const processarCodigoDeBarras = (
             
             // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
         } else {
-            setModalMessage('Quantidade já atendida para o item em questão!');
+            setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -228,7 +228,7 @@ const processarCodigoDeBarras = (
 
         // ✅ CORREÇÃO CRÍTICA: Verificar se há quantidade na caixa atual ANTES de qualquer decremento
         if (qtyPCaixaItem === 0) {
-            setModalMessage('Não é possível decrementar!');
+            setModalMessage('Não foi possível reduzir a quantidade à ser expedida deste item, verifique!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
@@ -282,9 +282,9 @@ const processarCodigoDeBarras = (
             setFormData(novoForm);
             atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
             
-            // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
+        // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
         } else {
-            setModalMessage('Quantidade já atendida para a grade em questão');
+            setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
             setModalOpen(true);
             setFormData((prevData: any) => ({
                 ...prevData,
