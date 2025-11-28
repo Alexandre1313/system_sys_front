@@ -58,7 +58,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
   };
 
   const statusInfo = getStatusInfo(String(caixa.grade?.status), String(caixa.grade?.updatedAt), String(caixa.grade?.createdAt));
-
+  
   return (
     <div className="bg-slate-800/50 border border-slate-700 rounded-xl shadow-lg overflow-hidden" tabIndex={0} >
       {/* Header da Caixa */}
