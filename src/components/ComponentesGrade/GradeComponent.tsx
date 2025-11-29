@@ -24,18 +24,19 @@ export interface GradeComponentProps {
     userId?: number | undefined | null;
     isMobile: boolean;
     isFocus: () => void;
-    handlerOpnEncGradeMoodify: () => void
-    setFormData: (key: string, value: string) => void
-    handleFormDataChangeDecresc: () => void
-    handleItemSelecionado: (item: GradeItem | null) => void
-    handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void
-    handleNumeroDaCaixa: (numeroDaCaixa: string) => void
-    OpenModalGerarCaixa: () => void
+    handlerOpnEncGradeMoodify: () => void;
+    setFormData: (key: string, value: string) => void;
+    handleFormDataChangeDecresc: () => void;
+    handleFormDataChangeAcresc: () => void;
+    handleItemSelecionado: (item: GradeItem | null) => void;
+    handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void;
+    handleNumeroDaCaixa: (numeroDaCaixa: string) => void;
+    OpenModalGerarCaixa: () => void;
     OpenModalGerarCaixaError: () => void;
     setModalMessage: (message: string) => void;
     setModalOpen: (open: boolean) => void;
     mutate: () => void;
-    printEti: (etiquetas: Caixa[], isprint: boolean) => JSX.Element
+    printEti: (etiquetas: Caixa[], isprint: boolean) => JSX.Element;
 }
 
 export default function GradeComponent(props: GradeComponentProps) {
@@ -53,6 +54,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const btnRef1 = useRef<HTMLButtonElement>(null);
     const btnRef2 = useRef<HTMLButtonElement>(null);
     const btnRef13 = useRef<HTMLButtonElement>(null);
+    const btnRef14 = useRef<HTMLButtonElement>(null);
 
     // refs para manter os valores atualizados sem re-registrar o listener
     const projetoIdRef = useRef(props.escola.projetoId);
@@ -67,21 +69,32 @@ export default function GradeComponent(props: GradeComponentProps) {
         const handleGlobalKeyDown = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
                 if (btnRef.current) {
+                    event.preventDefault();
                     btnRef.current.click(); // Simula o clique no botão
                 }
             }
             if (event.key === "ArrowDown") {
-                event.preventDefault();
-                btnRef1.current?.click();
+                if (btnRef1.current) {
+                    event.preventDefault();
+                    btnRef1.current?.click();
+                }
             }
             if (event.key === "ArrowUp") {
                 event.preventDefault();
                 pushRef.current(`/escolas/${projetoIdRef.current}`);
-            }          
+            }
             if (event.code === "Period") {
-                event.preventDefault();
-                btnRef13.current?.click();
-            }            
+                if (btnRef13.current) {
+                    event.preventDefault();
+                    btnRef13.current?.click();
+                }
+            }
+            if (event.code === "Comma") {
+                if (btnRef14.current) {
+                    event.preventDefault();
+                    btnRef14.current?.click();
+                }
+            }
         };
 
         // Adiciona o evento para o evento global de keydown
@@ -298,12 +311,12 @@ export default function GradeComponent(props: GradeComponentProps) {
         (item.qtyPCaixa || 0) > 0
     );
 
-    const handlerItemGrade = () => {
+    /*const handlerItemGrade = () => {
         if (itemSelecionado) {
             setMmodalModifyGradeItemOpen(true);
             setmodalModifyGradeItemMessage('REALMENTE DESEJA ALTERAR O ITEM DA GRADE ? A OPERAÇÃO NÃO PODE SER REVERTIDA !');
         }
-    }
+    }*/
 
     const closeModalModifyGradeItem = () => {
         setMmodalModifyGradeItemOpen(false);
@@ -702,7 +715,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     {/* Quantities in Row */}
                                     <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
                                         <ItemsGradeInputTextMobil value={String(itemSelecionado.quantidade)}
-                                            labelName={`PREVISTO`} color={`text-yellow-400`} />
+                                            labelName={`PREVISTO`} color={`text-yellow-600`} />
                                         <ItemsGradeInputTextMobil value={String(itemSelecionado.quantidadeExpedida)}
                                             bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`}
                                             labelName={`EXPEDIDO`}
@@ -728,13 +741,13 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <ItemGradeInputTextStateMobil labelName={'NÚMERO DA CAIXA'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true}
-                                            valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
+                                            valueColor={`text-amber-300`} labelColor={`text-amber-300`}
                                             height={`h-[40px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
 
                                         <ItemGradeInputTextStateMobil labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true}
-                                            valueColor={`text-white`} labelColor={`text-white`}
+                                            valueColor={`text-zinc-400`} labelColor={`text-zinc-400`}
                                             txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
                                             height={`h-[40px]`} />
 
@@ -768,16 +781,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         >
                                             <ArrowLeft size={15} />
                                         </button>
-                                        {props?.userId === 1 && (
-                                            <button
-                                                onClick={handlerItemGrade}
-                                                className={`flex flex-1 px-4 py-2 bg-green-700 hover:bg-green-600
+                                        <button
+                                            onClick={props.handleFormDataChangeAcresc}
+                                            className={`flex flex-1 px-4 py-2 bg-green-700 hover:bg-green-600
                                              text-white font-medium rounded-lg transition-all duration-300
                                               transform hover:scale-100 h-6 justify-center items-center`}
-                                            >
-                                                <Plus size={15} />
-                                            </button>
-                                        )}
+                                        >
+                                            <Plus size={15} />
+                                        </button>
                                         <button
                                             onClick={props.handleFormDataChangeDecresc}
                                             className="flex flex-1 px-4 py-2 bg-blue-800 hover:bg-blue-700
@@ -792,7 +803,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                               transform hover:scale-100 h-6 justify-center items-center
                                               ${temCaixasParaGerar
                                                     ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
-                                                    : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
+                                                    : 'bg-yellow-500 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
                                                 }`}
                                         >
                                             <Box size={15} />
@@ -912,7 +923,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <span className="hidden"></span>
                                             </button>
                                             <button
-                                                onClick={handlerItemGrade}
+                                                ref={btnRef14}
+                                                onClick={props.handleFormDataChangeAcresc}
                                                 className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
                                              text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                              min-w-[50px] justify-center ${props?.userId === 1 ? 'pointer-events-auto cursor-pointer opacity-100' :
@@ -987,7 +999,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     {/* Right Column - Expedition Control */}
-                                    <div className={`bg-[#181818]/20 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6`}>
+                                    <div className={`bg-[#181818]/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6`}>
                                         <div className="flex items-center justify-between space-x-2 mb-4">
                                             <div className={`flex items-center space-x-2`}>
                                                 <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
@@ -1001,7 +1013,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         {/* Quantities in Row */}
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                                labelName={`PREVISTO`} color={`text-yellow-400`} />
+                                                labelName={`PREVISTO`} color={`text-yellow-600`} />
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
                                                 labelName={`EXPEDIDO`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
                                                 bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
@@ -1016,12 +1028,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     isReadOnly={true}
-                                                    valueColor={`text-yellow-500`} labelColor={`text-yellow-500`}
+                                                    valueColor={`text-amber-300`} labelColor={`text-amber-300`}
                                                     height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
                                                 <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     isReadOnly={true}
-                                                    valueColor={`text-white`} labelColor={`text-white`}
+                                                    valueColor={`text-zinc-400`} labelColor={`text-zinc-400`}
                                                     txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
                                                     height={`h-[80px]`} />
                                             </div>

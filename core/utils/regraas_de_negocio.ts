@@ -135,6 +135,33 @@ const processarCodigoDeBarrasInvert = (
     }
 };
 
+const processarCodigoDeBarrasAcresc = (
+    formData: any,
+    setFormData: (data: any) => void,
+) => {    
+    const quantidadeLidaAtual = Number(formData.QUANTIDADELIDA || 0);
+    const quantidadeNaCaixaAtual = Number(formData.QUANTIDADENACAIXAATUAL || 0);
+    const quantidade = Number(formData.ITEM_SELECIONADO?.quantidade || 0);
+    const quantidadeExpedida = Number(formData.ITEM_SELECIONADO?.quantidadeExpedida || 0);
+
+    // ✅ CORREÇÃO CRÍTICA: Só permite incrementar se há quantidade para ser expedida ainda
+    if (quantidade !== quantidadeExpedida) {
+        setFormData((prevData: any) => ({
+            ...prevData,
+            QUANTIDADELIDA: String(quantidadeLidaAtual + 1), // incrementa QUANTIDADELIDA
+            QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual + 1),
+            CODDEBARRASLEITURA: '',
+        }));
+        atualizarQuantidadeCaixaNnn(formData, 1, setFormData)
+    } else {
+        setFormData((prevData: any) => ({
+            ...prevData,
+            CODDEBARRASLEITURA: '',
+            // limpa o campo aqui
+        }));
+    }
+};
+
 const processarCodigoDeBarras = (
     value: string,
     formData: any,
@@ -545,4 +572,5 @@ function objectsStockEmbs(embalagenid: number, formdata: FormDateInputs,
     return stock;
 }
 
-export { criarCaixa, zerarQuantidadesCaixa, objectsStockEmbs, processarCodigoDeBarras, processarCodigoDeBarrasInvert, processarQtdParaEstoque };
+export { criarCaixa, zerarQuantidadesCaixa, objectsStockEmbs, processarCodigoDeBarras,
+         processarCodigoDeBarrasInvert, processarQtdParaEstoque, processarCodigoDeBarrasAcresc };

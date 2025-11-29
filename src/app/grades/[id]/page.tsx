@@ -14,7 +14,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Escola, EscolaGrade, FormData, GradeItem } from '../../../../core';
 import Caixa from '../../../../core/interfaces/Caixa';
-import { criarCaixa, processarCodigoDeBarras, processarCodigoDeBarrasInvert, zerarQuantidadesCaixa } from '../../../../core/utils/regraas_de_negocio';
+import { criarCaixa, processarCodigoDeBarras, processarCodigoDeBarrasAcresc, processarCodigoDeBarrasInvert, zerarQuantidadesCaixa } from '../../../../core/utils/regraas_de_negocio';
 import { limitSTR } from '../../../../core/utils/tools';
 
 const fetcher = async (id: number) => {
@@ -28,8 +28,8 @@ export default function Grades() {
   const { id } = useParams();
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement>(null);
-  const modalJaAberto = useRef(false);  
-  const router = useRouter(); 
+  const modalJaAberto = useRef(false);
+  const router = useRouter();
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -38,7 +38,7 @@ export default function Grades() {
   const [modalGerarCaixaMessage, setModalGerarCaixaMessage] = useState<string>('');
   const [modalGerarCaixaOpen, setModalGerarCaixaOpen] = useState<boolean>(false);
   const [isPend, setIsPend] = useState<boolean | null>(null);
-  const [caixa, setCaixa] = useState<Caixa | null>(null); 
+  const [caixa, setCaixa] = useState<Caixa | null>(null);
   const [formData, setFormData] = useState<FormData>({
     CODDEBARRASLEITURA: '',
     ITEM_SELECIONADO: null,
@@ -69,7 +69,7 @@ export default function Grades() {
     };
 
     return () => channel.close();
-  }, [id, router]);   
+  }, [id, router]);
 
   // ✅ CORREÇÃO: Verificar caixa pendente - SEMPRE mostrar se existir
   const verificarCaixaPendente = useCallback(() => {
@@ -159,6 +159,13 @@ export default function Grades() {
 
   const handleFormDataChangeDecresc = () => {
     processarCodigoDeBarrasInvert(
+      formData,
+      setFormData,
+    );
+  };
+
+  const handleFormDataChangeAcresc = () => {
+    processarCodigoDeBarrasAcresc(
       formData,
       setFormData,
     );
@@ -387,7 +394,7 @@ export default function Grades() {
 
     const updateDate = parseDate(grade.updatedAt); // Converta a data de atualização
     return grade.status !== 'DESPACHADA' || !isMoreThanOneDayAgo(updateDate);
-  }); 
+  });
 
   return (
     <PageWithDrawer
@@ -407,9 +414,9 @@ export default function Grades() {
               Grades
             </h1>
             <div className="flex items-center lg:flex-row flex-col justify-center text-slate-400 text-sm lg:text-lg text-center">
-              <span className='text-center truncate max-w-full'>{isMobile ? limitSTR(escola?.nome) ?? '': escola?.nome}</span>
+              <span className='text-center truncate max-w-full'>{isMobile ? limitSTR(escola?.nome) ?? '' : escola?.nome}</span>
               <span className='hidden lg:flex lg:pr-2 lg:pl-2'>•</span>
-              <span className='text-center truncate max-w-full'>{isMobile ? limitSTR(escola?.projeto?.nome ?? ''): escola?.projeto?.nome}</span>
+              <span className='text-center truncate max-w-full'>{isMobile ? limitSTR(escola?.projeto?.nome ?? '') : escola?.projeto?.nome}</span>
             </div>
             <div className="flex items-center justify-center w-full">
               <div className="w-16 h-px lg:h-[2px] bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
@@ -434,6 +441,7 @@ export default function Grades() {
                   isMobile={isMobile}
                   isFocus={isFocus}
                   handleFormDataChangeDecresc={handleFormDataChangeDecresc}
+                  handleFormDataChangeAcresc={handleFormDataChangeAcresc}
                   handlerOpnEncGradeMoodify={handlerOpnEncGradeMoodify}
                   setFormData={handleFormDataChange}
                   handleItemSelecionado={handleItemSelecionado}
