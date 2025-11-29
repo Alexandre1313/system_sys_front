@@ -328,6 +328,27 @@ export default function GradeComponent(props: GradeComponentProps) {
         }
     };
 
+    const textBtnBox = (formData: any, temCGerar: boolean) => {
+        return [
+            temCGerar ? (
+                <span key="inicializada">
+                    CAIXA DE Nº&nbsp;
+                    <b className="text-white">&nbsp;{formData.NUMERODACAIXA}&nbsp;&nbsp;</b>
+                    INICIALIZADA
+                </span>
+            ) : (
+                <span key="encerrada">
+                    CAIXA DE Nº&nbsp;
+                    <b className="text-white">&nbsp;{Number(formData.NUMERODACAIXA) - 1}&nbsp;&nbsp;</b>
+                    ENCERRADA
+                </span>
+            ),
+            temCGerar
+                ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
+                : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
+        ];
+    };
+
     const print = () => { return props.printEti(props.grade.gradeCaixas, volms()[4]) }
 
     const termos = busca.split(/\s+/);
@@ -566,9 +587,9 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                     {/* Content - Responsive spacing for mobile and desktop */}
                     <div className="relative z-10 flex-1 overflow-auto flex items-start justify-center pt-[60px] lg:pt-[64px]" style={{ marginTop: '100px', paddingBottom: '80px' }}>
-                        <div className="max-w-7xl mx-auto p-6 lg:pt-3">
+                        <div className="max-w-[100%] mx-auto p-6 lg:pt-3">
                             {/* Items Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                                 {itensFiltrados.map((itemGrade, index) => {
                                     const item = itemGrade?.itemTamanho?.item;
                                     const genero = item?.genero;
@@ -910,10 +931,10 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                                 {/* Actions Bar */}
                                 <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-6">
-                                    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+                                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
                                         {/* Action Buttons */}
-                                        <div className="flex flex-wrap gap-3">
+                                        <div className="flex flex-wrap py-3">
                                             <button
                                                 ref={btnRef1}
                                                 onClick={fecharTelaExped}
@@ -924,42 +945,46 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <ArrowLeft size={19} />
                                                 <span className="hidden"></span>
                                             </button>
-                                            <button
-                                                ref={btnRef14}
-                                                onClick={props.handleFormDataChangeAcresc}
-                                                className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
-                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
-                                             min-w-[50px] justify-center`}
-                                            >
-                                                <Plus size={19} />
-                                                <span className="hidden"></span>
-                                            </button>
-                                            <button
-                                                ref={btnRef13}
-                                                onClick={props.handleFormDataChangeDecresc}
-                                                className="flex items-center justify-center px-2 py-2 bg-blue-800
-                                             hover:bg-blue-700 text-white font-medium rounded-lg transition-all
-                                              duration-300 transform hover:scale-100 min-w-[50px]"
-                                            >
-                                                <Minus size={19} />
-                                                <span className="hidden"></span>
-                                            </button>
                                         </div>
 
-                                        {/* Close Box Button */}
-                                        <div className="flex justify-end">
-                                            <button
-                                                ref={btnRef}
-                                                onClick={props.OpenModalGerarCaixa}
-                                                className={`flex items-center space-x-2 px-4 py-2 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
-                                                  ${temCaixasParaGerar
-                                                        ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
-                                                        : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
-                                                    }`}
-                                            >
-                                                <Box size={29} />
-                                                <span>FECHAR CAIXA</span>
-                                            </button>
+                                        {/* Close Box e Buttons */}
+                                        <div className="flex justify-between bg-[#181818]/50 p-3 rounded-2xl">
+
+                                            <div className="flex flex-wrap gap-3">
+                                                <button
+                                                    ref={btnRef14}
+                                                    onClick={props.handleFormDataChangeAcresc}
+                                                    className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
+                                                    text-white rounded-lg transition-all duration-300 transform hover:scale-100
+                                                    min-w-[50px]`}
+                                                >
+                                                    <Plus size={19} />
+                                                    <span className="text-[1.2em]">1</span>
+                                                </button>
+                                                <button
+                                                    ref={btnRef13}
+                                                    onClick={props.handleFormDataChangeDecresc}
+                                                    className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
+                                                    text-white rounded-lg transition-all duration-300 transform hover:scale-100
+                                                    min-w-[50px]`}
+                                                >
+                                                    <Minus size={19} />
+                                                    <span className="text-[1.2em]">1</span>
+                                                </button>
+                                            </div>
+
+                                            <div className="flex w-[49%]">
+                                                <button
+                                                    ref={btnRef}
+                                                    onClick={props.OpenModalGerarCaixa}
+                                                    className={`flex items-center justify-center flex-grow space-x-2 px-4 py-2 text-white
+                                                                font-medium rounded-lg transition-all duration-300 transform hover:scale-100
+                                                    ${textBtnBox(props.formData, temCaixasParaGerar)[1]}`}
+                                                >
+                                                    <Box size={29} />
+                                                    {textBtnBox(props.formData, temCaixasParaGerar)[0]}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1004,10 +1029,16 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <div className="flex items-center justify-between space-x-2 mb-4">
                                             <div className={`flex items-center space-x-2`}>
                                                 <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
-                                                <h3 className={`text-lg font-semibold text-white`}>Controle de Expedição</h3>
+                                                <h3 className={`text-lg font-semibold text-white`}
+                                                    style={{ opacity: temCaixasParaGerar ? '1' : '0.3' }}
+                                                >
+                                                    Controle de Expedição
+                                                </h3>
                                             </div>
                                             <div className={`flex items-center space-x-2`}>
-                                                <h3 className={`text-lg font-semibold text-green-500`}>{temCaixasParaGerar ? 'Caixa em aberto' : ''}</h3>
+                                                <h3 className={`text-lg font-semibold text-green-500`}>
+                                                    {temCaixasParaGerar ? 'Caixa em aberto' : ''}
+                                                </h3>
                                             </div>
                                         </div>
 
@@ -1065,7 +1096,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                     </div>
-            )
+                )
             }
 
             {/* Modal Component */}

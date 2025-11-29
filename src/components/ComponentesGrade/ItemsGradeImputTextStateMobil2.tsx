@@ -24,8 +24,8 @@ export default function ItemGradeInputTextStateMobil2(props: ItemGradeInputTextS
     const labelName = concat(props.labelName);
     const tot = Number(props.tot);
     const val = Number(props.formData[labelName]);
-    const perc = (tot && !isNaN(tot)) ? ((val / tot) * 100).toFixed(3): "0.00";
-    const value = `${props.formData[labelName]}  |  ${perc.replace('.', ',')}%` || "";
+    const perc = (tot && !isNaN(tot)) ? ((val / tot) * 100).toFixed(0): "0";
+    const value = `${props.formData[labelName]}  |  ${perc}%` || "";
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
