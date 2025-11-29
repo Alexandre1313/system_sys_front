@@ -22,11 +22,14 @@ export interface ItemGradeInputTextState2Props {
 export default function ItemGradeInputTextState2(props: ItemGradeInputTextState2Props) {
     // Acessar o valor correto do formData usando o labelName como chave   
     const labelName = concat(props.labelName);
-    const value = `${props.formData[labelName]}   -->   ${props.tot}` || "";
+    const tot = Number(props.tot);
+    const val = Number(props.formData[labelName]);
+    const perc = (tot && !isNaN(tot)) ? ((val / tot) * 100).toFixed(3) : "0.00";
+    const value = `${props.formData[labelName]}  |  ${perc.replace('.', ',')}%` || "";
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;       
-        props.setFormData(labelName, value.split('-->')[0].trim());
+        const { value } = event.target;
+        props.setFormData(labelName, value.split('|')[0].trim());
     };
 
     return (
@@ -54,7 +57,7 @@ export default function ItemGradeInputTextState2(props: ItemGradeInputTextState2
                     id={`${labelName}-input`}
                     value={value}
                     onChange={handleInputChange}
-                />              
+                />
             </div>
         </div>
     );

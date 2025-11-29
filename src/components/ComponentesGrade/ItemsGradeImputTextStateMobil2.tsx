@@ -22,7 +22,10 @@ export interface ItemGradeInputTextStateMobil2Props {
 export default function ItemGradeInputTextStateMobil2(props: ItemGradeInputTextStateMobil2Props) {
     // Acessar o valor correto do formData usando o labelName como chave   
     const labelName = concat(props.labelName);
-    const value = `${props.formData[labelName]} | ${props.tot}` || "";
+    const tot = Number(props.tot);
+    const val = Number(props.formData[labelName]);
+    const perc = (tot && !isNaN(tot)) ? ((val / tot) * 100).toFixed(3): "0.00";
+    const value = `${props.formData[labelName]}  |  ${perc.replace('.', ',')}%` || "";
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -54,7 +57,7 @@ export default function ItemGradeInputTextStateMobil2(props: ItemGradeInputTextS
                     id={`${labelName}-input`}
                     value={value} // Usando o valor do estado do pai
                     onChange={handleInputChange} // Atualiza o estado no pai quando o valor mudar
-                />              
+                />
             </div>
         </div>
     );
