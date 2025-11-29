@@ -16,6 +16,7 @@ import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
 import ItemGradeInputTextState2 from "./ItemsGradeImputTextState2";
 import ItemGradeInputTextStateMobil2 from "./ItemsGradeImputTextStateMobil2";
+import ItemsGradeInputText2 from "./ItemsGradeInputText2";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -1046,8 +1047,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                                 labelName={`PREVISTO`} color={`text-yellow-600`} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                                labelName={`EXPEDIDO`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
+                                            <ItemsGradeInputText2 formData={props.formData} value={String(itemSelecionado.quantidadeExpedida)}
+                                                labelName={`EXP. / NA CAIXA ATUAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
                                                 bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                                 labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
