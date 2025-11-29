@@ -1,6 +1,6 @@
 import { concat } from "../../../core/utils/tools";
 
-export interface ItemGradeInputTextStateProps {
+export interface ItemGradeInputTextState2Props {
     formData: { [key: string]: string }; // Estado do pai passado como objeto
     labelName: string;
     isReadOnly?: boolean;
@@ -19,14 +19,14 @@ export interface ItemGradeInputTextStateProps {
     setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
 
-export default function ItemGradeInputTextState(props: ItemGradeInputTextStateProps) {
+export default function ItemGradeInputTextState2(props: ItemGradeInputTextState2Props) {
     // Acessar o valor correto do formData usando o labelName como chave   
     const labelName = concat(props.labelName);
-    const value = props.formData[labelName] || "";
+    const value = `${props.formData[labelName]}   -->   ${props.tot}` || "";
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        props.setFormData(labelName, value);
+        const { value } = event.target;       
+        props.setFormData(labelName, value.split('-->')[0].trim());
     };
 
     return (
@@ -54,24 +54,7 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
                     id={`${labelName}-input`}
                     value={value}
                     onChange={handleInputChange}
-                />
-
-                {/* Overlay com posicionamento baseado no valor */}
-                {props.tot && (
-                    <div
-                        className="absolute inset-0 flex items-center pointer-events-none"
-                        style={{
-                            paddingLeft: `calc(4rem + ${value.toString().length * 1}ch)` // Ajuste baseado no tamanho do texto
-                        }}
-                    >
-                        <span className="text-blue-500 text-[20px] pr-[0.6rem]">
-                            ==&gt;
-                        </span>
-                        <span className={`${props.txtSize ? props.txtSize : 'text-[27px]'} text-orange-400`}>
-                            {props.tot}
-                        </span>
-                    </div>
-                )}
+                />              
             </div>
         </div>
     );

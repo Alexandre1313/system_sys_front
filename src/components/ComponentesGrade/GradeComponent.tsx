@@ -14,6 +14,8 @@ import ItemGradeInputTextStateMobil from "./ItemsGradeImputTextStateMobil";
 import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
+import ItemGradeInputTextState2 from "./ItemsGradeImputTextState2";
+import ItemGradeInputTextStateMobil2 from "./ItemsGradeImputTextStateMobil2";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -723,7 +725,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
-                                        <ItemGradeInputTextStateMobil labelName={'QUANTIDADE LIDA'}
+                                        <ItemGradeInputTextStateMobil2 labelName={'QUANTIDADE LIDA'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true} maxWhidth={`w-full`}
                                             valueColor={`text-zinc-400`}
@@ -927,8 +929,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 onClick={props.handleFormDataChangeAcresc}
                                                 className={`flex items-center space-x-2 px-2 py-2 bg-green-700 hover:bg-green-600
                                              text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
-                                             min-w-[50px] justify-center ${props?.userId === 1 ? 'pointer-events-auto cursor-pointer opacity-100' :
-                                                        'pointer-events-none cursor-not-allowed opacity-30'}`}
+                                             min-w-[50px] justify-center`}
                                             >
                                                 <Plus size={19} />
                                                 <span className="hidden"></span>
@@ -1039,7 +1040,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemGradeInputTextState labelName={'QUANTIDADE LIDA'}
+                                                <ItemGradeInputTextState2 labelName={'QUANTIDADE LIDA'}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     isReadOnly={true} maxWhidth={`w-full`}
                                                     valueColor={`text-zinc-400`}
@@ -1057,7 +1058,6 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     labelColor={`text-emerald-500`}
                                                     positionn={`text-left`}
                                                     labelposition={`justify-start`} />
-
                                             </div>
                                         </div>
                                     </div>
@@ -1065,7 +1065,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                     </div>
-                )
+            )
             }
 
             {/* Modal Component */}
