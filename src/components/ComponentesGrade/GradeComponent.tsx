@@ -603,6 +603,48 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
                                     const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                                     const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50' : 'bg-slate-700/50';
+                                    const getStatusStyles = (itemGrade: any, isCompleted: boolean, isPartial: boolean) => {
+                                        // 🎨 Cores principais como variáveis
+                                        const PURPLE = { bg: "purple-900/30", border: "purple-700", dot: "purple-400", text: "purple-300" };
+                                        const GREEN = { bg: "emerald-900/30", border: "emerald-700", dot: "emerald-400", text: "emerald-300" };
+                                        const YELLOW = { bg: "yellow-900/30", border: "yellow-700", dot: "yellow-400", text: "yellow-300" };
+                                        const BLUE = { bg: "blue-900/30", border: "blue-700", dot: "blue-400", text: "blue-300" };
+
+                                        // 🔎 Define cor + texto
+                                        let C = BLUE;
+                                        let label = "Pendente";
+
+                                        if (itemGrade.qtyPCaixa > 0) {
+                                            C = PURPLE;
+                                            label = "Na caixa atual";
+                                        } else if (isCompleted) {
+                                            C = GREEN;
+                                            label = "Completo";
+                                        } else if (isPartial) {
+                                            C = YELLOW;
+                                            label = "Parcial";
+                                        }
+
+                                        // 🔥 Retorna ARRAY nas posições
+                                        return [
+                                            `flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-${C.bg} border border-${C.border}`,
+                                            `w-2.5 h-2.5 rounded-full bg-${C.dot}`,
+                                            `text-xs font-semibold text-${C.text}`,
+                                            label
+                                        ];
+                                    };
+                                    const [boxClass, dotClass, textClass, label] = getStatusStyles(itemGrade, isCompleted, isPartial);
+                                    const cardColor = (isC: boolean, isP: boolean, item: GradeItem) => {
+                                        if (item.qtyPCaixa > 0) {
+                                            return 'border-purple-500 hover:border-purple-500 hover:shadow-purple-500/20';
+                                        } else if (isC) {
+                                            return 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20';
+                                        } else if (isP) {
+                                            return 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20';
+                                        } else {
+                                            return 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20';
+                                        }
+                                    };
 
                                     return (
                                         <div
@@ -610,12 +652,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             key={index}
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
                                                 duration-300 transform hover:scale-[1.0] hover:shadow-xl cursor-pointer min-w-[295px]
-                                                ${isCompleted
-                                                    ? 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20'
-                                                    : isPartial
-                                                        ? 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20'
-                                                        : 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20'
-                                                }`}
+                                                ${cardColor(isCompleted, isPartial, itemGrade)}`}
                                             style={{
                                                 background: `${isCompleted ? 'rgba(16, 185, 129, 0.05)' : isPartial ? 'rgba(234, 179, 8, 0.05)' : 'rgba(59, 130, 246, 0.05)'}`,
                                                 pointerEvents: `${isCompleted ? 'auto' : 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`
@@ -623,17 +660,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         >
                                             {/* Status Badge */}
                                             <div className="flex items-center justify-between mb-4">
-                                                <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${isCompleted
-                                                    ? 'bg-emerald-900/30 border border-emerald-700'
-                                                    : isPartial
-                                                        ? 'bg-yellow-900/30 border border-yellow-700'
-                                                        : 'bg-blue-900/30 border border-blue-700'
-                                                    }`}>
-                                                    <div className={`w-2.5 h-2.5 rounded-full ${isCompleted ? 'bg-emerald-400' : isPartial ? 'bg-yellow-400' : 'bg-blue-400'
-                                                        }`}></div>
-                                                    <span className={`text-xs font-semibold ${isCompleted ? 'text-emerald-300' : isPartial ? 'text-yellow-300' : 'text-blue-300'
-                                                        }`}>
-                                                        {isCompleted ? 'Completo' : isPartial ? 'Parcial' : 'Pendente'}
+                                                <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${boxClass}`}>
+                                                    <div className={`w-2.5 h-2.5 rounded-full ${dotClass}`}></div>
+                                                    <span className={`text-xs font-semibold ${textClass}`}>
+                                                        {label}
                                                     </span>
                                                 </div>
                                                 <span className="text-slate-400 text-xs font-medium bg-slate-700/50 px-2 py-1 rounded">#{index + 1}</span>
@@ -1047,7 +1077,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                                 labelName={`PREVISTO`} color={`text-yellow-600`} />
-                                            <ItemsGradeInputText2 formData={props.formData} value={String(itemSelecionado.quantidadeExpedida)}
+                                            <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={String(itemSelecionado.quantidadeExpedida)}
                                                 labelName={`EXP. / NA CAIXA ATUAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
                                                 bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
