@@ -383,8 +383,13 @@ export default function GradeComponent(props: GradeComponentProps) {
     };
 
     const textBtnBox = (formData: any, temCGerar: boolean) => {
+        const init = Number(formData.NUMERODACAIXA) === 1 && !temCGerar;
         return [
-            temCGerar ? (
+            init ? (
+                <span key="nao_comecada">                    
+                    <b className="text-white">AGUARDANDO INÍCIO</b>                    
+                </span>
+            ) : temCGerar ? (
                 <span key="inicializada">
                     CAIXA DE Nº&nbsp;
                     <b className="text-white">&nbsp;{formData.NUMERODACAIXA}&nbsp;&nbsp;</b>
@@ -397,9 +402,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                     ENCERRADA
                 </span>
             ),
-            temCGerar
-                ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer'
-                : 'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
+            init ? 'bg-zinc-600 hover:bg-zinc-500 opacity-50 cursor-not-allowed pointer-events-none': 
+            temCGerar ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer' : 
+            'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
         ];
     };
 
@@ -1020,7 +1025,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <button
                                                     ref={btnRef}
                                                     onClick={props.OpenModalGerarCaixa}
-                                                    className={`flex items-center justify-center flex-grow space-x-2 px-4 py-2 text-white
+                                                    className={`flex items-center justify-start flex-grow space-x-2 px-4 py-2 text-white
                                                                 font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                                     ${textBtnBox(props.formData, temCaixasParaGerar)[1]}`}
                                                 >
