@@ -2,10 +2,9 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { Grade, GradesRomaneio, Resumo } from '../interfaces';
 
-/**
- * Endereço IP do servidor local.
- */
 const colorLinkExternal = "text-gray-400";
+
+const colorBorderBlue = "border-blue-700";
 
 /**
  * Endereço IP do servidor local.
@@ -829,5 +828,5 @@ export {
   analyzerStatus, concat, converPercentualFormat,
   convertMilharFormat, convertMilharFormatCUB, convertMilharFormatKG, convertSPTime,
   filtrarGradesPorPrioridade, getResumo, ip, normalize, port, colorLinkExternal, sizeOrders,
-  formatarTituloRanking, limitSTR
+  formatarTituloRanking, limitSTR, colorBorderBlue
 };

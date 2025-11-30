@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import plugin from 'tailwindcss/plugin';
-import { colorLinkExternal } from "./core/utils/tools";
+import { colorLinkExternal, colorBorderBlue } from "./core/utils/tools";
 
 const config: Config = {
   content: [
@@ -56,6 +56,7 @@ const config: Config = {
     'to-slate-600',
    
     `${colorLinkExternal}`,
+    `${colorBorderBlue}`,
     'pointer-events-auto',
     'pointer-events-none',
 
