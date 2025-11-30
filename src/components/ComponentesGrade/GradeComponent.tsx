@@ -154,11 +154,64 @@ export default function GradeComponent(props: GradeComponentProps) {
         if (props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA') {
             return ['Consolidados', 'Encerrado', 'linear-gradient(to bottom right, #047857, #022c22)', '#475569', true];
         } else if (props.grade.gradeCaixas.length === 0) {
-            return ['Não iniciado', 'Primeira Caixa', 'linear-gradient(to bottom right, #0e7490, #083344)', '#475569', false];
+            return ['Não iniciado', 'Primeira Caixa', 'linear-gradient(to bottom right, #3f3f46, #18181b)', '#52525b', false];
         } else {
             return ['Parciais', 'Próxima Caixa', 'linear-gradient(to bottom right, #a16207, #422006)', '#fb923c', false];
         }
     }
+
+    const cardColor = (isC: boolean, isP: boolean, item: GradeItem) => {
+        if (item.qtyPCaixa > 0) {
+            return {
+                borderShadow: 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20',
+                backgroudC: 'rgba(59, 130, 246, 0.05)'
+            };
+        } else if (isC) {
+            return {
+                borderShadow: 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20',
+                backgroudC: 'rgba(16, 185, 129, 0.05)'
+            };
+        } else if (isP) {
+            return {
+                borderShadow: 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20',
+                backgroudC: 'rgba(234, 179, 8, 0.05)'
+            };
+        } else {
+            return {
+                borderShadow: 'border-zinc-500 hover:border-zinc-500 hover:shadow-zinc-500/20',
+                backgroudC: 'rgba(212, 212, 216, 0.05)'
+            };
+        }
+    };
+
+    const getStatusStyles = (itemGrade: any, isCompleted: boolean, isPartial: boolean) => {
+        // 🎨 Cores principais como variáveis
+        const BLUE = { bg: "blue-900/30", border: "blue-700", dot: "blue-400", text: "blue-300" };
+        const GREEN = { bg: "emerald-900/30", border: "emerald-700", dot: "emerald-400", text: "emerald-300" };
+        const YELLOW = { bg: "yellow-900/30", border: "yellow-700", dot: "yellow-400", text: "yellow-300" };
+        const ZINC = { bg: "zinc-300/30", border: "zinc-700", dot: "zinc-400", text: "zinc-300" };
+
+        // 🔎 Define cor + texto
+        let C = ZINC;
+        let label = "Pendente";
+
+        if (itemGrade.qtyPCaixa > 0) {
+            C = BLUE;
+            label = "Na caixa atual";
+        } else if (isCompleted) {
+            C = GREEN;
+            label = "Completo";
+        } else if (isPartial) {
+            C = YELLOW;
+            label = "Parcial";
+        }
+        return [
+            `flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-${C.bg} border border-${C.border}`,
+            `w-2.5 h-2.5 rounded-full bg-${C.dot}`,
+            `text-xs font-semibold text-${C.text}`,
+            label
+        ];
+    };
 
     //const labelVolum = props.grade?.status === 'EXPEDIDA' || props.grade?.status === 'DESPACHADA';
 
@@ -404,9 +457,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                     ? 'border-emerald-600 hover:border-emerald-500 hover:shadow-emerald-600/20'
                     : totalExpedido > 0
                         ? 'border-yellow-600 hover:border-yellow-500 hover:shadow-yellow-500/20'
-                        : 'border-blue-600 hover:border-blue-500 hover:shadow-blue-500/20'
+                        : 'border-zinc-600 hover:border-zinc-500 hover:shadow-zinc-500/20'
                 }`}
-                style={{ background: `${total === totalExpedido ? 'rgba(16, 185, 129, 0.05)' : totalExpedido > 0 ? 'rgba(234, 179, 8, 0.05)' : 'rgba(59, 130, 246, 0.05)'}` }}
+                style={{ background: `${total === totalExpedido ? 'rgba(16, 185, 129, 0.05)' : totalExpedido > 0 ? 'rgba(234, 179, 8, 0.05)' : 'rgba(63, 63, 70, 0.20)'}` }}
             >
 
                 {/* Header with Status and Grade ID */}
@@ -416,11 +469,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                         ? 'bg-emerald-900/30 border border-emerald-700'
                         : totalExpedido > 0
                             ? 'bg-yellow-900/30 border border-yellow-700'
-                            : 'bg-blue-900/30 border border-blue-700'
+                            : 'bg-zinc-900/30 border border-zinc-700'
                         }`}>
-                        <div className={`w-2.5 h-2.5 rounded-full ${total === totalExpedido ? 'bg-emerald-400' : totalExpedido > 0 ? 'bg-yellow-400' : 'bg-blue-400'
+                        <div className={`w-2.5 h-2.5 rounded-full ${total === totalExpedido ? 'bg-emerald-400' : totalExpedido > 0 ? 'bg-yellow-400' : 'bg-zinc-400'
                             }`}></div>
-                        <span className={`text-xs font-semibold ${total === totalExpedido ? 'text-emerald-300' : totalExpedido > 0 ? 'text-yellow-300' : 'text-blue-300'
+                        <span className={`text-xs font-semibold ${total === totalExpedido ? 'text-emerald-300' : totalExpedido > 0 ? 'text-yellow-300' : 'text-zinc-300'
                             }`}>
                             {total === totalExpedido ? 'Completa' : totalExpedido > 0 ? 'Parcial' : 'Pendente'}
                         </span>
@@ -603,58 +656,17 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
                                     const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
                                     const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50' : 'bg-slate-700/50';
-                                    const getStatusStyles = (itemGrade: any, isCompleted: boolean, isPartial: boolean) => {
-                                        // 🎨 Cores principais como variáveis
-                                        const PURPLE = { bg: "purple-900/30", border: "purple-700", dot: "purple-400", text: "purple-300" };
-                                        const GREEN = { bg: "emerald-900/30", border: "emerald-700", dot: "emerald-400", text: "emerald-300" };
-                                        const YELLOW = { bg: "yellow-900/30", border: "yellow-700", dot: "yellow-400", text: "yellow-300" };
-                                        const BLUE = { bg: "blue-900/30", border: "blue-700", dot: "blue-400", text: "blue-300" };
-
-                                        // 🔎 Define cor + texto
-                                        let C = BLUE;
-                                        let label = "Pendente";
-
-                                        if (itemGrade.qtyPCaixa > 0) {
-                                            C = PURPLE;
-                                            label = "Na caixa atual";
-                                        } else if (isCompleted) {
-                                            C = GREEN;
-                                            label = "Completo";
-                                        } else if (isPartial) {
-                                            C = YELLOW;
-                                            label = "Parcial";
-                                        }
-
-                                        // 🔥 Retorna ARRAY nas posições
-                                        return [
-                                            `flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-${C.bg} border border-${C.border}`,
-                                            `w-2.5 h-2.5 rounded-full bg-${C.dot}`,
-                                            `text-xs font-semibold text-${C.text}`,
-                                            label
-                                        ];
-                                    };
                                     const [boxClass, dotClass, textClass, label] = getStatusStyles(itemGrade, isCompleted, isPartial);
-                                    const cardColor = (isC: boolean, isP: boolean, item: GradeItem) => {
-                                        if (item.qtyPCaixa > 0) {
-                                            return 'border-purple-500 hover:border-purple-500 hover:shadow-purple-500/20';
-                                        } else if (isC) {
-                                            return 'border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/20';
-                                        } else if (isP) {
-                                            return 'border-yellow-500 hover:border-yellow-400 hover:shadow-yellow-500/20';
-                                        } else {
-                                            return 'border-blue-500 hover:border-blue-500 hover:shadow-blue-500/20';
-                                        }
-                                    };
-
+                                    const { borderShadow, backgroudC } = cardColor(isCompleted, isPartial, itemGrade);
                                     return (
                                         <div
                                             onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
                                             key={index}
                                             className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
                                                 duration-300 transform hover:scale-[1.0] hover:shadow-xl cursor-pointer min-w-[295px]
-                                                ${cardColor(isCompleted, isPartial, itemGrade)}`}
+                                                ${borderShadow}`}
                                             style={{
-                                                background: `${isCompleted ? 'rgba(16, 185, 129, 0.05)' : isPartial ? 'rgba(234, 179, 8, 0.05)' : 'rgba(59, 130, 246, 0.05)'}`,
+                                                background: backgroudC,
                                                 pointerEvents: `${isCompleted ? 'auto' : 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`
                                             }}
                                         >
