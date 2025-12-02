@@ -386,8 +386,8 @@ export default function GradeComponent(props: GradeComponentProps) {
         const init = Number(formData.NUMERODACAIXA) === 1 && !temCGerar;
         return [
             init ? (
-                <span key="nao_comecada">                    
-                    <b className="text-white">AGUARDANDO INÍCIO</b>                    
+                <span key="nao_comecada">
+                    <b className="text-white">AGUARDANDO INÍCIO</b>
                 </span>
             ) : temCGerar ? (
                 <span key="inicializada">
@@ -402,9 +402,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                     ENCERRADA
                 </span>
             ),
-            init ? 'bg-zinc-600 hover:bg-zinc-500 opacity-50 cursor-not-allowed pointer-events-none': 
-            temCGerar ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer' : 
-            'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
+            init ? 'bg-zinc-600 hover:bg-zinc-500 opacity-50 cursor-not-allowed pointer-events-none' :
+                temCGerar ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer' :
+                    'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
         ];
     };
 
@@ -1094,12 +1094,16 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                                 labelName={`PREVISTO`} color={`text-yellow-600`} />
-                                            <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={String(itemSelecionado.quantidadeExpedida)}
-                                                labelName={`EXP. / NA CAIXA ATUAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
+                                            <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
+                                                labelName={`EXPEDIDO`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
                                                 bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                                 labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
                                                 bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`EXPEDIDO ANTERIORMENTE`} color={'text-slate-400'} />
+                                            <ItemsGradeInputText value={String(itemSelecionado.qtyPCaixa)} labelName={`EXPEDIDO NA CAIXA ATUAL`} color={'text-slate-400'} />
                                         </div>
 
                                         {/* Special Fields */}

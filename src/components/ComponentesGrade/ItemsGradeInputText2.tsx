@@ -2,16 +2,16 @@ import { GradeItem } from "../../../core"
 import { concat } from "../../../core/utils/tools"
 
 export interface ItemsGradeInputText2Props {
-    itemSelecionado?: GradeItem
+    itemSelecionado?: GradeItem;
     qtyCaixa: number; 
-    labelName: string
-    value: string | undefined
-    color?: string
-    bgColor?: string
+    labelName: string;
+    value: number;
+    color?: string;
+    bgColor?: string;
 }
 
 export default function ItemsGradeInputText2(props: ItemsGradeInputText2Props) {
-    const value = `${props.value}  |  ${props.qtyCaixa}` || "";    
+    const value = `${props.value - props.qtyCaixa}` || "";    
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
             <label htmlFor={`${concat(props.labelName)}-input`} className="flex text-left text-[15px]
