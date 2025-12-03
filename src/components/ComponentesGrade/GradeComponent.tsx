@@ -1102,8 +1102,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`EXPEDIDO ANTERIORMENTE`} color={'text-slate-400'} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.qtyPCaixa)} labelName={`EXPEDIDO NA CAIXA ATUAL`} color={'text-slate-400'} />
+                                            <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`EXPEDIDO ANTERIORMENTE`}
+                                             color={'text-slate-400'} labelposition={'justify-end'} positionn={'text-right'} />
+                                            <ItemsGradeInputText value={String(itemSelecionado.qtyPCaixa)} labelName={`EXPEDIDO NA CAIXA ATUAL`} 
+                                             color={'text-slate-400'} bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)': 'rgba(52, 211, 153, 0)'}
+                                             labelposition={'justify-end'} positionn={'text-right'}
+                                             />
                                         </div>
 
                                         {/* Special Fields */}

@@ -8,19 +8,21 @@ export interface ItemsGradeInputText2Props {
     value: number;
     color?: string;
     bgColor?: string;
+    positionn?: string;
+    labelposition?: string;
 }
 
 export default function ItemsGradeInputText2(props: ItemsGradeInputText2Props) {
     const value = `${props.value - props.qtyCaixa}` || "";    
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
-            <label htmlFor={`${concat(props.labelName)}-input`} className="flex text-left text-[15px]
-            text-zinc-500 tracking-[2px]">
+            <label htmlFor={`${concat(props.labelName)}-input`} className={`flex text-[15px] w-full
+            text-zinc-500 tracking-[2px] ${props.labelposition ? props.labelposition : 'justify-start'}`}>
                 {props.labelName}
             </label>
-            <input className={`flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
+            <input className={`flex p-2 w-full text-[27px] bg-trans rounded-md  
             outline-none border border-gray-700 ${props.color ? props.color : 'text-cyan-500'}            
-            h-[50px] grade-input-responsive pointer-events-none`}
+            h-[50px] grade-input-responsive pointer-events-none ${props.positionn ? props.positionn : 'text-left'}`}
                 style={{
                     backgroundColor: props.bgColor ?? 'transparent',
                 }}
