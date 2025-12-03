@@ -1095,7 +1095,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
                                                 labelName={`PREVISTO`} color={`text-yellow-600`} />
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                                labelName={`EXPEDIDO`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
+                                                labelName={`EXPEDIDO TOTAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
                                                 bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
                                             <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                                 labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
