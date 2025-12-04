@@ -11,9 +11,9 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
   // Função para definir o som com base na mensagem
   const getSoundForMessage = (message: string) => {
-    if (message.includes('Código de barras não pertence ao item em questão, por favor verifique')) {
+    if (message.includes('Código de barras')) {
       return '/error3.mp3'; // Som específico para código inválido
-    } else if (message.includes('Quantidade excedida')) {
+    } else if (message.includes('Quantidade total')) {
       return '/error2.mp3'; // Som específico para quantidade excedida
     }
     return '/error1.mp3'; // Som padrão

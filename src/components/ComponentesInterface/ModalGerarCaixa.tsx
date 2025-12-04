@@ -27,7 +27,6 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
 
   const encerrarCaixaRef = useRef<HTMLButtonElement>(null);
 
-
   const getSoundForMessage = (message: string) => {
     if (message.includes('Grade finalizada')) {
       return '/caixasound.mp3';
