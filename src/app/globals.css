@@ -530,3 +530,22 @@ select option:active {
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
+
+html {
+  scrollbar-gutter: stable;
+  overflow-y: scroll; /* fallback */
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
