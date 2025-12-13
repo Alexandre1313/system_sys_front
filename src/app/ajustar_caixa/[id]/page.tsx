@@ -577,7 +577,8 @@ export default function AjustarCaixa() {
                                     handleInputChange(idx, e.target.value, caixa.status)
                                   }
                                   onBlur={() => handleInputBlur(idx)}
-                                  className={`w-16 h-10 px-1 py-1 text-center font-extralight text-lg transition-all duration-300 border-0 bg-transparent
+                                  className={`w-16 h-10 px-1 py-1 text-center font-extralight text-lg transition-[border-color,background-color,color]
+                                  duration-300 border-0 bg-transparent
                                       ${item.itemQty === 0
                                       ? 'text-red-400'
                                       : item.itemQty !== item.originalQty
@@ -775,7 +776,8 @@ export default function AjustarCaixa() {
               ref={btnRef8}
               onClick={handleSaveStepOne}
               disabled={caixaStatusBoolean || !houveAlteracao}
-              className={`flex items-center space-x-2 px-6 py-2.5 lg:px-6 lg:py-3 rounded-xl font-semibold shadow-2xl transition-all duration-300 transform hover:scale-105 
+              className={`flex items-center space-x-2 px-6 py-2.5 lg:px-6 lg:py-3 rounded-xl font-semibold shadow-2xl 
+              transition-all duration-300 transform hover:scale-105 w-[240px] justify-center 
               ${caixaStatusBoolean || !houveAlteracao
                   ? 'bg-slate-600 text-slate-400 cursor-not-allowed opacity-50'
                   : todosItensZerados
