@@ -152,7 +152,9 @@ function getResumo(
   status: string,
   grades: GradesRomaneio[]
 ): Resumo {
-
+  // =========================
+  // Early return (sem dados)
+  // =========================
   if (!grades || grades.length === 0) {
     const zero = () => convertMilharFormat(0);
     const zeroKG = () => convertMilharFormatKG(0);
@@ -182,6 +184,9 @@ function getResumo(
       escolasAtendidasN: zero(),
       escolasAtendidasR: zero(),
       escolasAtendidasT: zero(),
+      escolasFaltantesN: zero(),
+      escolasFaltantesR: zero(),
+      escolasFaltantesT: zero(),
       escolasTotaisN: zero(),
       escolasTotaisR: zero(),
       escolasTotaisT: zero(),
@@ -189,113 +194,134 @@ function getResumo(
       ids: [],
     };
   }
-
-  let gradesValidas = 0, gradesRepo = 0;
-  let pesoN = 0, pesoR = 0;
-  let cubagemN = 0, cubagemR = 0;
-  let expedidosNormais = 0, expedidosRepo = 0;
-  let previstoNormais = 0, previstoRepo = 0;
-  let volumesN = 0, volumesR = 0;
-
-  const escolasTotaisN = new Set<number>();
-  const escolasTotaisR = new Set<number>();
-  const escolasAtendidasN = new Set<number>();
-  const escolasAtendidasR = new Set<number>();
-  const escolasAtendidasT = new Set<number>();
+  // =========================
+  // Helpers e constantes
+  // =========================
+  const STATUS_EXPEDIDO = new Set(['DESPACHADA', 'EXPEDIDA']);
+  const STATUS_PENDENTE = new Set(['PENDENTE']);
+  const capturarIds = status === 'EXPEDIDA';
+  const normalizarTipo = (tipo?: string | null): 'reposicao' | 'normal' => {
+    if (!tipo) return 'normal';
+    return tipo
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase() === 'reposicao'
+      ? 'reposicao'
+      : 'normal';
+  };
+  // =========================
+  // Estrutura de acumuladores
+  // =========================
+  type Acumulador = {
+    grades: number;
+    peso: number;
+    cubagem: number;
+    volumes: number;
+    expedidos: number;
+    previsto: number;
+    escolasTotais: Set<number>;
+    escolasAtendidas: Set<number>;
+    escolasFaltantes: Set<number>;
+  };
+  const criarAcumulador = (): Acumulador => ({
+    grades: 0,
+    peso: 0,
+    cubagem: 0,
+    volumes: 0,
+    expedidos: 0,
+    previsto: 0,
+    escolasTotais: new Set<number>(),
+    escolasAtendidas: new Set<number>(),
+    escolasFaltantes: new Set<number>(),
+  });
+  const normal = criarAcumulador();
+  const reposicao = criarAcumulador();
   const escolasTotaisT = new Set<number>();
+  const escolasAtendidasT = new Set<number>();
+  const escolasFaltantesT = new Set<number>();
   const ids: number[] = [];
-
-  const statusExpedido = new Set(['DESPACHADA', 'EXPEDIDA']);
-
+  // =========================
+  // Loop principal
+  // =========================
   for (const grade of grades) {
+    if (!grade.escolaId) continue;
     const escolaId = grade.escolaId;
-    const tipo = grade.tipo;
-    const tipoNorm = tipo
-      ? tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-      : null;
-    const isReposicao = tipoNorm === 'reposicao';
-    const isExpedido = statusExpedido.has(grade.status);
-
-    escolasTotaisT.add(escolaId!); // adiciona em totais gerais
-
-    if (isReposicao) {
-      gradesRepo++;
-      pesoR += grade.peso;
-      cubagemR += grade.cubagem || 0;
-      volumesR += grade.caixas?.length || 0;
-      escolasTotaisR.add(escolaId!);
-
-      for (const item of grade.tamanhosQuantidades) {
-        expedidosRepo += item.quantidade;
-        previstoRepo += item.previsto;
-      }
-
-      if (isExpedido) {
-        escolasAtendidasR.add(escolaId!);
-      }
-    } else {
-      gradesValidas++;
-      pesoN += grade.peso;
-      cubagemN += grade.cubagem || 0;
-      volumesN += grade.caixas?.length || 0;
-      escolasTotaisN.add(escolaId!);
-
-      for (const item of grade.tamanhosQuantidades) {
-        expedidosNormais += item.quantidade;
-        previstoNormais += item.previsto;
-      }
-
-      if (isExpedido) {
-        escolasAtendidasN.add(escolaId!);
-      }
+    const tipo = normalizarTipo(grade.tipo);
+    const alvo = tipo === 'reposicao' ? reposicao : normal;
+    const isExpedido = STATUS_EXPEDIDO.has(grade.status);
+    const isPendente = STATUS_PENDENTE.has(grade.status);
+    // Totais gerais
+    escolasTotaisT.add(escolaId);
+    // Acúmulos comuns
+    alvo.grades++;
+    alvo.peso += grade.peso;
+    alvo.cubagem += grade.cubagem || 0;
+    alvo.volumes += grade.caixas?.length || 0;
+    alvo.escolasTotais.add(escolaId);
+    for (const item of grade.tamanhosQuantidades) {
+      alvo.expedidos += item.quantidade;
+      alvo.previsto += item.previsto;
     }
-
     if (isExpedido) {
-      escolasAtendidasT.add(escolaId!);
+      alvo.escolasAtendidas.add(escolaId);
+      escolasAtendidasT.add(escolaId);
     }
-
-    if (status === 'EXPEDIDA') {
+    if (isPendente) {
+      alvo.escolasFaltantes.add(escolaId);
+      escolasFaltantesT.add(escolaId);
+    }
+    if (capturarIds) {
       ids.push(grade.id);
     }
   }
-
-  const aExpedirNormais = previstoNormais - expedidosNormais;
-  const aExpedirRepos = previstoRepo - expedidosRepo;
-  const previstoT = previstoNormais + previstoRepo;
-  const expedidosT = expedidosNormais + expedidosRepo;
+  // =========================
+  // Cálculos finais
+  // =========================
+  const aExpedirNormais = normal.previsto - normal.expedidos;
+  const aExpedirRepos = reposicao.previsto - reposicao.expedidos;
+  const previstoT = normal.previsto + reposicao.previsto;
+  const expedidosT = normal.expedidos + reposicao.expedidos;
   const aExpedirT = aExpedirNormais + aExpedirRepos;
-  const percErr = previstoNormais ? (previstoRepo / previstoNormais) * 100 : 0;
+  const percErr = normal.previsto
+    ? (reposicao.previsto / normal.previsto) * 100
+    : 0;
 
+  // =========================
+  // Retorno (idêntico ao original)
+  // =========================
   return {
-    volumes: convertMilharFormat(volumesN + volumesR),
-    volumesR: convertMilharFormat(volumesR),
-    volumesN: convertMilharFormat(volumesN),
-    gradesValidas: convertMilharFormat(gradesValidas),
-    gradesRepo: convertMilharFormat(gradesRepo),
-    pesoR: convertMilharFormatKG(pesoR),
-    cubagemR: convertMilharFormatCUB(cubagemR),
-    pesoN: convertMilharFormatKG(pesoN),
-    cubagemN: convertMilharFormatCUB(cubagemN),
-    pesoT: convertMilharFormatKG(pesoR + pesoN),
-    cubagemT: convertMilharFormatCUB(cubagemR + cubagemN),
-    expedidos: convertMilharFormat(expedidosNormais),
+    volumes: convertMilharFormat(normal.volumes + reposicao.volumes),
+    volumesR: convertMilharFormat(reposicao.volumes),
+    volumesN: convertMilharFormat(normal.volumes),
+    gradesValidas: convertMilharFormat(normal.grades),
+    gradesRepo: convertMilharFormat(reposicao.grades),
+    pesoR: convertMilharFormatKG(reposicao.peso),
+    cubagemR: convertMilharFormatCUB(reposicao.cubagem),
+    pesoN: convertMilharFormatKG(normal.peso),
+    cubagemN: convertMilharFormatCUB(normal.cubagem),
+    pesoT: convertMilharFormatKG(normal.peso + reposicao.peso),
+    cubagemT: convertMilharFormatCUB(normal.cubagem + reposicao.cubagem),
+    expedidos: convertMilharFormat(normal.expedidos),
     aExpedir: convertMilharFormat(aExpedirNormais),
-    previstoN: convertMilharFormat(previstoNormais),
-    expRepo: convertMilharFormat(expedidosRepo),
-    prevRepo: convertMilharFormat(previstoRepo),
+    previstoN: convertMilharFormat(normal.previsto),
+    expRepo: convertMilharFormat(reposicao.expedidos),
+    prevRepo: convertMilharFormat(reposicao.previsto),
     aExpRepo: convertMilharFormat(aExpedirRepos),
     previstoT: convertMilharFormat(previstoT),
     gradesT: convertMilharFormat(grades.length),
     expedidosT: convertMilharFormat(expedidosT),
     aExpedirT: convertMilharFormat(aExpedirT),
-    escolasTotaisN: convertMilharFormat(escolasTotaisN.size),
-    escolasTotaisR: convertMilharFormat(escolasTotaisR.size),
+    escolasTotaisN: convertMilharFormat(normal.escolasTotais.size),
+    escolasTotaisR: convertMilharFormat(reposicao.escolasTotais.size),
     escolasTotaisT: convertMilharFormat(escolasTotaisT.size),
-    escolasAtendidasN: convertMilharFormat(escolasAtendidasN.size),
-    escolasAtendidasR: convertMilharFormat(escolasAtendidasR.size),
+    escolasAtendidasN: convertMilharFormat(normal.escolasAtendidas.size),
+    escolasAtendidasR: convertMilharFormat(reposicao.escolasAtendidas.size),
     escolasAtendidasT: convertMilharFormat(escolasAtendidasT.size),
+    escolasFaltantesN: convertMilharFormat(normal.escolasFaltantes.size),
+    escolasFaltantesR: convertMilharFormat(reposicao.escolasFaltantes.size),
+    escolasFaltantesT: convertMilharFormat(escolasFaltantesT.size),
     percErr: converPercentualFormat(percErr),
-    ids
+    ids,
   };
 }
 

@@ -12,6 +12,8 @@ export default interface Resumo {
     prevRepo: string;
     escolasAtendidasN: string;
     escolasAtendidasR: string;
+    escolasFaltantesN: string;
+    escolasFaltantesR: string;
     expedidos: string;
     aExpedir: string;
     gradesRepo: string;
@@ -23,6 +25,7 @@ export default interface Resumo {
     expedidosT: string;
     aExpedirT: string;
     escolasAtendidasT: string,
+    escolasFaltantesT: string,
     escolasTotaisN: string;
     escolasTotaisR: string;
     escolasTotaisT: string;

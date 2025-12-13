@@ -321,6 +321,12 @@ export default function ConsultaStatusGradesPP() {
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasT}</p>
                   </div>
                 )}
+                {status === 'PENDENTE' && (
+                  <div className="bg-purple-500/30 rounded-lg p-2 lg:p-3">
+                    <p className="text-slate-400 text-xs lg:text-sm">Esc. à Atender</p>
+                    <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasFaltantesT}</p>
+                  </div>
+                )}
                 <div className="bg-white/20 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Cub. Total</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.cubagemT}</p>
@@ -371,6 +377,12 @@ export default function ConsultaStatusGradesPP() {
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasN}</p>
                   </div>
                 )}
+                 {status === 'PENDENTE' && (
+                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                    <p className="text-slate-400 text-xs lg:text-sm">Esc. à Atender</p>
+                    <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasFaltantesN}</p>
+                  </div>
+                )}
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                   <p className="text-slate-400 text-xs lg:text-sm">Cub. Total</p>
                   <p className="text-white text-base lg:text-xl font-extralight">{filtered.cubagemN}</p>
@@ -413,6 +425,12 @@ export default function ConsultaStatusGradesPP() {
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. Atendidas</p>
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasR}</p>
+                  </div>
+                )}
+                {status === 'PENDENTE' && (
+                  <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
+                    <p className="text-slate-400 text-xs lg:text-sm">Esc. à Atender</p>
+                    <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasFaltantesR}</p>
                   </div>
                 )}
                 <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
