@@ -62,9 +62,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
                        flex flex-col items-center justify-between"
         >
           <h2 className="lg:text-3xl text-[9px] text-black font-semibold">
-            <AlertTriangle size={60} color={`rgba(255, 0, 0, 1)`} />
+            <AlertTriangle size={60} color={`rgba(255, 180, 0, 1)`} />
           </h2>
-          <p className={`flex text-[15px] w-full text-wrap text-center lg:text-[20px]
+          <p className={`flex text-[15px] w-full text-wrap text-center lg:text-[20px] whitespace-pre-line
              text-black uppercase font-bold line leading-tight`}>{message}</p>
           <button
             className="mt-2 bg-blue-900 hover:bg-blue-700 text-white px-12 py-2

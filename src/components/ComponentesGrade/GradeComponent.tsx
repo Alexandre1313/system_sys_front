@@ -282,7 +282,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         const verificacaoPendencia = verificarCaixasPendentes(grade);
         if (verificacaoPendencia.temPendencia) {
             // Abrir modal de aviso sobre caixa pendente usando o modal genérico
-            props.setModalMessage(`⚠️ HÁ CAIXAS PENDENTES!\n\nHá caixas pendentes na ${verificacaoPendencia.gradePendente}.\n\nEncerre a caixa pendente antes de trocar de grade.`);
+            props.setModalMessage(`HÁ CAIXAS PENDENTES!\n\nHá caixas pendentes na ${verificacaoPendencia.gradePendente}.\n\nEncerre a caixa pendente antes de trocar de grade.`);
             props.setModalOpen(true);
             return;
         }

@@ -245,7 +245,17 @@ export default function AjustarCaixa() {
   };
 
   const handleSaveStepOne = async () => {
-    setOpenModal(openModal ? false : true);
+    if (todosItensZerados) {
+      setModalType('confirm');
+      setMsg('TODOS OS ITENS FORAM ZERADOS.');
+      setMsg1('DESEJA REALMENTE EXCLUIR ESTA CAIXA?');
+    } else {
+      setModalType('confirm');
+      setMsg(`DESEJA MESMO ALTERAR AS QUANTIDADES DA CAIXA DE ID ${id} ?`);
+      setMsg1('A OPERAÇÃO NÃO PODERÁ SER REVERTIDA');
+    }
+
+    setOpenModal(prev => !prev);
   };
 
   const handleSaveStepTwo = async () => {
@@ -335,6 +345,8 @@ export default function AjustarCaixa() {
   const colorStatus = caixa?.status === 'EXPEDIDA' ? 'text-emerald-500' : caixa?.status === 'DESPACHADA' ? 'text-blue-500' : '';
 
   const totalQuantidade = itensComOriginal.reduce((sum, item) => sum + item.itemQty, 0);
+
+  const todosItensZerados = itensComOriginal.length > 0 && itensComOriginal.every(item => item.itemQty === 0);
 
   return (
     <PageWithDrawer
@@ -566,12 +578,14 @@ export default function AjustarCaixa() {
                                   }
                                   onBlur={() => handleInputBlur(idx)}
                                   className={`w-16 h-10 px-1 py-1 text-center font-extralight text-lg transition-all duration-300 border-0 bg-transparent
-                                            ${item.itemQty !== item.originalQty
-                                      ? 'text-yellow-400'
-                                      : 'text-emerald-400'
+                                      ${item.itemQty === 0
+                                      ? 'text-red-400'
+                                      : item.itemQty !== item.originalQty
+                                        ? 'text-yellow-400'
+                                        : 'text-emerald-400'
                                     } 
-                                           focus:outline-none
-                                           disabled:opacity-50 disabled:cursor-not-allowed`}
+                                    focus:outline-none
+                                    disabled:opacity-50 disabled:cursor-not-allowed`}
                                 />
                                 <button
                                   //ref={btnRef12}
@@ -584,7 +598,12 @@ export default function AjustarCaixa() {
                                 </button>
                               </div>
                               <div className="w-12 flex justify-center">
-                                {item.itemQty !== item.originalQty && (
+                                {item.itemQty === 0 && (
+                                  <span className="text-xs text-red-400 font-medium whitespace-nowrap">
+                                    {item.itemQty > item.originalQty ? '+' : ''}{item.itemQty - item.originalQty}
+                                  </span>
+                                )}
+                                {item.itemQty !== item.originalQty && item.itemQty !== 0 && (
                                   <span className="text-xs text-yellow-400 font-medium whitespace-nowrap">
                                     {item.itemQty > item.originalQty ? '+' : ''}{item.itemQty - item.originalQty}
                                   </span>
@@ -594,11 +613,18 @@ export default function AjustarCaixa() {
                           </td>
                           <td className="p-4 text-left">
                             <div className="w-20 flex justify-start">
-                              {item.itemQty !== item.originalQty ? (
+                              {item.itemQty !== item.originalQty && item.itemQty !== 0 ? (
+                                // MODIFICADO
                                 <span className="px-2 py-1 bg-yellow-400/20 border border-yellow-400/50 rounded text-xs text-yellow-400 font-medium whitespace-nowrap">
                                   MODIFICADO
                                 </span>
+                              ) : item.itemQty === 0 ? (
+                                // ZERADO
+                                <span className="px-2 py-1 bg-red-400/20 border border-red-400/50 rounded text-xs text-red-400 font-medium whitespace-nowrap">
+                                  EXCLUÍDO
+                                </span>
                               ) : (
+                                // ORIGINAL
                                 <span className="px-2 py-1 bg-emerald-400/20 border border-emerald-400/50 rounded text-xs text-emerald-400 font-medium whitespace-nowrap">
                                   ORIGINAL
                                 </span>
@@ -615,17 +641,27 @@ export default function AjustarCaixa() {
                 {/* Mobile Cards */}
                 <div className="lg:hidden space-y-3">
                   {itensComOriginal.map((item, idx) => (
-                    <div key={item.id} className={`bg-slate-800/50 border-[0.0317rem] rounded-2xl p-4 transition-all duration-300 ${item.itemQty !== item.originalQty
-                      ? 'border-yellow-400/60 bg-yellow-400/5 shadow-lg shadow-yellow-400/10'
-                      : 'border-slate-700'
-                      }`}>
-
+                    <div
+                      key={item.id}
+                      className={`bg-slate-800/50 border-[0.0317rem] rounded-2xl p-4 transition-all duration-300
+                          ${item.itemQty === 0
+                          ? 'border-red-400/60 bg-[rgb(248_113_113_/_0.08)] shadow-lg shadow-red-400/10'
+                          : item.itemQty !== item.originalQty
+                            ? 'border-yellow-400/60 bg-yellow-400/5 shadow-lg shadow-yellow-400/10'
+                            : 'border-slate-700'
+                        }`}
+                    >
                       {/* Header Compacto */}
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between">
                             <h3 className="text-base font-semibold text-slate-200 truncate mb-1 flex-1">{item.itemName}</h3>
-                            {item.itemQty !== item.originalQty && (
+                            {item.itemQty === 0 && (
+                              <span className="px-2 py-1 bg-red-400/20 border border-red-400/60 rounded-full text-xs text-red-400 font-semibold whitespace-nowrap ml-2">
+                                EXCLUÍDO
+                              </span>
+                            )}
+                            {item.itemQty !== item.originalQty && item.itemQty !== 0 && (
                               <span className="px-2 py-1 bg-yellow-400/20 border border-yellow-400/60 rounded-full text-xs text-yellow-400 font-semibold whitespace-nowrap ml-2">
                                 MODIFICADO
                               </span>
@@ -668,12 +704,14 @@ export default function AjustarCaixa() {
                               }
                               onBlur={() => handleInputBlur(idx)}
                               className={`w-20 h-10 px-2 rounded-lg border-[0.0317rem] text-center font-extralight text-base transition-all duration-300 bg-transparent
-                                        ${item.itemQty !== item.originalQty
-                                  ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
-                                  : 'border-emerald-400 bg-emerald-400/10 text-emerald-400'
-                                } 
-                                       focus:outline-none
-                                       disabled:opacity-50 disabled:cursor-not-allowed`}
+                                  ${item.itemQty === 0
+                                  ? 'border-red-400 bg-[rgb(248_113_113_/_0.11)] text-red-400'
+                                  : item.itemQty !== item.originalQty
+                                    ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                                    : 'border-emerald-400 bg-emerald-400/10 text-emerald-400'
+                                }
+                                focus:outline-none
+                                disabled:opacity-50 disabled:cursor-not-allowed`}
                             />
 
                             {/* Botão Aumentar */}
@@ -705,16 +743,23 @@ export default function AjustarCaixa() {
                           </div>
                         </div>
                       </div>
-
                       {/* Footer Simplificado */}
                       <div className="mt-3 pt-3 border-t border-slate-700">
                         <div className="flex items-center justify-between text-xs text-slate-500">
-                          <span>Atualizado: {item.updatedAt}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.itemQty !== item.originalQty
-                            ? 'bg-yellow-400/20 text-yellow-400'
-                            : 'bg-emerald-400/20 text-emerald-400'
-                            }`}>
-                            {item.itemQty !== item.originalQty ? 'ALTERADO' : 'ORIGINAL'}
+                          <span>Atualizado:{item.updatedAt}</span>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium 
+                            ${item.itemQty === 0
+                                ? 'bg-red-400/20 text-red-400' // Para o caso de quantidade igual a zero
+                                : item.itemQty !== item.originalQty
+                                  ? 'bg-yellow-400/20 text-yellow-400'
+                                  : 'bg-emerald-400/20 text-emerald-400'}`}
+                          >
+                            {item.itemQty === 0
+                              ? 'ZERADO' // Caso a quantidade seja zero
+                              : item.itemQty !== item.originalQty
+                                ? 'ALTERADO'
+                                : 'ORIGINAL'}
                           </span>
                         </div>
                       </div>
@@ -724,7 +769,6 @@ export default function AjustarCaixa() {
               </div>
             </div>
           </div>
-
           {/* Botão Fixo */}
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50">
             <button
@@ -732,13 +776,28 @@ export default function AjustarCaixa() {
               onClick={handleSaveStepOne}
               disabled={caixaStatusBoolean || !houveAlteracao}
               className={`flex items-center space-x-2 px-6 py-2.5 lg:px-6 lg:py-3 rounded-xl font-semibold shadow-2xl transition-all duration-300 transform hover:scale-105 
-                         ${caixaStatusBoolean || !houveAlteracao
+              ${caixaStatusBoolean || !houveAlteracao
                   ? 'bg-slate-600 text-slate-400 cursor-not-allowed opacity-50'
-                  : 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white'
+                  : todosItensZerados
+                    ? 'bg-gradient-to-r from-rose-400 to-red-600 hover:from-rose-500 hover:to-red-500 text-white'
+                    : 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white'
                 }`}
             >
-              <Save size={16} className="lg:w-4 lg:h-4" />
-              <span className="text-xs lg:text-base whitespace-nowrap">Salvar Alterações</span>
+              {todosItensZerados ? (
+                <>
+                  <X size={16} />
+                  <span className="text-xs lg:text-base whitespace-nowrap">
+                    Excluir Caixa
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Save size={16} />
+                  <span className="text-xs lg:text-base whitespace-nowrap">
+                    Salvar Alterações
+                  </span>
+                </>
+              )}
             </button>
           </div>
         </>
