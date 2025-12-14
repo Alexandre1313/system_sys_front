@@ -114,17 +114,17 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="bg-[#f7f7f7] p-4 rounded-md shadow-md lg:min-w-[40%] min-w-[90%] lg:min-h-[380px] min-h-[75%] gap-y-4 
+        className="bg-slate-800 border border-slate-600 p-4 rounded-md shadow-md lg:min-w-[40%] min-w-[90%] lg:min-h-[380px] min-h-[75%] gap-y-4 
         flex flex-col items-center justify-between m-8"
       >
         <h2 className="text-3xl text-black font-semibold">
           <Loader
             className={isLoading ? 'animate-rotate' : ''}
-            size={30}
+            size={40}
             color={`rgba(234, 170, 0, 0.7)`}
           />
         </h2>
-        <p className={`flex lg:text-[17px] text-[10px] uppercase font-bold text-center ${isError ? 'text-red-600' : 'text-green-600'
+        <p className={`flex lg:text-[17px] text-[13px] uppercase font-bold text-center ${isError ? 'text-red-600' : 'text-emerald-600'
           }`}>
           {msg}
         </p>
@@ -139,10 +139,10 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         <div className={`flex justify-center items-center w-full`}>
           <CaixaResume caixa={box} />
         </div>
-        <div className="flex lg:flex-row flex-col w-full lg:justify-between justify-center mt-4 gap-4">
+        <div className="flex lg:flex-row flex-col w-full lg:justify-between justify-center mt-1 gap-4">
           {/* Botão Cancelar Modal */}
           <button
-            className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-gray-500 hover:bg-gray-700'}
+            className={`w-full text-white px-12 py-3 rounded-xl text-[17px] ${isLoading ? 'bg-gray-400' : 'bg-gray-500 hover:bg-gray-700'}
             flex items-center justify-center`}
             onClick={onClose}
             disabled={isLoading}
@@ -153,7 +153,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           {/* Botão Principal - Encerrar/Tentar Novamente */}
           <button
             ref={encerrarCaixaRef}
-            className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-yellow-500 hover:bg-yellow-700'}
+            className={`w-full text-white px-12 py-3 rounded-xl text-[17px] ${isLoading ? 'bg-gray-400' : 'bg-emerald-600 hover:bg-emerald-700'}
             flex items-center justify-center`}
             onClick={handleGerarCaixa}
             disabled={isLoading}
@@ -167,7 +167,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           {/* Botão Limpar Caixa - Aparece quando há caixa pendente */}
           {isPend && !isError && (
             <button
-              className={`w-full text-white px-12 py-2 rounded text-[14px] ${isLoading ? 'bg-gray-400' : 'bg-orange-500 hover:bg-orange-700'}
+              className={`w-full text-white px-12 py-3 rounded-xl text-[17px] ${isLoading ? 'bg-gray-400' : 'bg-orange-500 hover:bg-orange-700'}
               flex items-center justify-center`}
               onClick={handlerCaixaPend2}
               disabled={isLoading}
