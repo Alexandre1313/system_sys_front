@@ -321,7 +321,7 @@ export default function ConsultaStatusGrades() {
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasT}</p>
                   </div>
                 )}
-                {status === 'PENDENTE' && (
+                {status === 'PENDENTE' || status === 'TODAS' && (
                   <div className="bg-purple-500/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. à Atender</p>
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasFaltantesT}</p>
@@ -377,7 +377,7 @@ export default function ConsultaStatusGrades() {
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasN}</p>
                   </div>
                 )}
-                {status === "PENDENTE" && (
+                {status === "PENDENTE" || status === 'TODAS' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. à Atender</p>
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasFaltantesN}</p>
@@ -427,7 +427,7 @@ export default function ConsultaStatusGrades() {
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasAtendidasR}</p>
                   </div>
                 )}
-                {status === 'PENDENTE' && (
+                {status === 'PENDENTE' || status === 'TODAS' && (
                   <div className="bg-slate-700/30 rounded-lg p-2 lg:p-3">
                     <p className="text-slate-400 text-xs lg:text-sm">Esc. à Atender</p>
                     <p className="text-purple-500 text-base lg:text-[1.7rem] lg:leading-[2rem] font-extralight">{filtered.escolasFaltantesR}</p>
