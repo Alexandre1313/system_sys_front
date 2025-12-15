@@ -115,7 +115,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         className="bg-slate-800 border border-slate-600 p-4 rounded-md shadow-md lg:min-w-[40%] min-w-[90%] lg:min-h-[380px] min-h-[75%] gap-y-4 
-        flex flex-col items-center justify-between m-8"
+        flex flex-col gap-x-3 items-center justify-between m-8"
       >
         <h2 className="text-3xl text-black font-semibold">
           <Loader

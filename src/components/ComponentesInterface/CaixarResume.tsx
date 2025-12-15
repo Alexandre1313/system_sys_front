@@ -7,7 +7,7 @@ export interface CaixaResumeProps {
 
 export default function CaixaResume({ caixa }: CaixaResumeProps) {
     return (
-        <div className={`flex flex-col min-w-[100%] lg:gap-y-0 gap-y-1 border border-slate-600 rounded-lg p-1 min-h-[270px]`}>
+        <div className={`flex flex-col min-w-[100%] lg:max-h-[40vh] max-h-[235px] lg:gap-y-0 gap-y-1 border border-slate-600 rounded-lg p-1 lg:min-h-[400px]`}>
             <div className={`bg-slate-700 flex flex-col rounded-lg`}>
                 <div className={`flex flex-row w-full justify-start items-center lg:p-3 p-1 pl-3 gap-x-2`}>
                     <span className={`lg:text-4xl text-xl text-slate-500 font-bold`}>{'CAIXA Nº'}</span>
