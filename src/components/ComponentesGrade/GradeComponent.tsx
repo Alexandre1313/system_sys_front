@@ -1073,7 +1073,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     {/* Right Column - Expedition Control */}
-                                    <div className={`bg-[#181818]/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6`}>
+                                    <div className={`bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6`}>
                                         <div className="flex items-center justify-between space-x-2 mb-4">
                                             <div className={`flex items-center space-x-2`}>
                                                 <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
@@ -1090,63 +1090,69 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
                                         </div>
 
-                                        {/* Quantities in Row */}
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                                labelName={`PREVISTO`} color={`text-yellow-600`} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
-                                                labelName={`EXPEDIDO TOTAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
-                                                bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
-                                                labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
-                                                bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
-                                        </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`EXPEDIDO ANTERIORMENTE`}
-                                             color={'text-slate-400'} labelposition={'justify-end'} positionn={'text-right'} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.qtyPCaixa)} labelName={`EXPEDIDO NA CAIXA ATUAL`} 
-                                             color={'text-slate-400'} bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)': 'rgba(52, 211, 153, 0)'}
-                                             labelposition={'justify-end'} positionn={'text-right'}
-                                             />
-                                        </div>
+                                        <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-700 rounded-md pt-4`}>
+                                            {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações do item</legend>*/}
+                                            {/* Quantities in Row */}
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                                <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
+                                                    labelName={`PREVISTO`} color={`text-yellow-600`} />
+                                                <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)}
+                                                    labelName={`EXPEDIDO TOTAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
+                                                    bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
+                                                <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
+                                                    labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
+                                                    bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <ItemsGradeInputText2 qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`EXPEDIDO ANTERIORMENTE`}
+                                                    color={'text-slate-400'} labelposition={'justify-end'} positionn={'text-right'} />
+                                                <ItemsGradeInputText value={String(itemSelecionado.qtyPCaixa)} labelName={`EXPEDIDO NA CAIXA ATUAL`}
+                                                    color={'text-slate-400'} bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
+                                                    labelposition={'justify-end'} positionn={'text-right'}
+                                                />
+                                            </div>
+                                        </fieldset>
 
                                         {/* Special Fields */}
-                                        <div className="space-y-4">
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
-                                                    formData={props.formData} setFormData={props.setFormData}
-                                                    isReadOnly={true}
-                                                    valueColor={`text-amber-300`} labelColor={`text-amber-300`}
-                                                    height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
-                                                <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
-                                                    formData={props.formData} setFormData={props.setFormData}
-                                                    isReadOnly={true}
-                                                    valueColor={`text-zinc-400`} labelColor={`text-zinc-400`}
-                                                    txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
-                                                    height={`h-[80px]`} />
-                                            </div>
+                                        <fieldset className={`flex flex-col bg-[#101010]/50 p-3 border border-slate-700 rounded-md pt-4`}>
+                                            {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
+                                            <div className="space-y-4">
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                                    <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
+                                                        formData={props.formData} setFormData={props.setFormData}
+                                                        isReadOnly={true}
+                                                        valueColor={`text-amber-300`} labelColor={`text-amber-300`}
+                                                        height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
+                                                    <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                                        formData={props.formData} setFormData={props.setFormData}
+                                                        isReadOnly={true}
+                                                        valueColor={`text-zinc-400`} labelColor={`text-zinc-400`}
+                                                        txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
+                                                        height={`h-[80px]`} />
+                                                </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemGradeInputTextState2 labelName={'QUANTIDADE LIDA'}
-                                                    formData={props.formData} setFormData={props.setFormData}
-                                                    isReadOnly={true} maxWhidth={`w-full`}
-                                                    valueColor={`text-zinc-400`}
-                                                    labelposition={`justify-start`}
-                                                    positionn={`text-left`}
-                                                    tot={String(totalGrade)} />
-                                                <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
-                                                    formData={props.formData} setFormData={props.setFormData}
-                                                    txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
-                                                    inputRef={props.inputRef}
-                                                    isFocuss={props.isFocus}
-                                                    placeholder={`Mantenha o cursor aqui...`}
-                                                    isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                                    <ItemGradeInputTextState2 labelName={'QUANTIDADE LIDA'}
+                                                        formData={props.formData} setFormData={props.setFormData}
+                                                        isReadOnly={true} maxWhidth={`w-full`}
+                                                        valueColor={`text-zinc-400`}
+                                                        labelposition={`justify-start`}
+                                                        positionn={`text-left`}
+                                                        tot={String(totalGrade)} />
+                                                    <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
+                                                        formData={props.formData} setFormData={props.setFormData}
+                                                        txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
+                                                        inputRef={props.inputRef}
+                                                        isFocuss={props.isFocus}
+                                                        placeholder={`Mantenha o cursor aqui...`}
+                                                        isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
                                                               focus:ring focus:ring-emerald-500`}
-                                                    labelColor={`text-emerald-500`}
-                                                    positionn={`text-left`}
-                                                    labelposition={`justify-start`} />
+                                                        labelColor={`text-emerald-500`}
+                                                        positionn={`text-left`}
+                                                        labelposition={`justify-start`} />
+                                                </div>
                                             </div>
-                                        </div>
+                                        </fieldset>
                                     </div>
                                 </div>
                             </div>
