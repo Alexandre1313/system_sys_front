@@ -20,11 +20,14 @@ export default function ItemsGradeInputText(props: ItemsGradeInputTextProps) {
                 {props.labelName}
             </label>
             <input className={`flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
-            outline-none border ${props.border_col ? props.border_col: 'border-gray-700'} ${props.color ? props.color : 'text-cyan-500'}            
+            outline-none border ${props.border_col ? props.border_col : 'border-gray-700'} ${props.color ? props.color : 'text-cyan-500'}            
             h-[50px] grade-input-responsive pointer-events-none ${props.positionn ? props.positionn : 'text-left'}`}
                 style={{
                     backgroundColor: props.bgColor ?? 'transparent',
+                    boxShadow: `inset 2px 2px 4px rgba(0, 0, 0, 0.6),
+                                inset -2px -2px 4px rgba(255, 255, 255, 0.05)`.trim(),
                 }}
+
                 type="text"
                 name={`${concat(props.labelName)}`}
                 id={`${concat(props.labelName)}-input`}

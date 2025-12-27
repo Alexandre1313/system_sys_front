@@ -794,7 +794,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
-                                        <ItemGradeInputTextStateMobil2 labelName={'QUANTIDADE LIDA'}
+                                        <ItemGradeInputTextStateMobil2 labelName={'TOTAL LIDO DA GRADE'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true} maxWhidth={`w-full`}
                                             valueColor={`text-zinc-400`}
@@ -1046,29 +1046,32 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
                                             <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
                                         </div>
-                                        <div className="space-y-4">
-                                            <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
-                                                labelName={`ITEM`} color={`text-zinc-400`} />
-                                            <div className="grid grid-cols-2 gap-4">
-
-                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                                    labelName={`GÊNERO`} color={`text-zinc-400`}
-                                                    bgColor={
-                                                        itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
-                                                            ? 'rgba(30, 58, 138, 0.5)'   // azul masculino
-                                                            : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
-                                                                ? 'rgba(136, 19, 55, 0.5)'   // rosa feminino
-                                                                : 'rgba(51, 65, 85, 0.5)'    // neutro
-                                                    } />
-                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} />
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                                    labelName={`TAMANHO`} color={`text-yellow-200`} />
-                                                <ItemsGradeInputText value={props.grade.status}
-                                                    labelName={`GRADE STATUS`} color={`text-zinc-400`} />
-                                            </div>
+                                        <div className="space-y-6">
+                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-700 rounded-md pt-4`}>
+                                                <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
+                                                    labelName={`ITEM`} color={`text-zinc-400`} colorBorder={`border-gray-800`} />
+                                            </fieldset>
+                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-700 rounded-md pt-4`}>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
+                                                        labelName={`GÊNERO`} color={`text-zinc-400`} border_col={'border-gray-800'}
+                                                        bgColor={
+                                                            itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
+                                                                ? 'rgba(30, 58, 138, 0.5)'   // azul masculino
+                                                                : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
+                                                                    ? 'rgba(136, 19, 55, 0.5)'   // rosa feminino
+                                                                    : 'rgba(51, 65, 85, 0.5)'    // neutro
+                                                        } />
+                                                    <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
+                                                        labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} border_col={'border-gray-800'} />
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
+                                                        labelName={`TAMANHO`} color={`text-yellow-200`} border_col={'border-gray-800'} />
+                                                    <ItemsGradeInputText value={props.grade.status} border_col={'border-gray-800'}
+                                                        labelName={`GRADE STATUS`} color={`text-zinc-400`} />
+                                                </div>
+                                            </fieldset>
                                         </div>
                                     </div>
 
@@ -1134,7 +1137,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 </div>
 
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                    <ItemGradeInputTextState2 labelName={'QUANTIDADE LIDA'}
+                                                    <ItemGradeInputTextState2 labelName={'TOTAL LIDO DA GRADE'}
                                                         colorBorder={`border-gray-900`}
                                                         formData={props.formData} setFormData={props.setFormData}
                                                         isReadOnly={true} maxWhidth={`w-full`}
@@ -1144,6 +1147,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                         tot={String(totalGrade)} />
                                                     <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
                                                         formData={props.formData} setFormData={props.setFormData}
+                                                        colorBorder={`border-gray-900`}
                                                         txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
                                                         inputRef={props.inputRef}
                                                         isFocuss={props.isFocus}

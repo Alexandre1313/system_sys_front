@@ -43,7 +43,7 @@ export default function Grades() {
     CODDEBARRASLEITURA: '',
     ITEM_SELECIONADO: null,
     ESCOLA_GRADE: null,
-    QUANTIDADELIDA: '0',
+    TOTALLIDODAGRADE: '0',
     QUANTIDADENACAIXAATUAL: '0',
     NUMERODACAIXA: '',
   });
@@ -267,7 +267,7 @@ export default function Grades() {
       // ✅ CORREÇÃO CRÍTICA: Isolamento total entre grades
       ESCOLA_GRADE: escolaGrade,
       // ✅ CORREÇÃO: Inicializar com quantidade total expedida da grade
-      QUANTIDADELIDA: String(escolaGrade?.totalExpedido ?? 0),
+      TOTALLIDODAGRADE: String(escolaGrade?.totalExpedido ?? 0),
       // ✅ CORREÇÃO: Mostrar quantidade pendente na caixa atual
       QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual),
       NUMERODACAIXA: '1',

@@ -55,7 +55,7 @@ const sistemaExpedicoes = {
         formData: {
             CODDEBARRASLEITURA: '',
             ESCOLA_GRADE: null,
-            QUANTIDADELIDA: '0',
+            TOTALLIDODAGRADE: '0',
             QUANTIDADENACAIXAATUAL: '0',
             ITEM_SELECIONADO: null
         },
@@ -102,16 +102,16 @@ const testesExpedicoes = {
         
         // Atualizar estado
         item.totalExpedido += 1;
-        sistemaExpedicoes.estado.formData.QUANTIDADELIDA = '1';
+        sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE = '1';
         sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL = '1';
         
         // Verificar consistência
         console.log(`\n🔍 Verificação de consistência:`);
         console.log(`   Total expedido do item: ${item.totalExpedido}`);
-        console.log(`   Quantidade lida: ${sistemaExpedicoes.estado.formData.QUANTIDADELIDA}`);
+        console.log(`   TOTAL LIDO DA GRADE: ${sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE}`);
         console.log(`   Quantidade na caixa: ${sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL}`);
         
-        if (item.totalExpedido === 1 && sistemaExpedicoes.estado.formData.QUANTIDADELIDA === '1') {
+        if (item.totalExpedido === 1 && sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE === '1') {
             console.log('✅ Consistência verificada - dados corretos');
         } else {
             console.log('❌ Inconsistência detectada!');
@@ -151,13 +151,13 @@ const testesExpedicoes = {
         });
         
         // Atualizar estado
-        sistemaExpedicoes.estado.formData.QUANTIDADELIDA = String(totalExpedido);
+        sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE = String(totalExpedido);
         sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL = String(totalExpedido);
         
         // Verificar consistência
         console.log(`\n🔍 Verificação de consistência:`);
         console.log(`   Total expedido: ${totalExpedido}`);
-        console.log(`   Quantidade lida: ${sistemaExpedicoes.estado.formData.QUANTIDADELIDA}`);
+        console.log(`   TOTAL LIDO DA GRADE: ${sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE}`);
         console.log(`   Quantidade na caixa: ${sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL}`);
         
         const totalItens = grade.itensGrade.reduce((sum, item) => sum + item.totalExpedido, 0);
@@ -214,14 +214,14 @@ const testesExpedicoes = {
         });
         
         // Atualizar estado
-        sistemaExpedicoes.estado.formData.QUANTIDADELIDA = String(totalExpedido);
+        sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE = String(totalExpedido);
         sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL = String(totalExpedido);
         
         // Verificar consistência
         console.log(`\n🔍 Verificação de consistência:`);
         console.log(`   Total expedido: ${totalExpedido}`);
         console.log(`   Operações realizadas: ${operacoes}`);
-        console.log(`   Quantidade lida: ${sistemaExpedicoes.estado.formData.QUANTIDADELIDA}`);
+        console.log(`   TOTAL LIDO DA GRADE: ${sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE}`);
         console.log(`   Quantidade na caixa: ${sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL}`);
         
         const totalItens = grade.itensGrade.reduce((sum, item) => sum + item.totalExpedido, 0);
@@ -282,7 +282,7 @@ const testesExpedicoes = {
         const totalLiquido = totalIncrementos - totalDecrementos;
         
         // Atualizar estado
-        sistemaExpedicoes.estado.formData.QUANTIDADELIDA = String(totalLiquido);
+        sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE = String(totalLiquido);
         sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL = String(totalLiquido);
         
         // Verificar consistência
@@ -290,7 +290,7 @@ const testesExpedicoes = {
         console.log(`   Total incrementos: ${totalIncrementos}`);
         console.log(`   Total decrementos: ${totalDecrementos}`);
         console.log(`   Total líquido: ${totalLiquido}`);
-        console.log(`   Quantidade lida: ${sistemaExpedicoes.estado.formData.QUANTIDADELIDA}`);
+        console.log(`   TOTAL LIDO DA GRADE: ${sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE}`);
         console.log(`   Quantidade na caixa: ${sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL}`);
         
         const totalItens = grade.itensGrade.reduce((sum, item) => sum + item.totalExpedido, 0);
@@ -401,7 +401,7 @@ const testesExpedicoes = {
         }
         
         // Atualizar estado
-        sistemaExpedicoes.estado.formData.QUANTIDADELIDA = String(totalExpedido);
+        sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE = String(totalExpedido);
         sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL = String(totalExpedido);
         
         // Verificar consistência
@@ -410,7 +410,7 @@ const testesExpedicoes = {
         console.log(`   Operações com sucesso: ${operacoesSucesso}`);
         console.log(`   Operações com erro: ${operacoesErro}`);
         console.log(`   Total expedido: ${totalExpedido}`);
-        console.log(`   Quantidade lida: ${sistemaExpedicoes.estado.formData.QUANTIDADELIDA}`);
+        console.log(`   TOTAL LIDO DA GRADE: ${sistemaExpedicoes.estado.formData.TOTALLIDODAGRADE}`);
         console.log(`   Quantidade na caixa: ${sistemaExpedicoes.estado.formData.QUANTIDADENACAIXAATUAL}`);
         
         const totalItens = grade.itensGrade.reduce((sum, item) => sum + item.totalExpedido, 0);

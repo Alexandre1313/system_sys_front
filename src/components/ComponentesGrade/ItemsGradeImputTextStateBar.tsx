@@ -17,6 +17,7 @@ export interface ItemGradeInputTextStateBarProps {
     bgBackGround?: string;
     maxWhidth?: string;
     inputRef: React.RefObject<HTMLInputElement>;
+    colorBorder?: string;
     isFocuss: () => void;
     setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
@@ -51,7 +52,8 @@ export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStat
                 ${props.isFocus ? props.isFocus: 'outline-none'} 
                 rounded-md  border h-[50px] grade-input-responsive ${props.positionn ? props.positionn: 'text-right'} bg-opacity-30
                 border-gray-700 ${props.valueColor ? props.valueColor: 'text-green-400'} 
-                placeholder:text-[rgba(333,333,333,0.2)]`}
+                placeholder:text-[rgba(333,333,333,0.2)]
+                ${props.colorBorder ? props.colorBorder : 'border-gray-700'}`}
                 type="text"   
                 placeholder={props.placeholder}  
                 readOnly={props.isReadOnly}           
@@ -59,6 +61,9 @@ export default function ItemGradeInputTextStateBar(props: ItemGradeInputTextStat
                 id={`${labelName}-input`}
                 value={value} // Usando o valor do estado do pai
                 onChange={handleInputChange} // Atualiza o estado no pai quando o valor mudar
+                style={{boxShadow: `inset 2px 2px 4px rgba(0, 0, 0, 0.6),
+                        inset -2px -2px 4px rgba(255, 255, 255, 0.05)`.trim(),
+                }}
             />
         </div>
     );

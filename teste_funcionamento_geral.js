@@ -36,7 +36,7 @@ const sistemaCompleto = {
         formData: {
             CODDEBARRASLEITURA: '',
             ESCOLA_GRADE: null,
-            QUANTIDADELIDA: '0',
+            TOTALLIDODAGRADE: '0',
             QUANTIDADENACAIXAATUAL: '0'
         }
     },
@@ -129,12 +129,12 @@ const testesFuncionamento = {
                 console.log('❌ Código inválido - erro esperado');
             } else {
                 console.log('✅ Código processado com sucesso');
-                sistemaCompleto.estado.formData.QUANTIDADELIDA = 
-                    String(parseInt(sistemaCompleto.estado.formData.QUANTIDADELIDA) + 1);
+                sistemaCompleto.estado.formData.TOTALLIDODAGRADE = 
+                    String(parseInt(sistemaCompleto.estado.formData.TOTALLIDODAGRADE) + 1);
             }
         });
         
-        console.log(`📊 Total processado: ${sistemaCompleto.estado.formData.QUANTIDADELIDA}`);
+        console.log(`📊 Total processado: ${sistemaCompleto.estado.formData.TOTALLIDODAGRADE}`);
         console.log('✅ TESTE PASSOU: Processamento de códigos funcionando');
     },
 
@@ -149,7 +149,7 @@ const testesFuncionamento = {
             escolaCaixa: "Escola A",
             escolaNumber: "001",
             projeto: "Projeto Teste",
-            qtyCaixa: parseInt(sistemaCompleto.estado.formData.QUANTIDADELIDA),
+            qtyCaixa: parseInt(sistemaCompleto.estado.formData.TOTALLIDODAGRADE),
             caixaNumber: "01",
             caixaItem: [
                 { itemName: "Item 1", itemGenero: "Masculino", itemTam: "M", itemQty: 2 },
@@ -167,7 +167,7 @@ const testesFuncionamento = {
         console.log('✅ Caixa inserida com sucesso!');
         
         // Limpar estado
-        sistemaCompleto.estado.formData.QUANTIDADELIDA = '0';
+        sistemaCompleto.estado.formData.TOTALLIDODAGRADE = '0';
         sistemaCompleto.estado.formData.QUANTIDADENACAIXAATUAL = '0';
         
         console.log('🧹 Estado limpo após inserção');
@@ -238,7 +238,7 @@ const testesFuncionamento = {
         
         // Verificar estado do formData
         console.log('\n📊 Verificando estado do formData...');
-        console.log(`   Quantidade lida: ${sistemaCompleto.estado.formData.QUANTIDADELIDA}`);
+        console.log(`   TOTAL LIDO DA GRADE: ${sistemaCompleto.estado.formData.TOTALLIDODAGRADE}`);
         console.log(`   Quantidade na caixa: ${sistemaCompleto.estado.formData.QUANTIDADENACAIXAATUAL}`);
         console.log(`   Escola/Grade selecionada: ${sistemaCompleto.estado.formData.ESCOLA_GRADE?.gradeId || 'Nenhuma'}`);
         

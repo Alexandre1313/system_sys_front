@@ -56,7 +56,10 @@ export default function ItemGradeInputTextState2(props: ItemGradeInputTextState2
                     name={`${labelName}`}
                     id={`${labelName}-input`}
                     value={value}
-                    onChange={handleInputChange}
+                    onChange={handleInputChange}   
+                    style={{boxShadow: `inset 2px 2px 4px rgba(0, 0, 0, 0.6),
+                            inset -2px -2px 4px rgba(255, 255, 255, 0.05)`.trim(),
+                }}                
                 />
             </div>
         </div>

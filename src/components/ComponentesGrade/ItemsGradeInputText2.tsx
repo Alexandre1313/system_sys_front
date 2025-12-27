@@ -26,6 +26,8 @@ export default function ItemsGradeInputText2(props: ItemsGradeInputText2Props) {
             h-[50px] grade-input-responsive pointer-events-none ${props.positionn ? props.positionn : 'text-left'}`}
                 style={{
                     backgroundColor: props.bgColor ?? 'transparent',
+                    boxShadow: `inset 2px 2px 4px rgba(0, 0, 0, 0.6),
+                                inset -2px -2px 4px rgba(255, 255, 255, 0.05)`.trim(),
                 }}
                 type="text"
                 name={`${concat(props.labelName)}`}

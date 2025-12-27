@@ -54,8 +54,10 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
                     id={`${labelName}-input`}
                     value={value}
                     onChange={handleInputChange}
+                    style={{boxShadow: `inset 2px 2px 4px rgba(0, 0, 0, 0.6),
+                            inset -2px -2px 4px rgba(255, 255, 255, 0.05)`.trim(),
+                }}
                 />
-
                 {/* Overlay com posicionamento baseado no valor */}
                 {props.tot && (
                     <div
