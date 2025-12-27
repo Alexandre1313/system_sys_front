@@ -8,7 +8,7 @@ export default function CaixaResume({ caixaItem }: CaixaResumeItemsProps) {
     // Calcula o total de itemQty antes de renderizar o JSX
     const total = caixaItem?.reduce((acc, item) => acc + (item?.itemQty || 0), 0) || 0;
     return (
-        <div className="flex flex-col min-w-[100%] lg:max-h-[50vh] lg:gap-y-3 gap-y-1 overflow-auto max-h-[35vh] pt-3">            
+        <div className="flex flex-col min-w-[100%] lg:max-h-[70vh] lg:gap-y-3 gap-y-1 overflow-auto max-h-[35vh] pt-3">            
             {caixaItem && caixaItem.map((item, index) => (
                 <div key={index} className="flex flex-col w-full justify-start items-center gap-x-2 px-3">
                     <div className="lg:flex hidden lg:flex-row w-full justify-start items-center gap-x-2">
