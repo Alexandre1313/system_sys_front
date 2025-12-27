@@ -72,7 +72,7 @@ const EtiquetasLbl = ({ etiquetas }: EtiquetasLblProps) => {
             lblContent += `^FDTotal da caixa: ${String(qtyCaixa).padStart(2, '0')}^FS\n`;
             yPosition += 60;
 
-            // Número da caixa
+            // NÚMERO DA CAIXA ATUAL
             lblContent += `^FO50,${yPosition}\n`;
             lblContent += `^A0N,50,50\n`;
             lblContent += `^FDCaixa ${String(caixaNumber).padStart(2, '0')} / ${String(etiquetas.length).padStart(2, '0')}^FS\n`;

@@ -67,7 +67,7 @@ const CaixaCard: React.FC<CaixaCardProps> = ({ caixa, len }) => {
         onClick={toggleOpen}        
       >
         <div className="flex items-center justify-between">
-          {/* Número da Caixa - Destaque Principal */}
+          {/* NÚMERO DA CAIXA ATUAL - Destaque Principal */}
           <div className="flex items-start space-x-2 lg:space-x-4 min-w-0 flex-1">
             <div className="flex flex-col items-center justify-center bg-gradient-to-br from-emerald-500 via-blue-600 to-purple-600 rounded-lg lg:rounded-xl p-1.5 lg:p-1 shadow-2xl border border-emerald-400/30 flex-shrink-0 min-w-[45px] lg:min-w-[100px]">
               <div className="text-[7px] lg:text-sm text-emerald-100 font-medium mt-0.5 lg:mt-1">

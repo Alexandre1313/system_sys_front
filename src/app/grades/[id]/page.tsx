@@ -45,7 +45,7 @@ export default function Grades() {
     ESCOLA_GRADE: null,
     TOTALLIDODAGRADE: '0',
     TOTALNACAIXAATUAL: '0',
-    NUMERODACAIXA: '',
+    NUMERODACAIXAATUAL: '',
   });
 
   useEffect(() => {
@@ -270,7 +270,7 @@ export default function Grades() {
       TOTALLIDODAGRADE: String(escolaGrade?.totalExpedido ?? 0),
       // ✅ CORREÇÃO: Mostrar quantidade pendente na caixa atual
       TOTALNACAIXAATUAL: String(TOTALNACAIXAATUAL),
-      NUMERODACAIXA: '1',
+      NUMERODACAIXAATUAL: '1',
     }));
   };
 
@@ -308,18 +308,18 @@ export default function Grades() {
     setModalEncGradeMessage('Grade finalizada');
   }
 
-  const handleNumeroDaCaixa = (numeroDaCaixa: string) => {
+  const handleNUMERODACAIXAATUAL = (NUMERODACAIXAATUAL: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      NUMERODACAIXA: numeroDaCaixa,
+      NUMERODACAIXAATUAL: NUMERODACAIXAATUAL,
     }));
   };
 
-  const handleNumberBox = (numeroDaCaixa: string) => {
-    const numero = parseInt(numeroDaCaixa, 10) + 1
+  const handleNumberBox = (NUMERODACAIXAATUAL: string) => {
+    const numero = parseInt(NUMERODACAIXAATUAL, 10) + 1
     setFormData((prevData) => ({
       ...prevData,
-      NUMERODACAIXA: String(numero),
+      NUMERODACAIXAATUAL: String(numero),
     }));
   };
 
@@ -446,7 +446,7 @@ export default function Grades() {
                   setFormData={handleFormDataChange}
                   handleItemSelecionado={handleItemSelecionado}
                   handleEscolaGradeSelecionada={handleEscolaGradeSelecionada}
-                  handleNumeroDaCaixa={handleNumeroDaCaixa}
+                  handleNUMERODACAIXAATUAL={handleNUMERODACAIXAATUAL}
                   OpenModalGerarCaixa={OpenModalGerarCaixa}
                   OpenModalGerarCaixaError={OpenModalGerarCaixaError}
                   setModalMessage={setModalMessage}

@@ -273,7 +273,7 @@
     ESCOLA_GRADE: null,
     TOTALLIDODAGRADE: '0',
     TOTALNACAIXAATUAL: '0',
-    NUMERODACAIXA: '',
+    NUMERODACAIXAATUAL: '',
 });</div>
             </div>
 
@@ -415,7 +415,7 @@
 
                 <h4>Função criarCaixa</h4>
                 <div class="code-block">function criarCaixa(formData: any, id: any): Caixa | null {
-    const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
+    const { ESCOLA_GRADE, NUMERODACAIXAATUAL } = formData;
     
     const caixa: Caixa = {
         gradeId: ESCOLA_GRADE.gradeId,
@@ -425,7 +425,7 @@
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
         qtyCaixa: 0,
         tipoEmbalagemId: 1,
-        caixaNumber: NUMERODACAIXA,
+        caixaNumber: NUMERODACAIXAATUAL,
         itensGrade: ESCOLA_GRADE.grade.itensGrade,
         userId: id,
         caixaItem: [],

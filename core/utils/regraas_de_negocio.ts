@@ -322,7 +322,7 @@ const processarCodigoDeBarras = (
 };
 
 function criarCaixa(formData: any, id: any): Caixa | null {
-    const { ESCOLA_GRADE, NUMERODACAIXA } = formData;
+    const { ESCOLA_GRADE, NUMERODACAIXAATUAL } = formData;
 
     // Informações para a caixa
     const caixa: Caixa = {
@@ -333,7 +333,7 @@ function criarCaixa(formData: any, id: any): Caixa | null {
         escolaCaixa: ESCOLA_GRADE.nomeEscola,
         qtyCaixa: 0,
         tipoEmbalagemId: 1,
-        caixaNumber: NUMERODACAIXA,
+        caixaNumber: NUMERODACAIXAATUAL,
         itensGrade: ESCOLA_GRADE.grade.itensGrade,
         userId: id,
         caixaItem: [],

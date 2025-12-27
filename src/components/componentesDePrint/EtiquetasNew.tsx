@@ -190,7 +190,7 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
             });
             textY -= 15; // Ajusta a posição vertical após o total da caixa
 
-            // Número da caixa no final da etiqueta
+            // NÚMERO DA CAIXA ATUAL no final da etiqueta
             if (textY < margem + 20) { // Verifica se há espaço suficiente
                 // Adiciona uma nova página se não houver espaço
                 page = pdfDoc.addPage([pageWidth, pageHeight]);
@@ -218,25 +218,25 @@ const EtiquetasNew = ({ etiquetas, classNew, len }: EtiquetaNewProps) => {
 
             textY -= 15;
 
-            // Número da caixa no final da etiqueta
-            const caixaNumberText = `${String(caixaNumber).padStart(2, '0')} /`; // Número da caixa
+            // NÚMERO DA CAIXA ATUAL no final da etiqueta
+            const caixaNumberText = `${String(caixaNumber).padStart(2, '0')} /`; // NÚMERO DA CAIXA ATUAL
             const totalLabelsText = ` ${String(len ? len : etiquetas.length).padStart(2, '0')}`; // Texto total de etiquetas
 
             // Calcular a largura do texto
             const textWidth = font.widthOfTextAtSize(`Caixa: ${caixaNumberText}`, 13);
 
-            // Desenha "Caixa" com o número da caixa em uma cor (preto)
+            // Desenha "Caixa" com o NÚMERO DA CAIXA ATUAL em uma cor (preto)
             page.drawText(`Caixa: ${caixaNumberText}`, {
                 x: textX,
                 y: textY > margem ? textY : margem, // Garante que o número fique visível
                 size: 13,
                 font: font, // Usando a variável 'font' que você está utilizando
-                color: rgb(0, 0, 0), // Cor do número da caixa (preto)
+                color: rgb(0, 0, 0), // Cor do NÚMERO DA CAIXA ATUAL (preto)
             });
 
             // Desenha o total de etiquetas com uma cor diferente (por exemplo, vermelho)
             page.drawText(totalLabelsText, {
-                x: textX + font.widthOfTextAtSize(`Caixa ${caixaNumberText}`, 13) + 5, // Ajusta a posição X após o número da caixa
+                x: textX + font.widthOfTextAtSize(`Caixa ${caixaNumberText}`, 13) + 5, // Ajusta a posição X após o NÚMERO DA CAIXA ATUAL
                 y: textY > margem ? textY : margem, // Garante que o número fique visível
                 size: 13,
                 font: font2, // Usando a variável 'font' que você está utilizando

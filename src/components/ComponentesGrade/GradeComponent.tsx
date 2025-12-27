@@ -33,7 +33,7 @@ export interface GradeComponentProps {
     handleFormDataChangeAcresc: () => void;
     handleItemSelecionado: (item: GradeItem | null) => void;
     handleEscolaGradeSelecionada: (escolaGrade: EscolaGrade | null) => void;
-    handleNumeroDaCaixa: (numeroDaCaixa: string) => void;
+    handleNUMERODACAIXAATUAL: (NUMERODACAIXAATUAL: string) => void;
     OpenModalGerarCaixa: () => void;
     OpenModalGerarCaixaError: () => void;
     setModalMessage: (message: string) => void;
@@ -353,7 +353,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         setItemSelecionado(itemAtualizado);
         props.handleItemSelecionado(itemAtualizado)
         props.handleEscolaGradeSelecionada(escolaGrade)
-        props.handleNumeroDaCaixa(String(grade.gradeCaixas?.length + 1))
+        props.handleNUMERODACAIXAATUAL(String(grade.gradeCaixas?.length + 1))
         setMostrarTelaExped(true);
     };
 
@@ -383,7 +383,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     };
 
     const textBtnBox = (formData: any, temCGerar: boolean) => {
-        const init = Number(formData.NUMERODACAIXA) === 1 && !temCGerar;
+        const init = Number(formData.NUMERODACAIXAATUAL) === 1 && !temCGerar;
         return [
             init ? (
                 <span key="nao_comecada">
@@ -392,13 +392,13 @@ export default function GradeComponent(props: GradeComponentProps) {
             ) : temCGerar ? (
                 <span key="inicializada">
                     CAIXA DE Nº&nbsp;
-                    <b className="text-white">&nbsp;{formData.NUMERODACAIXA}&nbsp;&nbsp;</b>
+                    <b className="text-white">&nbsp;{formData.NUMERODACAIXAATUAL}&nbsp;&nbsp;</b>
                     INICIALIZADA
                 </span>
             ) : (
                 <span key="encerrada">
                     CAIXA DE Nº&nbsp;
-                    <b className="text-white">&nbsp;{Number(formData.NUMERODACAIXA) - 1}&nbsp;&nbsp;</b>
+                    <b className="text-white">&nbsp;{Number(formData.NUMERODACAIXAATUAL) - 1}&nbsp;&nbsp;</b>
                     ENCERRADA
                 </span>
             ),
@@ -809,7 +809,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                                     {/* Special Fields */}
                                     <div className="space-y-2">
-                                        <ItemGradeInputTextStateMobil labelName={'NÚMERO DA CAIXA'}
+                                        <ItemGradeInputTextStateMobil labelName={'NÚMERO DA CAIXA ATUAL'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true}
                                             valueColor={`text-amber-300`} labelColor={`text-amber-300`}
@@ -1121,7 +1121,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
                                             <div className="space-y-4">
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                    <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA'}
+                                                    <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA ATUAL'}
                                                         colorBorder={`border-gray-900`}
                                                         formData={props.formData} setFormData={props.setFormData}
                                                         isReadOnly={true}
