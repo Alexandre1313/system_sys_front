@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, Box, ExternalLink, Eye, Minus, Plus, Search } from "react-feather";
+import { AlertTriangle, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Box, CheckCircle, ExternalLink, Eye, Minus, Plus, Search } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
@@ -974,7 +974,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         </div>
 
                         {/* Content */}
-                        <div className="relative z-10 flex-1 overflow-auto" style={{ marginTop: '80px' }}>
+                        <div className="flex flex-col relative z-10 flex-1 overflow-auto justify-between" style={{ marginTop: '80px' }}>
                             <div className="max-w-[92rem] mx-auto p-6">
 
                                 {/* Actions Bar */}
@@ -1038,29 +1038,33 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
 
                                 {/* Main Content Grid */}
-                                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                                <div className="grid grid-cols-1 xl:grid-cols-2 gap-1">
 
                                     {/* Left Column - Item Information */}
-                                    <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 space-y-6">
+                                    <div className="p-3 space-y-8 uppercase">
                                         <div className="flex items-center space-x-2 mb-4">
                                             <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
                                             <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
                                         </div>
-                                        <div className="space-y-6">
-                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-700 rounded-md pt-4`}>
+                                        <div className="space-y-8">
+                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+                                                style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
+                                            >
                                                 <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
                                                     labelName={`ITEM`} color={`text-zinc-400`} colorBorder={`border-gray-800`} />
                                             </fieldset>
-                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-700 rounded-md pt-4`}>
+                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+                                                style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
+                                            >
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
                                                         labelName={`GÊNERO`} color={`text-zinc-400`} border_col={'border-gray-800'}
                                                         bgColor={
                                                             itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
-                                                                ? 'rgba(30, 58, 138, 0.5)'   // azul masculino
+                                                                ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
                                                                 : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
-                                                                    ? 'rgba(136, 19, 55, 0.5)'   // rosa feminino
-                                                                    : 'rgba(51, 65, 85, 0.5)'    // neutro
+                                                                    ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
+                                                                    : 'rgba(51, 65, 85, 0.3)'    // neutro
                                                         } />
                                                     <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                                         labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} border_col={'border-gray-800'} />
@@ -1076,24 +1080,36 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
 
                                     {/* Right Column - Expedition Control */}
-                                    <div className={`bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-3 space-y-6`}>
-                                        <div className="flex items-center justify-between space-x-2 mb-4">
+                                    <div className={`p-3 space-y-8`}>
+                                        <div className="flex items-center justify-between space-x-2 mb-4 uppercase">
                                             <div className={`flex items-center space-x-2`}>
                                                 <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
                                                 <h3 className={`text-lg font-semibold text-white`}
-                                                    style={{ opacity: temCaixasParaGerar ? '1' : '0.3' }}
+                                                    style={{ opacity: temCaixasParaGerar ? '0.7' : '0.3' }}
                                                 >
                                                     Controle de Expedição
                                                 </h3>
                                             </div>
                                             <div className={`flex items-center space-x-2`}>
-                                                <h3 className={`text-lg font-semibold text-green-500`}>
-                                                    {temCaixasParaGerar ? 'Caixa em aberto' : ''}
-                                                </h3>
+                                                <span className="flex items-center gap-2">
+                                                    {temCaixasParaGerar ? (
+                                                        <>
+                                                            <span className={`text-white text-sm font-semibold`} style={{ opacity: temCaixasParaGerar ? '0.7' : '0.3' }}>Atenção! Caixa em aberto</span>
+                                                            <AlertTriangle size={30} strokeWidth={2} className="text-orange-400" />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span className={`text-white text-sm font-semibold`} style={{ opacity: temCaixasParaGerar ? '0.7' : '0.3' }}>Ok</span>
+                                                            <CheckCircle size={30} strokeWidth={2} className="text-green-500" />
+                                                        </>
+                                                    )}
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-700 rounded-md pt-4`}>
+                                        <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+                                            style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
+                                        >
                                             {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações do item</legend>*/}
                                             {/* Quantities in Row */}
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1117,7 +1133,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         </fieldset>
 
                                         {/* Special Fields */}
-                                        <fieldset className={`flex flex-col bg-[#101010]/50 p-3 border border-slate-700 rounded-md pt-4`}>
+                                        <fieldset className={`flex flex-col bg-[#101010]/50 p-3 border border-slate-800 rounded-md pt-4`}
+                                            style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
+                                        >
                                             {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
                                             <div className="space-y-4">
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
@@ -1161,6 +1179,65 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
                                         </fieldset>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="max-w-[92rem] mx-auto p-6 opacity-60">
+                                <div className="flex text-[20px] uppercase flex-wrap justify-center items-center gap-x-4 gap-y-2 text-slate-300 text-sm">
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)]">
+                                            <ArrowUp size={18} strokeWidth={2.5} />
+                                        </kbd>
+                                        <span>Seta para cima — lista de escolas do projeto</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)]">
+                                            <ArrowDown size={18} strokeWidth={2.5} />
+                                        </kbd>
+                                        <span>Seta para baixo — Grade de itens</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)]">
+                                            <ArrowLeft size={18} strokeWidth={2.5} />
+                                        </kbd>
+                                        <span>Seta para esquerda — Fechar caixa</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)]">
+                                            <ArrowRight size={18} strokeWidth={2.5} />
+                                        </kbd>
+                                        <span>Seta para direita — Confirmar fechar caixa</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)] text-base">
+                                            ,
+                                        </kbd>
+                                        <span>Vírgula — Adiciona uma unidade</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)] text-base">
+                                            .
+                                        </kbd>
+                                        <span>Ponto — Subtrai uma unidade</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)] text-sm">
+                                            Enter
+                                        </kbd>
+                                        <span>Enter — Fecha mensagens</span>
+                                    </span>
+
+                                    <span className="flex items-center gap-2">
+                                        <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)] text-sm">
+                                            Esc
+                                        </kbd>
+                                        <span>Esc — Cancela fechar caixa</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
