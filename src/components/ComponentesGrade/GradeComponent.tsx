@@ -362,7 +362,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         setItemSelecionado(null);
     };
 
-    // Verificar se há caixas para gerar (itens com quantidade na caixa atual > 0)
+    // Verificar se há caixas para gerar (itens com TOTAL NA CAIXA ATUAL > 0)
     const temCaixasParaGerar = props.grade.itensGrade?.some(item =>
         (item.qtyPCaixa || 0) > 0
     );
@@ -815,7 +815,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             valueColor={`text-amber-300`} labelColor={`text-amber-300`}
                                             height={`h-[40px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
 
-                                        <ItemGradeInputTextStateMobil labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                        <ItemGradeInputTextStateMobil labelName={'TOTAL NA CAIXA ATUAL'}
                                             formData={props.formData} setFormData={props.setFormData}
                                             isReadOnly={true}
                                             valueColor={`text-zinc-400`} labelColor={`text-zinc-400`}
@@ -1098,18 +1098,18 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             {/* Quantities in Row */}
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                                 <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                                    labelName={`PREVISTO`} color={`text-yellow-600`} border_col={'border-gray-800'} />
+                                                    labelName={`PREVISTO (DO ITEM)`} color={`text-yellow-600`} border_col={'border-gray-800'} />
                                                 <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)} border_col={'border-gray-800'}
-                                                    labelName={`EXPEDIDO TOTAL`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
+                                                    labelName={`EXP. TOTAL (DO ITEM)`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
                                                     bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
                                                 <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)} border_col={'border-gray-800'}
-                                                    labelName={"À EXPEDIR"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
+                                                    labelName={"À EXPEDIR (DO ITEM)"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
                                                     bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
                                             </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <ItemsGradeInputText2 border_col={'border-gray-800'} qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`EXPEDIDO ANTERIORMENTE`}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                                                <ItemsGradeInputText2 border_col={'border-gray-800'} qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`TOTAL EXPEDIDO EM OUTRAS CAIXAS (DO ITEM)`}
                                                     color={'text-slate-400'} labelposition={'justify-end'} positionn={'text-right'} />
-                                                <ItemsGradeInputText border_col={'border-gray-800'} value={String(itemSelecionado.qtyPCaixa)} labelName={`EXPEDIDO NA CAIXA ATUAL`}
+                                                <ItemsGradeInputText border_col={'border-gray-800'} value={String(itemSelecionado.qtyPCaixa)} labelName={`QUANTIDADE EXPEDIDA NA CAIXA ATUAL (DO ITEM)`}
                                                     color={'text-slate-400'} bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
                                                     labelposition={'justify-end'} positionn={'text-right'}
                                                 />
@@ -1127,7 +1127,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                         isReadOnly={true}
                                                         valueColor={`text-amber-300`} labelColor={`text-amber-300`}
                                                         height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
-                                                    <ItemGradeInputTextState labelName={'QUANTIDADE NA CAIXA ATUAL'}
+                                                    <ItemGradeInputTextState labelName={'TOTAL NA CAIXA ATUAL'}
                                                         colorBorder={`border-gray-900`}
                                                         formData={props.formData} setFormData={props.setFormData}
                                                         isReadOnly={true}

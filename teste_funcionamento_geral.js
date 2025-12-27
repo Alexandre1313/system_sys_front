@@ -37,7 +37,7 @@ const sistemaCompleto = {
             CODDEBARRASLEITURA: '',
             ESCOLA_GRADE: null,
             TOTALLIDODAGRADE: '0',
-            QUANTIDADENACAIXAATUAL: '0'
+            TOTALNACAIXAATUAL: '0'
         }
     },
 
@@ -168,7 +168,7 @@ const testesFuncionamento = {
         
         // Limpar estado
         sistemaCompleto.estado.formData.TOTALLIDODAGRADE = '0';
-        sistemaCompleto.estado.formData.QUANTIDADENACAIXAATUAL = '0';
+        sistemaCompleto.estado.formData.TOTALNACAIXAATUAL = '0';
         
         console.log('🧹 Estado limpo após inserção');
         console.log('✅ TESTE PASSOU: Criação e inserção de caixas funcionando');
@@ -239,7 +239,7 @@ const testesFuncionamento = {
         // Verificar estado do formData
         console.log('\n📊 Verificando estado do formData...');
         console.log(`   TOTAL LIDO DA GRADE: ${sistemaCompleto.estado.formData.TOTALLIDODAGRADE}`);
-        console.log(`   Quantidade na caixa: ${sistemaCompleto.estado.formData.QUANTIDADENACAIXAATUAL}`);
+        console.log(`   Quantidade na caixa: ${sistemaCompleto.estado.formData.TOTALNACAIXAATUAL}`);
         console.log(`   Escola/Grade selecionada: ${sistemaCompleto.estado.formData.ESCOLA_GRADE?.gradeId || 'Nenhuma'}`);
         
         console.log('✅ TESTE PASSOU: Consistência de dados verificada');

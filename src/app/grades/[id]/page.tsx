@@ -44,7 +44,7 @@ export default function Grades() {
     ITEM_SELECIONADO: null,
     ESCOLA_GRADE: null,
     TOTALLIDODAGRADE: '0',
-    QUANTIDADENACAIXAATUAL: '0',
+    TOTALNACAIXAATUAL: '0',
     NUMERODACAIXA: '',
   });
 
@@ -257,8 +257,8 @@ export default function Grades() {
   };
 
   const handleEscolaGradeSelecionada = (escolaGrade: EscolaGrade | null) => {
-    // Calcular quantidade na caixa atual (soma das qtyPCaixa dos itens)
-    const quantidadeNaCaixaAtual = escolaGrade?.grade?.itensGrade?.reduce((total, item) => {
+    // Calcular TOTAL NA CAIXA ATUAL (soma das qtyPCaixa dos itens)
+    const TOTALNACAIXAATUAL = escolaGrade?.grade?.itensGrade?.reduce((total, item) => {
       return total + (item.qtyPCaixa || 0);
     }, 0) || 0;
 
@@ -269,7 +269,7 @@ export default function Grades() {
       // ✅ CORREÇÃO: Inicializar com quantidade total expedida da grade
       TOTALLIDODAGRADE: String(escolaGrade?.totalExpedido ?? 0),
       // ✅ CORREÇÃO: Mostrar quantidade pendente na caixa atual
-      QUANTIDADENACAIXAATUAL: String(quantidadeNaCaixaAtual),
+      TOTALNACAIXAATUAL: String(TOTALNACAIXAATUAL),
       NUMERODACAIXA: '1',
     }));
   };

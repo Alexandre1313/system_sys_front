@@ -65,7 +65,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         handlerCaixaPend();
         handleNumberBox(String(data.caixaNumber))
         const timeout = setTimeout(() => {
-          setFormData('QUANTIDADENACAIXAATUAL', '0');
+          setFormData('TOTALNACAIXAATUAL', '0');
           onClose()
           openEncGrade()
           clearTimeout(timeout)

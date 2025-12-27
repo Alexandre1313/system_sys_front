@@ -121,7 +121,7 @@ const ModalAlterGradeItem: React.FC<ModalAlterGradeItemProps> = ({ itemSeleciona
           />
         </h2>
        
-        {Number(formData.QUANTIDADENACAIXAATUAL) > 0 ? (
+        {Number(formData.TOTALNACAIXAATUAL) > 0 ? (
           <p className="flex text-[17px] text-black uppercase font-bold text-center">
             HÁ QUANTIDADES AINDA NÃO CONTABILIZADAS, VERIFIQUE
           </p>
@@ -136,7 +136,7 @@ const ModalAlterGradeItem: React.FC<ModalAlterGradeItemProps> = ({ itemSeleciona
               quantidade={quantidade}
               quantidadeExpedida={quantidadeExpedida}
               itemTamanho={itemTamanho}
-              formDataQty={Number(formData.QUANTIDADENACAIXAATUAL)}
+              formDataQty={Number(formData.TOTALNACAIXAATUAL)}
             />
           ) : (
             <div className={`text-black font-semibold`}>DADOS INDISPONÍVEIS</div>
@@ -155,9 +155,9 @@ const ModalAlterGradeItem: React.FC<ModalAlterGradeItemProps> = ({ itemSeleciona
           </button>
           <button
             className={`w-full text-white px-12 py-2 rounded text-[14px]
-                ${isLoading || isLoadingCancel || quantidade === quantidadeExpedida || Number(formData.QUANTIDADENACAIXAATUAL) > 0 ? 'bg-gray-400' : 'bg-red-600 hover:bg-red-700'}`}
+                ${isLoading || isLoadingCancel || quantidade === quantidadeExpedida || Number(formData.TOTALNACAIXAATUAL) > 0 ? 'bg-gray-400' : 'bg-red-600 hover:bg-red-700'}`}
             onClick={handleModifyGradeItem}
-            disabled={isLoading || isLoadingCancel || quantidade === quantidadeExpedida || Number(formData.QUANTIDADENACAIXAATUAL) > 0}
+            disabled={isLoading || isLoadingCancel || quantidade === quantidadeExpedida || Number(formData.TOTALNACAIXAATUAL) > 0}
           >
             {isLoading ? 'Aguarde...' : isError ? 'Tentar Novamente' : 'Confirma'}
           </button>
