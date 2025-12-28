@@ -69,7 +69,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     // atualiza os refs quando os valores mudarem
     useEffect(() => { projetoIdRef.current = props.escola.projetoId; }, [props.escola.projetoId]);
     useEffect(() => { pushRef.current = (path: string) => router.push(path); }, [router]);
-    useEffect(() => { routerRef.current = router;}, [router]);
+    useEffect(() => { routerRef.current = router; }, [router]);
 
     // Adiciona o evento de keydown quando o componente for montado   
     useEffect(() => {
@@ -87,7 +87,7 @@ export default function GradeComponent(props: GradeComponentProps) {
             if (event.key === 'ArrowUp' || event.code === 'ArrowUp') {
                 event.preventDefault();
                 pushRef.current(`/escolas/${projetoIdRef.current}`);
-            }            
+            }
 
             if (event.key === ',' || event.code === 'Comma') {
                 event.preventDefault();
@@ -1093,7 +1093,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 Controle de Expedição
                                             </h3>
                                         </div>
-                                        <BalloonStatus temCaixasParaGerar={temCaixasParaGerar}/>
+                                        <BalloonStatus temCaixasParaGerar={temCaixasParaGerar} />
                                     </div>
 
                                     <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
@@ -1171,7 +1171,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                         <div className="max-w-[92rem] mx-auto p-6 opacity-60 uppercase">
-                          <FooterKeybordTeclas/>
+                            <FooterKeybordTeclas />
                         </div>
                     </div>
                 </div>
