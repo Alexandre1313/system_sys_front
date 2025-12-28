@@ -1060,7 +1060,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
                                             <svg
-                                                className="absolute w-[110%] -right-[0.40rem] -top-[1rem]"
+                                                className="absolute w-[101%] -right-[0.40rem] -top-[1rem]"
                                                 height="3"
                                             >
                                                 <line
@@ -1068,7 +1068,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     y1="1.5"
                                                     x2="100%"
                                                     y2="1.5"
-                                                    stroke="#334155"
+                                                    stroke={temCaixasParaGerar ? "#334155" : "transparent"}
                                                     strokeWidth="3"
                                                     strokeDasharray="8 8"
                                                 >
@@ -1101,13 +1101,13 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     labelName={`TAMANHO`} color={`text-yellow-200`} border_col={'border-gray-800'} />
                                                 <ItemsGradeInputText value={props.grade.status} border_col={'border-gray-800'}
                                                     labelName={`GRADE STATUS`} color={`text-zinc-400`} />
-                                            </div>
-                                        </fieldset>
+                                            </div>                                          
+                                        </fieldset>                                        
                                     </div>
                                 </div>
 
                                 {/* Right Column - Expedition Control */}
-                                <div className={`p-3 space-y-8 relative`}>                                   
+                                <div className={`p-3 space-y-8 relative`}>
                                     <div className="flex items-center justify-between space-x-2 mb-4 uppercase">
                                         <div className={`flex items-center space-x-2`}>
                                             <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
@@ -1150,7 +1150,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                     >
                                         <svg
-                                            className="absolute w-[110%] -left-[0.40rem] -top-[1rem]"
+                                            className="absolute w-[101%] -left-[0.40rem] -top-[1rem]"
                                             height="3"
                                         >
                                             <line
@@ -1158,7 +1158,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 y1="1.5"
                                                 x2="100%"
                                                 y2="1.5"
-                                                stroke="#334155"
+                                                stroke={temCaixasParaGerar ? "#334155" : "transparent"}
                                                 strokeWidth="3"
                                                 strokeDasharray="8 8"
                                             >
@@ -1215,8 +1215,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
                                         </div>
                                     </fieldset>
-                                     <svg
-                                        className="absolute left-0 top-10 h-[100%]"
+                                    <svg
+                                        className="absolute left-0 top-10 h-[87%]"
                                         width="3"
                                     >
                                         <line
@@ -1224,7 +1224,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             y1="0"
                                             x2="1.5"
                                             y2="100%"
-                                            stroke="#334155"
+                                            stroke={temCaixasParaGerar ? "#334155" : "transparent"}
                                             strokeWidth="3"
                                             strokeDasharray="8 8"
                                         >
