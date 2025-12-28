@@ -1041,7 +1041,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
 
                             {/* Main Content Grid */}
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-1">
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-0">
 
                                 {/* Left Column - Item Information */}
                                 <div className="p-3 space-y-8 uppercase">
@@ -1056,9 +1056,33 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
                                                 labelName={`ITEM`} color={`text-zinc-400`} colorBorder={`border-gray-800`} />
                                         </fieldset>
-                                        <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+                                        <fieldset className={`relative flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
+                                            <svg
+                                                className="absolute w-[110%] -right-[0.40rem] -top-[1rem]"
+                                                height="3"
+                                            >
+                                                <line
+                                                    x1="0"
+                                                    y1="1.5"
+                                                    x2="100%"
+                                                    y2="1.5"
+                                                    stroke="#334155"
+                                                    strokeWidth="3"
+                                                    strokeDasharray="8 8"
+                                                >
+                                                    {temCaixasParaGerar && (
+                                                        <animate
+                                                            attributeName="stroke-dashoffset"
+                                                            from="16"
+                                                            to="0"
+                                                            dur="0.8s"
+                                                            repeatCount="indefinite"
+                                                        />
+                                                    )}
+                                                </line>
+                                            </svg>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
                                                     labelName={`GÊNERO`} color={`text-zinc-400`} border_col={'border-gray-800'}
@@ -1083,7 +1107,31 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
 
                                 {/* Right Column - Expedition Control */}
-                                <div className={`p-3 space-y-8`}>
+                                <div className={`p-3 space-y-8 relative`}>
+                                    <svg
+                                        className="absolute left-0 top-0 h-full"
+                                        width="3"
+                                    >
+                                        <line
+                                            x1="1.5"
+                                            y1="0"
+                                            x2="1.5"
+                                            y2="100%"
+                                            stroke="#334155"
+                                            strokeWidth="3"
+                                            strokeDasharray="8 8"
+                                        >
+                                            {temCaixasParaGerar && (
+                                                <animate
+                                                    attributeName="stroke-dashoffset"
+                                                    from="0"
+                                                    to="-16"
+                                                    dur="0.8s"
+                                                    repeatCount="indefinite"
+                                                />
+                                            )}
+                                        </line>
+                                    </svg>
                                     <div className="flex items-center justify-between space-x-2 mb-4 uppercase">
                                         <div className={`flex items-center space-x-2`}>
                                             <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
@@ -1122,9 +1170,33 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </fieldset>
 
                                     {/* Special Fields */}
-                                    <fieldset className={`flex flex-col bg-[#101010]/50 p-3 border border-slate-800 rounded-md pt-4`}
+                                    <fieldset className={`relative flex flex-col bg-[#101010]/50 p-3 border border-slate-800 rounded-md pt-4`}
                                         style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                     >
+                                        <svg
+                                            className="absolute w-[110%] -left-[0.40rem] -top-[1rem]"
+                                            height="3"
+                                        >
+                                            <line
+                                                x1="0"
+                                                y1="1.5"
+                                                x2="100%"
+                                                y2="1.5"
+                                                stroke="#334155"
+                                                strokeWidth="3"
+                                                strokeDasharray="8 8"
+                                            >
+                                                {temCaixasParaGerar && (
+                                                    <animate
+                                                        attributeName="stroke-dashoffset"
+                                                        from="0"
+                                                        to="16"
+                                                        dur="0.8s"
+                                                        repeatCount="indefinite"
+                                                    />
+                                                )}
+                                            </line>
+                                        </svg>
                                         {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
                                         <div className="space-y-4">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
