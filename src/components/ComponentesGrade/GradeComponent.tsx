@@ -1107,31 +1107,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 </div>
 
                                 {/* Right Column - Expedition Control */}
-                                <div className={`p-3 space-y-8 relative`}>
-                                    <svg
-                                        className="absolute left-0 top-0 h-full"
-                                        width="3"
-                                    >
-                                        <line
-                                            x1="1.5"
-                                            y1="0"
-                                            x2="1.5"
-                                            y2="100%"
-                                            stroke="#334155"
-                                            strokeWidth="3"
-                                            strokeDasharray="8 8"
-                                        >
-                                            {temCaixasParaGerar && (
-                                                <animate
-                                                    attributeName="stroke-dashoffset"
-                                                    from="0"
-                                                    to="-16"
-                                                    dur="0.8s"
-                                                    repeatCount="indefinite"
-                                                />
-                                            )}
-                                        </line>
-                                    </svg>
+                                <div className={`p-3 space-y-8 relative`}>                                   
                                     <div className="flex items-center justify-between space-x-2 mb-4 uppercase">
                                         <div className={`flex items-center space-x-2`}>
                                             <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
@@ -1239,6 +1215,30 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
                                         </div>
                                     </fieldset>
+                                     <svg
+                                        className="absolute left-0 top-10 h-[100%]"
+                                        width="3"
+                                    >
+                                        <line
+                                            x1="1.5"
+                                            y1="0"
+                                            x2="1.5"
+                                            y2="100%"
+                                            stroke="#334155"
+                                            strokeWidth="3"
+                                            strokeDasharray="8 8"
+                                        >
+                                            {temCaixasParaGerar && (
+                                                <animate
+                                                    attributeName="stroke-dashoffset"
+                                                    from="0"
+                                                    to="-16"
+                                                    dur="0.8s"
+                                                    repeatCount="indefinite"
+                                                />
+                                            )}
+                                        </line>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
