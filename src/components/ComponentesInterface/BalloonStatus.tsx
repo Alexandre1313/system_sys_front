@@ -65,7 +65,7 @@ export default function BalloonStatus({ temCaixasParaGerar }: BalloonStatusProps
 
         {/* RECORTE DA BORDA */}
         <span
-          className="absolute -bottom-[4px]"
+          className="absolute -bottom-[1px]"
           style={{
             left: '18px',
             width: '24px',

@@ -928,49 +928,80 @@ export default function GradeComponent(props: GradeComponentProps) {
                         <div className="flex items-start justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3">
                             <div className="text-left">
                                 <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
-                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
-                                    <p className="text-sm text-white font-medium truncate">{`${props.escola.projeto?.nome}`}</p>
+                                min-w-[280px] max-w-[280px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
+                                    <p className="text-sm text-white font-medium tracking-[2px] truncate">{`${props.escola.projeto?.nome}`}</p>
                                     <p className="text-sm text-emerald-400 font-medium truncate">{`${`PROJETO`}`}</p>
                                 </div>
                             </div>
-                            <div className="text-left">
-                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
-                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
-                                    <Link href={`/caixas_por_grade/${String(props.grade.id)}`}
-                                        className="flex items-center justify-start gap-x-2"
+                            <div className="flex flex-wrap gap-4">
+                                {/* CARD — GRADE */}
+                                <div className="text-left">
+                                    <div
+                                        className="
+                                            flex flex-col items-center justify-center
+                                            min-w-[280px] max-w-[280px]
+                                            p-1 px-3
+                                            bg-slate-800/60 backdrop-blur-sm
+                                            border border-slate-600
+                                            rounded-ee-3xl rounded-ss-3xl
+                                            shadow-[0_6px_16px_rgba(0,0,0,0.35)]
+                                        "
                                     >
-                                        <h1 className="text-xl lg:text-4xl font-bold text-rose-400">
-                                            {`${props.grade.id}`}
+                                        <Link
+                                            href={`/caixas_por_grade/${String(props.grade.id)}`}
+                                            className="flex items-center justify-start gap-x-2"
+                                        >
+                                            <h1 className="text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px]">
+                                                {`G${props.grade.id}`}
+                                            </h1>
+                                            <ExternalLink className={`${colorLinkExternal}`} size={12} />
+                                        </Link>
+                                        <p className="text-sm text-emerald-400 font-medium">
+                                            ANOTE O ID DA GRADE
+                                        </p>
+                                    </div>
+                                </div>
+                                {/* CARD — ESCOLA */}
+                                <div className="text-left">
+                                    <div
+                                        className="
+                                            flex flex-col items-center justify-center
+                                            min-w-[280px] max-w-[280px]
+                                            p-1 px-3
+                                            bg-slate-800/60 backdrop-blur-sm
+                                            border border-slate-600
+                                            rounded-ee-3xl rounded-ss-3xl
+                                            shadow-[0_6px_16px_rgba(0,0,0,0.35)]
+                                        "
+                                    >
+                                        <h1 className="text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px]">
+                                            {`E${props.escola?.numeroEscola}`}
                                         </h1>
-                                        <ExternalLink className={`${colorLinkExternal}`} size={12} />
-                                    </Link>
-                                    <p className="text-sm text-emerald-400 font-medium">GRADE ID</p>
+                                        <p className="text-sm text-emerald-400 font-medium">
+                                            ANOTE O Nº DA UNIDADE ESCOLAR
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="text-left">
-                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
-                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
-                                    <h1 className="text-xl lg:text-4xl font-bold text-zinc-300">
-                                        {`${props.escola?.numeroEscola}`}
-                                    </h1>
-                                    <p className="text-sm text-emerald-400 font-medium">NÚMERO DA UNIDADE ESCOLAR</p>
-                                </div>
-                            </div>
-                            <div className="text-left">
-                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3 rounded-ee-3xl rounded-ss-3xl
-                                min-w-[250px] max-w-[250px] bg-slate-800/50 backdrop-blur-sm">
-                                    <h1 className={`text-xl lg:text-4xl font-bold ${props.grade.gradeCaixas.length === 0 ? 'text-slate-700' : 'text-red-500'}`}>
-                                        {`${props.grade.gradeCaixas.length}`}
-                                    </h1>
-                                    {props.grade.gradeCaixas.length > 1 && (
-                                        <p className="text-sm text-emerald-400 font-medium">VOLUMES JÁ CONSOLIDADOS</p>
-                                    )}
-                                    {props.grade.gradeCaixas.length === 1 && (
-                                        <p className="text-sm text-emerald-400 font-medium">VOLUME CONSOLIDADO</p>
-                                    )}
-                                    {props.grade.gradeCaixas.length === 0 && (
-                                        <p className="text-sm text-emerald-400 font-medium">NÃO HÁ VOLUMES GERADOS</p>
-                                    )}
+                                {/* CARD — CAIXA ATUAL */}
+                                <div className="text-left">
+                                    <div
+                                        className="
+                                            flex flex-col items-center justify-center
+                                            min-w-[280px] max-w-[280px]
+                                            p-1 px-3
+                                            bg-slate-800/60 backdrop-blur-sm
+                                            border border-slate-600
+                                            rounded-ee-3xl rounded-ss-3xl
+                                            shadow-[0_6px_16px_rgba(0,0,0,0.35)]
+                                        "
+                                    >
+                                        <h1 className="text-xl lg:text-4xl font-bold text-amber-300 tracking-[3px]">
+                                            {`CX${String(props.grade.gradeCaixas.length + 1).padStart(2, '0')}`}
+                                        </h1>
+                                        <p className="text-sm text-emerald-400 font-medium">
+                                            ANOTE O Nº DA CAIXA ATUAL
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1068,7 +1099,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     y1="1.5"
                                                     x2="100%"
                                                     y2="1.5"
-                                                    stroke={temCaixasParaGerar ? "#334155" : "transparent"}
+                                                    stroke={temCaixasParaGerar ? "#334155" : "#334155"}
                                                     strokeWidth="3"
                                                     strokeDasharray="8 8"
                                                 >
@@ -1101,8 +1132,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     labelName={`TAMANHO`} color={`text-yellow-200`} border_col={'border-gray-800'} />
                                                 <ItemsGradeInputText value={props.grade.status} border_col={'border-gray-800'}
                                                     labelName={`GRADE STATUS`} color={`text-zinc-400`} />
-                                            </div>                                          
-                                        </fieldset>                                        
+                                            </div>
+                                        </fieldset>
                                     </div>
                                 </div>
 
@@ -1158,7 +1189,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 y1="1.5"
                                                 x2="100%"
                                                 y2="1.5"
-                                                stroke={temCaixasParaGerar ? "#334155" : "transparent"}
+                                                stroke={temCaixasParaGerar ? "#334155" : "#334155"}
                                                 strokeWidth="3"
                                                 strokeDasharray="8 8"
                                             >
@@ -1176,12 +1207,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
                                         <div className="space-y-4">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemGradeInputTextState labelName={'NÚMERO DA CAIXA ATUAL'}
-                                                    colorBorder={`border-gray-900`}
-                                                    formData={props.formData} setFormData={props.setFormData}
-                                                    isReadOnly={true}
-                                                    valueColor={`text-amber-300`} labelColor={`text-amber-300`}
-                                                    height={`h-[80px]`} txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`} />
+                                                <ItemsGradeInputText value={String(props.grade.gradeCaixas.length)} border_col={'border-gray-900'}
+                                                    labelName={"VOLUMES JÁ CONSOLIDADOS"} color={'text-red-500'}
+                                                    bgColor={'rgba(96, 165, 250, 0)'} />
                                                 <ItemGradeInputTextState labelName={'TOTAL NA CAIXA ATUAL'}
                                                     colorBorder={`border-gray-900`}
                                                     formData={props.formData} setFormData={props.setFormData}
@@ -1191,7 +1219,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     height={`h-[80px]`} />
                                             </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_2fr] gap-2 items-start">
+                                                <ItemsGradeInputText value={String(totalGrade)} border_col={'border-gray-900'}
+                                                    labelName={"TOT. GRADE"} color={'text-zinc-400'}
+                                                    bgColor={'rgba(96, 165, 250, 0)'} />
                                                 <ItemGradeInputTextState2 labelName={'TOTAL LIDO DA GRADE'}
                                                     colorBorder={`border-gray-900`}
                                                     formData={props.formData} setFormData={props.setFormData}
@@ -1224,7 +1255,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             y1="0"
                                             x2="1.5"
                                             y2="100%"
-                                            stroke={temCaixasParaGerar ? "#334155" : "transparent"}
+                                            stroke={temCaixasParaGerar ? "#334155" : "#334155"}
                                             strokeWidth="3"
                                             strokeDasharray="8 8"
                                         >
