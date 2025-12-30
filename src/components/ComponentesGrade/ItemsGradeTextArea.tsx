@@ -1,7 +1,7 @@
 import { GradeItem } from "../../../core"
 import { concat } from "../../../core/utils/tools"
 
-export interface ItemsGradeInputTextProps {
+export interface ItemsGradeTextAreaProps {
     itemSelecionado?: GradeItem
     labelName: string
     value: string | undefined
@@ -9,7 +9,7 @@ export interface ItemsGradeInputTextProps {
     colorBorder?: string
 }
 
-export default function ItemsGradeInputText( props : ItemsGradeInputTextProps) {    
+export default function ItemsGradeTextArea( props : ItemsGradeTextAreaProps) {    
     return (
         <div className="flex flex-col items-start justify-center gap-y-3">
             <label htmlFor={`${concat(props.labelName)}-input`} className="text-left text-[15px] text-zinc-500 tracking-[2px]">
