@@ -1108,15 +1108,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
 
                             {/* Main Content Grid */}
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-0">
+                            <div className={`grid grid-cols-1 xl:grid-cols-2 gap-0`}>
 
                                 {/* Left Column - Item Information */}
-                                <div className="p-3 space-y-8 uppercase">
-                                    <div className="flex items-center space-x-2 mb-4">
-                                        <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                                        <h3 className="text-lg text-zinc-400 font-semibold opacity-80">Informações do Item</h3>
+                                <div className={`p-3 space-y-8 uppercase`}>
+                                    <div className={`flex items-center space-x-2 mb-4`}>
+                                        <div className={`w-3 h-3 bg-blue-400 rounded-full`}></div>
+                                        <h3 className={`text-lg text-zinc-400 font-semibold opacity-80`}>Informações do Item</h3>
                                     </div>
-                                    <div className="space-y-8">
+                                    <div className={`space-y-8`}>
                                         <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
@@ -1131,7 +1131,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
                                             <svg
-                                                className="absolute w-[101%] -right-[0.40rem] -top-[1rem]"
+                                                className={`absolute w-[101%] -right-[0.40rem] -top-[1rem]`}
                                                 height="3"
                                             >
                                                 <line
@@ -1154,7 +1154,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     )}
                                                 </line>
                                             </svg>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <div className={`grid grid-cols-2 gap-4`}>
                                                 <ItemsGradeInputText
                                                     value={itemSelecionado?.itemTamanho?.item?.genero}
                                                     labelName={`GÊNERO`}
@@ -1163,10 +1163,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     opacit={`opacity-80`}
                                                     bgColor={
                                                         itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
-                                                            ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
-                                                            : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
-                                                                ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
-                                                                : 'rgba(51, 65, 85, 0.3)'    // neutro
+                                                        ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
+                                                        : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
+                                                        ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
+                                                        : 'rgba(51, 65, 85, 0.3)'    // neutro
                                                     } />
                                                 <ItemsGradeInputText
                                                     value={itemSelecionado?.itemTamanho?.barcode?.codigo}
@@ -1175,7 +1175,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     border_col={'border-gray-800'}
                                                     opacit={`opacity-80`} />
                                             </div>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <div className={`grid grid-cols-2 gap-4`}>
                                                 <ItemsGradeInputText
                                                     value={itemSelecionado?.itemTamanho?.tamanho?.nome} opacit={`opacity-80`}
                                                     labelName={`TAMANHO`}
