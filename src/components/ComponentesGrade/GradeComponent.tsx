@@ -51,7 +51,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
-    const [isNovaCaixa, setIsNovaCaixa] = useState(false);
+    const [isNovaCaixa, setIsNovaCaixa] = useState(false);    
     const [blinkCount, setBlinkCount] = useState(0);
     const [busca, setBusca] = useState<string>('');
 
