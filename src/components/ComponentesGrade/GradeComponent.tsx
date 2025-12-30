@@ -51,7 +51,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
-    const [isNovaCaixa, setIsNovaCaixa] = useState(false);    
+    const [isNovaCaixa, setIsNovaCaixa] = useState(false);
     const [blinkCount, setBlinkCount] = useState(0);
     const [busca, setBusca] = useState<string>('');
 
@@ -1120,11 +1120,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
-                                            <ItemsGradeTextArea 
+                                            <ItemsGradeTextArea
                                                 value={itemSelecionado?.itemTamanho?.item?.nome}
-                                                labelName={`ITEM`} 
-                                                color={`text-zinc-400`} 
-                                                colorBorder={`border-gray-800`} 
+                                                labelName={`ITEM`}
+                                                color={`text-zinc-400`}
+                                                colorBorder={`border-gray-800`}
                                                 opacit={`opacity-80`} />
                                         </fieldset>
                                         <fieldset className={`relative flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
