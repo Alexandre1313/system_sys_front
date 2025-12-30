@@ -134,6 +134,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);
 
     const numeroCaixaAtual = props.grade.gradeCaixas.length + 1;
+    const isPendente = props.grade.status === 'PENDENTE';
 
     useEffect(() => {
         setIsNovaCaixa(true);
@@ -1007,34 +1008,35 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     </div>
                                 </div>
                                 {/* CARD — CAIXA ATUAL */}
-                                <div className={`text-left`}>
+                                <div
+                                    className={`text-left ${!isPendente ? 'grayscale opacity-50' : 'opacity-100'}`}
+                                >
                                     <div
-                                        className={`
-                                                    flex flex-col items-center justify-center
-                                                    min-w-[280px] max-w-[280px]
-                                                    p-1 px-3
-                                                    bg-slate-800/60 backdrop-blur-sm
-                                                    rounded-ee-3xl rounded-ss-3xl
-                                                    transition-all duration-150
-
-                                                    ${isNovaCaixa && blinkCount % 2 === 1
-                                                ? 'border border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.35)]'
-                                                : 'border border-slate-600 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'
-                                            }
-                                                `}
+                                        className={`flex flex-col items-center justify-center  min-w-[280px] max-w-[280px]
+                                        p-1 px-3 bg-slate-800/60 backdrop-blur-sm  rounded-ee-3xl rounded-ss-3xl transition-all duration-150
+                                        ${isNovaCaixa && blinkCount % 2 === 1 && isPendente ? 'border border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.35)]': 'border border-slate-600 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'}`}
                                     >
-                                        <h1 className={`text-xl lg:text-4xl font-bold text-amber-300 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
-                                            {`CX${String(numeroCaixaAtual).padStart(2, '0')}`}
-                                        </h1>
-                                        {isNovaCaixa && (
+                                        <h1
+                                            className={`font-bold tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]
+                                            ${isPendente ? 'text-amber-300 text-xl lg:text-4xl' : 'text-slate-400 text-xl lg:text-2xl'}`}
+                                        >
+                                        {isPendente ? `CX${String(numeroCaixaAtual).padStart(2, '0')}`: 'ENCERRADO'}</h1>
+
+                                        {isPendente && isNovaCaixa && (
                                             <p className="text-xs text-amber-400/80 font-medium tracking-wide">
                                                 NOVA CAIXA
                                             </p>
                                         )}
 
-                                        {!isNovaCaixa && (
+                                        {isPendente && !isNovaCaixa && (
                                             <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
                                                 ANOTE O Nº DA CAIXA ATUAL
+                                            </p>
+                                        )}
+
+                                        {!isPendente && (
+                                            <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
+                                                GRADE FINALIZADA
                                             </p>
                                         )}
                                     </div>
@@ -1163,10 +1165,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     opacit={`opacity-80`}
                                                     bgColor={
                                                         itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
-                                                        ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
-                                                        : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
-                                                        ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
-                                                        : 'rgba(51, 65, 85, 0.3)'    // neutro
+                                                            ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
+                                                            : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
+                                                                ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
+                                                                : 'rgba(51, 65, 85, 0.3)'    // neutro
                                                     } />
                                                 <ItemsGradeInputText
                                                     value={itemSelecionado?.itemTamanho?.barcode?.codigo}
