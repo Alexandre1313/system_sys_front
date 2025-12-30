@@ -11,12 +11,13 @@ export interface ItemsGradeInputText2Props {
     positionn?: string;
     labelposition?: string;
     border_col?: string;
+    opacit?: string;
 }
 
 export default function ItemsGradeInputText2(props: ItemsGradeInputText2Props) {
     const value = `${props.value - props.qtyCaixa}` || "";    
     return (
-        <div className="flex flex-col items-start justify-center gap-y-3">
+        <div className={`flex flex-col items-start justify-center gap-y-3 ${props.opacit ? props.opacit: 'opacity-100'}`}>
             <label htmlFor={`${concat(props.labelName)}-input`} className={`flex text-[15px] w-full
             text-zinc-500 tracking-[2px] ${props.labelposition ? props.labelposition : 'justify-start'}`}>
                 {props.labelName}

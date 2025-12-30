@@ -15,6 +15,7 @@ export interface ItemGradeInputTextStateProps {
     maxWhidth?: string;
     height?: string;
     colorBorder?: string;
+    opacit?: string;
     tot?: string;
     setFormData: (key: string, value: any) => void; // Função que atualiza o estado no pai   
 }
@@ -30,7 +31,7 @@ export default function ItemGradeInputTextState(props: ItemGradeInputTextStatePr
     };
 
     return (
-        <div className="flex flex-col items-start justify-center gap-y-3 w-full">
+        <div className={`flex flex-col items-start justify-center gap-y-3 w-full ${props.opacit ? props.opacit: 'opacity-100'}`}>
             <label
                 htmlFor={`${labelName}-input`}
                 className={`flex ${props.labelposition ? props.labelposition : 'justify-end'} w-full text-[15px]

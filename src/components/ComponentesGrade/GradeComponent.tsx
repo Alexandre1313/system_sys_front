@@ -51,6 +51,8 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [mostrarTelaExped, setMostrarTelaExped] = useState(false);
     const [itemSelecionado, setItemSelecionado] = useState<GradeItem | null>(null);
     const [totalGrade, setTotalGrade] = useState<number | undefined>(0);
+    const [isNovaCaixa, setIsNovaCaixa] = useState(false);
+    const [blinkCount, setBlinkCount] = useState(0);
     const [busca, setBusca] = useState<string>('');
 
     const router = useRouter();
@@ -130,6 +132,26 @@ export default function GradeComponent(props: GradeComponentProps) {
             setItemSelecionado(props.formData.ITEM_SELECIONADO);
         }
     }, [props.formData?.ITEM_SELECIONADO?.quantidadeExpedida, props.formData?.ITEM_SELECIONADO?.qtyPCaixa, itemSelecionado?.id, props.formData?.ITEM_SELECIONADO?.id, props.formData?.ITEM_SELECIONADO]);
+
+    const numeroCaixaAtual = props.grade.gradeCaixas.length + 1;
+
+    useEffect(() => {
+        setIsNovaCaixa(true);
+        setBlinkCount(1);
+
+        const interval = setInterval(() => {
+            setBlinkCount(prev => {
+                if (prev >= 5) {
+                    clearInterval(interval);
+                    setIsNovaCaixa(false);
+                    return prev;
+                }
+                return prev + 1;
+            });
+        }, 300); // 300ms = ritmo bom de atenção, sem irritar
+
+        return () => clearInterval(interval);
+    }, [numeroCaixaAtual]);
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -931,8 +953,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                             <div className={`text-left`}>
                                 <div className={`flex flex-col items-center justify-center border border-slate-700 p-1 px-3
                                 min-w-[280px] max-w-[280px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl`}>
-                                    <p className={`text-sm text-white font-medium tracking-[2px] truncate`}>{`${props.escola.projeto?.nome}`}</p>
-                                    <p className={`text-sm text-emerald-400 font-medium truncate`}>{`${`PROJETO`}`}</p>
+                                    <p className={`text-xs text-slate-300 font-medium tracking-wide truncate`}>{`${props.escola.projeto?.nome}`}</p>
+                                    <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>{`${`PROJETO`}`}</p>
                                 </div>
                             </div>
                             <div className={`flex flex-wrap gap-4`}>
@@ -953,12 +975,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             href={`/caixas_por_grade/${String(props.grade.id)}`}
                                             className={`flex items-center justify-start gap-x-2`}
                                         >
-                                            <h1 className={`text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px]`}>
+                                            <h1 className={`text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
                                                 {`G${props.grade.id}`}
                                             </h1>
                                             <ExternalLink className={`${colorLinkExternal}`} size={12} />
                                         </Link>
-                                        <p className={`text-sm text-emerald-400 font-medium`}>
+                                        <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
                                             ANOTE O ID DA GRADE
                                         </p>
                                     </div>
@@ -976,10 +998,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             shadow-[0_6px_16px_rgba(0,0,0,0.35)]
                                         `}
                                     >
-                                        <h1 className={`text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px]`}>
+                                        <h1 className={`text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
                                             {`E${props.escola?.numeroEscola}`}
                                         </h1>
-                                        <p className={`text-sm text-emerald-400 font-medium`}>
+                                        <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
                                             ANOTE O Nº DA UNIDADE ESCOLAR
                                         </p>
                                     </div>
@@ -988,21 +1010,33 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <div className={`text-left`}>
                                     <div
                                         className={`
-                                            flex flex-col items-center justify-center
-                                            min-w-[280px] max-w-[280px]
-                                            p-1 px-3
-                                            bg-slate-800/60 backdrop-blur-sm
-                                            border border-slate-600
-                                            rounded-ee-3xl rounded-ss-3xl
-                                            shadow-[0_6px_16px_rgba(0,0,0,0.35)]
-                                        `}
+                                                    flex flex-col items-center justify-center
+                                                    min-w-[280px] max-w-[280px]
+                                                    p-1 px-3
+                                                    bg-slate-800/60 backdrop-blur-sm
+                                                    rounded-ee-3xl rounded-ss-3xl
+                                                    transition-all duration-150
+
+                                                    ${isNovaCaixa && blinkCount % 2 === 1
+                                                ? 'border border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.35)]'
+                                                : 'border border-slate-600 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'
+                                            }
+                                                `}
                                     >
-                                        <h1 className={`text-xl lg:text-4xl font-bold text-amber-300 tracking-[3px]`}>
-                                            {`CX${String(props.grade.gradeCaixas.length + 1).padStart(2, '0')}`}
+                                        <h1 className={`text-xl lg:text-4xl font-bold text-amber-300 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
+                                            {`CX${String(numeroCaixaAtual).padStart(2, '0')}`}
                                         </h1>
-                                        <p className={`text-sm text-emerald-400 font-medium`}>
-                                            ANOTE O Nº DA CAIXA ATUAL
-                                        </p>
+                                        {isNovaCaixa && (
+                                            <p className="text-xs text-amber-400/80 font-medium tracking-wide">
+                                                NOVA CAIXA
+                                            </p>
+                                        )}
+
+                                        {!isNovaCaixa && (
+                                            <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
+                                                ANOTE O Nº DA CAIXA ATUAL
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -1039,8 +1073,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 ref={btnRef14}
                                                 onClick={props.handleFormDataChangeAcresc}
                                                 className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
-                                                    text-white rounded-lg transition-all duration-300 transform hover:scale-100
-                                                    min-w-[50px]`}
+                                                          text-white rounded-lg transition-all duration-300 transform hover:scale-100
+                                                            min-w-[50px]`}
                                             >
                                                 <Plus size={19} />
                                                 <span className={`text-[1.2em]`}>1</span>
@@ -1049,8 +1083,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 ref={btnRef13}
                                                 onClick={props.handleFormDataChangeDecresc}
                                                 className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
-                                                    text-white rounded-lg transition-all duration-300 transform hover:scale-100
-                                                    min-w-[50px]`}
+                                                          text-white rounded-lg transition-all duration-300 transform hover:scale-100
+                                                            min-w-[50px]`}
                                             >
                                                 <Minus size={19} />
                                                 <span className={`text-[1.2em]`}>1</span>
@@ -1062,7 +1096,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 ref={btnRef}
                                                 onClick={props.OpenModalGerarCaixa}
                                                 className={`flex items-center justify-start flex-grow space-x-2 px-4 py-2 text-white
-                                                                font-medium rounded-lg transition-all duration-300 transform hover:scale-100
+                                                            font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                                     ${textBtnBox(props.formData, temCaixasParaGerar)[1]}`}
                                             >
                                                 <Box size={29} />
@@ -1080,14 +1114,18 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <div className="p-3 space-y-8 uppercase">
                                     <div className="flex items-center space-x-2 mb-4">
                                         <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                                        <h3 className="text-lg font-semibold text-white">Informações do Item</h3>
+                                        <h3 className="text-lg text-zinc-400 font-semibold opacity-80">Informações do Item</h3>
                                     </div>
                                     <div className="space-y-8">
                                         <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
-                                            <ItemsGradeTextArea value={itemSelecionado?.itemTamanho?.item?.nome}
-                                                labelName={`ITEM`} color={`text-zinc-400`} colorBorder={`border-gray-800`} />
+                                            <ItemsGradeTextArea 
+                                                value={itemSelecionado?.itemTamanho?.item?.nome}
+                                                labelName={`ITEM`} 
+                                                color={`text-zinc-400`} 
+                                                colorBorder={`border-gray-800`} 
+                                                opacit={`opacity-80`} />
                                         </fieldset>
                                         <fieldset className={`relative flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
@@ -1117,8 +1155,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 </line>
                                             </svg>
                                             <div className="grid grid-cols-2 gap-4">
-                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.item?.genero}
-                                                    labelName={`GÊNERO`} color={`text-zinc-400`} border_col={'border-gray-800'}
+                                                <ItemsGradeInputText
+                                                    value={itemSelecionado?.itemTamanho?.item?.genero}
+                                                    labelName={`GÊNERO`}
+                                                    color={`text-zinc-400`}
+                                                    border_col={'border-gray-800'}
+                                                    opacit={`opacity-80`}
                                                     bgColor={
                                                         itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
                                                             ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
@@ -1126,14 +1168,25 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                                 ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
                                                                 : 'rgba(51, 65, 85, 0.3)'    // neutro
                                                     } />
-                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                                    labelName={`CÓDIGO DE BARRAS`} color={`text-zinc-400`} border_col={'border-gray-800'} />
+                                                <ItemsGradeInputText
+                                                    value={itemSelecionado?.itemTamanho?.barcode?.codigo}
+                                                    labelName={`CÓDIGO DE BARRAS`}
+                                                    color={`text-zinc-400`}
+                                                    border_col={'border-gray-800'}
+                                                    opacit={`opacity-80`} />
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
-                                                <ItemsGradeInputText value={itemSelecionado?.itemTamanho?.tamanho?.nome}
-                                                    labelName={`TAMANHO`} color={`text-yellow-200`} border_col={'border-gray-800'} />
-                                                <ItemsGradeInputText value={props.grade.status} border_col={'border-gray-800'}
-                                                    labelName={`GRADE STATUS`} color={`text-zinc-400`} />
+                                                <ItemsGradeInputText
+                                                    value={itemSelecionado?.itemTamanho?.tamanho?.nome} opacit={`opacity-80`}
+                                                    labelName={`TAMANHO`}
+                                                    color={`text-yellow-200`}
+                                                    border_col={'border-gray-800'} />
+                                                <ItemsGradeInputText
+                                                    value={props.grade.status}
+                                                    border_col={'border-gray-800'}
+                                                    labelName={`GRADE STATUS`}
+                                                    color={`text-zinc-400`}
+                                                    opacit={`opacity-80`} />
                                             </div>
                                         </fieldset>
                                     </div>
@@ -1159,21 +1212,45 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações do item</legend>*/}
                                         {/* Quantities in Row */}
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidade)}
-                                                labelName={`PREVISTO (DO ITEM)`} color={`text-yellow-600`} border_col={'border-gray-800'} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidadeExpedida)} border_col={'border-gray-800'}
-                                                labelName={`EXP. TOTAL (DO ITEM)`} color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-300'}`}
-                                                bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`} />
-                                            <ItemsGradeInputText value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)} border_col={'border-gray-800'}
-                                                labelName={"À EXPEDIR (DO ITEM)"} color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'}`}
-                                                bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`} />
+                                            <ItemsGradeInputText
+                                                value={String(itemSelecionado.quantidade)}
+                                                labelName={`PREVISTO (DO ITEM)`}
+                                                color={`text-yellow-600`}
+                                                border_col={'border-gray-800'}
+                                                opacit={`opacity-75`} />
+                                            <ItemsGradeInputText
+                                                value={String(itemSelecionado.quantidadeExpedida)}
+                                                border_col={'border-gray-800'}
+                                                labelName={`EXP. TOTAL (DO ITEM)`}
+                                                color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-400'}`}
+                                                bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`}
+                                                opacit={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'opacity-100' : 'opacity-75'}`} />
+                                            <ItemsGradeInputText
+                                                value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
+                                                border_col={'border-gray-800'}
+                                                labelName={"À EXPEDIR (DO ITEM)"}
+                                                color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-500' : 'text-slate-400'}`}
+                                                bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
+                                                opacit={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'opacity-100' : 'opacity-75'}`} />
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-                                            <ItemsGradeInputText2 border_col={'border-gray-800'} qtyCaixa={itemSelecionado.qtyPCaixa} value={itemSelecionado.quantidadeExpedida} labelName={`TOTAL EXPEDIDO EM OUTRAS CAIXAS (DO ITEM)`}
-                                                color={'text-slate-400'} labelposition={'justify-end'} positionn={'text-right'} />
-                                            <ItemsGradeInputText border_col={'border-gray-800'} value={String(itemSelecionado.qtyPCaixa)} labelName={`QUANTIDADE EXPEDIDA NA CAIXA ATUAL (DO ITEM)`}
-                                                color={'text-slate-400'} bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
+                                            <ItemsGradeInputText2
+                                                border_col={'border-gray-800'}
+                                                qtyCaixa={itemSelecionado.qtyPCaixa}
+                                                value={itemSelecionado.quantidadeExpedida}
+                                                labelName={`TOTAL EXPEDIDO EM OUTRAS CAIXAS (DO ITEM)`}
+                                                opacit={`opacity-75`}
+                                                color={'text-zinc-500'}
+                                                labelposition={'justify-end'}
+                                                positionn={'text-right'} />
+                                            <ItemsGradeInputText
+                                                border_col={'border-gray-800'}
+                                                value={String(itemSelecionado.qtyPCaixa)}
+                                                labelName={`QUANTIDADE EXPEDIDA NA CAIXA ATUAL (DO ITEM)`}
+                                                color={itemSelecionado.qtyPCaixa > 0 ? 'text-white' : 'text-slate-400'}
+                                                bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
                                                 labelposition={'justify-end'} positionn={'text-right'}
+                                                opacit={`${itemSelecionado.qtyPCaixa > 0 ? 'opacity-100' : 'opacity-75'}`}
                                             />
                                         </div>
                                     </fieldset>
@@ -1209,34 +1286,45 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
                                         <div className="space-y-4">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemsGradeInputText value={String(props.grade.gradeCaixas.length)} border_col={'border-gray-900'}
-                                                    labelName={"VOLUMES JÁ CONSOLIDADOS"} color={'text-red-500'}
+                                                <ItemsGradeInputText value={String(props.grade.gradeCaixas.length)}
+                                                    border_col={'border-gray-900'}
+                                                    labelColor={`text-slate-500`}
+                                                    labelName={"VOLUMES JÁ CONSOLIDADOS"} color={'text-slate-500'}
                                                     bgColor={'rgba(96, 165, 250, 0)'} />
                                                 <ItemGradeInputTextState labelName={'TOTAL NA CAIXA ATUAL'}
                                                     colorBorder={`border-gray-900`}
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     isReadOnly={true}
-                                                    valueColor={`text-zinc-400`} labelColor={`text-zinc-400`}
+                                                    valueColor={`text-slate-500`} labelColor={`text-slate-500`}
                                                     txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
                                                     height={`h-[80px]`} />
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_2fr] gap-2 items-start">
-                                                <ItemsGradeInputText value={String(totalGrade)} border_col={'border-gray-900'}
-                                                    labelName={"TOT. GRADE"} color={'text-zinc-400'}
-                                                    bgColor={'rgba(96, 165, 250, 0)'} />
-                                                <ItemGradeInputTextState2 labelName={'TOTAL LIDO DA GRADE'}
+                                                <ItemsGradeInputText value={String(totalGrade)}
+                                                    border_col={'border-gray-900'}
+                                                    labelName={"TOT. GRADE"}
+                                                    color={'text-slate-500'}
+                                                    bgColor={'rgba(96, 165, 250, 0)'}
+                                                    labelColor={`text-slate-500`} />
+                                                <ItemGradeInputTextState2
+                                                    labelName={'TOTAL LIDO DA GRADE'}
                                                     colorBorder={`border-gray-900`}
-                                                    formData={props.formData} setFormData={props.setFormData}
+                                                    formData={props.formData}
+                                                    setFormData={props.setFormData}
                                                     isReadOnly={true} maxWhidth={`w-full`}
-                                                    valueColor={`text-zinc-400`}
+                                                    valueColor={`text-slate-500`}
                                                     labelposition={`justify-start`}
                                                     positionn={`text-left`}
+                                                    labelColor={`text-slate-500`}
                                                     tot={String(totalGrade)} />
-                                                <ItemGradeInputTextStateBar labelName={'CÓD DE BARRAS LEITURA'}
-                                                    formData={props.formData} setFormData={props.setFormData}
+                                                <ItemGradeInputTextStateBar
+                                                    labelName={'CÓD DE BARRAS LEITURA'}
+                                                    formData={props.formData}
+                                                    setFormData={props.setFormData}
                                                     colorBorder={`border-gray-900`}
-                                                    txtSize={`text-[18px] lg:text-[20px]`} maxWhidth={`w-full`}
+                                                    txtSize={`text-[18px] lg:text-[20px]`}
+                                                    maxWhidth={`w-full`}
                                                     inputRef={props.inputRef}
                                                     isFocuss={props.isFocus}
                                                     placeholder={`Mantenha o cursor aqui...`}

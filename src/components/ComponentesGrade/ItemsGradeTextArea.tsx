@@ -7,11 +7,12 @@ export interface ItemsGradeTextAreaProps {
     value: string | undefined
     color?: string
     colorBorder?: string
+    opacit?: string;
 }
 
 export default function ItemsGradeTextArea( props : ItemsGradeTextAreaProps) {    
     return (
-        <div className="flex flex-col items-start justify-center gap-y-3">
+        <div className={`flex flex-col items-start justify-center gap-y-3 ${props.opacit ? props.opacit: 'opacity-100'}`}>
             <label htmlFor={`${concat(props.labelName)}-input`} className="text-left text-[15px] text-zinc-500 tracking-[2px]">
                 {props.labelName}
             </label>

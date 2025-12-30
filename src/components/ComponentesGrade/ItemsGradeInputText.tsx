@@ -10,16 +10,18 @@ export interface ItemsGradeInputTextProps {
     positionn?: string;
     labelposition?: string;
     border_col?: string;
+    labelColor?: string;
+    opacit?: string;
 }
 
 export default function ItemsGradeInputText(props: ItemsGradeInputTextProps) {
     return (
-        <div className="flex flex-col items-start justify-center gap-y-3">
+        <div className={`flex flex-col items-start justify-center gap-y-3 ${props.opacit ? props.opacit: 'opacity-100'}`}>
             <label htmlFor={`${concat(props.labelName)}-input`} className={`flex w-full text-[15px]
-            text-zinc-500 tracking-[2px] ${props.labelposition ? props.labelposition : 'justify-start'}`}>
+            ${props.labelColor ? props.labelColor: 'text-zinc-500'} tracking-[2px] ${props.labelposition ? props.labelposition : 'justify-start'}`}>
                 {props.labelName}
             </label>
-            <input className={`flex p-2 w-full text-left text-[27px] bg-trans rounded-md  
+            <input className={`flex p-2 w-full text-left text-[27px] bg-trans rounded-md
             outline-none border ${props.border_col ? props.border_col : 'border-gray-700'} ${props.color ? props.color : 'text-cyan-500'}            
             h-[50px] grade-input-responsive pointer-events-none ${props.positionn ? props.positionn : 'text-left'}`}
                 style={{
