@@ -918,26 +918,28 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             {/* Modal 2: Expedition Control */}
             {mostrarTelaExped && itemSelecionado && !props.isMobile && (
-                <div className="fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
+                <div className={`fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen`}
+                    style={{ margin: 0, padding: 0 }}>
                     {/* Background Patterns */}
-                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
-                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+                    <div className={`fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none`}></div>
+                    <div className={`fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none`}></div>
 
                     {/* Header */}
-                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
-                        <div className="flex items-start justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3">
-                            <div className="text-left">
-                                <div className="flex flex-col items-center justify-center border border-slate-700 p-1 px-3
-                                min-w-[280px] max-w-[280px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl">
-                                    <p className="text-sm text-white font-medium tracking-[2px] truncate">{`${props.escola.projeto?.nome}`}</p>
-                                    <p className="text-sm text-emerald-400 font-medium truncate">{`${`PROJETO`}`}</p>
+                    <div className={`fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0`}
+                        style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                        <div className={`flex items-start justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3`}>
+                            <div className={`text-left`}>
+                                <div className={`flex flex-col items-center justify-center border border-slate-700 p-1 px-3
+                                min-w-[280px] max-w-[280px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl`}>
+                                    <p className={`text-sm text-white font-medium tracking-[2px] truncate`}>{`${props.escola.projeto?.nome}`}</p>
+                                    <p className={`text-sm text-emerald-400 font-medium truncate`}>{`${`PROJETO`}`}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-wrap gap-4">
+                            <div className={`flex flex-wrap gap-4`}>
                                 {/* CARD — GRADE */}
-                                <div className="text-left">
+                                <div className={`text-left`}>
                                     <div
-                                        className="
+                                        className={`
                                             flex flex-col items-center justify-center
                                             min-w-[280px] max-w-[280px]
                                             p-1 px-3
@@ -945,26 +947,26 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             border border-slate-600
                                             rounded-ee-3xl rounded-ss-3xl
                                             shadow-[0_6px_16px_rgba(0,0,0,0.35)]
-                                        "
+                                        `}
                                     >
                                         <Link
                                             href={`/caixas_por_grade/${String(props.grade.id)}`}
-                                            className="flex items-center justify-start gap-x-2"
+                                            className={`flex items-center justify-start gap-x-2`}
                                         >
-                                            <h1 className="text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px]">
+                                            <h1 className={`text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px]`}>
                                                 {`G${props.grade.id}`}
                                             </h1>
                                             <ExternalLink className={`${colorLinkExternal}`} size={12} />
                                         </Link>
-                                        <p className="text-sm text-emerald-400 font-medium">
+                                        <p className={`text-sm text-emerald-400 font-medium`}>
                                             ANOTE O ID DA GRADE
                                         </p>
                                     </div>
                                 </div>
                                 {/* CARD — ESCOLA */}
-                                <div className="text-left">
+                                <div className={`text-left`}>
                                     <div
-                                        className="
+                                        className={`
                                             flex flex-col items-center justify-center
                                             min-w-[280px] max-w-[280px]
                                             p-1 px-3
@@ -972,20 +974,20 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             border border-slate-600
                                             rounded-ee-3xl rounded-ss-3xl
                                             shadow-[0_6px_16px_rgba(0,0,0,0.35)]
-                                        "
+                                        `}
                                     >
-                                        <h1 className="text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px]">
+                                        <h1 className={`text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px]`}>
                                             {`E${props.escola?.numeroEscola}`}
                                         </h1>
-                                        <p className="text-sm text-emerald-400 font-medium">
+                                        <p className={`text-sm text-emerald-400 font-medium`}>
                                             ANOTE O Nº DA UNIDADE ESCOLAR
                                         </p>
                                     </div>
                                 </div>
                                 {/* CARD — CAIXA ATUAL */}
-                                <div className="text-left">
+                                <div className={`text-left`}>
                                     <div
-                                        className="
+                                        className={`
                                             flex flex-col items-center justify-center
                                             min-w-[280px] max-w-[280px]
                                             p-1 px-3
@@ -993,12 +995,12 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             border border-slate-600
                                             rounded-ee-3xl rounded-ss-3xl
                                             shadow-[0_6px_16px_rgba(0,0,0,0.35)]
-                                        "
+                                        `}
                                     >
-                                        <h1 className="text-xl lg:text-4xl font-bold text-amber-300 tracking-[3px]">
+                                        <h1 className={`text-xl lg:text-4xl font-bold text-amber-300 tracking-[3px]`}>
                                             {`CX${String(props.grade.gradeCaixas.length + 1).padStart(2, '0')}`}
                                         </h1>
-                                        <p className="text-sm text-emerald-400 font-medium">
+                                        <p className={`text-sm text-emerald-400 font-medium`}>
                                             ANOTE O Nº DA CAIXA ATUAL
                                         </p>
                                     </div>
@@ -1008,15 +1010,15 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </div>
 
                     {/* Content */}
-                    <div className="flex flex-col relative z-10 flex-1 overflow-auto justify-between" style={{ marginTop: '80px' }}>
-                        <div className="max-w-[92rem] mx-auto p-6">
+                    <div className={`flex flex-col relative z-10 flex-1 overflow-auto justify-between`} style={{ marginTop: '80px' }}>
+                        <div className={`max-w-[92rem] mx-auto p-6`}>
 
                             {/* Actions Bar */}
-                            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-6">
-                                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                            <div className={`bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-6`}>
+                                <div className={`grid grid-cols-1 xl:grid-cols-2 gap-8`}>
 
                                     {/* Action Buttons */}
-                                    <div className="flex flex-wrap py-3">
+                                    <div className={`flex flex-wrap py-3`}>
                                         <button
                                             ref={btnRef1}
                                             onClick={fecharTelaExped}
@@ -1025,14 +1027,14 @@ export default function GradeComponent(props: GradeComponentProps) {
                                              min-w-[70px] justify-center`}
                                         >
                                             <ArrowLeft size={19} />
-                                            <span className="hidden"></span>
+                                            <span className={`hidden`}></span>
                                         </button>
                                     </div>
 
                                     {/* Close Box e Buttons */}
-                                    <div className="flex justify-between bg-[#181818]/50 p-3 rounded-2xl">
+                                    <div className={`flex justify-between bg-[#181818]/50 p-3 rounded-2xl`}>
 
-                                        <div className="flex flex-wrap gap-3">
+                                        <div className={`flex flex-wrap gap-3`}>
                                             <button
                                                 ref={btnRef14}
                                                 onClick={props.handleFormDataChangeAcresc}
@@ -1041,7 +1043,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     min-w-[50px]`}
                                             >
                                                 <Plus size={19} />
-                                                <span className="text-[1.2em]">1</span>
+                                                <span className={`text-[1.2em]`}>1</span>
                                             </button>
                                             <button
                                                 ref={btnRef13}
@@ -1051,11 +1053,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     min-w-[50px]`}
                                             >
                                                 <Minus size={19} />
-                                                <span className="text-[1.2em]">1</span>
+                                                <span className={`text-[1.2em]`}>1</span>
                                             </button>
                                         </div>
 
-                                        <div className="flex w-[49%]">
+                                        <div className={`flex w-[49%]`}>
                                             <button
                                                 ref={btnRef}
                                                 onClick={props.OpenModalGerarCaixa}
