@@ -149,7 +149,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 }
                 return prev + 1;
             });
-        }, 500); // 300ms = ritmo bom de atenção, sem irritar
+        }, 300); // 300ms = ritmo bom de atenção, sem irritar
 
         return () => clearInterval(interval);
     }, [numeroCaixaAtual]);
