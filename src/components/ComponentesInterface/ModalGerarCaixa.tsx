@@ -1,7 +1,7 @@
 import { inserirCaixa } from '@/hooks_api/api';
 import { motion } from 'framer-motion';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Loader } from 'react-feather';
+import { ArrowRight, Loader } from 'react-feather';
 import Caixa from '../../../core/interfaces/Caixa';
 import CaixaResume from './CaixarResume';
 
@@ -147,7 +147,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             onClick={onClose}
             disabled={isLoading}
           >
-            Cancelar
+            Cancelar (ESC)
           </button>
 
           {/* Botão Principal - Encerrar/Tentar Novamente */}
@@ -158,7 +158,14 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             onClick={handleGerarCaixa}
             disabled={isLoading}
           >
-            {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : 'Encerrar Caixa'}
+            {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : (
+              <span className="flex items-center gap-2">
+                <span>Encerrar Caixa</span>
+                <span className="flex items-center gap-0 opacity-80">
+                  (<ArrowRight size={18} />)
+                </span>
+              </span>
+            )}
           </button>
 
           {/* Botão Cancelar Caixa - Removido quando há erro de persistência */}

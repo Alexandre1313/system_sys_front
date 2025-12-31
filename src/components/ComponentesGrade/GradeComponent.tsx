@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, Box, ExternalLink, Eye, Minus, Plus, Search } from "react-feather";
+import { ArrowDown, ArrowLeft, Box, ExternalLink, Eye, Minus, Plus, Search } from "react-feather";
 import { Escola, EscolaGrade, Grade, GradeItem } from "../../../core";
 import Caixa from "../../../core/interfaces/Caixa";
 import { Genero } from "../../../core/interfaces/Genero";
@@ -149,7 +149,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                 }
                 return prev + 1;
             });
-        }, 300); // 300ms = ritmo bom de atenção, sem irritar
+        }, 500); // 300ms = ritmo bom de atenção, sem irritar
 
         return () => clearInterval(interval);
     }, [numeroCaixaAtual]);
@@ -418,10 +418,13 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <b className="text-white">AGUARDANDO INÍCIO</b>
                 </span>
             ) : temCGerar ? (
-                <span key="inicializada">
+                <span key="inicializada" className={`flex`}>
                     CAIXA DE Nº&nbsp;
                     <b className="text-white">&nbsp;{formData.NUMERODACAIXAATUAL}&nbsp;&nbsp;</b>
                     INICIALIZADA
+                    <span className="flex items-center pl-2 opacity-80">
+                        (<ArrowLeft size={18} />)
+                    </span>
                 </span>
             ) : (
                 <span key="encerrada">
@@ -982,7 +985,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ExternalLink className={`${colorLinkExternal}`} size={12} />
                                         </Link>
                                         <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
-                                            ANOTE O ID DA GRADE
+                                            CONFIRA A GRADE (ID)
                                         </p>
                                     </div>
                                 </div>
@@ -1003,24 +1006,27 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             {`E${props.escola?.numeroEscola}`}
                                         </h1>
                                         <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
-                                            ANOTE O Nº DA UNIDADE ESCOLAR
+                                            CONFIRA O Nº DA ESCOLA
                                         </p>
                                     </div>
                                 </div>
                                 {/* CARD — CAIXA ATUAL */}
                                 <div
-                                    className={`text-left ${!isPendente ? 'grayscale opacity-50' : 'opacity-100'}`}
+                                    className={`text-left ${!isPendente ? 'grayscale opacity-100' : 'opacity-100'}`}
                                 >
                                     <div
                                         className={`flex flex-col items-center justify-center  min-w-[280px] max-w-[280px]
-                                        p-1 px-3 bg-slate-800/60 backdrop-blur-sm  rounded-ee-3xl rounded-ss-3xl transition-all duration-150
-                                        ${isNovaCaixa && blinkCount % 2 === 1 && isPendente ? 'border border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.35)]': 'border border-slate-600 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'}`}
+                                        p-1 px-3 backdrop-blur-sm  rounded-ee-3xl rounded-ss-3xl transition-all duration-150
+                                        ${isNovaCaixa && blinkCount % 2 === 1 && isPendente ?
+                                                'border border-amber-400 bg-amber-400/10 shadow-[0_0_25px_rgba(251,191,36,0.35)]' :
+                                                'border border-slate-600 bg-slate-800/60 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'}`}
                                     >
                                         <h1
                                             className={`font-bold tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]
-                                            ${isPendente ? 'text-amber-300 text-xl lg:text-4xl' : 'text-slate-400 text-xl lg:text-2xl'}`}
+                                            ${isPendente ? 'text-amber-300 text-xl lg:text-4xl' : 'text-slate-400 text-sm h-[40px] lg:text-xl'}`}
                                         >
-                                        {isPendente ? `CX${String(numeroCaixaAtual).padStart(2, '0')}`: 'ENCERRADO'}</h1>
+                                            {isPendente ? `CX${String(numeroCaixaAtual).padStart(2, '0')}` : 'GRADE ENCERRADA'}
+                                        </h1>
 
                                         {isPendente && isNovaCaixa && (
                                             <p className="text-xs text-amber-400/80 font-medium tracking-wide">
@@ -1030,13 +1036,13 @@ export default function GradeComponent(props: GradeComponentProps) {
 
                                         {isPendente && !isNovaCaixa && (
                                             <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
-                                                ANOTE O Nº DA CAIXA ATUAL
+                                                CONFIRA O Nº DA CAIXA
                                             </p>
                                         )}
 
                                         {!isPendente && (
                                             <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
-                                                GRADE FINALIZADA
+                                                NADA PENDENTE NESTA GRADE
                                             </p>
                                         )}
                                     </div>
@@ -1058,12 +1064,16 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         <button
                                             ref={btnRef1}
                                             onClick={fecharTelaExped}
-                                            className={`flex items-center space-x-2 px-2 py-2 bg-emerald-600 hover:bg-emerald-500
+                                            className={`flex items-center space-x-2 px-2 py-2 bg-zinc-700 hover:bg-zinc-800
                                              text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                              min-w-[70px] justify-center`}
                                         >
-                                            <ArrowLeft size={19} />
-                                            <span className={`hidden`}></span>
+                                            <span className="flex items-center gap-2">
+                                                <span>VOLTAR</span>
+                                                <span className="flex items-center gap-0 opacity-80">
+                                                    (<ArrowDown size={18} />)
+                                                </span>
+                                            </span>
                                         </button>
                                     </div>
 
@@ -1093,7 +1103,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </button>
                                         </div>
 
-                                        <div className={`flex w-[49%]`}>
+                                        <div className={`flex w-[52%]`}>
                                             <button
                                                 ref={btnRef}
                                                 onClick={props.OpenModalGerarCaixa}
@@ -1116,7 +1126,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                 <div className={`p-3 space-y-8 uppercase`}>
                                     <div className={`flex items-center space-x-2 mb-4`}>
                                         <div className={`w-3 h-3 bg-blue-400 rounded-full`}></div>
-                                        <h3 className={`text-lg text-zinc-400 font-semibold opacity-80`}>Informações do Item</h3>
+                                        <h3 className={`text-lg text-zinc-400 font-semibold opacity-80`}>Item em expedição</h3>
                                     </div>
                                     <div className={`space-y-8`}>
                                         <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
@@ -1124,7 +1134,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                         >
                                             <ItemsGradeTextArea
                                                 value={itemSelecionado?.itemTamanho?.item?.nome}
-                                                labelName={`ITEM`}
+                                                labelName={`ITEM SELECIONADO`}
                                                 color={`text-zinc-400`}
                                                 colorBorder={`border-gray-800`}
                                                 opacit={`opacity-80`} />
@@ -1186,7 +1196,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 <ItemsGradeInputText
                                                     value={props.grade.status}
                                                     border_col={'border-gray-800'}
-                                                    labelName={`GRADE STATUS`}
+                                                    labelName={`STATUS DA GRADE`}
                                                     color={`text-zinc-400`}
                                                     opacit={`opacity-80`} />
                                             </div>
@@ -1202,7 +1212,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <h3 className={`text-lg font-semibold text-white`}
                                                 style={{ opacity: temCaixasParaGerar ? '0.7' : '0.3' }}
                                             >
-                                                Controle de Expedição
+                                                Controle de expedição
                                             </h3>
                                         </div>
                                         <BalloonStatus temCaixasParaGerar={temCaixasParaGerar} />
@@ -1230,7 +1240,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ItemsGradeInputText
                                                 value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                                 border_col={'border-gray-800'}
-                                                labelName={"À EXPEDIR (DO ITEM)"}
+                                                labelName={"FALTA EXP. (DO ITEM)"}
                                                 color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-500' : 'text-slate-400'}`}
                                                 bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
                                                 opacit={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'opacity-100' : 'opacity-75'}`} />
@@ -1240,7 +1250,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 border_col={'border-gray-800'}
                                                 qtyCaixa={itemSelecionado.qtyPCaixa}
                                                 value={itemSelecionado.quantidadeExpedida}
-                                                labelName={`TOTAL EXPEDIDO EM OUTRAS CAIXAS (DO ITEM)`}
+                                                labelName={`EM OUTRAS CAIXAS`}
                                                 opacit={`opacity-75`}
                                                 color={'text-zinc-500'}
                                                 labelposition={'justify-end'}
@@ -1248,7 +1258,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ItemsGradeInputText
                                                 border_col={'border-gray-800'}
                                                 value={String(itemSelecionado.qtyPCaixa)}
-                                                labelName={`QUANTIDADE EXPEDIDA NA CAIXA ATUAL (DO ITEM)`}
+                                                labelName={`NESTA CAIXA`}
                                                 color={itemSelecionado.qtyPCaixa > 0 ? 'text-white' : 'text-slate-400'}
                                                 bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
                                                 labelposition={'justify-end'} positionn={'text-right'}
@@ -1329,7 +1339,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     maxWhidth={`w-full`}
                                                     inputRef={props.inputRef}
                                                     isFocuss={props.isFocus}
-                                                    placeholder={`Mantenha o cursor aqui...`}
+                                                    placeholder={`Aguardando leitura...`}
                                                     isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
                                                               focus:ring focus:ring-emerald-500`}
                                                     labelColor={`text-emerald-500`}
