@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useCallback } from 'react';
-import { AlertTriangle, X } from 'react-feather';
+import { AlertTriangle } from 'react-feather';
 
 interface ModalProps {
   isOpen: boolean;
