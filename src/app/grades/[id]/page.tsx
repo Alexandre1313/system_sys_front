@@ -99,7 +99,7 @@ export default function Grades() {
     if (novaCaixa) {
       setCaixa(novaCaixa);
       setModalGerarCaixaOpen(true);
-      setModalGerarCaixaMessage('Deseja mesmo encerrar a caixa ? Confira as quantidades.');
+      setModalGerarCaixaMessage('Deseja mesmo fechar esta caixa ? Confira as quantidades.');
     } else {
       console.log("Nenhuma caixa foi criada.");
     }

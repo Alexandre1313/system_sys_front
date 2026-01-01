@@ -423,7 +423,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <b className="text-white">&nbsp;{formData.NUMERODACAIXAATUAL}&nbsp;&nbsp;</b>
                     INICIALIZADA
                     <span className="flex items-center pl-2 opacity-80">
-                        (<ArrowLeft size={18} />)
+                        (<ArrowLeft size={18} strokeWidth={3}/>)
                     </span>
                 </span>
             ) : (
@@ -1071,7 +1071,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <span className="flex items-center gap-2">
                                                 <span>VOLTAR</span>
                                                 <span className="flex items-center gap-0 opacity-80">
-                                                    (<ArrowDown size={18} />)
+                                                    (<ArrowDown size={18} strokeWidth={3}/>)
                                                 </span>
                                             </span>
                                         </button>
@@ -1109,7 +1109,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 onClick={props.OpenModalGerarCaixa}
                                                 className={`flex items-center justify-start flex-grow space-x-2 px-4 py-2 text-white
                                                             font-medium rounded-lg transition-all duration-300 transform hover:scale-100
-                                                    ${textBtnBox(props.formData, temCaixasParaGerar)[1]}`}
+                                                            ${textBtnBox(props.formData, temCaixasParaGerar)[1]}`}
                                             >
                                                 <Box size={29} />
                                                 {textBtnBox(props.formData, temCaixasParaGerar)[0]}

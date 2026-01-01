@@ -68,11 +68,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, message, onClose }) => {
              text-black uppercase font-bold line leading-tight`}>{message}</p>
           <button
             className="mt-2 bg-blue-900 hover:bg-blue-700 text-white px-12 py-2
-           rounded lg:text-[18px] text-[13px] flex gap-x-5 items-center justify-center"
+            rounded lg:text-[18px] text-[13px] flex gap-x-5 items-center justify-center"
             onClick={onClose}
-          >
-            <X size={18} />
-            FECHAR
+          >           
+            OK (ENTER)
           </button>
         </motion.div>
       </div>

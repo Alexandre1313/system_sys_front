@@ -114,7 +114,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="bg-slate-800 border border-slate-600 p-4 rounded-md shadow-md lg:min-w-[40%] min-w-[90%] lg:min-h-[380px] min-h-[75%] gap-y-4 
+        className="bg-slate-800 border border-slate-600 p-4 rounded-md shadow-md lg:min-w-[659px] min-w-[90%] lg:min-h-[380px] min-h-[75%] gap-y-4 
         flex flex-col gap-x-3 items-center justify-between m-8"
       >
         <h2 className="text-3xl text-black font-semibold">
@@ -147,7 +147,7 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
             onClick={onClose}
             disabled={isLoading}
           >
-            Cancelar (ESC)
+            CANCELAR (ESC)
           </button>
 
           {/* Botão Principal - Encerrar/Tentar Novamente */}
@@ -160,9 +160,9 @@ const ModalGerarCaixa: React.FC<ModalGerarCaixaProps> = ({ isOpen, message, box,
           >
             {isLoading ? 'Finalizando...' : isError ? 'Tentar Novamente' : (
               <span className="flex items-center gap-2">
-                <span>Encerrar Caixa</span>
+                <span>FECHAR CAIXA</span>
                 <span className="flex items-center gap-0 opacity-80">
-                  (<ArrowRight size={18} />)
+                  (<ArrowRight size={18} strokeWidth={3}/>)
                 </span>
               </span>
             )}
