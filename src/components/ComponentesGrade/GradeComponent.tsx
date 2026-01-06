@@ -1311,8 +1311,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     formData={props.formData} setFormData={props.setFormData}
                                                     isReadOnly={true}
                                                     valueColor={`text-slate-500`} labelColor={`text-slate-500`}
-                                                    txtSize={`text-[40px] lg:text-[48px]`} maxWhidth={`w-full`}
-                                                    height={`h-[80px]`} />
+                                                    maxWhidth={`w-full`} />
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_2fr] gap-2 items-start">
