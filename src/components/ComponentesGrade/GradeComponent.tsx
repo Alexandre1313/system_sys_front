@@ -1223,7 +1223,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                     >
                                         {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações do item</legend>*/}
                                         {/* Quantities in Row */}
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr] gap-4 items-start">
                                             <ItemsGradeInputText
                                                 value={String(itemSelecionado.quantidade)}
                                                 labelName={`PREVISTO (DO ITEM)`}
@@ -1239,8 +1239,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 opacit={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'opacity-100' : 'opacity-75'}`} />
                                             <ItemsGradeInputText
                                                 value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
-                                                height={`h-[80px]`}
-                                                txtSize={`text-[40px] lg:text-[48px]`}                                                border_col={'border-gray-800'}
+                                                height={`h-[70px]`}
+                                                txtSize={`text-[40px] lg:text-[43px]`}                                                border_col={'border-gray-800'}
                                                 labelName={"FALTA EXP. (DO ITEM)"}
                                                 color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-500' : 'text-slate-400'}`}
                                                 bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
@@ -1259,8 +1259,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ItemsGradeInputText
                                                 border_col={'border-gray-800'}
                                                 value={String(itemSelecionado.qtyPCaixa)}
-                                                height={`h-[80px]`}
-                                                txtSize={`text-[40px] lg:text-[48px]`}  
+                                                height={`h-[70px]`}
+                                                txtSize={`text-[40px] lg:text-[43px]`}  
                                                 labelName={`NESTA CAIXA`}
                                                 color={itemSelecionado.qtyPCaixa > 0 ? 'text-white' : 'text-slate-400'}
                                                 bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
