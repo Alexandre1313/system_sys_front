@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -57,11 +58,13 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const router = useRouter();
 
+    const arrowDownTargetRef = useRef<HTMLButtonElement | null>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
     const btnRef1 = useRef<HTMLButtonElement>(null);
     const btnRef2 = useRef<HTMLButtonElement>(null);
     const btnRef13 = useRef<HTMLButtonElement>(null);
     const btnRef14 = useRef<HTMLButtonElement>(null);
+    const btnRef15 = useRef<HTMLButtonElement>(null);
 
     // refs para manter os valores atualizados sem re-registrar o listener
     const projetoIdRef = useRef(props.escola.projetoId);
@@ -69,6 +72,13 @@ export default function GradeComponent(props: GradeComponentProps) {
     const routerRef = useRef(router);
 
     // atualiza os refs quando os valores mudarem
+    useEffect(() => {
+        if (mostrarTelaExped && mostrarTela) {
+            arrowDownTargetRef.current = btnRef1.current ?? null;
+        } else {
+            arrowDownTargetRef.current = btnRef15.current ?? null;
+        }
+    }, [mostrarTelaExped, mostrarTela]);
     useEffect(() => { projetoIdRef.current = props.escola.projetoId; }, [props.escola.projetoId]);
     useEffect(() => { pushRef.current = (path: string) => router.push(path); }, [router]);
     useEffect(() => { routerRef.current = router; }, [router]);
@@ -83,7 +93,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             if (event.key === 'ArrowDown' || event.code === 'ArrowDown') {
                 event.preventDefault();
-                btnRef1.current?.click();
+                arrowDownTargetRef.current?.click();
             }
 
             if (event.key === 'ArrowUp' || event.code === 'ArrowUp') {
@@ -152,7 +162,7 @@ export default function GradeComponent(props: GradeComponentProps) {
         }, 300); // 300ms = ritmo bom de atenção, sem irritar
 
         return () => clearInterval(interval);
-    }, [numeroCaixaAtual]);
+    }, [numeroCaixaAtual, mostrarTela]);
 
     if (!props.grade || !props.grade.itensGrade) return <div>Nenhuma grade encontrada.</div>;
 
@@ -382,12 +392,12 @@ export default function GradeComponent(props: GradeComponentProps) {
         props.handleItemSelecionado(itemAtualizado)
         props.handleEscolaGradeSelecionada(escolaGrade)
         props.handleNUMERODACAIXAATUAL(String(grade.gradeCaixas?.length + 1))
-        setMostrarTelaExped(true);
+        setMostrarTelaExped(true);        
     };
 
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
-        setItemSelecionado(null);
+        setItemSelecionado(null);        
     };
 
     // Verificar se há caixas para gerar (itens com TOTAL NA CAIXA ATUAL > 0)
@@ -619,10 +629,21 @@ export default function GradeComponent(props: GradeComponentProps) {
                     </button>
                 </div>
             </div>
-
+            
+            <AnimatePresence initial={false}>
             {/* Modal 1: Items List View */}
             {mostrarTela && (
-                <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen" style={{ margin: 0, padding: 0 }}>
+                <motion.div
+                    initial={{ clipPath: 'inset(100% 0 0 0)' }}   // fechado (embaixo)
+                    animate={{ clipPath: 'inset(0 0 0 0)' }}      // aberto
+                    exit={{ clipPath: 'inset(100% 0 0 0)' }}      // fecha para baixo
+                    transition={{
+                        duration: 0.35,
+                        ease: [0.22, 1, 0.36, 1]
+                    }}
+                    style={{ margin: 0, padding: 0, willChange: 'clip-path'}}
+                    className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen"
+                >
                     {/* Background Patterns */}
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
                     <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
@@ -633,6 +654,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                         <div className="flex items-center max-w-7xl mx-auto flex-col p-2 lg:p-3 w-full">
                             <div className="flex relative items-center justify-between max-w-7xl mx-auto w-full lg:flex-row flex-col">
                                 <button
+                                    ref={btnRef15}
                                     onClick={fecharTela}
                                     className="flex items-center space-x-2 px-2 lg:px-4 py-2 bg-emerald-600 hover:bg-emerald-500
                                      text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
@@ -779,8 +801,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             )}
+            </AnimatePresence>
 
             {/* Modal 3: Expedition Control Mobile */}
             {mostrarTelaExped && itemSelecionado && props.isMobile && (
@@ -942,10 +965,20 @@ export default function GradeComponent(props: GradeComponentProps) {
                 </div >
             )}
 
+            <AnimatePresence initial={false}>
             {/* Modal 2: Expedition Control */}
             {mostrarTelaExped && itemSelecionado && !props.isMobile && (
-                <div className={`fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen`}
-                    style={{ margin: 0, padding: 0 }}>
+                <motion.div                    
+                    initial={{ clipPath: 'inset(100% 0 0 0)' }}   // fechado (embaixo)
+                    animate={{ clipPath: 'inset(0 0 0 0)' }}      // aberto
+                    exit={{ clipPath: 'inset(100% 0 0 0)' }}      // fecha para baixo
+                    transition={{
+                        duration: 0.35,
+                        ease: [0.22, 1, 0.36, 1]
+                    }}
+                    style={{ margin: 0, padding: 0, willChange: 'clip-path'}}
+                    className={`fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen`}
+                >
                     {/* Background Patterns */}
                     <div className={`fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none`}></div>
                     <div className={`fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none`}></div>
@@ -1381,8 +1414,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                             <FooterKeybordTeclas />
                         </div>
                     </div>
-                </div>
+                </motion.div>
             )}
+            </AnimatePresence>
 
             {/* Modal Component */}
             <ModalAlterGradeItem
