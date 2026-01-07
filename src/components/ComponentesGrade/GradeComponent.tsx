@@ -1206,13 +1206,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     color={`text-zinc-400`}
                                                     border_col={'border-gray-800'}
                                                     opacit={`opacity-80`}
-                                                    bgColor={
-                                                        itemSelecionado?.itemTamanho?.item?.genero.includes('MASC')
-                                                            ? 'rgba(30, 58, 138, 0.3)'   // azul masculino
-                                                            : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM')
-                                                                ? 'rgba(136, 19, 55, 0.3)'   // rosa feminino
-                                                                : 'rgba(51, 65, 85, 0.3)'    // neutro
-                                                    } />
+                                                    bgColor={ itemSelecionado?.itemTamanho?.item?.genero.includes('MASC') ? 'rgba(30, 58, 138, 0.3)' : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM') ? 'rgba(136, 19, 55, 0.3)' : 'rgba(51, 65, 85, 0.3)'}  />
                                                 <ItemsGradeInputText
                                                     value={itemSelecionado?.itemTamanho?.barcode?.codigo}
                                                     labelName={`CÓDIGO DE BARRAS`}
@@ -1222,7 +1216,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             </div>
                                             <div className={`grid grid-cols-2 gap-4`}>
                                                 <ItemsGradeInputText
-                                                    value={itemSelecionado?.itemTamanho?.tamanho?.nome} opacit={`opacity-80`}
+                                                    value={itemSelecionado?.itemTamanho?.tamanho?.nome} 
+                                                    opacit={`opacity-80`}
                                                     labelName={`TAMANHO`}
                                                     color={`text-yellow-200`}
                                                     border_col={'border-gray-800'} />
@@ -1273,8 +1268,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <ItemsGradeInputText
                                                 value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
                                                 height={`h-[70px]`}
-                                                txtSize={`text-[40px] lg:text-[43px]`}                                                border_col={'border-gray-800'}
+                                                txtSize={`text-[40px] lg:text-[43px]`}                                               
+                                                border_col={'border-gray-800'}
                                                 labelName={"FALTA EXP. (DO ITEM)"}
+                                                labelposition={'justify-end'} 
+                                                positionn={'text-right'}
                                                 color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-500' : 'text-slate-400'}`}
                                                 bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
                                                 opacit={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'opacity-100' : 'opacity-75'}`} />
@@ -1297,7 +1295,8 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                 labelName={`NESTA CAIXA`}
                                                 color={itemSelecionado.qtyPCaixa > 0 ? 'text-white' : 'text-slate-400'}
                                                 bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
-                                                labelposition={'justify-end'} positionn={'text-right'}
+                                                labelposition={'justify-end'}
+                                                positionn={'text-right'}
                                                 opacit={`${itemSelecionado.qtyPCaixa > 0 ? 'opacity-100' : 'opacity-75'}`}
                                             />
                                         </div>
