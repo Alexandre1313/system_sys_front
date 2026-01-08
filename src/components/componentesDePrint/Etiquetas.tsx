@@ -304,7 +304,7 @@ const Etiquetas = ({ etiquetas, isprint }: EtiquetaProps) => {
             disabled={!isprint} 
             onClick={gerarPDF}
             className={`flex-1 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
-                justify-center space-x-2 hover:scale-100 text-[13px]`}
+                justify-center space-x-2 hover:scale-100 text-[13px] outline-none`}
             style={{
                 backgroundColor: styles.backgroundColor,
                 borderWidth: styles.borderWidth,

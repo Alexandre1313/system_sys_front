@@ -20,6 +20,7 @@ import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputText2 from "./ItemsGradeInputText2";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
+import GradeBarListBoxes from "./GradeBarListBoxes";
 
 export interface GradeComponentProps {
     grade: Grade;
@@ -55,6 +56,7 @@ export default function GradeComponent(props: GradeComponentProps) {
     const [isNovaCaixa, setIsNovaCaixa] = useState(false);
     const [blinkCount, setBlinkCount] = useState(0);
     const [busca, setBusca] = useState<string>('');
+    const [isOpenListBoxes, setIsOpenListBoxes] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -392,12 +394,12 @@ export default function GradeComponent(props: GradeComponentProps) {
         props.handleItemSelecionado(itemAtualizado)
         props.handleEscolaGradeSelecionada(escolaGrade)
         props.handleNUMERODACAIXAATUAL(String(grade.gradeCaixas?.length + 1))
-        setMostrarTelaExped(true);        
+        setMostrarTelaExped(true);
     };
 
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
-        setItemSelecionado(null);        
+        setItemSelecionado(null);
     };
 
     // Verificar se há caixas para gerar (itens com TOTAL NA CAIXA ATUAL > 0)
@@ -433,7 +435,7 @@ export default function GradeComponent(props: GradeComponentProps) {
                     <b className="text-white">&nbsp;{formData.NUMERODACAIXAATUAL}&nbsp;&nbsp;</b>
                     INICIALIZADA
                     <span className="flex items-center pl-2 opacity-80">
-                        (<ArrowLeft size={18} strokeWidth={3}/>)
+                        (<ArrowLeft size={18} strokeWidth={3} />)
                     </span>
                 </span>
             ) : (
@@ -447,6 +449,10 @@ export default function GradeComponent(props: GradeComponentProps) {
                 temCGerar ? 'bg-green-600 hover:bg-green-500 btn-ripple cursor-pointer' :
                     'bg-yellow-600 hover:bg-yellow-500 opacity-50 cursor-not-allowed pointer-events-none'
         ];
+    };
+
+    const toggleListBoxes = () => {
+        setIsOpenListBoxes(prev => !prev);
     };
 
     const print = () => { return props.printEti(props.grade.gradeCaixas, volms()[4]) }
@@ -622,187 +628,187 @@ export default function GradeComponent(props: GradeComponentProps) {
                         onClick={abrirTela}
                         className={`${statusClass} flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600
                         text-slate-300 font-medium py-3 px-4 rounded-lg transition-all duration-300 flex items-center
-                        justify-center space-x-2 hover:scale-100 text-[13px]`}
+                        justify-center space-x-2 hover:scale-100 text-[13px] outline-none`}
                     >
                         <Eye size={18} className="mr-2" />
                         {uniqueItems.length < 2 ? 'VER ITEM' : 'VER ITENS'}
                     </button>
                 </div>
             </div>
-            
-            <AnimatePresence initial={false}>
-            {/* Modal 1: Items List View */}
-            {mostrarTela && (
-                <motion.div
-                    initial={{ clipPath: 'inset(100% 0 0 0)' }}   // fechado (embaixo)
-                    animate={{ clipPath: 'inset(0 0 0 0)' }}      // aberto
-                    exit={{ clipPath: 'inset(100% 0 0 0)' }}      // fecha para baixo
-                    transition={{
-                        duration: 0.35,
-                        ease: [0.22, 1, 0.36, 1]
-                    }}
-                    style={{ margin: 0, padding: 0, willChange: 'clip-path'}}
-                    className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen"
-                >
-                    {/* Background Patterns */}
-                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
-                    <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
 
-                    {/* Header */}
-                    <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 
+            <AnimatePresence initial={false}>
+                {/* Modal 1: Items List View */}
+                {mostrarTela && (
+                    <motion.div
+                        initial={{ clipPath: 'inset(100% 0 0 0)' }}   // fechado (embaixo)
+                        animate={{ clipPath: 'inset(0 0 0 0)' }}      // aberto
+                        exit={{ clipPath: 'inset(100% 0 0 0)' }}      // fecha para baixo
+                        transition={{
+                            duration: 0.35,
+                            ease: [0.22, 1, 0.36, 1]
+                        }}
+                        style={{ margin: 0, padding: 0, willChange: 'clip-path' }}
+                        className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col top-0 left-0 right-0 bottom-0 h-screen"
+                    >
+                        {/* Background Patterns */}
+                        <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none"></div>
+                        <div className="fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none"></div>
+
+                        {/* Header */}
+                        <div className="fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 top-0 left-0 
                     right-0 w-full lg:min-h-[93px] lg:max-h-[93px]" style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
-                        <div className="flex items-center max-w-7xl mx-auto flex-col p-2 lg:p-3 w-full">
-                            <div className="flex relative items-center justify-between max-w-7xl mx-auto w-full lg:flex-row flex-col">
-                                <button
-                                    ref={btnRef15}
-                                    onClick={fecharTela}
-                                    className="flex items-center space-x-2 px-2 lg:px-4 py-2 bg-emerald-600 hover:bg-emerald-500
+                            <div className="flex items-center max-w-7xl mx-auto flex-col p-2 lg:p-3 w-full">
+                                <div className="flex relative items-center justify-between max-w-7xl mx-auto w-full lg:flex-row flex-col">
+                                    <button
+                                        ref={btnRef15}
+                                        onClick={fecharTela}
+                                        className="flex items-center space-x-2 px-2 lg:px-4 py-2 bg-emerald-600 hover:bg-emerald-500
                                      text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                        absolute top-14 lg:top-4 left-[0.6rem]"
-                                >
-                                    <ArrowLeft size={20} />
-                                    <span className="hidden lg:visible">VOLTAR</span>
-                                </button>
-                                <div className="pl-16 pt-1 lg:pt-0 w-full">
-                                    <h1 className="text-xl lg:pl-16 lg:text-2xl font-bold w-full text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
-                                        ESCOLA {props.escola?.numeroEscola}
-                                    </h1>
-                                    <p className="text-sm lg:pl-16 text-emerald-400 truncate w-[90%]">{props.escola?.nome}</p>
-                                </div>
-                                <div className="text-left w-full pl-16">
-                                    <div className="flex items-center space-x-2 mb-1 lg:justify-end w-full">
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 font-bold lg:text-2xl text-xl lg:pl-16">GRADE ID:</span>
-                                        <span className="lg:text-rose-400 text-rose-400 font-bold lg:text-2xl text-xl">{props.grade.id}</span>
+                                    >
+                                        <ArrowLeft size={20} />
+                                        <span className="hidden lg:visible">VOLTAR</span>
+                                    </button>
+                                    <div className="pl-16 pt-1 lg:pt-0 w-full">
+                                        <h1 className="text-xl lg:pl-16 lg:text-2xl font-bold w-full text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                                            ESCOLA {props.escola?.numeroEscola}
+                                        </h1>
+                                        <p className="text-sm lg:pl-16 text-emerald-400 truncate w-[90%]">{props.escola?.nome}</p>
                                     </div>
-                                    <p className="text-emerald-400 text-sm lg:text-right font-medium lg:pl-16 -mt-1">{itensFiltrados.length} ITE{itensFiltrados.length !== 1 ? 'NS' : 'M'} ENCONTRADO{itensFiltrados.length !== 1 ? 'S' : ''}</p>
+                                    <div className="text-left w-full pl-16">
+                                        <div className="flex items-center space-x-2 mb-1 lg:justify-end w-full">
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 font-bold lg:text-2xl text-xl lg:pl-16">GRADE ID:</span>
+                                            <span className="lg:text-rose-400 text-rose-400 font-bold lg:text-2xl text-xl">{props.grade.id}</span>
+                                        </div>
+                                        <p className="text-emerald-400 text-sm lg:text-right font-medium lg:pl-16 -mt-1">{itensFiltrados.length} ITE{itensFiltrados.length !== 1 ? 'NS' : 'M'} ENCONTRADO{itensFiltrados.length !== 1 ? 'S' : ''}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            {/* Search Bar - Positioned over content with proper spacing (Mobile & Desktop) */}
-                            <div className="absolute top-[130px] lg:top-[110px] left-1/2 transform -translate-x-1/2 z-30 w-[90%] max-w-[500px] px-2 lg:px-4">
-                                <div className="relative">
-                                    <Search
-                                        size={16}
-                                        className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none lg:w-[18px] lg:h-[18px]"
-                                        strokeWidth={1.5}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Filtrar -> 1º Tam, 2º Gênero, 3º Item"
-                                        className="w-full h-10 lg:h-12 pl-9 lg:pl-12 pr-3 lg:pr-4 bg-slate-800/95 backdrop-blur-lg border border-slate-600 rounded-lg lg:rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm lg:text-base shadow-2xl shadow-slate-900/50"
-                                        value={busca}
-                                        onChange={(e) => setBusca(e.target.value.toLowerCase())}
-                                    />
+                                {/* Search Bar - Positioned over content with proper spacing (Mobile & Desktop) */}
+                                <div className="absolute top-[130px] lg:top-[110px] left-1/2 transform -translate-x-1/2 z-30 w-[90%] max-w-[500px] px-2 lg:px-4">
+                                    <div className="relative">
+                                        <Search
+                                            size={16}
+                                            className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none lg:w-[18px] lg:h-[18px]"
+                                            strokeWidth={1.5}
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Filtrar -> 1º Tam, 2º Gênero, 3º Item"
+                                            className="w-full h-10 lg:h-12 pl-9 lg:pl-12 pr-3 lg:pr-4 bg-slate-800/95 backdrop-blur-lg border border-slate-600 rounded-lg lg:rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm lg:text-base shadow-2xl shadow-slate-900/50"
+                                            value={busca}
+                                            onChange={(e) => setBusca(e.target.value.toLowerCase())}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Content - Responsive spacing for mobile and desktop */}
-                    <div className="relative z-10 flex-1 overflow-auto flex items-start justify-center pt-[60px] lg:pt-[64px]" style={{ marginTop: '100px', paddingBottom: '80px' }}>
-                        <div className="max-w-[100%] mx-auto p-6 lg:pt-3">
-                            {/* Items Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                                {itensFiltrados.map((itemGrade, index) => {
-                                    const item = itemGrade?.itemTamanho?.item;
-                                    const genero = item?.genero;
-                                    const tamanho = itemGrade?.itemTamanho?.tamanho;
-                                    const quantidade = itemGrade.quantidade;
-                                    const quantidadeExpedida = itemGrade.quantidadeExpedida;
-                                    const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
-                                    const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
-                                    const isCompleted = quantidade === quantidadeExpedida;
-                                    const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
-                                    const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
-                                    const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50' : 'bg-slate-700/50';
-                                    const [boxClass, dotClass, textClass, label] = getStatusStyles(itemGrade, isCompleted, isPartial);
-                                    const { borderShadow, backgroudC } = cardColor(isCompleted, isPartial, itemGrade);
-                                    return (
-                                        <div
-                                            onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
-                                            key={index}
-                                            className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
+                        {/* Content - Responsive spacing for mobile and desktop */}
+                        <div className="relative z-10 flex-1 overflow-auto flex items-start justify-center pt-[60px] lg:pt-[64px]" style={{ marginTop: '100px', paddingBottom: '80px' }}>
+                            <div className="max-w-[100%] mx-auto p-6 lg:pt-3">
+                                {/* Items Grid */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                                    {itensFiltrados.map((itemGrade, index) => {
+                                        const item = itemGrade?.itemTamanho?.item;
+                                        const genero = item?.genero;
+                                        const tamanho = itemGrade?.itemTamanho?.tamanho;
+                                        const quantidade = itemGrade.quantidade;
+                                        const quantidadeExpedida = itemGrade.quantidadeExpedida;
+                                        const estoque = itemGrade?.itemTamanho?.estoque?.quantidade;
+                                        const barcode = itemGrade?.itemTamanho?.barcode?.codigo;
+                                        const isCompleted = quantidade === quantidadeExpedida;
+                                        const isPartial = quantidadeExpedida > 0 && quantidadeExpedida < quantidade;
+                                        const colorEstoque = estoque! >= 0 ? 'text-slate-400' : 'text-red-500';
+                                        const colorGenero = genero?.includes('MASC') ? 'bg-blue-900/50' : genero?.includes('FEM') ? 'bg-rose-900/50' : 'bg-slate-700/50';
+                                        const [boxClass, dotClass, textClass, label] = getStatusStyles(itemGrade, isCompleted, isPartial);
+                                        const { borderShadow, backgroudC } = cardColor(isCompleted, isPartial, itemGrade);
+                                        return (
+                                            <div
+                                                onClick={() => abrirTelaExped(itemGrade, props.escola, props.grade, totalAExpedir, totalExpedido)}
+                                                key={index}
+                                                className={`group bg-slate-800/50 backdrop-blur-sm border rounded-2xl lg:p-6 p-3 transition-all
                                                 duration-300 transform hover:scale-[1.0] hover:shadow-xl cursor-pointer min-w-[295px]
                                                 ${borderShadow}`}
-                                            style={{
-                                                background: backgroudC,
-                                                pointerEvents: `${isCompleted ? 'auto' : 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`
-                                            }}
-                                        >
-                                            {/* Status Badge */}
-                                            <div className="flex items-center justify-between mb-4">
-                                                <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${boxClass}`}>
-                                                    <div className={`w-2.5 h-2.5 rounded-full ${dotClass}`}></div>
-                                                    <span className={`text-xs font-semibold ${textClass}`}>
-                                                        {label}
-                                                    </span>
+                                                style={{
+                                                    background: backgroudC,
+                                                    pointerEvents: `${isCompleted ? 'auto' : 'auto'}`, cursor: `${isCompleted ? 'not-allowed' : 'pointer'}`
+                                                }}
+                                            >
+                                                {/* Status Badge */}
+                                                <div className="flex items-center justify-between mb-4">
+                                                    <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg ${boxClass}`}>
+                                                        <div className={`w-2.5 h-2.5 rounded-full ${dotClass}`}></div>
+                                                        <span className={`text-xs font-semibold ${textClass}`}>
+                                                            {label}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-slate-400 text-xs font-medium bg-slate-700/50 px-2 py-1 rounded">#{index + 1}</span>
                                                 </div>
-                                                <span className="text-slate-400 text-xs font-medium bg-slate-700/50 px-2 py-1 rounded">#{index + 1}</span>
-                                            </div>
 
-                                            {/* Item Info */}
-                                            <div className="mb-4">
-                                                <h3 className="lg:text-lg text-sm font-semibold text-zinc-400 group-hover:text-emerald-300 transition-colors duration-300 mb-2">
-                                                    {item?.nome}
-                                                </h3>
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <span className={`text-slate-400 text-sm px-2 py-1 rounded ${colorGenero}`}>{genero}</span>
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className="text-slate-500 text-sm">Tam:</span>
-                                                        <span className="text-yellow-200 font-medium text-[20px] lg:text-[23px] bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
+                                                {/* Item Info */}
+                                                <div className="mb-4">
+                                                    <h3 className="lg:text-lg text-sm font-semibold text-zinc-400 group-hover:text-emerald-300 transition-colors duration-300 mb-2">
+                                                        {item?.nome}
+                                                    </h3>
+                                                    <div className="flex items-center justify-between mb-3">
+                                                        <span className={`text-slate-400 text-sm px-2 py-1 rounded ${colorGenero}`}>{genero}</span>
+                                                        <div className="flex items-center space-x-2">
+                                                            <span className="text-slate-500 text-sm">Tam:</span>
+                                                            <span className="text-yellow-200 font-medium text-[20px] lg:text-[23px] bg-slate-700/50 px-2 py-1 rounded">{tamanho?.nome}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            {/* Stats Grid */}
-                                            <div className="grid grid-cols-2 gap-[0.10rem] mb-4">
-                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
-                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Previsto</p>
-                                                    <p className="text-yellow-400 text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{convertMilharFormat(quantidade)}</p>
+                                                {/* Stats Grid */}
+                                                <div className="grid grid-cols-2 gap-[0.10rem] mb-4">
+                                                    <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
+                                                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Previsto</p>
+                                                        <p className="text-yellow-400 text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight">{convertMilharFormat(quantidade)}</p>
+                                                    </div>
+                                                    <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
+                                                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Expedido</p>
+                                                        <p className={`text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${isCompleted ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                                            {convertMilharFormat(quantidadeExpedida)}
+                                                        </p>
+                                                    </div>
+                                                    <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
+                                                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Estoque</p>
+                                                        <p className={`text-base font-extralight ${colorEstoque}`}>
+                                                            {convertMilharFormat(estoque!)}
+                                                        </p>
+                                                    </div>
+                                                    <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
+                                                        <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">À Expedir</p>
+                                                        <p className={`text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
+                                                            }`}>
+                                                            {convertMilharFormat(quantidade - quantidadeExpedida)}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
-                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Expedido</p>
-                                                    <p className={`text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${isCompleted ? 'text-emerald-400' : 'text-slate-300'}`}>
-                                                        {convertMilharFormat(quantidadeExpedida)}
-                                                    </p>
-                                                </div>
-                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
-                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Estoque</p>
-                                                    <p className={`text-base font-extralight ${colorEstoque}`}>
-                                                        {convertMilharFormat(estoque!)}
-                                                    </p>
-                                                </div>
-                                                <div className="bg-slate-900/10 rounded-lg p-2 text-center border border-slate-700/50">
-                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">À Expedir</p>
-                                                    <p className={`text-base lg:text-[1.620rem] lg:leading-[1.5] font-extralight ${quantidade - quantidadeExpedida > 0 ? 'text-blue-400' : 'text-slate-400'
-                                                        }`}>
-                                                        {convertMilharFormat(quantidade - quantidadeExpedida)}
-                                                    </p>
-                                                </div>
-                                            </div>
 
-                                            {/* Barcode */}
-                                            <div className="bg-slate-900/10 rounded-lg p-3 border border-slate-700/50">
-                                                <div className="flex items-center space-x-2 mb-2">
-                                                    <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-                                                    <p className="text-slate-400 text-xs uppercase tracking-wider font-medium">Código de Barras</p>
+                                                {/* Barcode */}
+                                                <div className="bg-slate-900/10 rounded-lg p-3 border border-slate-700/50">
+                                                    <div className="flex items-center space-x-2 mb-2">
+                                                        <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                                                        <p className="text-slate-400 text-xs uppercase tracking-wider font-medium">Código de Barras</p>
+                                                    </div>
+                                                    <p className="text-slate-300 text-lg font-mono break-all">{barcode}</p>
                                                 </div>
-                                                <p className="text-slate-300 text-lg font-mono break-all">{barcode}</p>
-                                            </div>
 
-                                            {/* Click to Expand Indicator */}
-                                            <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-center">
-                                                <span className="text-slate-500 text-xs group-hover:text-slate-300 transition-colors duration-300">
-                                                    {isCompleted ? 'Encerrado' : isPartial ? 'Continuar expedição →' : 'Iniciar expedição →'}
-                                                </span>
+                                                {/* Click to Expand Indicator */}
+                                                <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-center">
+                                                    <span className="text-slate-500 text-xs group-hover:text-slate-300 transition-colors duration-300">
+                                                        {isCompleted ? 'Encerrado' : isPartial ? 'Continuar expedição →' : 'Iniciar expedição →'}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </motion.div>
-            )}
+                    </motion.div>
+                )}
             </AnimatePresence>
 
             {/* Modal 3: Expedition Control Mobile */}
@@ -966,39 +972,39 @@ export default function GradeComponent(props: GradeComponentProps) {
             )}
 
             <AnimatePresence initial={false}>
-            {/* Modal 2: Expedition Control */}
-            {mostrarTelaExped && itemSelecionado && !props.isMobile && (
-                <motion.div                    
-                    initial={{ clipPath: 'inset(100% 0 0 0)' }}   // fechado (embaixo)
-                    animate={{ clipPath: 'inset(0 0 0 0)' }}      // aberto
-                    exit={{ clipPath: 'inset(100% 0 0 0)' }}      // fecha para baixo
-                    transition={{
-                        duration: 0.35,
-                        ease: [0.22, 1, 0.36, 1]
-                    }}
-                    style={{ margin: 0, padding: 0, willChange: 'clip-path'}}
-                    className={`fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen`}
-                >
-                    {/* Background Patterns */}
-                    <div className={`fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none`}></div>
-                    <div className={`fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none`}></div>
+                {/* Modal 2: Expedition Control */}
+                {mostrarTelaExped && itemSelecionado && !props.isMobile && (
+                    <motion.div
+                        initial={{ clipPath: 'inset(100% 0 0 0)' }}   // fechado (embaixo)
+                        animate={{ clipPath: 'inset(0 0 0 0)' }}      // aberto
+                        exit={{ clipPath: 'inset(100% 0 0 0)' }}      // fecha para baixo
+                        transition={{
+                            duration: 0.35,
+                            ease: [0.22, 1, 0.36, 1]
+                        }}
+                        style={{ margin: 0, padding: 0, willChange: 'clip-path' }}
+                        className={`fixed hidden inset-0 z-50 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 lg:flex flex-col top-0 left-0 right-0 bottom-0 h-screen`}
+                    >
+                        {/* Background Patterns */}
+                        <div className={`fixed inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_70%)] pointer-events-none`}></div>
+                        <div className={`fixed inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_70%)] pointer-events-none`}></div>
 
-                    {/* Header */}
-                    <div className={`fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0`}
-                        style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
-                        <div className={`flex items-start justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3`}>
-                            <div className={`text-left`}>
-                                <div className={`flex flex-col items-center justify-center border border-slate-700 p-1 px-3
+                        {/* Header */}
+                        <div className={`fixed z-20 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 min-h-[93px] max-h-[93px] top-0 left-0 right-0`}
+                            style={{ margin: 0, padding: 0, position: 'fixed', top: 0 }}>
+                            <div className={`flex items-start justify-around gap-x-2 max-w-[78.5rem] mx-auto p-2 lg:p-3`}>
+                                <div className={`text-left`}>
+                                    <div className={`flex flex-col items-center justify-center border border-slate-700 p-1 px-3
                                 min-w-[280px] max-w-[280px] bg-slate-800/50 backdrop-blur-sm rounded-ee-3xl rounded-ss-3xl`}>
-                                    <p className={`text-xs text-slate-300 font-medium tracking-wide truncate`}>{`${props.escola.projeto?.nome}`}</p>
-                                    <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>{`${`PROJETO`}`}</p>
+                                        <p className={`text-xs text-slate-300 font-medium tracking-wide truncate`}>{`${props.escola.projeto?.nome}`}</p>
+                                        <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>{`${`PROJETO`}`}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={`flex flex-wrap gap-4`}>
-                                {/* CARD — GRADE */}
-                                <div className={`text-left`}>
-                                    <div
-                                        className={`
+                                <div className={`flex flex-wrap gap-4`}>
+                                    {/* CARD — GRADE */}
+                                    <div className={`text-left`}>
+                                        <div
+                                            className={`
                                             flex flex-col items-center justify-center
                                             min-w-[280px] max-w-[280px]
                                             p-1 px-3
@@ -1007,25 +1013,25 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             rounded-ee-3xl rounded-ss-3xl
                                             shadow-[0_6px_16px_rgba(0,0,0,0.35)]
                                         `}
-                                    >
-                                        <Link
-                                            href={`/caixas_por_grade/${String(props.grade.id)}`}
-                                            className={`flex items-center justify-start gap-x-2`}
                                         >
-                                            <h1 className={`text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
-                                                {`G${props.grade.id}`}
-                                            </h1>
-                                            <ExternalLink className={`${colorLinkExternal}`} size={12} />
-                                        </Link>
-                                        <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
-                                            CONFIRA A GRADE (ID)
-                                        </p>
+                                            <Link
+                                                href={`/caixas_por_grade/${String(props.grade.id)}`}
+                                                className={`flex items-center justify-start gap-x-2`}
+                                            >
+                                                <h1 className={`text-xl lg:text-4xl font-bold text-rose-400 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
+                                                    {`G${props.grade.id}`}
+                                                </h1>
+                                                <ExternalLink className={`${colorLinkExternal}`} size={12} />
+                                            </Link>
+                                            <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
+                                                CONFIRA A GRADE (ID)
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                {/* CARD — ESCOLA */}
-                                <div className={`text-left`}>
-                                    <div
-                                        className={`
+                                    {/* CARD — ESCOLA */}
+                                    <div className={`text-left`}>
+                                        <div
+                                            className={`
                                             flex flex-col items-center justify-center
                                             min-w-[280px] max-w-[280px]
                                             p-1 px-3
@@ -1034,149 +1040,281 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             rounded-ee-3xl rounded-ss-3xl
                                             shadow-[0_6px_16px_rgba(0,0,0,0.35)]
                                         `}
-                                    >
-                                        <h1 className={`text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
-                                            {`E${props.escola?.numeroEscola}`}
-                                        </h1>
-                                        <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
-                                            CONFIRA O Nº DA ESCOLA
-                                        </p>
+                                        >
+                                            <h1 className={`text-xl lg:text-4xl font-bold text-zinc-300 tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]`}>
+                                                {`E${props.escola?.numeroEscola}`}
+                                            </h1>
+                                            <p className={`text-xs text-emerald-400/70 font-medium tracking-wide`}>
+                                                CONFIRA O Nº DA ESCOLA
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                {/* CARD — CAIXA ATUAL */}
-                                <div
-                                    className={`text-left ${!isPendente ? 'grayscale opacity-100' : 'opacity-100'}`}
-                                >
+                                    {/* CARD — CAIXA ATUAL */}
                                     <div
-                                        className={`flex flex-col items-center justify-center  min-w-[280px] max-w-[280px]
+                                        className={`text-left ${!isPendente ? 'grayscale opacity-100' : 'opacity-100'}`}
+                                    >
+                                        <div
+                                            className={`flex flex-col items-center justify-center  min-w-[280px] max-w-[280px]
                                         p-1 px-3 backdrop-blur-sm  rounded-ee-3xl rounded-ss-3xl transition-all duration-150
                                         ${isNovaCaixa && blinkCount % 2 === 1 && isPendente ?
-                                                'border border-amber-400 bg-amber-400/10 shadow-[0_0_25px_rgba(251,191,36,0.35)]' :
-                                                'border border-slate-600 bg-slate-800/60 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'}`}
-                                    >
-                                        <h1
-                                            className={`font-bold tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]
-                                            ${isPendente ? 'text-amber-300 text-xl lg:text-4xl' : 'text-slate-400 text-sm h-[40px] lg:text-xl'}`}
+                                                    'border border-amber-400 bg-amber-400/10 shadow-[0_0_25px_rgba(251,191,36,0.35)]' :
+                                                    'border border-slate-600 bg-slate-800/60 shadow-[0_6px_16px_rgba(0,0,0,0.35)]'}`}
                                         >
-                                            {isPendente ? `CX${String(numeroCaixaAtual).padStart(2, '0')}` : 'GRADE ENCERRADA'}
-                                        </h1>
+                                            <h1
+                                                className={`font-bold tracking-[3px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]
+                                            ${isPendente ? 'text-amber-300 text-xl lg:text-4xl' : 'text-slate-400 text-sm h-[40px] lg:text-xl'}`}
+                                            >
+                                                {isPendente ? `CX${String(numeroCaixaAtual).padStart(2, '0')}` : 'GRADE ENCERRADA'}
+                                            </h1>
 
-                                        {isPendente && isNovaCaixa && (
-                                            <p className="text-xs text-amber-400/80 font-medium tracking-wide">
-                                                NOVA CAIXA
-                                            </p>
-                                        )}
+                                            {isPendente && isNovaCaixa && (
+                                                <p className="text-xs text-amber-400/80 font-medium tracking-wide">
+                                                    NOVA CAIXA
+                                                </p>
+                                            )}
 
-                                        {isPendente && !isNovaCaixa && (
-                                            <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
-                                                CONFIRA O Nº DA CAIXA
-                                            </p>
-                                        )}
+                                            {isPendente && !isNovaCaixa && (
+                                                <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
+                                                    CONFIRA O Nº DA CAIXA
+                                                </p>
+                                            )}
 
-                                        {!isPendente && (
-                                            <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
-                                                NADA PENDENTE NESTA GRADE
-                                            </p>
-                                        )}
+                                            {!isPendente && (
+                                                <p className="text-xs text-emerald-400/70 font-medium tracking-wide">
+                                                    NADA PENDENTE NESTA GRADE
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Content */}
-                    <div className={`flex flex-col relative z-10 flex-1 overflow-auto justify-between`} style={{ marginTop: '80px' }}>
-                        <div className={`max-w-[92rem] mx-auto p-6`}>
+                        {/* Content */}
+                        <div className={`flex flex-col relative z-10 flex-1 overflow-auto justify-between`} style={{ marginTop: '80px' }}>
+                            <div className={`max-w-[92rem] mx-auto p-6`}>
 
-                            {/* Actions Bar */}
-                            <div className={`bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-6`}>
-                                <div className={`grid grid-cols-1 xl:grid-cols-2 gap-8`}>
+                                {/* Actions Bar */}
+                                <div className={`bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-2 mb-6`}>
+                                    <div className={`grid grid-cols-1 xl:grid-cols-2 gap-8`}>
 
-                                    {/* Action Buttons */}
-                                    <div className={`flex flex-wrap py-3`}>
-                                        <button
-                                            ref={btnRef1}
-                                            onClick={fecharTelaExped}
-                                            className={`flex items-center space-x-2 px-2 py-2 bg-zinc-700 hover:bg-zinc-800
+                                        {/* Action Buttons */}
+                                        <div className={`flex flex-wrap py-3`}>
+                                            <button
+                                                ref={btnRef1}
+                                                onClick={fecharTelaExped}
+                                                className={`flex items-center space-x-2 px-2 py-2 bg-zinc-700 hover:bg-zinc-800
                                              text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                              min-w-[70px] justify-center`}
-                                        >
-                                            <span className="flex items-center gap-2">
-                                                <span>VOLTAR</span>
-                                                <span className="flex items-center gap-0 opacity-80">
-                                                    (<ArrowDown size={18} strokeWidth={3}/>)
+                                            >
+                                                <span className="flex items-center gap-2">
+                                                    <span>VOLTAR</span>
+                                                    <span className="flex items-center gap-0 opacity-80">
+                                                        (<ArrowDown size={18} strokeWidth={3} />)
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </button>
-                                    </div>
-
-                                    {/* Close Box e Buttons */}
-                                    <div className={`flex justify-between bg-[#181818]/50 p-3 rounded-2xl`}>
-
-                                        <div className={`flex flex-wrap gap-3`}>
-                                            <button
-                                                ref={btnRef14}
-                                                onClick={props.handleFormDataChangeAcresc}
-                                                className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
-                                                          text-white rounded-lg transition-all duration-300 transform hover:scale-100
-                                                            min-w-[50px]`}
-                                            >
-                                                <Plus size={19} />
-                                                <span className={`text-[1.2em]`}>1</span>
-                                            </button>
-                                            <button
-                                                ref={btnRef13}
-                                                onClick={props.handleFormDataChangeDecresc}
-                                                className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
-                                                          text-white rounded-lg transition-all duration-300 transform hover:scale-100
-                                                            min-w-[50px]`}
-                                            >
-                                                <Minus size={19} />
-                                                <span className={`text-[1.2em]`}>1</span>
                                             </button>
                                         </div>
 
-                                        <div className={`flex w-[52%]`}>
-                                            <button
-                                                ref={btnRef}
-                                                onClick={props.OpenModalGerarCaixa}
-                                                className={`flex items-center justify-start flex-grow space-x-2 px-4 py-2 text-white
+                                        {/* Close Box e Buttons */}
+                                        <div className={`flex justify-between bg-[#181818]/50 p-3 rounded-2xl`}>
+
+                                            <div className={`flex flex-wrap gap-3`}>
+                                                <button
+                                                    ref={btnRef14}
+                                                    onClick={props.handleFormDataChangeAcresc}
+                                                    className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
+                                                          text-white rounded-lg transition-all duration-300 transform hover:scale-100
+                                                            min-w-[50px]`}
+                                                >
+                                                    <Plus size={19} />
+                                                    <span className={`text-[1.2em]`}>1</span>
+                                                </button>
+                                                <button
+                                                    ref={btnRef13}
+                                                    onClick={props.handleFormDataChangeDecresc}
+                                                    className={`flex items-center justify-center px-2 py-2 bg-zinc-700 hover:bg-zinc-800
+                                                          text-white rounded-lg transition-all duration-300 transform hover:scale-100
+                                                            min-w-[50px]`}
+                                                >
+                                                    <Minus size={19} />
+                                                    <span className={`text-[1.2em]`}>1</span>
+                                                </button>
+                                            </div>
+
+                                            <div className={`flex w-[52%]`}>
+                                                <button
+                                                    ref={btnRef}
+                                                    onClick={props.OpenModalGerarCaixa}
+                                                    className={`flex items-center justify-start flex-grow space-x-2 px-4 py-2 text-white
                                                             font-medium rounded-lg transition-all duration-300 transform hover:scale-100
                                                             ${textBtnBox(props.formData, temCaixasParaGerar)[1]}`}
-                                            >
-                                                <Box size={29} />
-                                                {textBtnBox(props.formData, temCaixasParaGerar)[0]}
-                                            </button>
+                                                >
+                                                    <Box size={29} />
+                                                    {textBtnBox(props.formData, temCaixasParaGerar)[0]}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Main Content Grid */}
-                            <div className={`grid grid-cols-1 xl:grid-cols-2 gap-0`}>
+                                {/* Main Content Grid */}
+                                <div className={`grid grid-cols-1 xl:grid-cols-2 gap-0`}>
 
-                                {/* Left Column - Item Information */}
-                                <div className={`p-3 space-y-8 uppercase`}>
-                                    <div className={`flex items-center space-x-2 mb-4`}>
-                                        <div className={`w-3 h-3 bg-blue-400 rounded-full`}></div>
-                                        <h3 className={`text-lg text-zinc-400 font-semibold opacity-80`}>Item em expedição</h3>
+                                    {/* Left Column - Item Information */}
+                                    <div className={`p-3 space-y-8 uppercase`}>
+                                        <div className={`flex items-center space-x-2 mb-4`}>
+                                            <div className={`w-3 h-3 bg-blue-400 rounded-full`}></div>
+                                            <h3 className={`text-lg text-zinc-400 font-semibold opacity-80`}>Item em expedição</h3>
+                                        </div>
+                                        <div className={`space-y-8`}>
+                                            <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+                                                style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
+                                            >
+                                                <ItemsGradeTextArea
+                                                    value={itemSelecionado?.itemTamanho?.item?.nome}
+                                                    labelName={`ITEM SELECIONADO`}
+                                                    color={`text-zinc-400`}
+                                                    colorBorder={`border-gray-800`}
+                                                    opacit={`opacity-80`} />
+                                            </fieldset>
+                                            <fieldset className={`relative flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+                                                style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
+                                            >
+                                                <svg
+                                                    className={`absolute w-[101%] -right-[0.40rem] -top-[1rem]`}
+                                                    height="3"
+                                                >
+                                                    <line
+                                                        x1="0"
+                                                        y1="1.5"
+                                                        x2="100%"
+                                                        y2="1.5"
+                                                        stroke={temCaixasParaGerar ? "#334155" : "#334155"}
+                                                        strokeWidth="3"
+                                                        strokeDasharray="8 8"
+                                                    >
+                                                        {temCaixasParaGerar && (
+                                                            <animate
+                                                                attributeName="stroke-dashoffset"
+                                                                from="16"
+                                                                to="0"
+                                                                dur="0.8s"
+                                                                repeatCount="indefinite"
+                                                            />
+                                                        )}
+                                                    </line>
+                                                </svg>
+                                                <div className={`grid grid-cols-2 gap-4`}>
+                                                    <ItemsGradeInputText
+                                                        value={itemSelecionado?.itemTamanho?.item?.genero}
+                                                        labelName={`GÊNERO`}
+                                                        color={`text-zinc-400`}
+                                                        border_col={'border-gray-800'}
+                                                        opacit={`opacity-80`}
+                                                        bgColor={itemSelecionado?.itemTamanho?.item?.genero.includes('MASC') ? 'rgba(30, 58, 138, 0.3)' : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM') ? 'rgba(136, 19, 55, 0.3)' : 'rgba(51, 65, 85, 0.3)'} />
+                                                    <ItemsGradeInputText
+                                                        value={itemSelecionado?.itemTamanho?.barcode?.codigo}
+                                                        labelName={`CÓDIGO DE BARRAS`}
+                                                        color={`text-zinc-400`}
+                                                        border_col={'border-gray-800'}
+                                                        opacit={`opacity-80`} />
+                                                </div>
+                                                <div className={`grid grid-cols-2 gap-4`}>
+                                                    <ItemsGradeInputText
+                                                        value={itemSelecionado?.itemTamanho?.tamanho?.nome}
+                                                        opacit={`opacity-80`}
+                                                        labelName={`TAMANHO`}
+                                                        color={`text-yellow-200`}
+                                                        border_col={'border-gray-800'} />
+                                                    <ItemsGradeInputText
+                                                        value={props.grade.status}
+                                                        border_col={'border-gray-800'}
+                                                        labelName={`STATUS DA GRADE`}
+                                                        color={`text-zinc-400`}
+                                                        opacit={`opacity-80`} />
+                                                </div>
+                                            </fieldset>
+                                        </div>
                                     </div>
-                                    <div className={`space-y-8`}>
+
+                                    {/* Right Column - Expedition Control */}
+                                    <div className={`p-3 space-y-8 relative`}>
+                                        <div className="flex items-center justify-between space-x-2 mb-4 uppercase">
+                                            <div className={`flex items-center space-x-2`}>
+                                                <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
+                                                <h3 className={`text-lg font-semibold text-white`}
+                                                    style={{ opacity: temCaixasParaGerar ? '0.7' : '0.3' }}
+                                                >
+                                                    Controle de expedição
+                                                </h3>
+                                            </div>
+                                            <BalloonStatus temCaixasParaGerar={temCaixasParaGerar} />
+                                        </div>
+
                                         <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
-                                            <ItemsGradeTextArea
-                                                value={itemSelecionado?.itemTamanho?.item?.nome}
-                                                labelName={`ITEM SELECIONADO`}
-                                                color={`text-zinc-400`}
-                                                colorBorder={`border-gray-800`}
-                                                opacit={`opacity-80`} />
+                                            {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações do item</legend>*/}
+                                            {/* Quantities in Row */}
+                                            <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr] gap-4 items-start">
+                                                <ItemsGradeInputText
+                                                    value={String(itemSelecionado.quantidade)}
+                                                    labelName={`PREVISTO (DO ITEM)`}
+                                                    color={`text-yellow-600`}
+                                                    border_col={'border-gray-800'}
+                                                    opacit={`opacity-75`} />
+                                                <ItemsGradeInputText
+                                                    value={String(itemSelecionado.quantidadeExpedida)}
+                                                    border_col={'border-gray-800'}
+                                                    labelName={`EXP. TOTAL (DO ITEM)`}
+                                                    color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-400'}`}
+                                                    bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`}
+                                                    opacit={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'opacity-100' : 'opacity-75'}`} />
+                                                <ItemsGradeInputText
+                                                    value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
+                                                    height={`h-[70px]`}
+                                                    txtSize={`text-[40px] lg:text-[43px]`}
+                                                    border_col={'border-gray-800'}
+                                                    labelName={"FALTA EXP. (DO ITEM)"}
+                                                    labelposition={'justify-end'}
+                                                    positionn={'text-right'}
+                                                    color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-500' : 'text-slate-400'}`}
+                                                    bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
+                                                    opacit={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'opacity-100' : 'opacity-75'}`} />
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                                <ItemsGradeInputText2
+                                                    border_col={'border-gray-800'}
+                                                    qtyCaixa={itemSelecionado.qtyPCaixa}
+                                                    value={itemSelecionado.quantidadeExpedida}
+                                                    labelName={`EM OUTRAS CAIXAS`}
+                                                    opacit={`opacity-75`}
+                                                    color={'text-zinc-500'}
+                                                    rightIcon={Eye}
+                                                    onRightIconClick={toggleListBoxes}
+                                                />
+                                                <ItemsGradeInputText
+                                                    border_col={'border-gray-800'}
+                                                    value={String(itemSelecionado.qtyPCaixa)}
+                                                    height={`h-[70px]`}
+                                                    txtSize={`text-[40px] lg:text-[43px]`}
+                                                    labelName={`NESTA CAIXA`}
+                                                    color={itemSelecionado.qtyPCaixa > 0 ? 'text-white' : 'text-slate-400'}
+                                                    bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
+                                                    labelposition={'justify-end'}
+                                                    positionn={'text-right'}
+                                                    opacit={`${itemSelecionado.qtyPCaixa > 0 ? 'opacity-100' : 'opacity-75'}`}
+                                                />
+                                            </div>
                                         </fieldset>
-                                        <fieldset className={`relative flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
+
+                                        {/* Special Fields */}
+                                        <fieldset className={`relative flex flex-col bg-[#101010]/50 p-3 border border-slate-800 rounded-md pt-4`}
                                             style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
                                         >
                                             <svg
-                                                className={`absolute w-[101%] -right-[0.40rem] -top-[1rem]`}
+                                                className="absolute w-[101%] -left-[0.40rem] -top-[1rem]"
                                                 height="3"
                                             >
                                                 <line
@@ -1191,130 +1329,75 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     {temCaixasParaGerar && (
                                                         <animate
                                                             attributeName="stroke-dashoffset"
-                                                            from="16"
-                                                            to="0"
+                                                            from="0"
+                                                            to="16"
                                                             dur="0.8s"
                                                             repeatCount="indefinite"
                                                         />
                                                     )}
                                                 </line>
                                             </svg>
-                                            <div className={`grid grid-cols-2 gap-4`}>
-                                                <ItemsGradeInputText
-                                                    value={itemSelecionado?.itemTamanho?.item?.genero}
-                                                    labelName={`GÊNERO`}
-                                                    color={`text-zinc-400`}
-                                                    border_col={'border-gray-800'}
-                                                    opacit={`opacity-80`}
-                                                    bgColor={ itemSelecionado?.itemTamanho?.item?.genero.includes('MASC') ? 'rgba(30, 58, 138, 0.3)' : itemSelecionado?.itemTamanho?.item?.genero.includes('FEM') ? 'rgba(136, 19, 55, 0.3)' : 'rgba(51, 65, 85, 0.3)'}  />
-                                                <ItemsGradeInputText
-                                                    value={itemSelecionado?.itemTamanho?.barcode?.codigo}
-                                                    labelName={`CÓDIGO DE BARRAS`}
-                                                    color={`text-zinc-400`}
-                                                    border_col={'border-gray-800'}
-                                                    opacit={`opacity-80`} />
-                                            </div>
-                                            <div className={`grid grid-cols-2 gap-4`}>
-                                                <ItemsGradeInputText
-                                                    value={itemSelecionado?.itemTamanho?.tamanho?.nome} 
-                                                    opacit={`opacity-80`}
-                                                    labelName={`TAMANHO`}
-                                                    color={`text-yellow-200`}
-                                                    border_col={'border-gray-800'} />
-                                                <ItemsGradeInputText
-                                                    value={props.grade.status}
-                                                    border_col={'border-gray-800'}
-                                                    labelName={`STATUS DA GRADE`}
-                                                    color={`text-zinc-400`}
-                                                    opacit={`opacity-80`} />
+                                            {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
+                                            <div className="space-y-4">
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                                    <ItemsGradeInputText value={String(props.grade.gradeCaixas.length)}
+                                                        border_col={'border-gray-900'}
+                                                        labelColor={`text-slate-500`}
+                                                        labelName={"VOLUMES JÁ CONSOLIDADOS"} color={'text-slate-500'}
+                                                        bgColor={'rgba(96, 165, 250, 0)'} />
+                                                    <ItemGradeInputTextState labelName={'TOTAL NA CAIXA ATUAL'}
+                                                        colorBorder={`border-gray-900`}
+                                                        formData={props.formData} setFormData={props.setFormData}
+                                                        isReadOnly={true}
+                                                        valueColor={`text-slate-500`} labelColor={`text-slate-500`}
+                                                        maxWhidth={`w-full`} />
+                                                </div>
+
+                                                <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_2fr] gap-2 items-start">
+                                                    <ItemsGradeInputText value={String(totalGrade)}
+                                                        border_col={'border-gray-900'}
+                                                        labelName={"TOT. GRADE"}
+                                                        color={'text-slate-500'}
+                                                        bgColor={'rgba(96, 165, 250, 0)'}
+                                                        labelColor={`text-slate-500`} />
+                                                    <ItemGradeInputTextState2
+                                                        labelName={'TOTAL LIDO DA GRADE'}
+                                                        colorBorder={`border-gray-900`}
+                                                        formData={props.formData}
+                                                        setFormData={props.setFormData}
+                                                        isReadOnly={true} maxWhidth={`w-full`}
+                                                        valueColor={`text-slate-500`}
+                                                        labelposition={`justify-start`}
+                                                        positionn={`text-left`}
+                                                        labelColor={`text-slate-500`}
+                                                        tot={String(totalGrade)} />
+                                                    <ItemGradeInputTextStateBar
+                                                        labelName={'CÓD DE BARRAS LEITURA'}
+                                                        formData={props.formData}
+                                                        setFormData={props.setFormData}
+                                                        colorBorder={`border-gray-900`}
+                                                        txtSize={`text-[18px] lg:text-[20px]`}
+                                                        maxWhidth={`w-full`}
+                                                        inputRef={props.inputRef}
+                                                        isFocuss={props.isFocus}
+                                                        placeholder={`Aguardando leitura...`}
+                                                        isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
+                                                              focus:ring focus:ring-emerald-500`}
+                                                        labelColor={`text-emerald-500`}
+                                                        positionn={`text-left`}
+                                                        labelposition={`justify-start`} />
+                                                </div>
                                             </div>
                                         </fieldset>
-                                    </div>
-                                </div>
-
-                                {/* Right Column - Expedition Control */}
-                                <div className={`p-3 space-y-8 relative`}>
-                                    <div className="flex items-center justify-between space-x-2 mb-4 uppercase">
-                                        <div className={`flex items-center space-x-2`}>
-                                            <div className={`w-3 h-3 ${temCaixasParaGerar ? 'bg-emerald-400 ' : 'bg-slate-700'} rounded-full`}></div>
-                                            <h3 className={`text-lg font-semibold text-white`}
-                                                style={{ opacity: temCaixasParaGerar ? '0.7' : '0.3' }}
-                                            >
-                                                Controle de expedição
-                                            </h3>
-                                        </div>
-                                        <BalloonStatus temCaixasParaGerar={temCaixasParaGerar} />
-                                    </div>
-
-                                    <fieldset className={`flex bg-[#161616]/30 flex-col gap-y-4 p-3 border border-slate-800 rounded-md pt-4`}
-                                        style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
-                                    >
-                                        {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações do item</legend>*/}
-                                        {/* Quantities in Row */}
-                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr] gap-4 items-start">
-                                            <ItemsGradeInputText
-                                                value={String(itemSelecionado.quantidade)}
-                                                labelName={`PREVISTO (DO ITEM)`}
-                                                color={`text-yellow-600`}
-                                                border_col={'border-gray-800'}
-                                                opacit={`opacity-75`} />
-                                            <ItemsGradeInputText
-                                                value={String(itemSelecionado.quantidadeExpedida)}
-                                                border_col={'border-gray-800'}
-                                                labelName={`EXP. TOTAL (DO ITEM)`}
-                                                color={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'text-emerald-400' : 'text-slate-400'}`}
-                                                bgColor={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'rgba(52, 211, 153, 0.1)' : 'rgba(52, 211, 153, 0)'}`}
-                                                opacit={`${itemSelecionado.quantidade === itemSelecionado.quantidadeExpedida ? 'opacity-100' : 'opacity-75'}`} />
-                                            <ItemsGradeInputText
-                                                value={String(itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida)}
-                                                height={`h-[70px]`}
-                                                txtSize={`text-[40px] lg:text-[43px]`}                                               
-                                                border_col={'border-gray-800'}
-                                                labelName={"FALTA EXP. (DO ITEM)"}
-                                                labelposition={'justify-end'} 
-                                                positionn={'text-right'}
-                                                color={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'text-blue-500' : 'text-slate-400'}`}
-                                                bgColor={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'rgba(96, 165, 250, 0.1)' : 'rgba(96, 165, 250, 0)'}`}
-                                                opacit={`${itemSelecionado.quantidade - itemSelecionado.quantidadeExpedida > 0 ? 'opacity-100' : 'opacity-75'}`} />
-                                        </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                            <ItemsGradeInputText2
-                                                border_col={'border-gray-800'}
-                                                qtyCaixa={itemSelecionado.qtyPCaixa}
-                                                value={itemSelecionado.quantidadeExpedida}
-                                                labelName={`EM OUTRAS CAIXAS`}
-                                                opacit={`opacity-75`}
-                                                color={'text-zinc-500'}
-                                                labelposition={'justify-end'}
-                                                positionn={'text-right'} />
-                                            <ItemsGradeInputText
-                                                border_col={'border-gray-800'}
-                                                value={String(itemSelecionado.qtyPCaixa)}
-                                                height={`h-[70px]`}
-                                                txtSize={`text-[40px] lg:text-[43px]`}  
-                                                labelName={`NESTA CAIXA`}
-                                                color={itemSelecionado.qtyPCaixa > 0 ? 'text-white' : 'text-slate-400'}
-                                                bgColor={itemSelecionado.qtyPCaixa > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(52, 211, 153, 0)'}
-                                                labelposition={'justify-end'}
-                                                positionn={'text-right'}
-                                                opacit={`${itemSelecionado.qtyPCaixa > 0 ? 'opacity-100' : 'opacity-75'}`}
-                                            />
-                                        </div>
-                                    </fieldset>
-
-                                    {/* Special Fields */}
-                                    <fieldset className={`relative flex flex-col bg-[#101010]/50 p-3 border border-slate-800 rounded-md pt-4`}
-                                        style={{ boxShadow: `0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45)`, }}
-                                    >
                                         <svg
-                                            className="absolute w-[101%] -left-[0.40rem] -top-[1rem]"
-                                            height="3"
+                                            className="absolute left-0 top-10 h-[87%]"
+                                            width="3"
                                         >
                                             <line
-                                                x1="0"
-                                                y1="1.5"
-                                                x2="100%"
-                                                y2="1.5"
+                                                x1="1.5"
+                                                y1="0"
+                                                x2="1.5"
+                                                y2="100%"
                                                 stroke={temCaixasParaGerar ? "#334155" : "#334155"}
                                                 strokeWidth="3"
                                                 strokeDasharray="8 8"
@@ -1323,98 +1406,22 @@ export default function GradeComponent(props: GradeComponentProps) {
                                                     <animate
                                                         attributeName="stroke-dashoffset"
                                                         from="0"
-                                                        to="16"
+                                                        to="-16"
                                                         dur="0.8s"
                                                         repeatCount="indefinite"
                                                     />
                                                 )}
                                             </line>
                                         </svg>
-                                        {/*<legend className={`uppercase text-[15px] text-zinc-400`}>Informações Gerais</legend>*/}
-                                        <div className="space-y-4">
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                <ItemsGradeInputText value={String(props.grade.gradeCaixas.length)}
-                                                    border_col={'border-gray-900'}
-                                                    labelColor={`text-slate-500`}
-                                                    labelName={"VOLUMES JÁ CONSOLIDADOS"} color={'text-slate-500'}
-                                                    bgColor={'rgba(96, 165, 250, 0)'} />
-                                                <ItemGradeInputTextState labelName={'TOTAL NA CAIXA ATUAL'}
-                                                    colorBorder={`border-gray-900`}
-                                                    formData={props.formData} setFormData={props.setFormData}
-                                                    isReadOnly={true}
-                                                    valueColor={`text-slate-500`} labelColor={`text-slate-500`}
-                                                    maxWhidth={`w-full`} />
-                                            </div>
-
-                                            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_2fr] gap-2 items-start">
-                                                <ItemsGradeInputText value={String(totalGrade)}
-                                                    border_col={'border-gray-900'}
-                                                    labelName={"TOT. GRADE"}
-                                                    color={'text-slate-500'}
-                                                    bgColor={'rgba(96, 165, 250, 0)'}
-                                                    labelColor={`text-slate-500`} />
-                                                <ItemGradeInputTextState2
-                                                    labelName={'TOTAL LIDO DA GRADE'}
-                                                    colorBorder={`border-gray-900`}
-                                                    formData={props.formData}
-                                                    setFormData={props.setFormData}
-                                                    isReadOnly={true} maxWhidth={`w-full`}
-                                                    valueColor={`text-slate-500`}
-                                                    labelposition={`justify-start`}
-                                                    positionn={`text-left`}
-                                                    labelColor={`text-slate-500`}
-                                                    tot={String(totalGrade)} />
-                                                <ItemGradeInputTextStateBar
-                                                    labelName={'CÓD DE BARRAS LEITURA'}
-                                                    formData={props.formData}
-                                                    setFormData={props.setFormData}
-                                                    colorBorder={`border-gray-900`}
-                                                    txtSize={`text-[18px] lg:text-[20px]`}
-                                                    maxWhidth={`w-full`}
-                                                    inputRef={props.inputRef}
-                                                    isFocuss={props.isFocus}
-                                                    placeholder={`Aguardando leitura...`}
-                                                    isFocus={`border border-emerald-300 focus:border-emerald-500 focus:outline-none 
-                                                              focus:ring focus:ring-emerald-500`}
-                                                    labelColor={`text-emerald-500`}
-                                                    positionn={`text-left`}
-                                                    labelposition={`justify-start`} />
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <svg
-                                        className="absolute left-0 top-10 h-[87%]"
-                                        width="3"
-                                    >
-                                        <line
-                                            x1="1.5"
-                                            y1="0"
-                                            x2="1.5"
-                                            y2="100%"
-                                            stroke={temCaixasParaGerar ? "#334155" : "#334155"}
-                                            strokeWidth="3"
-                                            strokeDasharray="8 8"
-                                        >
-                                            {temCaixasParaGerar && (
-                                                <animate
-                                                    attributeName="stroke-dashoffset"
-                                                    from="0"
-                                                    to="-16"
-                                                    dur="0.8s"
-                                                    repeatCount="indefinite"
-                                                />
-                                            )}
-                                        </line>
-                                    </svg>
+                                    </div>
                                 </div>
                             </div>
+                            <div className="max-w-[92rem] mx-auto p-6 opacity-60 uppercase">
+                                <FooterKeybordTeclas />
+                            </div>
                         </div>
-                        <div className="max-w-[92rem] mx-auto p-6 opacity-60 uppercase">
-                            <FooterKeybordTeclas />
-                        </div>
-                    </div>
-                </motion.div>
-            )}
+                    </motion.div>
+                )}
             </AnimatePresence>
 
             {/* Modal Component */}
@@ -1427,6 +1434,11 @@ export default function GradeComponent(props: GradeComponentProps) {
                 onClose={closeModalModifyGradeItem}
                 mutate={props.mutate}
             />
+
+            <AnimatePresence>
+                {/* Modal Bar Lateral*/}
+                <GradeBarListBoxes isOpenListBoxes={isOpenListBoxes} />
+            </AnimatePresence>
         </>
     );
 }
