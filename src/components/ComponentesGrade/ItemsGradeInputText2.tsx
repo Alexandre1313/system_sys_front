@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { GradeItem } from "../../../core"
 import { concat } from "../../../core/utils/tools"
 import { Icon } from 'react-feather';
 
 export interface ItemsGradeInputText2Props {
     itemSelecionado?: GradeItem;
-    qtyCaixa: number; 
+    qtyCaixa: number;
     labelName: string;
     value: number;
     // estilo
@@ -22,6 +23,20 @@ export interface ItemsGradeInputText2Props {
 export default function ItemsGradeInputText2(props: ItemsGradeInputText2Props) {
     const value = `${props.value - props.qtyCaixa}` || "";
     const RightIcon = props.rightIcon;
+
+    useEffect(() => {
+        if (!props.onRightIconClick) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === ';' || e.code === 'Semicolon' ) {
+                e.preventDefault();
+                props.onRightIconClick?.();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [props.onRightIconClick]);
 
     return (
         <div className={`flex flex-col gap-y-3 ${props.opacit ?? 'opacity-100'}`}>
