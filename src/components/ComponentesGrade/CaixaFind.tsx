@@ -21,15 +21,15 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                 bg-transparent
                 p-3
                 transition
-                hover:border-emerald-500
-                hover:bg-slate-800
+                hover:border-emerald-700
+                hover:bg-slate-900
                 font-extralight
             "
             >
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-3 w-full">
                     <div>
-                        <p className="text-xl text-slate-500">
+                        <p className="text-xl text-slate-400">
                             CAIXA Nº {caixa.caixaNumber}
                         </p>
                         <p className="text-sm text-slate-600 truncate w-[415px]">
@@ -60,10 +60,10 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                             className="flex items-center justify-between"
                         >
                             <div>
-                                <p className="text-lg text-slate-600">
+                                <p className="text-lg text-slate-400">
                                     {item.itemName}
                                 </p>
-                                <p className="text-lg text-slate-500">
+                                <p className="text-lg text-slate-400">
                                     {item.itemGenero} • Tam {item.itemTam}
                                 </p>
                             </div>
