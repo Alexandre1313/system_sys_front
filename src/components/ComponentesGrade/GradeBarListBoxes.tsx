@@ -1,14 +1,25 @@
 import { motion } from "framer-motion";
-import { GradeItem } from "../../../core";
-import { useState } from "react";
+import { CaixaFindItem, GradeItem } from "../../../core";
+import { useEffect, useState } from "react";
+import { getCaixasFindItem } from "@/hooks_api/api";
+import CaixaFind from "./CaixaFind";
 
 export interface GradeBarListBoxesProps {
     isOpenListBoxes: boolean;
-    itemSelect: GradeItem | null;
+    itemSelectId: number | undefined;
+    gradeId: number | undefined;
+}
+
+const fechBoxesItem = async (gradeId: string, itemTamanhoId: string): Promise<CaixaFindItem[]> => {
+    const boxesDataItem = await getCaixasFindItem(gradeId, itemTamanhoId);
+    return boxesDataItem;
 }
 
 export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
     const [isloading, setIsloading] = useState<boolean>(true);
+    const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);
+
+    console.log(props.itemSelectId)
 
     const panelVariants = {
         closed: {
@@ -26,6 +37,49 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
             },
         },
     };
+
+    useEffect(() => {
+        // ❌ painel fechado → não faz nada
+        if (!props.isOpenListBoxes) {
+            setCaixas([]);
+            setIsloading(false);
+            return;
+        }
+
+        // ❌ sem item selecionado → não faz fetch
+        if (!props.itemSelectId || !props.gradeId) {
+            setCaixas([]);
+            setIsloading(false);
+            return;
+        }
+
+        let isMounted = true; // evita setState após unmount
+        setIsloading(true);
+
+        async function loadCaixas() {
+            try {
+                const data = await fechBoxesItem(
+                    String(props.gradeId),
+                    String(props.itemSelectId)
+                );
+
+                if (!isMounted) return;
+
+                setCaixas(data ?? []);
+            } catch (error) {
+                console.error("Erro ao buscar caixas:", error);
+                if (isMounted) {
+                    setCaixas([]);
+                }
+            } finally {
+                if (isMounted) {
+                    setIsloading(false);
+                }
+            }
+        }
+        loadCaixas();
+        return () => { isMounted = false; };
+    }, [props.isOpenListBoxes, props.itemSelectId]);
 
     return (
         <motion.div
@@ -49,7 +103,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
             <div className={`flex justify-center items-center w-full border-b border-slate-800 pb-[0.9rem]`}>
                 <h2 className={`text-center break-words text-xl font-semibold text-zinc-400`}>OUTRAS CAIXAS DESTA GRADE COM ESTE ITEM</h2>
             </div>
-            <div className="flex-1 relative">
+            <div className="flex-1 relative w-full">
                 {/* LOADING */}
                 {isloading && (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -64,8 +118,13 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
 
                 {/* CONTEÚDO */}
                 {!isloading && (
-                    <div className="h-full overflow-y-auto p-4 space-y-4">
-                        {/* itens */}
+                    <div className="flex flex-col justify-start items-center w-full h-[90dvh] overflow-y-auto p-4 space-y-4">
+                        {caixas.map((cx) => (
+                            <CaixaFind
+                                key={cx.id}
+                                caixa={cx}
+                            />
+                        ))}
                     </div>
                 )}
             </div>

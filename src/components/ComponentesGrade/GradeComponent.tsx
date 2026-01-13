@@ -1437,7 +1437,7 @@ export default function GradeComponent(props: GradeComponentProps) {
 
             <AnimatePresence>
                 {/* Modal Bar Lateral*/}
-                <GradeBarListBoxes isOpenListBoxes={isOpenListBoxes} itemSelect={itemSelecionado}/>
+                <GradeBarListBoxes isOpenListBoxes={isOpenListBoxes} itemSelectId={itemSelecionado?.itemTamanhoId} gradeId={props.grade.id} />
             </AnimatePresence>
         </>
     );

@@ -1,6 +1,7 @@
 import {
     Caixa,
     CaixaAjuste,
+    CaixaFindItem,
     Embalagem,
     EntryInput,
     Escola,
@@ -52,6 +53,16 @@ const urlConsultarRanking = `http://${ip}:${port}/usuarios/ranking/`;
 const urlConsultaSaidasPorDataEProjeto = `http://${ip}:${port}/grades/saidaspdata/`;
 const urlConsultaSaidasPorDataEProjetoResum = `http://${ip}:${port}/grades/saidaspdataresum/`;
 const urlConsultaSaidasPorDataEProjetoComEscola = `http://${ip}:${port}/grades/saidaspdatacomescola/`;
+const urlGetCaixasFindItem = `http://${ip}:${port}/caixas/getcaixasfinditem/`;
+
+async function getCaixasFindItem(gradeId: string, itemTamanhoId: string): Promise<CaixaFindItem[]> {
+    const response = await fetch(`${urlGetCaixasFindItem}${gradeId}/${itemTamanhoId}`)
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar dados na api referente as caixas do item: ${response.statusText}`);        
+    }
+    const data = await response.json();
+    return data;
+}
 
 async function getProjectsPDataSaidasResum(projectId: string, tipoDeGrade: string, remessa: string): Promise<ExpedicaoResumoPDGrouped[]> {
     const response = await fetch(`${urlConsultaSaidasPorDataEProjetoResum}${projectId}/${tipoDeGrade}/${remessa}`)
@@ -470,5 +481,5 @@ export {
     getProjectsGradesSaldos, getProjectsItems, getProjectsItemsSaldos, getProjectsSimp,
     getProjetosComEscolas, getRemessasGrades, gradeItemModify, inserirCaixa, inserirEmb,
     modificarCaixa, siginn, stockGenerate, getRanking, getFilterGradesPP, getProjectsPDataSaidas,
-    getProjectsPDataSaidasResum, getProjectsPDataSaidasComEscola,
+    getProjectsPDataSaidasResum, getProjectsPDataSaidasComEscola, getCaixasFindItem
 };
