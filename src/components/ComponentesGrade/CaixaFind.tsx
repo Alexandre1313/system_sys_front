@@ -74,14 +74,7 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                         Nenhum item nesta caixa
                     </span>
                 )}
-            </div>
-
-            {/* FOOTER OPCIONAL */}
-            {caixa.numberJoin && (
-                <div className="mt-3 text-xs text-slate-500">
-                    {caixa.numberJoin}
-                </div>
-            )}
+            </div>           
         </div>
     );
 }

@@ -117,7 +117,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                 )}
 
                 {/* CONTEÚDO */}
-                {!isloading && (
+                {!isloading && caixas.length > 0 && (
                     <div className="flex flex-col justify-start items-center w-full h-[90dvh] overflow-y-auto p-4 space-y-4">
                         {caixas.map((cx) => (
                             <CaixaFind
@@ -125,6 +125,17 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                                 caixa={cx}
                             />
                         ))}
+                    </div>
+                )}
+
+                {!isloading && caixas.length === 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex flex-col items-center gap-3">
+                            <div className="h-10 w-10 border-4 border-zinc-600 border-t-transparent rounded-full animate-rotate" />
+                            <span className="text-sm text-zinc-400">
+                                Item ainda não emblado para esta grade.
+                            </span>
+                        </div>
                     </div>
                 )}
             </div>
