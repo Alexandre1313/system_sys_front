@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CaixaFindItem, GradeItem } from "../../../core";
+import { CaixaFindItem } from "../../../core";
 import { useEffect, useState } from "react";
 import { getCaixasFindItem } from "@/hooks_api/api";
 import CaixaFind from "./CaixaFind";
@@ -18,6 +18,8 @@ const fechBoxesItem = async (gradeId: string, itemTamanhoId: string): Promise<Ca
 export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
     const [isloading, setIsloading] = useState<boolean>(true);
     const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);   
+
+    const { isOpenListBoxes, itemSelectId, gradeId } = props;
 
     const panelVariants = {
         closed: {
@@ -38,14 +40,14 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
 
     useEffect(() => {
         // ❌ painel fechado → não faz nada
-        if (!props.isOpenListBoxes) {
+        if (!isOpenListBoxes) {
             setCaixas([]);
             setIsloading(false);
             return;
         }
 
         // ❌ sem item selecionado → não faz fetch
-        if (!props.itemSelectId || !props.gradeId) {
+        if (!itemSelectId || !gradeId) {
             setCaixas([]);
             setIsloading(false);
             return;
@@ -57,8 +59,8 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
         async function loadCaixas() {
             try {
                 const data = await fechBoxesItem(
-                    String(props.gradeId),
-                    String(props.itemSelectId)
+                    String(gradeId),
+                    String(itemSelectId)
                 );
 
                 if (!isMounted) return;
@@ -77,13 +79,13 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
         }
         loadCaixas();
         return () => { isMounted = false; };
-    }, [props.isOpenListBoxes, props.itemSelectId]);
+    }, [isOpenListBoxes, itemSelectId, gradeId]);
 
     return (
         <motion.div
             variants={panelVariants}
             initial={false}
-            animate={props.isOpenListBoxes ? "open" : "closed"}
+            animate={isOpenListBoxes ? "open" : "closed"}
             className={`
                 fixed top-0 right-0 z-[9999]
                 h-[100dvh]
@@ -95,7 +97,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                 rounded-ss-3xl rounded-es-3xl
             `}
             style={{
-                pointerEvents: props.isOpenListBoxes ? "auto" : "none",
+                pointerEvents: isOpenListBoxes ? "auto" : "none",
             }}
         >
             <div className={`flex justify-center items-center w-full border-b border-slate-800 pb-[0.9rem]`}>

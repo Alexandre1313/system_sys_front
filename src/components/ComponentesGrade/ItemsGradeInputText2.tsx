@@ -24,19 +24,23 @@ export default function ItemsGradeInputText2(props: ItemsGradeInputText2Props) {
     const value = `${props.value - props.qtyCaixa}` || "";
     const RightIcon = props.rightIcon;
 
+    const { onRightIconClick } = props;
+
     useEffect(() => {
-        if (!props.onRightIconClick) return;
+        if (!onRightIconClick) return;
+
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === ';' || e.code === 'Semicolon' ) {
+            if (e.key === ';' || e.code === 'Semicolon') {
                 e.preventDefault();
-                props.onRightIconClick?.();
+                onRightIconClick();
             }
         };
+
         document.addEventListener('keydown', handleKeyDown);
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [props.onRightIconClick]);
+    }, [onRightIconClick]);
 
     return (
         <div className={`flex flex-col gap-y-3 ${props.opacit ?? 'opacity-100'}`}>
