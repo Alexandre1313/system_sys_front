@@ -453,7 +453,9 @@ export default function GradeComponent(props: GradeComponentProps) {
     const fecharTelaExped = () => {
         setMostrarTelaExped(false);
         setItemSelecionado(null);
-        toggleListBoxes();
+        if (isOpenListBoxes) {
+            toggleListBoxes();
+        }
     };
 
     const print = () => { return props.printEti(props.grade.gradeCaixas, volms()[4]) }

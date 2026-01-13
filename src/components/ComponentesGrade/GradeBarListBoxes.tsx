@@ -118,7 +118,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
 
                 {/* CONTEÚDO */}
                 {!isloading && caixas.length > 0 && (
-                    <div className="flex flex-col justify-start items-center w-full h-[90dvh] overflow-y-auto p-0 py-3 space-y-4">
+                    <div className="flex flex-col justify-start items-center w-full h-[91dvh] overflow-y-auto p-0 py-3 space-y-4">
                         {caixas.map((cx) => (
                             <CaixaFind
                                 key={cx.id}

@@ -19,19 +19,20 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                 rounded-xl
                 border border-slate-700
                 bg-transparent
-                p-4
+                p-3
                 transition
                 hover:border-emerald-500
                 hover:bg-slate-800
+                font-extralight
             "
             >
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-3 w-full">
                     <div>
-                        <p className="text-xl text-slate-400">
+                        <p className="text-xl text-slate-500">
                             CAIXA Nº {caixa.caixaNumber}
                         </p>
-                        <p className="text-sm font-semibold text-slate-200 truncate w-[360px]">
+                        <p className="text-sm text-slate-600 truncate w-[415px]">
                             {caixa.escolaCaixa}
                         </p>
                     </div>
@@ -41,8 +42,7 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                         rounded-md
                         bg-emerald-500/10
                         px-2 py-1
-                        text-xs
-                        font-semibold
+                        text-xs                        
                         text-emerald-400
                     "
                     >
@@ -60,15 +60,15 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                             className="flex items-center justify-between"
                         >
                             <div>
-                                <p className="text-lg font-medium text-slate-100">
+                                <p className="text-lg text-slate-600">
                                     {item.itemName}
                                 </p>
-                                <p className="text-lg text-slate-400">
+                                <p className="text-lg text-slate-500">
                                     {item.itemGenero} • Tam {item.itemTam}
                                 </p>
                             </div>
 
-                            <span className="text-sm font-semibold text-slate-100">
+                            <span className="text-xl text-emerald-600">
                                 {item.itemQty} {item.itemQty === 1 ? 'un' : 'uns'}
                             </span>
                         </div>
