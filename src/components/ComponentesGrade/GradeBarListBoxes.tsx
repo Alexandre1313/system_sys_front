@@ -17,9 +17,7 @@ const fechBoxesItem = async (gradeId: string, itemTamanhoId: string): Promise<Ca
 
 export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
     const [isloading, setIsloading] = useState<boolean>(true);
-    const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);
-
-    console.log(props.itemSelectId)
+    const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);   
 
     const panelVariants = {
         closed: {
@@ -92,7 +90,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                 w-[483px]
                 bg-[#101010]
                 flex flex-col
-                p-4 pt-[1.3rem] justify-start        
+                p-3 pt-[1.3rem] justify-start        
                 items-center border-l border-slate-800
                 rounded-ss-3xl rounded-es-3xl
             `}
@@ -118,7 +116,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
 
                 {/* CONTEÚDO */}
                 {!isloading && caixas.length > 0 && (
-                    <div className="flex flex-col justify-start items-center w-full h-[90dvh] overflow-y-auto p-4 space-y-4">
+                    <div className="flex flex-col justify-start items-center w-full h-[90dvh] overflow-y-auto p-0 py-3 space-y-4">
                         {caixas.map((cx) => (
                             <CaixaFind
                                 key={cx.id}
@@ -131,9 +129,8 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                 {!isloading && caixas.length === 0 && (
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className="flex flex-col items-center gap-3">
-                            <div className="h-10 w-10 border-4 border-zinc-600 border-t-transparent rounded-full animate-rotate" />
-                            <span className="text-sm text-zinc-400">
-                                Item ainda não emblado para esta grade.
+                            <span className="text-lg text-zinc-400">
+                                Item ainda não embalado para esta grade.
                             </span>
                         </div>
                     </div>

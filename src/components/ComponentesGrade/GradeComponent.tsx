@@ -397,11 +397,6 @@ export default function GradeComponent(props: GradeComponentProps) {
         setMostrarTelaExped(true);
     };
 
-    const fecharTelaExped = () => {
-        setMostrarTelaExped(false);
-        setItemSelecionado(null);
-    };
-
     // Verificar se há caixas para gerar (itens com TOTAL NA CAIXA ATUAL > 0)
     const temCaixasParaGerar = props.grade.itensGrade?.some(item =>
         (item.qtyPCaixa || 0) > 0
@@ -453,6 +448,12 @@ export default function GradeComponent(props: GradeComponentProps) {
 
     const toggleListBoxes = () => {
         setIsOpenListBoxes(prev => !prev);
+    };
+
+    const fecharTelaExped = () => {
+        setMostrarTelaExped(false);
+        setItemSelecionado(null);
+        toggleListBoxes();
     };
 
     const print = () => { return props.printEti(props.grade.gradeCaixas, volms()[4]) }
