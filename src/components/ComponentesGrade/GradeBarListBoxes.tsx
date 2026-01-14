@@ -17,7 +17,8 @@ const fechBoxesItem = async (gradeId: string, itemTamanhoId: string): Promise<Ca
 
 export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
     const [isloading, setIsloading] = useState<boolean>(true);
-    const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);   
+    const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);
+    const [caixasTotal, setCaixasTotal] = useState<number>(0);
 
     const { isOpenListBoxes, itemSelectId, gradeId } = props;
 
@@ -42,6 +43,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
         // ❌ painel fechado → não faz nada
         if (!isOpenListBoxes) {
             setCaixas([]);
+            setCaixasTotal(0);
             setIsloading(false);
             return;
         }
@@ -49,6 +51,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
         // ❌ sem item selecionado → não faz fetch
         if (!itemSelectId || !gradeId) {
             setCaixas([]);
+            setCaixasTotal(0);
             setIsloading(false);
             return;
         }
@@ -66,12 +69,24 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                 if (!isMounted) return;
 
                 setCaixas(data ?? []);
+
+                const total = (data ?? []).reduce((acc, caixa) => {
+                    const somaItensDaCaixa = caixa.caixaItem.reduce(
+                        (subAcc, item) => subAcc + item.itemQty,
+                        0
+                    );
+                    return acc + somaItensDaCaixa;
+                }, 0);
+
+                setCaixasTotal(total);
             } catch (error) {
                 console.error("Erro ao buscar caixas:", error);
                 if (isMounted) {
                     setCaixas([]);
+                    setCaixasTotal(0);
                 }
-            } finally {
+            }
+            finally {
                 if (isMounted) {
                     setIsloading(false);
                 }
@@ -90,7 +105,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                 fixed top-0 right-0 z-[9999]
                 h-[100dvh]
                 w-[483px]
-                bg-[#101010]
+                bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800
                 flex flex-col
                 p-3 pt-[1.3rem] justify-start        
                 items-center border-l border-slate-800
@@ -103,6 +118,15 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
             <div className={`flex justify-center items-center w-full border-b border-slate-800 pb-[0.9rem]`}>
                 <h2 className={`text-center break-words text-xl font-semibold text-zinc-400`}>OUTRAS CAIXAS DESTA GRADE COM ESTE ITEM</h2>
             </div>
+            {caixasTotal > 0 && (
+                <div className={`flex justify-between text-xl items-center w-full border-b
+                 border-slate-800 pb-[0.7rem] pt-[0.9rem] pl-3 pr-3`}>
+                    <h2 className={`text-center break-words text-slate-400`}>
+                        TOTAL DE ITENS:
+                    </h2>
+                    <span className={`text-zinc-400`}>{caixasTotal} {caixasTotal === 1 ? 'UN' : 'UNS'}</span>
+                </div>
+            )}
             <div className="flex-1 relative w-full">
                 {/* LOADING */}
                 {isloading && (
@@ -118,7 +142,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
 
                 {/* CONTEÚDO */}
                 {!isloading && caixas.length > 0 && (
-                    <div className="flex flex-col justify-start items-center w-full h-[91dvh] overflow-y-auto p-0 py-3 space-y-4">
+                    <div className="flex flex-col justify-start items-center w-full h-[82dvh] overflow-y-auto p-0 py-3 space-y-4">
                         {caixas.map((cx) => (
                             <CaixaFind
                                 key={cx.id}
@@ -135,6 +159,16 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                                 Item ainda não embalado para esta grade.
                             </span>
                         </div>
+                    </div>
+                )}
+
+                {caixas.length > 0 && (
+                    <div className={`flex justify-center text-xl items-center w-full border-t mt-[0.7rem]
+                         border-slate-800 pb-[0.7rem] pt-[0.5rem] pl-3 pr-3`}>
+                        <h2 className={`text-center break-words text-slate-400`}> 
+                            TOTAL DE CAIXAS:&nbsp; &nbsp;                         
+                            <span className={`text-zinc-400`}>{caixas.length} {caixas.length === 1 ? 'CX' : 'CXS'}</span>
+                        </h2>
                     </div>
                 )}
             </div>
