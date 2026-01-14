@@ -53,6 +53,13 @@ export default function FooterKeybordTeclas() {
                     <span>Ponto — Subtrai uma unidade</span>
                 </span>
 
+                 <span className="flex items-center gap-2">
+                    <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)] text-base">
+                        ;
+                    </kbd>
+                    <span>Ponto e vírgula — Mostra outras caixas com o ítem</span>
+                </span>
+
                 <span className="flex items-center gap-2">
                     <kbd className="inline-flex items-center justify-center px-3 py-1 min-w-[36px] h-[30px] bg-slate-800 border border-slate-600 rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_2px_4px_rgba(0,0,0,0.5)] text-sm">
                         Enter
