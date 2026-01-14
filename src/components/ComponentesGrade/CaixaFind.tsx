@@ -8,8 +8,7 @@ export interface CaixaFindProps {
 export default function CaixaItemCard({ caixa }: CaixaFindProps) {
     return (
         <Link
-            href={`/ajustar_caixa/${caixa.id}`}
-            target={'_blank'}
+            href={`/ajustar_caixa/${caixa.id}`}            
             className=""
         >
             <div
