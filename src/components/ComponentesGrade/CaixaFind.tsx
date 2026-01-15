@@ -19,7 +19,7 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                 {/* HEADER */}
                 <div className="flex flex-col items-center justify-center mb-3 w-full">
                     <div className={`flex justify-between items-center w-full`}>
-                       <p className="text-xl text-slate-400">CAIXA Nº {caixa.caixaNumber}</p>
+                       <p className="text-xl text-slate-400">CAIXA Nº {String(caixa.caixaNumber).padStart(2, '0')}</p>
                        <span className="rounded-md bg-slate-600/10 px-2 py-1 text-xs text-slate-400" >
                         {convertSPTime(String(caixa.createdAt))}
                        </span>
