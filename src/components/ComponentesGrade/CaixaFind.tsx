@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CaixaFindItem } from "../../../core";
+import { convertSPTime } from "../../../core/utils/tools";
 
 export interface CaixaFindProps {
     caixa: CaixaFindItem;
@@ -12,40 +13,20 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
             className=""
         >
             <div
-                className="
-                w-full
-                cursor-pointer
-                rounded-xl
-                border border-slate-700
-                bg-transparent
-                p-3
-                transition
-                hover:border-emerald-700
-                hover:bg-slate-900
-                font-extralight
-            "
+                className="w-full cursor-pointer rounded-xl border border-slate-700 bg-transparent p-3 transition
+                hover:border-emerald-700 hover:bg-slate-900 font-extralight"
             >
                 {/* HEADER */}
-                <div className="flex items-center justify-between mb-3 w-full">
-                    <div>
-                        <p className="text-xl text-slate-400">
-                            CAIXA Nº {caixa.caixaNumber}
-                        </p>
-                        <p className="text-sm text-slate-600 truncate w-[415px]">
-                            {caixa.escolaCaixa}
-                        </p>
+                <div className="flex flex-col items-center justify-center mb-3 w-full">
+                    <div className={`flex justify-between items-center w-full`}>
+                       <p className="text-xl text-slate-400">CAIXA Nº {caixa.caixaNumber}</p>
+                       <span className="rounded-md bg-slate-600/10 px-2 py-1 text-xs text-slate-400" >
+                        {convertSPTime(String(caixa.createdAt))}
+                       </span>
                     </div>
-
-                    <span
-                        className="
-                        rounded-md
-                        bg-emerald-500/10
-                        px-2 py-1
-                        text-xs                        
-                        text-emerald-400
-                    "
-                    >
-                    </span>
+                    <p className="text-sm text-slate-600 truncate w-[415px]">
+                        {caixa.escolaCaixa}
+                    </p>                   
                 </div>
 
                 {/* DIVIDER */}
@@ -59,10 +40,10 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                             className="flex items-center justify-between"
                         >
                             <div>
-                                <p className="text-lg text-slate-400">
+                                <p className="text-lg text-slate-600">
                                     {item.itemName}
                                 </p>
-                                <p className="text-lg text-slate-400">
+                                <p className="text-lg text-slate-600">
                                     {item.itemGenero} • Tam {item.itemTam}
                                 </p>
                             </div>
