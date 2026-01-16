@@ -3,11 +3,14 @@ import { CaixaFindItem } from "../../../core";
 import { useEffect, useState } from "react";
 import { getCaixasFindItem } from "@/hooks_api/api";
 import CaixaFind from "./CaixaFind";
+import BalloonStatusCheckQty from "../ComponentesInterface/BalloonStatusCheckQty";
 
 export interface GradeBarListBoxesProps {
     isOpenListBoxes: boolean;
     itemSelectId: number | undefined;
     gradeId: number | undefined;
+    n1: number | undefined;
+    n2: number | undefined;
 }
 
 const fechBoxesItem = async (gradeId: string, itemTamanhoId: string): Promise<CaixaFindItem[]> => {
@@ -20,7 +23,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
     const [caixas, setCaixas] = useState<CaixaFindItem[]>([]);
     const [caixasTotal, setCaixasTotal] = useState<number>(0);
 
-    const { isOpenListBoxes, itemSelectId, gradeId } = props;
+    const { isOpenListBoxes, itemSelectId, gradeId, n1, n2 } = props;
 
     const panelVariants = {
         closed: {
@@ -125,7 +128,9 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
                         TOTAL DE ITENS:
                     </h2>
                     <span className={`text-zinc-400`}>{caixasTotal} {caixasTotal === 1 ? 'UN' : 'UNS'}</span>
+                    <BalloonStatusCheckQty n1={(n1 ?? 0) - (n2 ?? 0)} n2={caixasTotal}/>
                 </div>
+               
             )}
             <div className="flex-1 relative w-full">
                 {/* LOADING */}

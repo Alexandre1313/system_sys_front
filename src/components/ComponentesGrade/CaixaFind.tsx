@@ -48,7 +48,7 @@ export default function CaixaItemCard({ caixa }: CaixaFindProps) {
                                 </p>
                             </div>
 
-                            <span className="text-xl text-emerald-600">
+                            <span className="text-xl text-slate-400">
                                 {item.itemQty} {item.itemQty === 1 ? 'UN' : 'UNS'}
                             </span>
                         </div>
