@@ -7,9 +7,6 @@ interface BalloonStatusCheckQtyProps {
 }
 
 export default function BalloonStatusCheckQty({ n1, n2 }: BalloonStatusCheckQtyProps) {
-  const BG = 'rgb(15 23 42)';
-  const BORDER = 'rgb(51 65 85)';
-
   return (
     <div className="relative inline-flex -mt-4">
 
