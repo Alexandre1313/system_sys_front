@@ -3,10 +3,10 @@
 import EscolaComponent from '@/components/ComponentesEscola/EscolaComponent';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
 import { getProjetosComEscolas } from '@/hooks_api/api';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { useEffect, useState, useMemo } from 'react';
-import { Search, Grid, List, Home } from 'react-feather';
+import { useEffect, useMemo, useState } from 'react';
+import { Grid, Home, List, Search } from 'react-feather';
 import useSWR from 'swr';
 import { Projeto } from '../../../../core';
 
@@ -24,7 +24,59 @@ const fetcher = async (id: number): Promise<Projeto> => {
 export default function Escolas() {
     const { id } = useParams();
     const [busca, setBusca] = useState<string>('');
-    const [viewMode, setViewMode] = useState<'grid' | 'grid1' | 'list'>('grid1');
+    const [viewMode, setViewMode] = useState<'grid' | 'grid1' | 'grid2' | 'grid3' | 'list'>('grid2');
+
+    useEffect(() => {
+        const handler = (e: KeyboardEvent) => {
+            const target = e.target as HTMLElement | null;
+
+            // ignora atalhos quando estiver no input de busca (ou marcado)
+            if (target?.closest('#buscaEscola, [data-hotkeys="off"]')) return;
+
+            // ignora qualquer campo editável
+            if (
+                target &&
+                (target.tagName === "INPUT" ||
+                    target.tagName === "TEXTAREA" ||
+                    target.tagName === "SELECT" ||
+                    target.isContentEditable ||
+                    target.closest("[contenteditable='true']"))
+            ) return;
+
+            if (e.repeat) return;
+
+            const legacyCode = Number(
+                (e as unknown as { which?: number; keyCode?: number }).which ??
+                (e as unknown as { keyCode?: number }).keyCode ??
+                0
+            );
+
+            // 1..5 (barra superior e numpad)
+            let num: number | null = null;
+
+            if (e.key && /^[1-5]$/.test(e.key)) {
+                num = Number(e.key);
+            } else if (legacyCode >= 49 && legacyCode <= 53) {
+                num = legacyCode - 48;
+            } else if (legacyCode >= 97 && legacyCode <= 101) {
+                num = legacyCode - 96;
+            }
+
+            if (num !== null) {
+                e.preventDefault();
+                switch (num) {
+                    case 1: setViewMode("grid"); return;
+                    case 2: setViewMode("grid1"); return;
+                    case 3: setViewMode("grid2"); return;
+                    case 4: setViewMode("grid3"); return;
+                    case 5: setViewMode("list"); return;
+                }
+            }           
+        };
+
+        document.addEventListener("keydown", handler, { passive: false });
+        return () => document.removeEventListener("keydown", handler);
+    }, []);
 
     // Usando SWR para buscar os dados do projeto e escolas
     const { data: projeto, error } = useSWR<Projeto>(
@@ -196,6 +248,8 @@ export default function Escolas() {
                                         strokeWidth={1.5}
                                     />
                                     <input
+                                        id="buscaEscola"
+                                        data-hotkeys="off"
                                         type="text"
                                         placeholder="Buscar escola..."
                                         className="w-full h-12 lg:h-14 pl-10 lg:pl-12 pr-4 bg-slate-700/50 border border-slate-600 rounded-lg lg:rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm lg:text-base"
@@ -218,6 +272,24 @@ export default function Escolas() {
                                     <button
                                         onClick={() => setViewMode('grid1')}
                                         className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid1'
+                                            ? 'bg-emerald-600 text-white shadow-lg'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                            }`}
+                                    >
+                                        <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode('grid2')}
+                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid2'
+                                            ? 'bg-emerald-600 text-white shadow-lg'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                            }`}
+                                    >
+                                        <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode('grid3')}
+                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid3'
                                             ? 'bg-emerald-600 text-white shadow-lg'
                                             : 'text-slate-400 hover:text-white hover:bg-slate-600'
                                             }`}
@@ -255,28 +327,32 @@ export default function Escolas() {
 
                     {/* Lista/Grid de Escolas */}
                     {escolasOrdenadas.length > 0 ? (
-                        <div className={viewMode === 'grid' ? 'grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-[repeat(16,minmax(0,1fr))] xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-4 lg:gap-6 will-change-contents'
-                            : viewMode === 'grid1' ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents'
-                                : "grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6 will-change-contents"}
+                        <div className={
+                            viewMode === 'grid'
+                                ? 'grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-[repeat(16,minmax(0,1fr))] xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-4 lg:gap-6 will-change-contents'
+                                : viewMode === 'grid1'
+                                    ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 lg:gap-6 will-change-contents'
+                                    : viewMode === 'grid2'
+                                        ? 'grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-6 will-change-contents'
+                                        : viewMode === 'grid3'
+                                            ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-6 will-change-contents'
+                                            : 'grid grid-cols-1 gap-3 lg:gap-4 will-change-contents'
+                        }
+
                             style={{ contain: 'layout style paint' }}>
-                            <AnimatePresence mode="wait">
+                            <AnimatePresence>
                                 {escolasOrdenadas.map((escola, index) => (
                                     <motion.div
                                         key={escola.id}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
                                         transition={{
-                                            duration: 0.15,
-                                            delay: Math.min(index * 0.008, 0.2), // Delay ainda menor
-                                            ease: [0.25, 0.46, 0.45, 0.94] // Curva de animação mais suave
+                                            duration: 0.10,
+                                            delay: Math.min(index * 0.004, 0.12),
+                                            ease: "linear",
                                         }}
-                                        className="animate-fade-in will-change-transform"
-                                        style={{
-                                            backfaceVisibility: 'hidden',
-                                            transform: 'translateZ(0)', // Force hardware acceleration
-                                            willChange: 'transform, opacity'
-                                        }}
+                                        style={{ willChange: "opacity" }}
                                     >
                                         <EscolaComponent escola={escola} viewMode={viewMode} />
                                     </motion.div>
