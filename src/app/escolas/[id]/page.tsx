@@ -74,7 +74,7 @@ export default function Escolas() {
                     case 4: setViewMode("grid3"); return;
                     case 5: setViewMode("list"); return;
                 }
-            }           
+            }
         };
 
         document.addEventListener("keydown", handler, { passive: false });
@@ -106,9 +106,8 @@ export default function Escolas() {
             escola.nome.toLowerCase().includes(busca.toLowerCase()) ||
             escola.numeroEscola.toString().includes(busca)
         );
-
         return escolasFiltradas;
-    }, [projeto?.escolas, busca]);
+    }, [projeto?.escolas, busca]);   
 
     // Se a chave não é válida
     if (id === undefined) {
@@ -310,8 +309,8 @@ export default function Escolas() {
                                             >
                                                 <List size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
                                             </button>
-                                         </>
-                                    )}                                  
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
