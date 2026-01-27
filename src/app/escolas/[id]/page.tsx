@@ -2,6 +2,7 @@
 
 import EscolaComponent from '@/components/ComponentesEscola/EscolaComponent';
 import PageWithDrawer from '@/components/ComponentesInterface/PageWithDrawer';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { getProjetosComEscolas } from '@/hooks_api/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
@@ -25,6 +26,8 @@ export default function Escolas() {
     const { id } = useParams();
     const [busca, setBusca] = useState<string>('');
     const [viewMode, setViewMode] = useState<'grid' | 'grid1' | 'grid2' | 'grid3' | 'list'>('grid2');
+
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
@@ -287,24 +290,28 @@ export default function Escolas() {
                                     >
                                         <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
                                     </button>
-                                    <button
-                                        onClick={() => setViewMode('grid3')}
-                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid3'
-                                            ? 'bg-emerald-600 text-white shadow-lg'
-                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                                            }`}
-                                    >
-                                        <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
-                                    </button>
-                                    <button
-                                        onClick={() => setViewMode('list')}
-                                        className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'list'
-                                            ? 'bg-emerald-600 text-white shadow-lg'
-                                            : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                                            }`}
-                                    >
-                                        <List size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
-                                    </button>
+                                    {!isMobile && (
+                                        <>
+                                            <button
+                                                onClick={() => setViewMode('grid3')}
+                                                className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'grid3'
+                                                    ? 'bg-emerald-600 text-white shadow-lg'
+                                                    : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                                    }`}
+                                            >
+                                                <Grid size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
+                                            </button>
+                                            <button
+                                                onClick={() => setViewMode('list')}
+                                                className={`flex items-center justify-center w-10 h-8 lg:w-14 lg:h-12 rounded-md lg:rounded-lg transition-all duration-300 ${viewMode === 'list'
+                                                    ? 'bg-emerald-600 text-white shadow-lg'
+                                                    : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                                                    }`}
+                                            >
+                                                <List size={16} className="lg:w-5 lg:h-5" strokeWidth={1.5} />
+                                            </button>
+                                         </>
+                                    )}                                  
                                 </div>
                             </div>
                         </div>
@@ -331,15 +338,15 @@ export default function Escolas() {
                             viewMode === 'grid'
                                 ? 'grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-[repeat(16,minmax(0,1fr))] xl:grid-cols-[repeat(16,minmax(0,1fr))] gap-4 lg:gap-4 will-change-contents'
                                 : viewMode === 'grid1'
-                                    ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 lg:gap-4 will-change-contents'
+                                    ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 lg:gap-4 will-change-contents'
                                     : viewMode === 'grid2'
                                         ? 'grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 lg:gap-4 will-change-contents'
                                         : viewMode === 'grid3'
-                                            ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-4 will-change-contents'
+                                            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:gap-4 will-change-contents'
                                             : 'grid grid-cols-1 gap-4 lg:gap-4 will-change-contents'
                         }
 
-                            style={{ contain: 'layout style paint' }}>
+                            style={{ contain: 'layout style' }}>
                             <AnimatePresence>
                                 {escolasOrdenadas.map((escola, index) => (
                                     <motion.div

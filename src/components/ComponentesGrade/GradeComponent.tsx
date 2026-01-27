@@ -10,6 +10,7 @@ import { colorLinkExternal, convertMilharFormat } from "../../../core/utils/tool
 import BalloonStatus from "../ComponentesInterface/BalloonStatus";
 import FooterKeybordTeclas from "../ComponentesInterface/FooterKeybordTeclas";
 import ModalAlterGradeItem from "../ComponentesInterface/ModalAlterGradeItem";
+import GradeBarListBoxes from "./GradeBarListBoxes";
 import ItemGradeInputTextState from "./ItemsGradeImputTextState";
 import ItemGradeInputTextState2 from "./ItemsGradeImputTextState2";
 import ItemGradeInputTextStateBar from "./ItemsGradeImputTextStateBar";
@@ -20,7 +21,6 @@ import ItemsGradeInputText from './ItemsGradeInputText';
 import ItemsGradeInputText2 from "./ItemsGradeInputText2";
 import ItemsGradeInputTextMobil from "./ItemsGradeInputTextMobil";
 import ItemsGradeTextArea from "./ItemsGradeTextArea";
-import GradeBarListBoxes from "./GradeBarListBoxes";
 
 export interface GradeComponentProps {
     grade: Grade;
