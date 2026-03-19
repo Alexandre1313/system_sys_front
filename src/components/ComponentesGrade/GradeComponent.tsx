@@ -1106,9 +1106,9 @@ export default function GradeComponent(props: GradeComponentProps) {
                                             <button
                                                 ref={btnRef1}
                                                 onClick={fecharTelaExped}
-                                                className={`flex items-center space-x-2 px-2 py-2 bg-zinc-700 hover:bg-zinc-800
-                                             text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-100
-                                             min-w-[70px] justify-center`}
+                                                className={`flex items-center space-x-2 px-2 py-2 bg-trenaparent hover:bg-zinc-800
+                                                text-gray-600 font-medium border border-gray-600 rounded-lg transition-all duration-300 transform hover:scale-100
+                                                min-w-[70px] justify-center`}
                                             >
                                                 <span className="flex items-center gap-2">
                                                     <span>VOLTAR</span>
