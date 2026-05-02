@@ -161,6 +161,8 @@ export default function Grades() {
     processarCodigoDeBarrasInvert(
       formData,
       setFormData,
+      setModalMessage,
+      setModalOpen
     );
   };
 
@@ -168,6 +170,8 @@ export default function Grades() {
     processarCodigoDeBarrasAcresc(
       formData,
       setFormData,
+      setModalMessage,
+      setModalOpen
     );
   };
 

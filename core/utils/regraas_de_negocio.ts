@@ -102,8 +102,8 @@ const atualizarQuantidadeCaixaNnnInvert = (formData: any, nnn: number, setFormDa
 // ✅ FUNÇÃO HELPER: Calcula totalAExpedir após incremento/decremento
 const calcularTotalAExpedirAposIncremento = (itensGrade: any[], itemId: number, incremento: number) => {
     return itensGrade.reduce((sum: number, item: any) => {
-        const quantidadeExpedidaFutura = item.id === itemId 
-            ? item.quantidadeExpedida + incremento 
+        const quantidadeExpedidaFutura = item.id === itemId
+            ? item.quantidadeExpedida + incremento
             : item.quantidadeExpedida;
         return sum + (item.quantidade - quantidadeExpedidaFutura);
     }, 0);
@@ -112,6 +112,8 @@ const calcularTotalAExpedirAposIncremento = (itensGrade: any[], itemId: number, 
 const processarCodigoDeBarrasInvert = (
     formData: any,
     setFormData: (data: any) => void,
+    setModalMessage: (message: string) => void,
+    setModalOpen: (open: boolean) => void
 ) => {
     const qtyPCaixaItem = Number(formData.ITEM_SELECIONADO?.qtyPCaixa || 0);
     const TOTALLIDODAGRADEAtual = Number(formData.TOTALLIDODAGRADE || 0);
@@ -127,6 +129,8 @@ const processarCodigoDeBarrasInvert = (
         }));
         atualizarQuantidadeCaixaNnnInvert(formData, 1, setFormData)
     } else {
+        setModalMessage('Não foi possível reduzir a quantidade à ser expedida deste item, verifique!');
+        setModalOpen(true);
         setFormData((prevData: any) => ({
             ...prevData,
             CODDEBARRASLEITURA: '',
@@ -138,7 +142,9 @@ const processarCodigoDeBarrasInvert = (
 const processarCodigoDeBarrasAcresc = (
     formData: any,
     setFormData: (data: any) => void,
-) => {    
+    setModalMessage: (message: string) => void,
+    setModalOpen: (open: boolean) => void,
+) => {
     const TOTALLIDODAGRADEAtual = Number(formData.TOTALLIDODAGRADE || 0);
     const TOTALNACAIXAATUAL = Number(formData.TOTALNACAIXAATUAL || 0);
     const quantidade = Number(formData.ITEM_SELECIONADO?.quantidade || 0);
@@ -154,6 +160,8 @@ const processarCodigoDeBarrasAcresc = (
         }));
         atualizarQuantidadeCaixaNnn(formData, 1, setFormData)
     } else {
+        setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
+        setModalOpen(true);
         setFormData((prevData: any) => ({
             ...prevData,
             CODDEBARRASLEITURA: '',
@@ -199,7 +207,7 @@ const processarCodigoDeBarras = (
                 };
                 setFormData(novoForm);
                 atualizarQuantidadeCaixa(novoForm, setFormData);
-                
+
                 // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
             } else {
                 setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
@@ -235,7 +243,7 @@ const processarCodigoDeBarras = (
             };
             setFormData(novoForm);
             atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
-            
+
             // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
         } else {
             setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
@@ -308,8 +316,8 @@ const processarCodigoDeBarras = (
             };
             setFormData(novoForm);
             atualizarQuantidadeCaixaNnn(novoForm, nnn, setFormData);
-            
-        // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
+
+            // ✅ Modal será aberto via useEffect no componente quando totalAExpedir === 0
         } else {
             setModalMessage('Quantidade total deste item para esta grade já foi atendida!');
             setModalOpen(true);
@@ -486,7 +494,7 @@ const processarQtdParaEstoque = (
         }
 
         const nnn = parseInt(value.substring(1), 10);
-        
+
         if (quantidadeContabilizadaAtual === 0) {
             setModalMessage('Nenhuma quantidade contabilizada para remover!');
             setModalOpenCodeInvalid(true);
@@ -572,5 +580,7 @@ function objectsStockEmbs(embalagenid: number, formdata: FormDateInputs,
     return stock;
 }
 
-export { criarCaixa, zerarQuantidadesCaixa, objectsStockEmbs, processarCodigoDeBarras,
-         processarCodigoDeBarrasInvert, processarQtdParaEstoque, processarCodigoDeBarrasAcresc };
+export {
+    criarCaixa, zerarQuantidadesCaixa, objectsStockEmbs, processarCodigoDeBarras,
+    processarCodigoDeBarrasInvert, processarQtdParaEstoque, processarCodigoDeBarrasAcresc
+};
