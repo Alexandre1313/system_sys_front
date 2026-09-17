@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { CaixaFindItem } from "../../../core";
 import { useEffect, useState } from "react";
 import { getCaixasFindItem } from "@/hooks_api/api";
@@ -25,7 +25,7 @@ export default function GradeBarListBoxes(props: GradeBarListBoxesProps) {
 
     const { isOpenListBoxes, itemSelectId, gradeId, n1, n2 } = props;
 
-    const panelVariants = {
+    const panelVariants: Variants = {
         closed: {
             x: "100%",
             transition: {
