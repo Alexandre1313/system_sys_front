@@ -182,6 +182,15 @@ export default function DrawerNavigation({ isOpen, onClose, projectName, project
                             <FileText size={16} className="text-slate-400 group-hover:text-emerald-400" />
                             <span className="text-sm text-slate-300 group-hover:text-white">Relatório PK</span>
                         </Link>
+                        
+                         <Link
+                            href="/resumepp"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 p-2 sm:p-3 rounded-lg hover:bg-slate-800 transition-colors duration-200 group"
+                        >
+                            <FileText size={16} className="text-slate-400 group-hover:text-emerald-400" />
+                            <span className="text-sm text-slate-300 group-hover:text-white">Relatório PP</span>
+                        </Link>
 
                         <Link
                             href="/caixas_por_grade_m"

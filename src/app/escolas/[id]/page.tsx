@@ -25,7 +25,7 @@ const fetcher = async (id: number): Promise<Projeto> => {
 export default function Escolas() {
     const { id } = useParams();
     const [busca, setBusca] = useState<string>('');
-    const [viewMode, setViewMode] = useState<'grid' | 'grid1' | 'grid2' | 'grid3' | 'list'>('grid2');
+    const [viewMode, setViewMode] = useState<'grid' | 'grid1' | 'grid2' | 'grid3' | 'list'>('grid1');
 
     const isMobile = useIsMobile();
 
