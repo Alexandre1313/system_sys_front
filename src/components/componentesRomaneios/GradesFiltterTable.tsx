@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link';
+import { useState } from 'react';
+import { CheckCircle, ChevronDown, ChevronUp, ExternalLink } from 'react-feather';
 import { GradesRomaneio } from '../../../core';
 import { colorLinkExternal, converPercentualFormat, convertMilharFormat, convertMilharFormatKG } from '../../../core/utils/tools';
-import { CheckCircle, ExternalLink, ChevronDown, ChevronUp } from 'react-feather';
-import { useState } from 'react';
 
 interface GradeFilterTableProps {
   expedicaoData: GradesRomaneio[];
@@ -138,7 +138,7 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                     {status === 'PENDENTE' ? (
                       <Link href={`/expedition/${grade.escolaId}`} target="_blank" className="flex items-center space-x-1 text-sm lg:text-lg font-semibold text-cyan-300 hover:text-cyan-200 transition-colors">
                         <span>{grade.numeroEscola}</span>
-                        <ExternalLink className={`${colorLinkExternal}`}  size={12} />
+                        <ExternalLink className={`${colorLinkExternal}`} size={12} />
                       </Link>
                     ) : (
                       <p className="text-sm lg:text-lg font-semibold text-yellow-500">{grade.numeroEscola}</p>
@@ -155,9 +155,29 @@ export default function GradesFilterTable({ expedicaoData, staticColors, status,
                     <p className="text-sm lg:text-lg font-extralight text-slate-300">{grade.id}</p>
                   </div>
 
-                  <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
-                    <p className="text-xs lg:text-base text-slate-400 uppercase font-medium">Último Update</p>
-                    <p className="text-sm lg:text-lg font-extralight text-slate-300">{grade.update}</p>
+                  <div
+                    className={`rounded-lg p-3 border-r border-slate-600/30 ${grade.status === 'DESPACHADA'
+                        ? 'bg-emerald-500/20 border-emerald-500/40'
+                        : 'bg-slate-700/30'
+                      }`}
+                  >
+                    <p
+                      className={`text-xs lg:text-base uppercase font-medium ${grade.status === 'DESPACHADA'
+                          ? 'text-emerald-400'
+                          : 'text-slate-400'
+                        }`}
+                    >
+                      Último Update
+                    </p>
+
+                    <p
+                      className={`text-sm lg:text-lg font-extralight ${grade.status === 'DESPACHADA'
+                          ? 'text-emerald-300'
+                          : 'text-slate-300'
+                        }`}
+                    >
+                      {grade.update}
+                    </p>
                   </div>
 
                   <div className="bg-slate-700/30 rounded-lg p-3 border-r border-slate-600/30">
