@@ -549,3 +549,68 @@ html {
 ::-webkit-scrollbar-track {
   background: #1e293b;
 }
+
+@keyframes brilho-direita {
+    0% {
+        transform: translateX(-150%);
+    }
+
+    100% {
+        transform: translateX(300%);
+    }
+}
+
+.atalho-hover {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.atalho-hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 45%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(52, 211, 153, 0.15),
+        rgba(52, 211, 153, 0.35),
+        transparent
+    );
+}
+
+.atalho-hover:hover::before {
+    opacity: 1;
+    animation: brilho-direita 0.8s ease-in-out;
+}
+
+/* Somente a tecla permanece verde durante o hover */
+.atalho-hover:hover kbd {
+    background-color: rgba(16, 185, 129, 0.18);
+    border-color: rgba(52, 211, 153, 0.65);
+    color: #6ee7b7;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.12);
+}
+
+/* O texto mantém a cor original */
+.atalho-hover:hover > span {
+    color: #cbd5e1;
+}
+
+.atalho-hover kbd {
+    transition:
+        background-color 200ms ease,
+        border-color 200ms ease,
+        color 200ms ease,
+        box-shadow 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .atalho-hover:hover::before {
+        animation: none;
+    }
+}
