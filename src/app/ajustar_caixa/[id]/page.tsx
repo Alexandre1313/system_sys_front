@@ -317,7 +317,10 @@ export default function AjustarCaixa() {
 
           setModalType('success');
           setMsg('CAIXA ALTERADA COM SUCESSO!');
-          setMsg1('CONFIRA AS QUANTIDADES');
+          setMsg1('REDIRECIONANDO...');
+          setTimeout(() => {
+            router.push(`/grades/${refreshedBox.escolaId}`);}, 2000);
+            return;
         } else {
           setModalType('error');
           setMsg('ERRO AO ATUALIZAR A CAIXA!');
