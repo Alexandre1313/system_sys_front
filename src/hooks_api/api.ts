@@ -429,7 +429,7 @@ async function getGradesPorEscolasByItems(id: string): Promise<EscolaGradesItems
 async function getGrade(id: string): Promise<Grade> {
     const response = await fetch(`${urlObterGrade}${id}`)
     if (!response.ok) {
-        throw new Error(`Erro ao buscar garde: ${response.statusText}`)
+        throw new Error(`Erro ao buscar grade: ${response.statusText}`)
     }
     const data = await response.json();
     return data;
